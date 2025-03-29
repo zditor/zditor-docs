@@ -29,31 +29,25 @@
 
 Zditor 是一个所见即所得的 markdown 编辑器，支持 markdown 基础语法，并在此基础上扩展。目前支持`Windows`、`Macos`、`Linux`平台，下载请前往 [release 下载界面](https://github.com/zditor/zditor-docs/releases)。
 
+### 演示视频
+
+[zditor 简单演示](https://www.bilibili.com/video/BV1sKZPYBEJA/?share_source=copy_web&vd_source=1974ff0cf0dde44aad6580cca6526a34)
+
 ### 签名问题
 
-- `Macos` 目前没有签名，下载之后需要额外两步处理,分别在安装和第一次打开是`打开设置中隐私与安全，选择仍然打开，如下图所示`
-
-![install](./assets/install.gif)
+- `Macos` 目前没有签名，下载之后需要额外两步处理,分别在安装和第一次打开是`打开设置中隐私与安全，选择仍然打开`
 
 ### LLM 模型配置
 
 使用 openai sdk 的流式输出，支持 api 以及本地模型，如下图所示，可以将相关参数填入，其中模型部分，以逗号分隔（英文逗号），`ollama` api key 可以不填
 
-![model](./assets/model.gif)
-
 ### LLM 使用
 
 支持划词和单独对话标签页，其中划词是单轮会话，标签页是多轮会话，标签页会话支持文件上传、选择文档作为上下文，拖拽上传等。
 
-![session](./assets/session.gif)
-
-![ask](./assets/ask.gif)
-
 ### 许可证
 
 提供免费许可证，只需要输出邮箱，然后点击发送之后从邮箱获取许可证即可
-
-![license](./assets/license.gif)
 
 ## 规划
 
@@ -75,6 +69,6 @@ Zditor 是一个所见即所得的 markdown 编辑器，支持 markdown 基础�
 
 ### 一些思考 🤔
 
-- 之前考虑做知识库来着，但是没法接受大几百MB的app大小（模型embedding）或者外挂一个服务。还是希望app大小能维持在**20MB以内**，
-- 做全局划词插件，发现这个需要模拟mod c/v导致有负效应，或者就要更深入电脑系统的api（虽然之前做过swift app 但是objc 确实不会），感觉豆包做的挺好（估计还是有模拟mod c/v 😂)
-- 打算做一个状态机的插件，就是比思维导图更近一阶，ai在帮我读完和分析代码之后，其中有些if else分支这里可以用思维导图实现（后续打算是让ai给我兼容excalidraw的手绘思维导图）,然后状态机就是可以像一个flow一样，当我选择某个条件之后能指引我下一步是啥，这个还会涉及比如循环，所以思维导图是没法实现好的。
+- 之前考虑做知识库来着，但是没法接受大几百 MB 的 app 大小（模型 embedding）或者外挂一个服务。还是希望 app 大小能维持在**20MB 以内**，
+- 做全局划词插件，发现这个需要模拟 mod c/v 导致有负效应，或者就要更深入电脑系统的 api（虽然之前做过 swift app 但是 objc 确实不会），感觉豆包做的挺好（估计还是有模拟 mod c/v 😂)
+- 打算做一个状态机的插件，就是比思维导图更近一阶，ai 在帮我读完和分析代码之后，其中有些 if else 分支这里可以用思维导图实现（后续打算是让 ai 给我兼容 excalidraw 的手绘思维导图）,然后状态机就是可以像一个 flow 一样，当我选择某个条件之后能指引我下一步是啥，这个还会涉及比如循环，所以思维导图是没法实现好的。

@@ -1,6 +1,6 @@
 <h1 align="center">Zditor</h1>
 <p align="center">
-  <a href="https://github.com/zditor/zditor-docs">Documentation</a> - <a href="https://zditor.com">Official Website</a>
+<a href="https://github.com/zditor/zditor-docs">Documentation</a> - <a href="https://zditor.com">Official Website</a>
 </p>
 
 <div align="center">
@@ -17,7 +17,7 @@
 <p align="center">This repository is not for source code, it only contains Zditor-related documentation.</p>
 
 <p align="center">
-  <img alt="home" src="./assets/home.png">
+<img alt="home" src="./assets/home.png">
 </p>
 
 ## Table of Contents
@@ -29,12 +29,17 @@
 
 Zditor is a WYSIWYG markdown editor that supports basic markdown syntax with extensions. Currently available for `Windows`, `Macos`, and `Linux` platforms. Download from the [releases page](https://github.com/zditor/zditor-docs/releases).
 
+### video
+
+[zditor demo](https://www.bilibili.com/video/BV1sKZPYBEJA/?share_source=copy_web&vd_source=1974ff0cf0dde44aad6580cca6526a34)
+
 ### Signature Issues
 
 - `Macos` currently lacks code signing. After downloading, you'll need two additional steps:
+
   1. During installation
   2. When opening for the first time
-  Go to Privacy & Security settings and select "Open Anyway", as shown below:
+     Go to Privacy & Security settings and select "Open Anyway", as shown below:
 
 ![install](./assets/install.gif)
 

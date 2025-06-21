@@ -53,6 +53,26 @@ jobs:
         if: matrix.platform == 'ubuntu-22.04'
         run: echo "Skipping AppImage build on Ubuntu."
 
+      - name: Get latest release notes from CHANGELOG.md
+        id: get_release_notes
+        shell: bash
+        run: |
+          TAG_NAME="${GITHUB_REF##*/}"
+
+          if [ -f "CHANGELOG.md" ]; then
+            # 提取该版本标题后的内容直到下一个版本标题
+            RELEASE_BODY=$(awk "/^##?\\s*${TAG_NAME//./\\.}/ {flag=1; next} /^##?\\s*v[0-9]+\\.[0-9]+\\.[0-9]+/ {flag=0} flag" CHANGELOG.md | perl -pe 's/\n/\\n/g')
+            if [ -z \"$RELEASE_BODY\" ]; then
+              RELEASE_BODY="See the assets to download this version and install."
+            fi
+          else
+            RELEASE_BODY="See the assets to download this version and install."
+          fi
+
+          echo "release_body=${RELEASE_BODY}" >> $GITHUB_OUTPUT
+          echo "RELEASE_BODY=${RELEASE_BODY}" >> $GITHUB_ENV
+
+
       # 运行 tauri-action，构建其他平台
       - uses: tauri-apps/tauri-action@v0
         env:
@@ -62,7 +82,7 @@ jobs:
         with:
           tagName: zditor-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
           releaseName: "Zditor v__VERSION__"
-          releaseBody: "See the assets to download this version and install."
+          releaseBody: ${{ steps.get_release_notes.outputs.release_body || env.RELEASE_BODY }}
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}

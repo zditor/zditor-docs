@@ -52,6 +52,12 @@ jobs:
       - name: Skip AppImage build for Ubuntu
         if: matrix.platform == 'ubuntu-22.04'
         run: echo "Skipping AppImage build on Ubuntu."
+        
+      - name: Get tag message
+        id: get_tag_message
+        run: |
+          TAG_MESSAGE=$(git tag -l --format='%(contents)' ${{ github.ref_name }} | sed -z 's/\n/\\n/g')
+          echo "tag_message=$TAG_MESSAGE" >> $GITHUB_OUTPUT
 
       # 运行 tauri-action，构建其他平台
       - uses: tauri-apps/tauri-action@v0
@@ -62,7 +68,7 @@ jobs:
         with:
           tagName: zditor-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
           releaseName: "Zditor v__VERSION__"
-          releaseBody: "See the assets to download this version and install."
+          releaseBody: ${{ steps.get_tag_message.outputs.tag_message }}
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}

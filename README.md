@@ -25,6 +25,12 @@
 - [Getting Started](#getting-started)
 - [Roadmap](#roadmap)
 
+## FeedBack
+
+<p align="center">
+<img alt="feedback" src="./assets/feedback_0630.JPG">
+</p>
+
 ## Getting Started
 
 Zditor is a WYSIWYG markdown editor that supports basic markdown syntax with extensions. Currently available for `Windows`, `Macos`, and `Linux` platforms. Download from the [releases page](https://github.com/zditor/zditor-docs/releases).

@@ -25,6 +25,12 @@
 - [入门指南](#入门指南)
 - [规划](#规划)
 
+## 反馈
+
+<p align="center">
+<img alt="feedback" src="./assets/feedback_0630.JPG">
+</p>
+
 ## 入门指南
 
 Zditor 是一个所见即所得的 markdown 编辑器，支持 markdown 基础语法，并在此基础上扩展。目前支持`Windows`、`Macos`、`Linux`平台，下载请前往 [release 下载界面](https://github.com/zditor/zditor-docs/releases)。

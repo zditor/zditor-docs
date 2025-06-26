@@ -58,20 +58,36 @@ jobs:
         shell: bash
         run: |
           TAG_NAME="${GITHUB_REF##*/}"
+          echo "Current tag: $TAG_NAME"
 
           if [ -f "CHANGELOG.md" ]; then
+            echo "CHANGELOG.md exists, parsing release notes..."
             # 提取该版本标题后的内容直到下一个版本标题
-            RELEASE_BODY=$(awk "/^##?\\s*${TAG_NAME//./\\.}/ {flag=1; next} /^##?\\s*v[0-9]+\\.[0-9]+\\.[0-9]+/ {flag=0} flag" CHANGELOG.md | perl -pe 's/\n/\\n/g')
-            if [ -z \"$RELEASE_BODY\" ]; then
-              RELEASE_BODY="See the assets to download this version and install."
+            RELEASE_BODY=$(awk "/^##?\\s*${TAG_NAME//./\\.}/ {flag=1; next} /^##?\\s*v[0-9]+\\.[0-9]+\\.[0-9]+/ {flag=0} flag" CHANGELOG.md)
+            echo "Raw release notes from CHANGELOG.md:"
+            echo "------------------------------------"
+            echo "$RELEASE_BODY"
+            echo "------------------------------------"
+            
+            # Process for output (replace newlines with \n)
+            RELEASE_BODY_PROCESSED=$(echo "$RELEASE_BODY" | perl -pe 's/\n/\\n/g')
+            
+            if [ -z "$RELEASE_BODY_PROCESSED" ]; then
+              RELEASE_BODY_PROCESSED="See the assets to download this version and install."
+              echo "No release notes found for this tag, using default message"
             fi
           else
-            RELEASE_BODY="See the assets to download this version and install."
+            RELEASE_BODY_PROCESSED="See the assets to download this version and install."
+            echo "CHANGELOG.md not found, using default message"
           fi
 
-          echo "release_body=${RELEASE_BODY}" >> $GITHUB_OUTPUT
-          echo "RELEASE_BODY=${RELEASE_BODY}" >> $GITHUB_ENV
+          echo "Final release notes that will be used:"
+          echo "------------------------------------"
+          echo "$RELEASE_BODY_PROCESSED"
+          echo "------------------------------------"
 
+          echo "release_body=${RELEASE_BODY_PROCESSED}" >> $GITHUB_OUTPUT
+          echo "RELEASE_BODY=${RELEASE_BODY_PROCESSED}" >> $GITHUB_ENV
 
       # 运行 tauri-action，构建其他平台
       - uses: tauri-apps/tauri-action@v0

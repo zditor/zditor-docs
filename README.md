@@ -1,23 +1,35 @@
-<h1 align="center">Zditor</h1>
-<p align="center">
-<a href="https://github.com/zditor/zditor-docs">Documentation</a> - <a href="https://zditor.com">Official Website</a>
-</p>
-
 <div align="center">
 
-[![build_zditor](https://github.com/zditor/zditor-docs/actions/workflows/build_app.yml/badge.svg)](https://github.com/zditor/zditor-docs/actions/workflows/build_app.yml)
+<h1 style="border-bottom: none">
+    <b><a href="https://zditor.com">
+    <img alt="zditor_logo" src="assets/logo.svg" style="width: 80%">
+</a></b><br />
+    AI-Powered, Lightweight, High-Performance, Integrated Writing and Drawing
+    <br>
+</h1>
+<br/>
+<p align="center">
+  Lightweight, High-Performance, AI-Powered, Integrated Writing and Drawing, WYSIWYG<br />
+  Localized, File-Based, Dual-Link
+</p>
 
 </div>
 
-[中文版](README_zh.md)
+<div align="center">
+
+[![BUILD](https://github.com/zditor/zditor-docs/actions/workflows/build_app.yml/badge.svg)](https://github.com/zditor/zditor-docs/actions/workflows/build_app.yml) [![VERSION](https://img.shields.io/github/v/release/zditor/zditor-docs)](https://img.shields.io/github/v/release/zditor/zditor-docs) [![ISSUE](https://img.shields.io/github/issues-closed/zditor/zditor-docs)](https://img.shields.io/github/issues-closed/zditor/zditor-docs)
+
+</div>
+
+[中文版本](README_zh.md)
 
 ---
 
 <p align="center">Welcome to Zditor, an AI-powered markdown editor.</p>
-<p align="center">This repository is not for source code, it only contains Zditor-related documentation.</p>
+<p align="center">This repository is not the source code repository; it only contains documentation related to Zditor.</p>
 
 <p align="center">
-<img alt="home" src="./assets/home.png">
+  <img alt="home" src="./assets/home.png">
 </p>
 
 ## Table of Contents
@@ -27,64 +39,24 @@
 
 ## Getting Started
 
-Zditor is a WYSIWYG markdown editor that supports basic markdown syntax with extensions. Currently available for `Windows`, `Macos`, and `Linux` platforms. Download from the [releases page](https://github.com/zditor/zditor-docs/releases).
+Zditor is a WYSIWYG markdown editor that supports basic markdown syntax and extends upon it. It currently supports `Windows`, `Macos`, and `Linux` platforms. To download, please visit the [release download page](https://github.com/zditor/zditor-docs/releases).
 
-### video
+### Demo Video
 
-[zditor demo](https://www.bilibili.com/video/BV1sKZPYBEJA/?share_source=copy_web&vd_source=1974ff0cf0dde44aad6580cca6526a34)
+[Simple Demo of Zditor](https://www.bilibili.com/video/BV1sKZPYBEJA/?share_source=copy_web&vd_source=1974ff0cf0dde44aad6580cca6526a34)
 
-### Signature Issues
+### Signature Issue
 
-- `Macos` currently lacks code signing. After downloading, you'll need two additional steps:
-
-  1. During installation
-  2. When opening for the first time
-     Go to Privacy & Security settings and select "Open Anyway", as shown below:
-
-![install](./assets/install.gif)
+- `Macos` currently does not have a signature. After downloading, two additional steps are required: during installation and the first time opening the app, `go to Privacy & Security in Settings and select "Open Anyway."`
 
 ### LLM Model Configuration
 
-Uses OpenAI SDK's streaming output, supporting both API and local models. As shown below, enter the relevant parameters. For models, separate them with commas (English commas). The `ollama` API key can be left blank.
+Uses OpenAI SDK's streaming output, supporting both API and local models. As shown in the image below, you can fill in the relevant parameters. For the model section, separate the entries with commas (English commas). The `ollama` API key can be left blank.
 
-![model](./assets/model.gif)
+### LLM Usage
 
-### Using LLM Features
-
-Supports text selection and dedicated chat tabs. Text selection enables single-turn conversations, while chat tabs support multi-turn conversations with file uploads, document selection as context, and drag-and-drop uploads.
-
-![session](./assets/session.gif)
-
-![ask](./assets/ask.gif)
+Supports text selection and a separate chat tab. Text selection is for single-round conversations, while the chat tab supports multi-round conversations, file uploads, selecting documents as context, drag-and-drop uploads, etc.
 
 ### License
 
-Provides free licenses. Just enter your email, click send, and retrieve the license from your email.
-
-![license](./assets/license.gif)
-
-## Roadmap
-
-- UI Optimization: Current UI needs improvement, especially in light mode. Considering using Claude for optimization.
-- Bug Fixes: Many bugs exist, like mermaid sometimes failing to intercept errors causing layout issues. Prioritizing critical fixes.
-- Infinite Canvas Inspiration: Inspired by Affine's infinite canvas, currently Zditor has Excalidraw but needs better integration with markdown:
-  - Performance optimization (current performance issues may relate to webview)
-  - Embed Excalidraw in markdown documents
-  - AI conversion of markdown to Excalidraw
-  - Fine-grained block-level embedding of Excalidraw in markdown
-- Git Module Improvements:
-  - Replaced slow open-source diff package with custom solution (handles 1M+ documents instantly), needs UI polish
-  - Current git functionality (commit/push/pull) is too basic
-- Multilingual Support: Currently only partial modules support multiple languages
-- Performance Optimization:
-  - While compute-intensive tasks are implemented in Rust, more optimization needed
-  - Some ProseMirror plugins from open source need optimization
-  - File opening performance still insufficient (though better than mainstream ProseMirror editors)
-  - **Goal**: Achieve instant opening of 1M+ character documents (like Obsidian)
-- Shortcuts: Many exist but need refinement
-
-### Thoughts 🤔
-
-- Considered knowledge base features but rejected due to large app size (model embeddings) or requiring external services. Goal is to keep app size **under 20MB**.
-- Global text selection plugin would require simulating mod c/v (with side effects) or deeper system APIs (though Swift experience exists, not ObjC). Douban's implementation seems good (likely uses simulated mod c/v 😂)
-- Planning a state machine plugin - more advanced than mind maps. When AI analyzes code with if-else branches, it could generate Excalidraw-style hand-drawn mind maps. State machines would guide next steps based on conditions, handling loops better than mind maps.
+A free license is provided. Simply enter your email, click "Send," and then retrieve the license from your email.

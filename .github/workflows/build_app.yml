@@ -62,8 +62,14 @@ jobs:
 
           if [ -f "CHANGELOG.md" ]; then
             echo "CHANGELOG.md exists, parsing release notes..."
-            # 提取该版本标题后的内容直到下一个版本标题
-            RELEASE_BODY=$(awk "/^##?\\s*${TAG_NAME//./\\.}/ {flag=1; next} /^##?\\s*v[0-9]+\\.[0-9]+\\.[0-9]+/ {flag=0} flag" CHANGELOG.md)
+            # Extract content between the current version header and next version header
+            RELEASE_BODY=$(awk -v version="$TAG_NAME" '
+              BEGIN { in_version = 0 }
+              /^## / && $2 == version { in_version = 1; next }
+              /^## / && in_version { in_version = 0 }
+              in_version { print }
+            ' CHANGELOG.md)
+            
             echo "Raw release notes from CHANGELOG.md:"
             echo "------------------------------------"
             echo "$RELEASE_BODY"

@@ -67,7 +67,7 @@ jobs:
               BEGIN { in_version = 0 }
               /^## / && $2 == version { in_version = 1; next }
               /^## / && in_version { in_version = 0 }
-              in_version { print }
+              in_version { if (!first_line && NF) { first_line=1 } if (first_line) print }
             ' CHANGELOG.md)
             
             echo "Raw release notes from CHANGELOG.md:"
@@ -75,8 +75,11 @@ jobs:
             echo "$RELEASE_BODY"
             echo "------------------------------------"
             
-            # Process for output (replace newlines with \n)
-            RELEASE_BODY_PROCESSED=$(echo "$RELEASE_BODY" | perl -pe 's/\n/\\n/g')
+            # Trim leading/trailing whitespace and newlines
+            RELEASE_BODY_TRIMMED=$(echo "$RELEASE_BODY" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+            
+            # Process for output (replace remaining newlines with \n)
+            RELEASE_BODY_PROCESSED=$(echo "$RELEASE_BODY_TRIMMED" | perl -pe 's/\n/\\n/g' | tr -d '\n')
             
             if [ -z "$RELEASE_BODY_PROCESSED" ]; then
               RELEASE_BODY_PROCESSED="See the assets to download this version and install."
@@ -94,7 +97,6 @@ jobs:
 
           echo "release_body=${RELEASE_BODY_PROCESSED}" >> $GITHUB_OUTPUT
           echo "RELEASE_BODY=${RELEASE_BODY_PROCESSED}" >> $GITHUB_ENV
-
       # 运行 tauri-action，构建其他平台
       - uses: tauri-apps/tauri-action@v0
         env:

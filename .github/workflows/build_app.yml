@@ -64,10 +64,20 @@ jobs:
             echo "CHANGELOG.md exists, parsing release notes..."
             # Extract content between the current version header and next version header
             RELEASE_BODY=$(awk -v version="$TAG_NAME" '
-              BEGIN { in_version = 0 }
+              BEGIN { in_version = 0; first_line = 1 }
               /^## / && $2 == version { in_version = 1; next }
               /^## / && in_version { in_version = 0 }
-              in_version { if (!first_line && NF) { first_line=1 } if (first_line) print }
+              in_version {
+                if (first_line) {
+                  # Skip initial empty lines
+                  if (NF) {
+                    first_line = 0
+                    print
+                  }
+                } else {
+                  print
+                }
+              }
             ' CHANGELOG.md)
             
             echo "Raw release notes from CHANGELOG.md:"
@@ -75,11 +85,11 @@ jobs:
             echo "$RELEASE_BODY"
             echo "------------------------------------"
             
-            # Trim leading/trailing whitespace and newlines
-            RELEASE_BODY_TRIMMED=$(echo "$RELEASE_BODY" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+            # Trim leading/trailing whitespace and empty lines (cross-platform method)
+            RELEASE_BODY_TRIMMED=$(echo "$RELEASE_BODY" | sed -e ':a' -e '/./,$!d;/^\n*$/{$d;N;ba' -e '}' -e 's/[[:space:]]*$//')
             
-            # Process for output (replace remaining newlines with \n)
-            RELEASE_BODY_PROCESSED=$(echo "$RELEASE_BODY_TRIMMED" | perl -pe 's/\n/\\n/g' | tr -d '\n')
+            # Replace newlines with \n (for JSON output) - works on all platforms
+            RELEASE_BODY_PROCESSED=$(echo "$RELEASE_BODY_TRIMMED" | awk '{printf "%s\\n", $0}' | sed 's/\\n$//')
             
             if [ -z "$RELEASE_BODY_PROCESSED" ]; then
               RELEASE_BODY_PROCESSED="See the assets to download this version and install."

@@ -1,16 +1,16 @@
 <div align="center">
 
 <h1 style="border-bottom: none">
-    <b><a href="https://zditor.com">
-    <img alt="zditor_logo" src="assets/logo.svg" style="width: 80%">
+<b><a href="https://zditor.com">
+<img alt="zditor_logo" src="assets/logo.svg" style="width: 80%">
 </a></b><br />
-    AI-Powered, Lightweight, High-Performance, Integrated Writing and Drawing
-    <br>
+AI-Powered, Lightweight, High-Performance, Integrated Writing and Drawing
+<br>
 </h1>
 <br/>
 <p align="center">
-  Lightweight, High-Performance, AI-Powered, Integrated Writing and Drawing, WYSIWYG<br />
-  Localized, File-Based, Dual-Link
+Lightweight, High-Performance, AI-Powered, Integrated Writing and Drawing, WYSIWYG<br />
+Localized, File-Based, Dual-Link
 </p>
 
 </div>
@@ -23,13 +23,14 @@
 
 [中文版本](README_zh.md)
 
+
 ---
 
 <p align="center">Welcome to Zditor, an AI-powered markdown editor.</p>
 <p align="center">This repository is not the source code repository; it only contains documentation related to Zditor.</p>
 
 <p align="center">
-  <img alt="home" src="./assets/home.png">
+<img alt="home" src="./assets/home.png">
 </p>
 
 ## Table of Contents
@@ -43,7 +44,7 @@
 <img alt="feedback" src="./assets/feedback_0630.JPG">
 </p>
 
-## Getting Started
+## Getting [Started]()
 
 Zditor is a WYSIWYG markdown editor that supports basic markdown syntax and extends upon it. It currently supports `Windows`, `Macos`, and `Linux` platforms. To download, please visit the [release download page](https://github.com/zditor/zditor-docs/releases).
 

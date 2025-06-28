@@ -96,7 +96,6 @@ jobs:
           echo "------------------------------------"
 
           echo "release_body=${RELEASE_BODY_PROCESSED}" >> $GITHUB_OUTPUT
-          echo "RELEASE_BODY=${RELEASE_BODY_PROCESSED}" >> $GITHUB_ENV
       # 运行 tauri-action，构建其他平台
       - uses: tauri-apps/tauri-action@v0
         env:
@@ -106,7 +105,7 @@ jobs:
         with:
           tagName: zditor-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
           releaseName: "Zditor v__VERSION__"
-          releaseBody: ${{ steps.get_release_notes.outputs.release_body || env.RELEASE_BODY }}
+          releaseBody: ${{ steps.get_release_notes.outputs.release_body }}
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}

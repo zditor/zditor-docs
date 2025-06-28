@@ -23,7 +23,6 @@ Localized, File-Based, Dual-Link
 
 [中文版本](README_zh.md)
 
-
 ---
 
 <p align="center">Welcome to Zditor, an AI-powered markdown editor.</p>

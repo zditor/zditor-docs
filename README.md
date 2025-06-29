@@ -43,7 +43,7 @@ Localized, File-Based, Dual-Link
 <img alt="feedback" src="./assets/feedback_0630.JPG">
 </p>
 
-## Getting [Started]()
+## Getting Started
 
 Zditor is a WYSIWYG markdown editor that supports basic markdown syntax and extends upon it. It currently supports `Windows`, `Macos`, and `Linux` platforms. To download, please visit the [release download page](https://github.com/zditor/zditor-docs/releases).
 

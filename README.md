@@ -1,16 +1,16 @@
 <div align="center">
 
 <h1 style="border-bottom: none">
-    <b><a href="https://zditor.com">
-    <img alt="zditor_logo" src="assets/logo.svg" style="width: 80%">
+<b><a href="https://zditor.com">
+<img alt="zditor_logo" src="assets/logo.svg" style="width: 80%">
 </a></b><br />
-    AI-Powered, Lightweight, High-Performance, Integrated Writing and Drawing
-    <br>
+AI-Powered, Lightweight, High-Performance, Integrated Writing and Drawing
+<br>
 </h1>
 <br/>
 <p align="center">
-  Lightweight, High-Performance, AI-Powered, Integrated Writing and Drawing, WYSIWYG<br />
-  Localized, File-Based, Dual-Link
+Lightweight, High-Performance, AI-Powered, Integrated Writing and Drawing, WYSIWYG<br />
+Localized, File-Based, Dual-Link
 </p>
 
 </div>
@@ -29,7 +29,7 @@
 <p align="center">This repository is not the source code repository; it only contains documentation related to Zditor.</p>
 
 <p align="center">
-  <img alt="home" src="./assets/home.png">
+<img alt="home" src="./assets/home.png">
 </p>
 
 ## Table of Contents
@@ -40,7 +40,7 @@
 ## FeedBack
 
 <p align="center">
-<img alt="feedback" src="./assets/feedback_0630.JPG">
+<img alt="feedback" src="./assets/feedback_0704.JPG">
 </p>
 
 ## Getting Started

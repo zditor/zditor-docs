@@ -40,7 +40,7 @@ Localized, File-Based, Dual-Link
 ## FeedBack
 
 <p align="center">
-<img alt="feedback" src="./assets/feedback_0630.JPG">
+<img alt="feedback" src="./assets/feedback_0704.JPG">
 </p>
 
 ## Getting Started

@@ -36,12 +36,11 @@
 
 - [入门指南](#入门指南)
 - [规划](#规划)
+- [AI 功能](#AI功能)
 
 ## 反馈
 
-<p align="center">
-<img alt="feedback" src="./assets/feedback_0630.JPG">
-</p>
+💬 Join [微信群](https://github.com/zditor/zditor-docs/discussions/33)
 
 ## 入门指南
 
@@ -66,3 +65,7 @@ Zditor 是一个所见即所得的 markdown 编辑器，支持 markdown 基础�
 ### 许可证
 
 提供免费许可证，只需要输入邮箱，然后点击发送之后从邮箱获取许可证即可
+
+## AI功能
+
+AI 功能使用参见[AI 使用指南](./zh_cn/AI使用指南.md)

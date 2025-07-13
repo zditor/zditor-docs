@@ -64,3 +64,7 @@ Supports text selection and a separate chat tab. Text selection is for single-ro
 ### License
 
 A free license is provided. Simply enter your email, click "Send," and then retrieve the license from your email.
+
+## AI
+
+[AI GUIDE](./zh_cn/AI使用指南.md)

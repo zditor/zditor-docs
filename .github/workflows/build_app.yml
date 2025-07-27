@@ -106,14 +106,26 @@ jobs:
           echo "------------------------------------"
 
           echo "release_body=${RELEASE_BODY_PROCESSED}" >> $GITHUB_OUTPUT
-      # 运行 tauri-action，构建其他平台
+      
+      
+      - name: Cache Next.js build
+        uses: actions/cache@v3
+        with:
+          path: |
+            .next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
+
+      
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }} # 传递私钥
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }} # 传递私钥
+          NODE_OPTIONS: "--max-old-space-size=4096"
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         with:
-          tagName: zditor-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
+          tagName: zditor-v__VERSION__
           releaseName: "Zditor v__VERSION__"
           releaseBody: ${{ steps.get_release_notes.outputs.release_body }}
           releaseDraft: true

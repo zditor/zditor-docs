@@ -46,7 +46,10 @@ jobs:
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
       - name: install frontend dependencies
-        run: npm install # change this to npm, pnpm or bun depending on which one you use.
+        run: |
+          npm install
+          # Set Node.js memory limit
+          export NODE_OPTIONS="--max-old-space-size=4096"
 
       # 跳过 ubuntu 平台的 AppImage 构建
       - name: Skip AppImage build for Ubuntu

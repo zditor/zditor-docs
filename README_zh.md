@@ -1,16 +1,16 @@
 <div align="center">
 
 <h1 style="border-bottom: none">
-    <b><a href="https://zditor.com">
-    <img alt="zditor_logo" src="assets/logo.svg" style="width: 80%">
+<b><a href="https://zditor.com">
+<img alt="zditor_logo" src="assets/logo.svg" style="width: 80%">
 </a></b><br />
-    AI赋能、轻量、高性能、写画一体
-    <br>
+AI赋能、轻量、高性能、写画一体
+<br>
 </h1>
 <br/>
 <p align="center">
-  轻量、高性能、AI赋能、写画一体、所见即所得<br />
-  本地化、基于文件、双链
+轻量、高性能、AI赋能、写画一体、所见即所得<br />
+本地化、基于文件、双链
 </p>
 
 </div>
@@ -23,13 +23,15 @@
 
 [English Version](README.md)
 
+
 ---
 
 <p align="center">欢迎来到 Zditor，一个AI加持的markdown编辑器。</p>
+
 <p align="center">这个仓库不是源代码仓库，仅包含Zditor相关文档。</p>
 
 <p align="center">
-  <img alt="home" src="./assets/home.png">
+<img alt="home" src="./assets/home.png">
 </p>
 
 ## 目录
@@ -64,8 +66,32 @@ Zditor 是一个所见即所得的 markdown 编辑器，支持 markdown 基础�
 
 ### 许可证
 
-提供免费许可证，只需要输入邮箱，然后点击发送之后从邮箱获取许可证即可
+提供免费许可证，只需要输入邮箱，然后点击发送之后从邮箱获取许可证即可。
 
-## AI功能
+!!! warning 未收到许可证
+    提示检查邮箱后可能需要等待 1-2 分钟，请先检查垃圾箱，如果仍未有可以等待两分钟重新发送
 
-AI 功能使用参见[AI 使用指南](./zh_cn/AI使用指南.md)
+## AI 功能
+
+AI 功能使用参见[AI 使用指南](./zh_cn/AI使用指南.md)，Ollama 配置参考 [Ollama 配置指南](https://www.bilibili.com/video/BV1Uz8xz2EEQ/)，如果提示连接失败，请先检查：
+
+
+1. Ollama 是否已经启动
+2. 是否开启 vpn（可能需要关闭）
+3. 是否配置跨域：[https://objectgraph.com/blog/ollama-cors/](https://objectgraph.com/blog/ollama-cors/)
+
+   ![跨域检测](./assets/跨域.png)
+
+### Ollama 跨域配置
+
+在终端测试`curl -X OPTIONS http://localhost:11434 -H "Origin: http://example.com" -H "Access-Control-Request-Method: GET" -I`如果显示Forbidden说明没有开启跨域，windows系统需要配置系统环境变量：`OLLAMA_ORIGINS`,具体步骤是：
+
+
+1. 打开系统设置，搜索 `系统变量`
+2. 点击弹出对话框，选择 `环境变量`
+3. 点击新建，输入`OLLAMA_ORIGINS`以及 `*`
+4. 保存，并重启Ollama
+5. 测试：`curl -X OPTIONS http://localhost:11434 -H "Origin: http://example.com" -H "Access-Control-Request-Method: GET" -I`，如果显示各种header说明设置成功
+6. 打开zditor测试
+
+

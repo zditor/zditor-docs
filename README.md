@@ -23,9 +23,11 @@ Localized, File-Based, Dual-Link
 
 [中文版本](README_zh.md)
 
+
 ---
 
 <p align="center">Welcome to Zditor, an AI-powered markdown editor.</p>
+
 <p align="center">This repository is not the source code repository; it only contains documentation related to Zditor.</p>
 
 <p align="center">
@@ -65,6 +67,30 @@ Supports text selection and a separate chat tab. Text selection is for single-ro
 
 A free license is provided. Simply enter your email, click "Send," and then retrieve the license from your email.
 
+!!! warning License Not Recieved?
+    Please allow 1-2 minutes for the email to arrive after you've been prompted to check your inbox. First, check your spam/junk folder. If it's still not there, you can wait two minutes and then resend.
+
 ## AI
 
-[AI GUIDE](./zh_cn/AI使用指南.md)
+For AI feature usage, refer to the [AI Usage Guide](https://example.com/ai-usage-guide). For Ollama configuration, refer to the [Ollama Configuration Guide](https://example.com/ollama-config-guide). If a connection failure is prompted, please check first:
+
+
+1. Is Ollama already running?
+2. Is VPN enabled (may need to be disabled)?
+3. Is CORS configured: https://objectgraph.com/blog/ollama-cors/
+
+   ![跨域检测](./assets/跨域.png)
+
+### Ollama CORS Configuration
+
+To test in the terminal, if `curl -X OPTIONS http://localhost:11434 -H "Origin: http://example.com" -H "Access-Control-Request-Method: GET" -I` displays "Forbidden", it means CORS is not enabled. For Windows systems, you need to configure the system environment variable: `OLLAMA_ORIGINS`. The specific steps are:
+
+
+1. Open System Settings, search for "System Variables".
+2. Click the pop-up dialog, select "Environment Variables".
+3. Click "New", enter `OLLAMA_ORIGINS` and `*`.
+4. Save, and restart Ollama.
+5. Test: `curl -X OPTIONS http://localhost:11434 -H "Origin: http://example.com" -H "Access-Control-Request-Method: GET" -I`. If various headers are displayed, it means the setting was successful.
+6. Open Zditor to test.
+
+

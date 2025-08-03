@@ -53,8 +53,13 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
       - name: build
         run: |
-          npm run tauri build
+          npm run tauri build -- --target x86_64-apple-darwin
       - name: Upload DMG artifact
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_OPTIONS: "--max-old-space-size=4096"
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         if: ${{ matrix.platform == 'macos-latest' }}  # 确保只在 macOS 平台执行
         uses: actions/upload-artifact@v4
         with:

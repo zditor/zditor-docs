@@ -18,14 +18,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: "macos-latest" # for Arm based macs (M1 and above).
-            args: "--target aarch64-apple-darwin"
           - platform: "macos-latest" # for Intel based macs.
             args: "--target x86_64-apple-darwin"
-          - platform: "ubuntu-22.04" # for Tauri v1 you could replace this with ubuntu-20.04.
-            args: ""
-          - platform: "windows-latest"
-            args: ""
     runs-on: ${{ matrix.platform }}
     steps:
       # 使用 GitHub token 访问私有仓库
@@ -44,79 +38,10 @@ jobs:
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
-
-      - name: install dependencies (ubuntu only)
-        if: matrix.platform == 'ubuntu-22.04'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+          targets: ${{ matrix.platform == 'macos-latest' && 'x86_64-apple-darwin' || '' }}
 
       - name: install frontend dependencies
         run: npm install # change this to npm, pnpm or bun depending on which one you use.
-
-      # 跳过 ubuntu 平台的 AppImage 构建
-      - name: Skip AppImage build for Ubuntu
-        if: matrix.platform == 'ubuntu-22.04'
-        run: echo "Skipping AppImage build on Ubuntu."
-
-
-
-
-      - name: Get latest release notes from CHANGELOG.md
-        id: get_release_notes
-        shell: bash
-        run: |
-          TAG_NAME="${GITHUB_REF##*/}"
-          echo "Current tag: $TAG_NAME"
-
-          if [ -f "CHANGELOG.md" ]; then
-            echo "CHANGELOG.md exists, parsing release notes..."
-            # Extract content between the current version header and next version header
-            RELEASE_BODY=$(awk -v version="$TAG_NAME" '
-              BEGIN { in_version = 0; first_line = 1 }
-              /^## / && $2 == version { in_version = 1; next }
-              /^## / && in_version { in_version = 0 }
-              in_version {
-                if (first_line) {
-                  # Skip initial empty lines
-                  if (NF) {
-                    first_line = 0
-                    print
-                  }
-                } else {
-                  print
-                }
-              }
-            ' CHANGELOG.md)
-            
-            echo "Raw release notes from CHANGELOG.md:"
-            echo "------------------------------------"
-            echo "$RELEASE_BODY"
-            echo "------------------------------------"
-            
-            # Trim leading/trailing whitespace and empty lines (cross-platform method)
-            RELEASE_BODY_TRIMMED=$(echo "$RELEASE_BODY" | sed -e ':a' -e '/./,$!d;/^\n*$/{$d;N;ba' -e '}' -e 's/[[:space:]]*$//')
-            
-            # Replace newlines with \n (for JSON output) - works on all platforms
-            RELEASE_BODY_PROCESSED=$(echo "$RELEASE_BODY_TRIMMED" | awk '{printf "%s\\n", $0}' | sed 's/\\n$//')
-            
-            if [ -z "$RELEASE_BODY_PROCESSED" ]; then
-              RELEASE_BODY_PROCESSED="See the assets to download this version and install."
-              echo "No release notes found for this tag, using default message"
-            fi
-          else
-            RELEASE_BODY_PROCESSED="See the assets to download this version and install."
-            echo "CHANGELOG.md not found, using default message"
-          fi
-
-          echo "Final release notes that will be used:"
-          echo "------------------------------------"
-          echo "$RELEASE_BODY_PROCESSED"
-          echo "------------------------------------"
-
-          echo "release_body=${RELEASE_BODY_PROCESSED}" >> $GITHUB_OUTPUT
-      
 
       - name: Cache Next.js build
         uses: actions/cache@v3
@@ -126,18 +51,14 @@ jobs:
           key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx') }}
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
-
-      
-      - uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_OPTIONS: "--max-old-space-size=4096"
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+      - name: build
+        run: |
+          npm run tauri build
+      - name: Upload DMG artifact
+        if: ${{ matrix.platform == 'macos-latest' }}  # 确保只在 macOS 平台执行
+        uses: actions/upload-artifact@v4
         with:
-          tagName: zditor-v__VERSION__
-          releaseName: "Zditor v__VERSION__"
-          releaseBody: ${{ steps.get_release_notes.outputs.release_body }}
-          releaseDraft: true
-          prerelease: false
-          args: ${{ matrix.args }}
+          name: zditor-dmg
+          path: src-tauri/target/release/bundle/dmg/*.dmg
+          retention-days: 400
+          overwrite: true

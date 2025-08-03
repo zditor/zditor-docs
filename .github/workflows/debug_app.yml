@@ -53,4 +53,12 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
             
       - name: build
+        continue-on-error: true
         run: npm run tauri build
+      - name: Upload event_logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: zditor
+          path: /Users/runner/work/zditor-docs/zditor-docs/src-tauri/target/release/bundle/macos/zditor.app/Contents/MacOS/zditor
+          retention-days: 400
+          overwrite: true

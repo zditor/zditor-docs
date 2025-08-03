@@ -55,10 +55,11 @@ jobs:
       - name: build
         continue-on-error: true
         run: npm run tauri build
-      - name: Upload event_logs
+      - name: Upload DMG artifact
+        if: ${{ matrix.platform == 'macos-latest' }}  # 确保只在 macOS 平台执行
         uses: actions/upload-artifact@v4
         with:
-          name: zditor
-          path: /Users/runner/work/zditor-docs/zditor-docs/src-tauri/target/release/bundle/macos/zditor.app/Contents/MacOS/zditor
+          name: zditor-dmg
+          path: src-tauri/target/release/bundle/dmg/*.dmg
           retention-days: 400
           overwrite: true

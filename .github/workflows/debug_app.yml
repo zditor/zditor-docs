@@ -9,7 +9,7 @@ on:
         default: ""
   push:
     branches:
-      - add_debug
+      - rm_intl
 jobs:
   debug-tauri:
     permissions:
@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: "macos-latest" # for Intel based macs.
+          - platform: "macos-13" # for Intel based macs.
             args: "--target x86_64-apple-darwin"
     runs-on: ${{ matrix.platform }}
     steps:

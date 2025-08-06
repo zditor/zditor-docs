@@ -9,7 +9,7 @@ on:
         default: ""
   push:
     branches:
-      - rm_intl
+      - add_debug
 jobs:
   debug-tauri:
     permissions:
@@ -28,7 +28,7 @@ jobs:
         with:
           repository: ${{ secrets.REPO }} # 替换为私有仓库的实际路径
           token: ${{ secrets.DEPLOY_TOKEN }} # 使用 GitHub 提供的 GITHUB_TOKEN 进行身份验证
-          ref: ${{ github.event.inputs.commit_id || 'debug_empty' }}
+          ref: ${{ github.event.inputs.commit_id || 'rm_intl' }}
           
       - name: setup node
         uses: actions/setup-node@v4

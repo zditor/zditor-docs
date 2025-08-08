@@ -131,3 +131,14 @@ jobs:
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
+  upgradeLink-upload:
+        needs:  publish-tauri
+        runs-on: ubuntu-latest
+        steps:
+          - name: Send a request to UpgradeLink
+            uses: toolsetlink/upgradelink-action@v5
+            with:
+              source-url: 'https://github.com/zditor/zditor-docs/releases/download/zditor-v__VERSION__/latest.json'
+              access-key: ${{ secrets.UPGRADE_LINK_ACCESS_KEY }}
+              tauri-key: ${{ secrets.UPGRADE_LINK_TAURI_KEY }}
+              github-token: ${{ secrets.GITHUB_TOKEN }}

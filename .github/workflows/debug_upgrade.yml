@@ -9,8 +9,16 @@ jobs:
   sync-to-r2:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository (可选，仅用于获取脚本)
+      - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set version variable
+        id: set_version
+        run: |
+          # You can set the version here or extract it from somewhere
+          VERSION="0.5.8"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Using version: $VERSION"
 
       - name: Configure AWS CLI for R2
         env:
@@ -18,34 +26,49 @@ jobs:
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
         run: |
-            # 更新 AWS CLI（如果已安装）
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install --update
+          # Update AWS CLI (if installed)
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install --update
 
-            # 配置 R2 访问
-            aws configure set aws_access_key_id "$R2_ACCESS_KEY_ID"
-            aws configure set aws_secret_access_key "$R2_SECRET_ACCESS_KEY"
-            aws configure set default.region auto
-            aws configure set default.output json
+          # Configure R2 access
+          aws configure set aws_access_key_id "$R2_ACCESS_KEY_ID"
+          aws configure set aws_secret_access_key "$R2_SECRET_ACCESS_KEY"
+          aws configure set default.region auto
+          aws configure set default.output json
 
       - name: Download files from GitHub Release
         run: |
-          # 创建临时目录
+          # Create temporary directory
           mkdir -p release_assets
           cd release_assets
 
-          # 定义版本和文件列表
-          VERSION="0.5.8"
-          FILES=("zditor" "latest.json" "other-file.txt")  # 替换为实际需要下载的文件名
+          # Define file list
+          FILES=(
+            "latest.json"
+            "zditor-${{ steps.set_version.outputs.version }}-1.x86_64.rpm"
+            "zditor_${{ steps.set_version.outputs.version }}_aarch64.dmg"
+            "zditor_${{ steps.set_version.outputs.version }}_amd64.AppImage"
+            "zditor_${{ steps.set_version.outputs.version }}_amd64.AppImage.sig"
+            "zditor_${{ steps.set_version.outputs.version }}_amd64.deb"
+            "zditor_${{ steps.set_version.outputs.version }}_x64-setup.exe"
+            "zditor_${{ steps.set_version.outputs.version }}_x64-setup.exe.sig"
+            "zditor_${{ steps.set_version.outputs.version }}_x64.dmg"
+            "zditor_${{ steps.set_version.outputs.version }}_x64_en-US.msi"
+            "zditor_${{ steps.set_version.outputs.version }}_x64_en-US.msi.sig"
+            "zditor_aarch64.app.tar.gz"
+            "zditor_aarch64.app.tar.gz.sig"
+            "zditor_x64.app.tar.gz"
+            "zditor_x64.app.tar.gz.sig"
+          )
 
-          # 从 GitHub Release 下载每个文件
+          # Download each file from GitHub Release
           for FILE in "${FILES[@]}"; do
             echo "Downloading $FILE..."
-            curl -L -O "https://github.com/zditor/zditor-docs/releases/download/zditor-v${VERSION}/${FILE}"
+            curl -L -O "https://github.com/zditor/zditor-docs/releases/download/zditor-v${{ steps.set_version.outputs.version }}/${FILE}" || echo "Failed to download $FILE"
           done
 
-          # 检查下载的文件
+          # Verify downloaded files
           ls -lh
 
       - name: Upload to R2
@@ -55,14 +78,18 @@ jobs:
         run: |
           cd release_assets
 
-          # 上传所有文件到 R2
+          # Upload all files to R2
           for FILE in *; do
-            echo "Uploading $FILE to R2..."
-            aws s3 cp \
-              --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" \
-              "${FILE}" \
-              "s3://${R2_BUCKET_NAME}/zditor-v0.5.8/${FILE}"
+            if [ -f "$FILE" ]; then
+              echo "Uploading $FILE to R2..."
+              aws s3 cp \
+                --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" \
+                "${FILE}" \
+                "s3://${R2_BUCKET_NAME}/zditor-v${{ steps.set_version.outputs.version }}/${FILE}"
+            else
+              echo "Skipping $FILE (not a file)"
+            fi
           done
 
           echo "All files uploaded to:"
-          echo "https://${R2_BUCKET_NAME}.${R2_ACCOUNT_ID}.r2.cloudflarestorage.com/zditor-v0.5.8/"
+          echo "https://${R2_BUCKET_NAME}.${R2_ACCOUNT_ID}.r2.cloudflarestorage.com/zditor-v${{ steps.set_version.outputs.version }}/"

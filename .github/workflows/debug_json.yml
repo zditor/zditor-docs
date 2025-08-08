@@ -13,7 +13,7 @@ jobs:
       - name: Extract version from tag
         id: extract_version
         run: |
-          TAG_NAME="v0.5.8"
+          TAG_NAME="v0.5.9"
           VERSION="${TAG_NAME#v}" # 去掉 v 前缀
           echo "Extracted version: $VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT

@@ -200,24 +200,41 @@ jobs:
       - name: Process latest.json
         run: |
           cd release_assets
-          
-          # Update URLs in latest.json
+          cat latest.json
+          # Verify latest.json exists and is valid JSON
           if [ -f "latest.json" ]; then
+            echo "Verifying latest.json..."
+            if ! jq empty latest.json; then
+              echo "Error: latest.json is not valid JSON"
+              exit 1
+            fi
+            
             echo "Processing latest.json..."
             
-            # Replace GitHub URLs with R2 URLs
-            jq 'walk(if type == "object" and has("url") then .url |= sub("https://github.com/zditor/zditor-docs/releases/download"; "https://download.zditor.com") else . end)' latest.json > latest_processed.json
+            # Perform both URL replacements in a single jq command
+            jq '
+              walk(
+                if type == "object" and has("url") then 
+                  .url |= (
+                    sub("https://github.com/zditor/zditor-docs/releases/download"; "https://download.zditor.com/zditor-v${{ steps.extract_version.outputs.version }}") |
+                    sub("zditor-v[^/]+/"; "")
+                  )
+                else . end
+              )' latest.json > latest_processed.json
             
-            # Replace version-specific path with just the filename
-            jq 'walk(if type == "object" and has("url") then .url |= sub("zditor-v[^/]+/"; "") else . end)' latest_processed.json > latest_final.json
+            # Verify the processed JSON
+            if ! jq empty latest_processed.json; then
+              echo "Error: Processed JSON is invalid"
+              exit 1
+            fi
             
-            mv latest_final.json latest.json
+            mv latest_processed.json latest.json
             echo "Updated latest.json with R2 URLs:"
             cat latest.json
           else
             echo "latest.json not found, skipping processing"
+            exit 0
           fi
-
       - name: Upload versioned files to R2
         env:
           R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}

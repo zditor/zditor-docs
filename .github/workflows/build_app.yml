@@ -129,7 +129,7 @@ jobs:
           releaseName: "Zditor v__VERSION__"
           releaseBody: ${{ steps.get_release_notes.outputs.release_body }}
           releaseDraft: true
-          prerelease: false
+          prerelease: true
           args: ${{ matrix.args }}
   sync-to-r2:
     needs: publish-tauri

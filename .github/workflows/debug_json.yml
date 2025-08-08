@@ -89,7 +89,7 @@ jobs:
               walk(
                 if type == "object" and has("url") then 
                   .url |= (
-                    sub("https://github.com/zditor/zditor-docs/releases/download"; "https://download.zditor.com/zditor_v${{ steps.extract_version.outputs.version }}") |
+                    sub("https://github.com/zditor/zditor-docs/releases/download"; "https://download.zditor.com/zditor-v${{ steps.extract_version.outputs.version }}") |
                     sub("zditor-v[^/]+/"; "")
                   )
                 else . end

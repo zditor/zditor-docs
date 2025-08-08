@@ -19,6 +19,7 @@ jobs:
             echo "Extracted version: $VERSION"
             echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+            
         - name: Send a request to UpgradeLink
           uses: toolsetlink/upgradelink-action@v5
           with:

@@ -1,29 +1,68 @@
-name: "build_zditor"
+name: "sync_github_release_to_r2"
 
 on:
   push:
     branches:
       - upgrade_link2
+
 jobs:
-  upgradeLink-upload:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
+  sync-to-r2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository (可选，仅用于获取脚本)
+        uses: actions/checkout@v4
 
-        - name: Extract version from tag
-          id: extract_version
-          run: |
-            TAG_NAME="${GITHUB_REF##*/}"
-            VERSION="${TAG_NAME#v}" # 去掉 v 前缀
-            echo "Extracted version: $VERSION"
-            echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Configure AWS CLI for R2
+        env:
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+        run: |
+          # 安装 AWS CLI
+          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+          unzip awscliv2.zip
+          sudo ./aws/install
 
-            
-        - name: Send a request to UpgradeLink
-          uses: toolsetlink/upgradelink-action@v5
-          with:
-            source-url: 'https://github.com/zditor/zditor-docs/releases/download/zditor-v0.5.8/latest.json'
-            access-key: ${{ secrets.UPGRADE_LINK_ACCESS_KEY }}
-            tauri-key: ${{ secrets.UPGRADE_LINK_TAURI_KEY }}
-            github-token: ${{ secrets.GITHUB_TOKEN }}
+          # 配置 R2 访问
+          aws configure set aws_access_key_id "$R2_ACCESS_KEY_ID"
+          aws configure set aws_secret_access_key "$R2_SECRET_ACCESS_KEY"
+          aws configure set default.region auto
+          aws configure set default.output json
+
+      - name: Download files from GitHub Release
+        run: |
+          # 创建临时目录
+          mkdir -p release_assets
+          cd release_assets
+
+          # 定义版本和文件列表
+          VERSION="0.5.8"
+          FILES=("zditor" "latest.json" "other-file.txt")  # 替换为实际需要下载的文件名
+
+          # 从 GitHub Release 下载每个文件
+          for FILE in "${FILES[@]}"; do
+            echo "Downloading $FILE..."
+            curl -L -O "https://github.com/zditor/zditor-docs/releases/download/zditor-v${VERSION}/${FILE}"
+          done
+
+          # 检查下载的文件
+          ls -lh
+
+      - name: Upload to R2
+        env:
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+        run: |
+          cd release_assets
+
+          # 上传所有文件到 R2
+          for FILE in *; do
+            echo "Uploading $FILE to R2..."
+            aws s3 cp \
+              --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" \
+              "${FILE}" \
+              "s3://${R2_BUCKET_NAME}/zditor-v0.5.8/${FILE}"
+          done
+
+          echo "All files uploaded to:"
+          echo "https://${R2_BUCKET_NAME}.${R2_ACCOUNT_ID}.r2.cloudflarestorage.com/zditor-v0.5.8/"

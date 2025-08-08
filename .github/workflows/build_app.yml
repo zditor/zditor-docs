@@ -185,7 +185,7 @@ jobs:
             "zditor_aarch64.app.tar.gz"
             "zditor_aarch64.app.tar.gz.sig"
             "zditor_x64.app.tar.gz"
-            "zditor_x64.app.ta.gz.sig"
+            "zditor_x64.app.tar.gz.sig"
           )
 
           # Download each file from GitHub Release
@@ -197,25 +197,70 @@ jobs:
           # Verify downloaded files
           ls -lh
 
-      - name: Upload to R2
+      - name: Process latest.json
+        run: |
+          cd release_assets
+          
+          # Update URLs in latest.json
+          if [ -f "latest.json" ]; then
+            echo "Processing latest.json..."
+            
+            # Replace GitHub URLs with R2 URLs
+            jq 'walk(if type == "object" and has("url") then .url |= sub("https://github.com/zditor/zditor-docs/releases/download"; "https://download.zditor.com") else . end)' latest.json > latest_processed.json
+            
+            # Replace version-specific path with just the filename
+            jq 'walk(if type == "object" and has("url") then .url |= sub("zditor-v[^/]+/"; "") else . end)' latest_processed.json > latest_final.json
+            
+            mv latest_final.json latest.json
+            echo "Updated latest.json with R2 URLs:"
+            cat latest.json
+          else
+            echo "latest.json not found, skipping processing"
+          fi
+
+      - name: Upload versioned files to R2
         env:
           R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
         run: |
           cd release_assets
 
-          # Upload all files to R2
+          # Upload all files except latest.json to version directory
           for FILE in *; do
-            if [ -f "$FILE" ]; then
-              echo "Uploading $FILE to R2..."
+            if [ -f "$FILE" ] && [ "$FILE" != "latest.json" ]; then
+              echo "Uploading $FILE to R2 version directory..."
               aws s3 cp \
                 --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" \
                 "${FILE}" \
                 "s3://${R2_BUCKET_NAME}/zditor-v${{ steps.extract_version.outputs.version }}/${FILE}"
-            else
-              echo "Skipping $FILE (not a file)"
             fi
           done
 
+      - name: Upload latest.json to root of R2 bucket
+        env:
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+        run: |
+          cd release_assets
+          
+          if [ -f "latest.json" ]; then
+            echo "Uploading latest.json to root of R2 bucket..."
+            aws s3 cp \
+              --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" \
+              "latest.json" \
+              "s3://${R2_BUCKET_NAME}/latest.json"
+          else
+            echo "latest.json not found, skipping upload"
+          fi
+
           echo "All files uploaded to:"
-          echo "https://${R2_BUCKET_NAME}.${R2_ACCOUNT_ID}.r2.cloudflarestorage.com/zditor-v${{ steps.extract_version.outputs.version }}/"
+          echo "https://${R2_BUCKET_NAME}.${R2_ACCOUNT_ID}.r2.cloudflarestorage.com/"
+      - name: Purge CDN Cache
+        run: |
+          curl -X POST "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE_ID}/purge_cache" \
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d '{"files":["https://download.zditor.com/zditor-v${{ steps.set_version.outputs.version }}/*"]}'
+        env:
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

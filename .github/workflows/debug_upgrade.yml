@@ -18,16 +18,16 @@ jobs:
           R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
           R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
         run: |
-          # 安装 AWS CLI
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install
+            # 更新 AWS CLI（如果已安装）
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install --update
 
-          # 配置 R2 访问
-          aws configure set aws_access_key_id "$R2_ACCESS_KEY_ID"
-          aws configure set aws_secret_access_key "$R2_SECRET_ACCESS_KEY"
-          aws configure set default.region auto
-          aws configure set default.output json
+            # 配置 R2 访问
+            aws configure set aws_access_key_id "$R2_ACCESS_KEY_ID"
+            aws configure set aws_secret_access_key "$R2_SECRET_ACCESS_KEY"
+            aws configure set default.region auto
+            aws configure set default.output json
 
       - name: Download files from GitHub Release
         run: |

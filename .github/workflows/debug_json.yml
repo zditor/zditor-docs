@@ -73,7 +73,7 @@ jobs:
       - name: Process latest.json
         run: |
           cd release_assets
-          
+          cat latest.json
           # Verify latest.json exists and is valid JSON
           if [ -f "latest.json" ]; then
             echo "Verifying latest.json..."

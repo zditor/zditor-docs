@@ -132,13 +132,24 @@ jobs:
           prerelease: false
           args: ${{ matrix.args }}
   upgradeLink-upload:
-        needs:  publish-tauri
-        runs-on: ubuntu-latest
-        steps:
-          - name: Send a request to UpgradeLink
-            uses: toolsetlink/upgradelink-action@v5
-            with:
-              source-url: 'https://github.com/zditor/zditor-docs/releases/download/zditor-v__VERSION__/latest.json'
-              access-key: ${{ secrets.UPGRADE_LINK_ACCESS_KEY }}
-              tauri-key: ${{ secrets.UPGRADE_LINK_TAURI_KEY }}
-              github-token: ${{ secrets.GITHUB_TOKEN }}
+      needs: publish-tauri
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+
+        - name: Extract version from tag
+          id: extract_version
+          run: |
+            TAG_NAME="${GITHUB_REF##*/}"
+            VERSION="${TAG_NAME#v}" # 去掉 v 前缀
+            echo "Extracted version: $VERSION"
+            echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+        - name: Send a request to UpgradeLink
+          uses: toolsetlink/upgradelink-action@v5
+          with:
+            source-url: 'https://github.com/zditor/zditor-docs/releases/download/zditor-v${{ steps.extract_version.outputs.version }}/latest.json'
+            access-key: ${{ secrets.UPGRADE_LINK_ACCESS_KEY }}
+            tauri-key: ${{ secrets.UPGRADE_LINK_TAURI_KEY }}
+            github-token: ${{ secrets.GITHUB_TOKEN }}

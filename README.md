@@ -93,4 +93,6 @@ To test in the terminal, if `curl -X OPTIONS http://localhost:11434 -H "Origin: 
 5. Test: `curl -X OPTIONS http://localhost:11434 -H "Origin: http://example.com" -H "Access-Control-Request-Method: GET" -I`. If various headers are displayed, it means the setting was successful.
 6. Open Zditor to test.
 
+## Plugin System
 
+zditor supports many syntax formats, such as tables, formulas, [Smart Text](./en/PluginSystems/SmartText.md), etc.

@@ -49,7 +49,7 @@ graph TD;
 
 ### 3.3. Markdown Syntax
 
-Type \`\`\`language to create a code block. For example, type \`\`\`python to create a Python code block.
+Type \`\`\`language + space to create a code block. For example, type \`\`\`python + space to create a Python code block.
 
 ## 4. Code Editing Features
 

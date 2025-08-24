@@ -73,7 +73,7 @@ Type \`\`\`language to create a code block. For example, type \`\`\`python to cr
 
 When the cursor is inside a code block, a code block toolbar will appear. You can select the language, copy or delete the code block, and customize AI tools such as explaining code or detecting errors.
 
-![Toolbar](../assets/CodeToolBar.png)
+![Toolbar](../../zh_cn/assets/CodeToolBar.png)
 
 ## 6. Rendering Preview Functionality
 
@@ -158,7 +158,7 @@ Zditor uses a sandbox to execute formatting tools and cannot access environment 
 
 ### 7.3 Configuration Example
 
-![Code Formatting Configuration Interface](../assets/format.gif)
+![Code Formatting Configuration Interface](../../zh_cn/assets/format.gif)
 
 #### Editing Existing Configurations
 

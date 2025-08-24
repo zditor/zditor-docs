@@ -95,4 +95,4 @@ To test in the terminal, if `curl -X OPTIONS http://localhost:11434 -H "Origin: 
 
 ## Plugin System
 
-zditor supports many syntax formats, such as tables, formulas, [Smart Text](./en/PluginSystems/SmartText.md), etc.
+zditor supports many syntax formats, such as tables, formulas, [Code Block](./en/PluginSystems/CodeBlock.md), [Smart Text](./en/PluginSystems/SmartText.md), etc.

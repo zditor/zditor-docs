@@ -3,7 +3,7 @@
 ## 1. What is SmartText?
 
 !!! info "Core Concept"
-    SmartText is an innovative feature of the Zditor Markdown editor that allows users to automatically convert specific character combinations or abbreviations into corresponding special symbols, mathematical symbols, Greek letters, fractions, superscripts/subscripts, currency symbols, copyright/trademark indicators, and various common icons.
+    SmartText is an innovative feature of the Zditor Markdown editor that allows users to automatically convert specific character combinations or abbreviations into corresponding special symbols, mathematical symbols, Greek letters, fractions, subscripts, currency symbols, copyright/trademark indicators, and various common icons.
 
 > This feature aims to simplify the input process for complex symbols, allowing you to easily insert professional and aesthetically pleasing text content without memorizing Unicode encodings or frequently switching input methods.
 
@@ -105,22 +105,7 @@ Zditor's SmartText feature covers a wide range of symbol types. Below is a detai
 | `5/8`         | `⅝`           | `⅝ weight` |
 | `7/8`         | `⅞`           | `⅞ capacity` |
 
-### 3.5. Superscript Numbers
-
-| Input Pattern | Output Symbol | Example |
-| :------------ | :------------ | :------ |
-| `^0`          | `⁰`           | `x^0` → `x⁰` |
-| `^1`          | `¹`           | `y^1` → `y¹` |
-| `^2`          | `²`           | `E=mc^2` → `E=mc²` |
-| `^3`          | `³`           | `Volume^3` → `Volume³` |
-| `^4`          | `⁴`           | `10^4` → `10⁴` |
-| `^5`          | `⁵`           | `2^5` → `2⁵` |
-| `^6`          | `⁶`           | `n^6` → `n⁶` |
-| `^7`          | `⁷`           | `m^7` → `m⁷` |
-| `^8`          | `⁸`           | `p^8` → `p⁸` |
-| `^9`          | `⁹`           | `q^9` → `q⁹` |
-
-### 3.6. Subscript Numbers
+### 3.5. Subscript Numbers
 
 | Input Pattern | Output Symbol | Example |
 | :------------ | :------------ | :------ |
@@ -135,7 +120,7 @@ Zditor's SmartText feature covers a wide range of symbol types. Below is a detai
 | `_8`          | `₈`           | `Cl_8` → `Cl₈` |
 | `_9`          | `₉`           | `F_9` → `F₉` |
 
-### 3.7. Currency Symbols
+### 3.6. Currency Symbols
 
 | Input Pattern | Output Symbol | Example |
 | :------------ | :------------ | :------ |
@@ -144,7 +129,7 @@ Zditor's SmartText feature covers a wide range of symbol types. Below is a detai
 | `(jpy)`       | `¥`           | `1000(jpy)` → `1000¥` |
 | `(cent)`      | `¢`           | `50(cent)` → `50¢` |
 
-### 3.8. Copyright and Trademark
+### 3.7. Copyright and Trademark
 
 | Input Pattern     | Output Symbol | Example |
 | :---------------- | :------------ | :------ |
@@ -154,7 +139,7 @@ Zditor's SmartText feature covers a wide range of symbol types. Below is a detai
 | `(p)`             | `℗`           | `Music Album(p)` → `Music Album℗` |
 | `(sm)`            | `℠`           | `Service Mark(sm)` → `Service Mark℠` |
 
-### 3.9. Common Symbols and Icons
+### 3.8. Common Symbols and Icons
 
 | Input Pattern     | Output Symbol | Example |
 | :---------------- | :------------ | :------ |

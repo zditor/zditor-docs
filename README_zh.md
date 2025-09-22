@@ -22,6 +22,7 @@ AI赋能、轻量、高性能、写画一体
 </div>
 
 [English Version](README.md)
+[日本語版](README_ja.md)
 
 
 ---

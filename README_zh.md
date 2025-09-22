@@ -37,8 +37,9 @@ AI赋能、轻量、高性能、写画一体
 ## 目录
 
 - [入门指南](#入门指南)
-- [规划](#规划)
 - [AI 功能](#AI功能)
+- [Agent 智能体系统](#Agent智能体系统)
+- [插件系统](#插件系统)
 
 ## 反馈
 
@@ -94,6 +95,13 @@ AI 功能使用参见[AI 使用指南](./zh_cn/AI使用指南.md)，Ollama 配�
 5. 测试：`curl -X OPTIONS http://localhost:11434 -H "Origin: http://example.com" -H "Access-Control-Request-Method: GET" -I`，如果显示各种header说明设置成功
 6. 打开zditor测试
 
+
+## Agent 智能体系统
+
+zditor 集成了强大的 Agent 智能体功能，支持 Agent Client Protocol (ACP) 和 Model Context Protocol (MCP)，为您提供更智能的写作和任务执行体验。
+
+- **[Agent 智能体使用指南](./zh_cn/Agent智能体使用指南.md)** - 了解如何配置和使用 Agent 智能体
+- **[MCP 服务器配置指南](./zh_cn/MCP服务器配置指南.md)** - 学习如何集成各种 MCP 服务器扩展功能
 
 ## 插件系统
 

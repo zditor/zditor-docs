@@ -22,6 +22,7 @@ Localized, File-Based, Dual-Link
 </div>
 
 [中文版本](README_zh.md)
+[日本語版](README_ja.md)
 
 
 ---
@@ -38,6 +39,7 @@ Localized, File-Based, Dual-Link
 
 - [Getting Started](#getting-started)
 - [Roadmap](#roadmap)
+- [MCP Server Configuration Guide](#mcp-server-configuration-guide)
 
 ## FeedBack
 
@@ -72,7 +74,7 @@ A free license is provided. Simply enter your email, click "Send," and then retr
 
 ## AI
 
-For AI feature usage, refer to the [AI Usage Guide](https://example.com/ai-usage-guide). For Ollama configuration, refer to the [Ollama Configuration Guide](https://example.com/ollama-config-guide). If a connection failure is prompted, please check first:
+For AI feature usage, refer to the [AI Usage Guide](https://example.com/ai-usage-guide). For Ollama configuration, refer to the [Ollama Configuration Guide](https://example.com/ollama-config-guide). For Agent usage, refer to the [Agent Usage Guide](zh_cn/Agent智能体使用指南.md). If a connection failure is prompted, please check first:
 
 
 1. Is Ollama already running?
@@ -96,3 +98,7 @@ To test in the terminal, if `curl -X OPTIONS http://localhost:11434 -H "Origin: 
 ## Plugin System
 
 zditor supports many syntax formats, such as tables, formulas, [Code Block](./en/PluginSystems/CodeBlock.md), [Smart Text](./en/PluginSystems/SmartText.md), etc.
+
+## MCP Server Configuration Guide
+
+For MCP server configuration, refer to the [MCP Server Configuration Guide](zh_cn/MCP服务器配置指南.md).

@@ -79,33 +79,35 @@ jobs:
                 }
               }
             ' CHANGELOG.md)
-            
+
             echo "Raw release notes from CHANGELOG.md:"
             echo "------------------------------------"
             echo "$RELEASE_BODY"
             echo "------------------------------------"
-            
+
             # Trim leading/trailing whitespace and empty lines (cross-platform method)
             RELEASE_BODY_TRIMMED=$(echo "$RELEASE_BODY" | sed -e ':a' -e '/./,$!d;/^\n*$/{$d;N;ba' -e '}' -e 's/[[:space:]]*$//')
-            
-            # Replace newlines with \n (for JSON output) - works on all platforms
-            RELEASE_BODY_PROCESSED=$(echo "$RELEASE_BODY_TRIMMED" | awk '{printf "%s\\n", $0}' | sed 's/\\n$//')
-            
-            if [ -z "$RELEASE_BODY_PROCESSED" ]; then
-              RELEASE_BODY_PROCESSED="See the assets to download this version and install."
+
+            if [ -z "$RELEASE_BODY_TRIMMED" ]; then
+              RELEASE_BODY_TRIMMED="See the assets to download this version and install."
               echo "No release notes found for this tag, using default message"
             fi
           else
-            RELEASE_BODY_PROCESSED="See the assets to download this version and install."
+            RELEASE_BODY_TRIMMED="See the assets to download this version and install."
             echo "CHANGELOG.md not found, using default message"
           fi
 
           echo "Final release notes that will be used:"
           echo "------------------------------------"
-          echo "$RELEASE_BODY_PROCESSED"
+          echo "$RELEASE_BODY_TRIMMED"
           echo "------------------------------------"
 
-          echo "release_body=${RELEASE_BODY_PROCESSED}" >> $GITHUB_OUTPUT
+          # Use multiline output format to preserve newlines
+          {
+            echo 'release_body<<EOF'
+            echo "$RELEASE_BODY_TRIMMED"
+            echo 'EOF'
+          } >> $GITHUB_OUTPUT
       
       
       - name: Cache Next.js build

@@ -25,6 +25,8 @@ npm install -g @zed-industries/claude-code-acp
 ```
 
 **Zditorでの設定：**
+
+
 1. 設定 → 智能体設定 → 追加 を開く
 2. 設定を入力：
    - 智能体名前：`claude-code`
@@ -39,6 +41,7 @@ npm install -g @zed-industries/claude-code-acp
 
 ### 2.2. 使用開始
 
+
 1. Zditorメインインターフェースで「智能体モード」を選択
 2. Agent選択器から `claude-code` を選択
 3. 接続の確立を待つ
@@ -48,37 +51,41 @@ npm install -g @zed-industries/claude-code-acp
 
 ### 3.1. 機能比較
 
-| 機能特性 | 通常のAI対話 | Agent 智能体 |
-| :------- | :----------- | :----------- |
-| 対話インタラクション | ✅ サポート | ✅ サポート |
-| ファイル読み書き | ❌ 非サポート | ✅ サポート |
-| ツール呼び出し | ❌ 非サポート | ✅ サポート |
-| 多段階タスク | ❌ 非サポート | ✅ サポート |
-| 権限管理 | ❌ 不要 | ✅ きめ細かい権限制御 |
-| リアルタイムフィードバック | ❌ 単発返信 | ✅ ストリーミング思考プロセス |
-| ターミナル操作 | ❌ 非サポート | 🚧 開発中 |
-| テキスト選択機能 | ❌ 非サポート | 🚧 開発中 |
+|機能特性 |通常のAI対話 |Agent 智能体 |
+|:---|:---|:---|
+|対話インタラクション |✅ サポート |✅ サポート |
+|ファイル読み書き |❌ 非サポート |✅ サポート |
+|ツール呼び出し |❌ 非サポート |✅ サポート |
+|多段階タスク |❌ 非サポート |✅ サポート |
+|権限管理 |❌ 不要 |✅ きめ細かい権限制御 |
+|リアルタイムフィードバック |❌ 単発返信 |✅ ストリーミング思考プロセス |
+|ターミナル操作 |❌ 非サポート |🚧 開発中 |
+|テキスト選択機能 |❌ 非サポート |🚧 開発中 |
 
 ### 2.2. 使用シナリオ
 
 **通常のAI対話に適用：**
+
 - 日常的な質問相談
 - テキストコンテンツ生成
 - 簡単な翻訳・要約
 
 **Agent 智能体に適用：**
+
 - コードプロジェクトの分析と修正
 - ファイルの一括処理
 - 複雑な多段階タスク
 - 外部ツール呼び出しが必要なシナリオ
 
 **近日サポート予定のシナリオ：**
+
 - 🚧 **ターミナル操作シナリオ**：システム管理、スクリプト実行、開発環境設定
 - 🚧 **テキスト選択操作シナリオ**：ドキュメントの迅速処理、コンテンツのインテリジェント抽出と変換
 
 ## 3. Agent設定ガイド
 
 ### 3.1. Agent設定を開く
+
 
 1. Zditorアプリケーションを起動
 2. **設定ページ**に入る
@@ -90,6 +97,7 @@ npm install -g @zed-industries/claude-code-acp
 ### 3.2. 基本設定項目
 
 #### 智能体名前
+
 - **役割**：Agentを識別するユニークな名前
 - **フォーマット要件**：
   - タブ文字を含めない
@@ -98,6 +106,7 @@ npm install -g @zed-industries/claude-code-acp
 - **例**：`gemini-cli`、`claude-desktop`、`custom-agent`
 
 #### 智能体パス
+
 - **役割**：インストール済みCLIツールの実行可能ファイルの完全パス
 - **フォーマット要件**：
   - 有効なファイルパスでなければならない
@@ -111,6 +120,7 @@ npm install -g @zed-industries/claude-code-acp
 ### 3.3. 高度設定項目
 
 #### パラメータ設定（オプション）
+
 - **役割**：CLIツール起動時のコマンドライン引数
 - **フォーマット**：英語カンマで複数パラメータを区切る
 - **例**：
@@ -118,6 +128,7 @@ npm install -g @zed-industries/claude-code-acp
   - Claude Code: `--help`（利用可能パラメータを確認）
 
 #### 環境変数（オプション）
+
 - **役割**：CLIツール実行時に必要な環境変数
 - **フォーマット**：`キー=値` 形式、英語カンマで区切る
 - **例**：
@@ -130,6 +141,7 @@ npm install -g @zed-industries/claude-code-acp
 ### 3.4. 接続テスト
 
 設定完了後、**Test Connection**ボタンをクリックして接続テストを行います：
+
 
 1. **接続確認**：Agentプログラムが正常に起動できるかチェック
 2. **プロトコルハンドシェイク**：ACP プロトコル通信が正常かどうか検証
@@ -148,6 +160,7 @@ npm install -g @zed-industries/claude-code-acp
 ## 4. Agent 智能体の使用
 
 ### 4.1. Agentモードの起動
+
 
 1. Zditorメインインターフェースで、**モード選択器**を見つける
 2. **智能体モード**を選択
@@ -194,15 +207,18 @@ Agentがタスクを実行する際、詳細な思考プロセスが表示され
 Agentが機密操作を実行する必要がある場合、権限要求ダイアログが表示されます：
 
 #### ファイルシステム権限
+
 - **ファイル読み取り**：Agentが指定ファイル内容の読み取りを要求
 - **ファイル書き込み**：Agentがファイルの作成または修正を要求
 - **ファイル操作**：Agentがファイルの削除、移動、または名前変更を要求
 
 #### ネットワークアクセス権限
+
 - **HTTPリクエスト**：AgentがネットワークAPIへのアクセスを要求
 - **データダウンロード**：Agentがネットワークリソースのダウンロードを要求
 
 #### システム操作権限
+
 - **コマンド実行**：Agentがシステムコマンドの実行を要求
 - **環境アクセス**：Agentがシステム環境情報へのアクセスを要求
 
@@ -228,38 +244,40 @@ Agentが機密操作を実行する必要がある場合、権限要求ダイア
 
 可能な原因と解決策：
 
+
 1. **パスをチェック**：CLIツールパスが正しいか確認
+
    ```bash
    # ファイルが存在するか検証
    ls -la /usr/local/bin/gemini
-
+   
    # 実行権限をチェック
    chmod +x /usr/local/bin/gemini
    ```
-
 2. **依存関係をチェック**：CLIツールの依存関係がインストールされているか確認
+
    ```bash
    # Node.jsをチェック（Gemini CLIとClaude Codeの両方で必要）
    node --version
    npm --version
    ```
-
 3. **インストール確認**：CLIツールが正しくインストールされているか確認
+
    ```bash
    # Claude Code ACPをテスト
    claude-code-acp --help
-
+   
    # Gemini CLIをテスト
    gemini --help
    ```
-
 4. **ログを確認**：エラーログの具体的なエラー情報をチェック
 5. **環境変数**：必要な環境変数が正しく設定されているか検証
+
    ```bash
    # APIキーをチェック
    echo $ANTHROPIC_API_KEY
    echo $GEMINI_API_KEY
-
+   
    # PATHに必要なパスが含まれているかチェック
    echo $PATH
    ```
@@ -268,16 +286,17 @@ Agentが機密操作を実行する必要がある場合、権限要求ダイア
 
 よくある原因と解決策：
 
+
 1. **PATH設定問題**：CLIツールがNode.jsまたは依存関係を見つけられない
+
    ```bash
    # Node.jsがPATHにあるかチェック
    which node
    which npm
-
+   
    # 見つからない場合、環境変数にPATHを追加する必要がある
    # 例：PATH=/usr/local/bin:/usr/bin:/bin
    ```
-
 2. **依存関係不足**：CLIツールがACPプロトコルをサポートしているかチェック
 3. **パラメータエラー**：起動パラメータが正しいか確認（`ツール名 --help` で確認可能）
 4. **権限問題**：CLIツールに実行権限があるか確認
@@ -315,6 +334,7 @@ ls $(npm config get prefix)/bin
 
 最適化提案：
 
+
 1. **ネットワークをチェック**：ネットワーク接続が安定しているか確認
 2. **システムリソース**：十分なメモリとCPUリソースがあるか確認
 3. **ツールバージョン**：CLIツールの最新バージョンを使用
@@ -324,6 +344,7 @@ ls $(npm config get prefix)/bin
 
 ### 7.1. セキュリティ設定
 
+
 1. **信頼できるソース**：公式または信頼できるソースからのCLIツールのみをインストール
 2. **権限制御**：最小権限原則を採用し、慎重に権限を付与
 3. **定期更新**：CLIツールを最新バージョンに保つ
@@ -331,35 +352,38 @@ ls $(npm config get prefix)/bin
 
 ### 7.2. CLIツール管理
 
+
 1. **バージョン管理**：バージョン管理ツールを使用してCLIツールの異なるバージョンを管理
+
    ```bash
    # nvmを使用してNode.jsバージョンを管理（npm インストールツール用）
    nvm use 18
    npm install -g @zed-industries/claude-code-acp
-
+   
    # インストール済みグローバルnpmパッケージを確認
    npm list -g --depth=0
    ```
-
 2. **環境変数管理**：Zditor Agent設定でAPIキーとPATHを安全に管理
+
    ```text
    # Zditor Agent Managerの環境変数フィールドで設定：
    ANTHROPIC_API_KEY=your_key, PATH=/usr/local/bin
    GEMINI_API_KEY=your_key, PATH=/usr/local/bin
-
+   
    # 注意：これらの変数はAgentプロセス内でのみ有効で、システム全体の環境には影響しない
    ```
-
 3. **ツール更新**：最新機能を得るためにCLIツールを定期的に更新
+
    ```bash
    # Claude Code ACPを更新
    npm update -g @zed-industries/claude-code-acp
-
+   
    # Gemini CLIを更新
    npm update -g @google/gemini-cli
    ```
 
 ### 7.3. 効率的な使用
+
 
 1. **明確な指示**：明確で具体的なタスク記述を提供
 2. **段階的実行**：複雑なタスクを複数の簡単なステップに分解
@@ -367,6 +391,7 @@ ls $(npm config get prefix)/bin
 4. **適時介入**：Agent実行プロセス中に適時フィードバックを提供
 
 ### 7.4. 障害予防
+
 
 1. **重要ファイルのバックアップ**：Agentにファイル操作をさせる前に先にバックアップ
 2. **テスト環境**：非本番環境でAgent機能をテスト
@@ -387,6 +412,7 @@ ls $(npm config get prefix)/bin
   - ストリーミング応答
 
 **開発中の機能（TODO）：**
+
 - 🚧 **ターミナルサポート**：ターミナル操作機能をサポートし、Agentにコマンドライン操作を許可する計画
 - 🚧 **テキスト選択サポート**：テキスト選択とテキスト選択操作をサポートし、より便利なテキスト処理方法を提供する計画
 
@@ -397,6 +423,7 @@ ls $(npm config get prefix)/bin
 #### Gemini CLI
 
 **インストール手順：**
+
 ```bash
 # 公式GitHubリポジトリからインストール
 # https://github.com/google-gemini/gemini-cli にアクセス
@@ -413,6 +440,8 @@ npm link
 ```
 
 **設定手順：**
+
+
 1. Gemini APIキーを取得：[Google AI Studio](https://aistudio.google.com/app/apikey) にアクセス
 2. Zditorで設定：
    - **智能体名前**：`gemini-cli`
@@ -423,6 +452,7 @@ npm link
 #### Claude Code
 
 **インストール手順：**
+
 ```bash
 # まずNode.js（v18以上推奨）がインストールされていることを確認
 node --version
@@ -435,6 +465,8 @@ claude-code-acp --version
 ```
 
 **設定手順：**
+
+
 1. Anthropic APIキーを取得：[Anthropic Console](https://console.anthropic.com/) にアクセス
 2. Zditorで設定：
    - **智能体名前**：`claude-code`
@@ -446,36 +478,40 @@ claude-code-acp --version
     これらのCLIツールはNode.jsに依存するため、システムレベルではなく、Agent ManagerのKannta **環境変数**フィールドでPATHを設定する必要があります。
 
     **Zditor Agent設定の環境変数に追加：**
+
     - macOS/Linux: `PATH=/usr/local/bin` または `PATH=/usr/local/bin:/usr/bin:/bin`
     - Windows: `PATH=C:\Program Files\nodejs;%APPDATA%\npm`
 
     **設定例：**
+
     ```
     ANTHROPIC_API_KEY=your_key, PATH=/usr/local/bin
     ```
 
 !!! tip "パス検索とPATH設定"
     CLIツールのインストールパスが不明な場合は、以下のコマンドで検索できます：
+
     ```bash
     # Gemini CLIパスを検索
     which gemini
-
+    
     # Claude Code ACPパスを検索
     which claude-code-acp
-
+    
     # npmグローバルインストールパスを確認
     npm list -g --depth=0
     npm config get prefix
-
+    
     # 現在のPATH環境変数を確認
     echo $PATH
-
+    
     # Node.jsとnpmパスを検索
     which node
     which npm
     ```
 
     **Zditor Agent設定でPATHを設定：**
+
     - デフォルト設定によると、ほとんどの場合 `PATH=/usr/local/bin` 設定で十分
     - nvmを使用している場合、Node.jsバージョンパスを含める必要：`PATH=/Users/username/.nvm/versions/node/v18.0.0/bin`
     - 複数パスを含めることが可能：`PATH=/usr/local/bin:/usr/bin:/bin`
@@ -486,13 +522,14 @@ claude-code-acp --version
 
 他のAIサービスのCLIツールを統合する必要がある場合：
 
+
 1. **既存のACP互換ツールを検索**
+
    ```bash
    # GitHubやnpmで検索
    npm search acp agent
    # または関連プロジェクトのIssuesとドキュメントを確認
    ```
-
 2. **公式CLIツールがACPをサポートしているかチェック**
    - 公式ドキュメントやGitHubリポジトリを確認
    - "ACP"、"Agent Client Protocol" 関連キーワードを検索
@@ -502,20 +539,22 @@ claude-code-acp --version
 
 既存ツールがACPをサポートしていない場合：
 
+
 1. **既存CLIツールをラップ**
    - ACPプロトコルをターゲットCLIのAPI呼び出しに変換するアダプタープログラムを作成
    - Node.js、Pythonまたは他の言語で実装
-
 2. **カスタムACPツールを開発**
    - [ACP プロトコル仕様](https://github.com/anthropics/agent-client-protocol) を参照
    - 公式ACP SDKやライブラリを使用して開発
    - ツールが標準入出力通信をサポートしていることを確認
-
 3. **オープンソースコミュニティに貢献**
    - アダプターをオープンソース化し、他のユーザーを支援
    - 元プロジェクトにPRを提出してACPサポートを追加
+
 
 ---
 
 !!! note "ドキュメント更新"
     本ドキュメントはZditorとAgent機能の発展に伴い継続的に更新されます。問題や提案がある場合は、アプリ内フィードバック機能を通じてお問い合わせください。
+
+

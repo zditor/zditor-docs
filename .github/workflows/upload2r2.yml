@@ -44,29 +44,17 @@ jobs:
           mkdir -p release_assets
           cd release_assets
 
-          # Define file list
-          FILES=(
-            "latest.json"
-            "zditor-${{ steps.extract_version.outputs.version }}-1.x86_64.rpm"
-            "zditor_${{ steps.extract_version.outputs.version }}_aarch64.dmg"
-            "zditor_${{ steps.extract_version.outputs.version }}_amd64.AppImage"
-            "zditor_${{ steps.extract_version.outputs.version }}_amd64.AppImage.sig"
-            "zditor_${{ steps.extract_version.outputs.version }}_amd64.deb"
-            "zditor_${{ steps.extract_version.outputs.version }}_x64-setup.exe"
-            "zditor_${{ steps.extract_version.outputs.version }}_x64-setup.exe.sig"
-            "zditor_${{ steps.extract_version.outputs.version }}_x64.dmg"
-            "zditor_${{ steps.extract_version.outputs.version }}_x64_en-US.msi"
-            "zditor_${{ steps.extract_version.outputs.version }}_x64_en-US.msi.sig"
-            "zditor_aarch64.app.tar.gz"
-            "zditor_aarch64.app.tar.gz.sig"
-            "zditor_x64.app.tar.gz"
-            "zditor_x64.app.tar.gz.sig"
-          )
+          # Get all files from GitHub Release API
+          RELEASE_URL="https://api.github.com/repos/zditor/zditor-docs/releases/tags/zditor-v${{ steps.extract_version.outputs.version }}"
 
-          # Download each file from GitHub Release
-          for FILE in "${FILES[@]}"; do
-            echo "Downloading $FILE..."
-            curl -L -O "https://github.com/zditor/zditor-docs/releases/download/zditor-v${{ steps.extract_version.outputs.version }}/${FILE}" || echo "Failed to download $FILE"
+          # Get download URLs for all assets
+          DOWNLOAD_URLS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$RELEASE_URL" | jq -r '.assets[].browser_download_url')
+
+          # Download each file
+          for URL in $DOWNLOAD_URLS; do
+            FILENAME=$(basename "$URL")
+            echo "Downloading $FILENAME..."
+            curl -L -O "$URL" || echo "Failed to download $FILENAME"
           done
 
           # Verify downloaded files
@@ -152,7 +140,7 @@ jobs:
           curl -X POST "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE_ID}/purge_cache" \
             -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
             -H "Content-Type: application/json" \
-            -d '{"files":["https://download.zditor.com/zditor-v${{ steps.set_version.outputs.version }}/*"]}'
+            -d '{"purge_everything":true}'
         env:
           CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

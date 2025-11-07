@@ -1,3 +1,10 @@
+---
+createdAt: 2025-10-26
+show_property: null
+authors: []
+tone: cold
+favorites: false
+---
 # AI 功能使用指南
 
 ## 大纲

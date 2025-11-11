@@ -165,11 +165,10 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
           # 以下是新增 Apple 签名 / 公证所需
           APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
           APPLE_TEAM_ID: ${{secrets.APPLE_TEAM_ID}}
-
-          APPLE_API_ISSUER: ${{secrets.APPLE_API_ISSUER}}
-          APPLE_API_KEY: ${{secrets.APPLE_API_KEY}}
-          APPLE_API_KEY_PATH: ./apple-api-key.p8
+          
         with:
           tagName: zditor-v__VERSION__
           releaseName: "Zditor v__VERSION__"

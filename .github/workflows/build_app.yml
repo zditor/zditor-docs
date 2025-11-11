@@ -191,4 +191,4 @@ jobs:
           releaseBody: ${{ steps.get_release_notes.outputs.release_body }}
           releaseDraft: true
           prerelease: false
-          args: ${{ matrix.args }} --debug
+          args: ${{ matrix.args }}

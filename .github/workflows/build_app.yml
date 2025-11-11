@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - "v*" # 只会在以 v 开头的标签推送时触发
+    branches:
+      - debug_sign
 jobs:
   publish-tauri:
     permissions:
@@ -41,9 +43,9 @@ jobs:
       - name: Unlock keychain
         if: matrix.platform == 'macos-latest'
         run: |
-          security set-keychain-password -p ${{ secrets.APPLE_KEYCHAIN_PASSWORD }} login.keychain || true
           security default-keychain -s login.keychain
           security unlock-keychain -p ${{ secrets.APPLE_KEYCHAIN_PASSWORD }} login.keychain
+          security set-key-partition-list -S apple-tool:,apple: -s -k ${{ secrets.APPLE_KEYCHAIN_PASSWORD }} login.keychain
 
       - name: setup node
         uses: actions/setup-node@v4

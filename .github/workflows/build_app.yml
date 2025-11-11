@@ -177,7 +177,7 @@ jobs:
           prerelease: false
           args: ${{ matrix.args }}
 
-      # ====== 3. 非 macOS 平台保持原样 ======
+      # ====== 3. 非 macOS 平台开启 debug ======
       - uses: tauri-apps/tauri-action@v0
         if: matrix.platform != 'macos-latest'
         env:
@@ -191,4 +191,4 @@ jobs:
           releaseBody: ${{ steps.get_release_notes.outputs.release_body }}
           releaseDraft: true
           prerelease: false
-          args: ${{ matrix.args }}
+          args: ${{ matrix.args }} --debug

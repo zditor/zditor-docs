@@ -31,6 +31,21 @@ jobs:
           repository: ${{ secrets.REPO }} # 替换为私有仓库的实际路径
           token: ${{ secrets.DEPLOY_TOKEN }} # 使用 GitHub 提供的 GITHUB_TOKEN 进行身份验证
 
+      # 创建并解锁 Keychain（仅限 macOS）
+      - name: Setup keychain
+        if: matrix.platform == 'macos-latest'
+        run: |
+          # 创建名为 "ci" 的临时钥匙串
+          security create-keychain -p "${{ secrets.APPLE_KEYCHAIN_PASSWORD }}" ci.keychain
+          # 设置为默认钥匙串
+          security default-keychain -s ci.keychain
+          # 解锁钥匙串
+          security unlock-keychain -p "${{ secrets.APPLE_KEYCHAIN_PASSWORD }}" ci.keychain
+          # 禁用锁屏超时
+          security set-keychain-settings ci.keychain
+          # 设置分区列表允许代码签名工具访问
+          security set-key-partition-list -S apple-tool:,apple: -s -k "${{ secrets.APPLE_KEYCHAIN_PASSWORD }}" ci.keychain
+
       # 导入 Apple 证书（仅限 macOS）
       - name: Import Certificate
         if: matrix.platform == 'macos-latest'
@@ -38,14 +53,7 @@ jobs:
         with:
           p12-file-base64: ${{ secrets.APPLE_CERTIFICATE }}
           p12-password: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
-
-      # 解锁 Keychain（仅限 macOS）
-      - name: Unlock keychain
-        if: matrix.platform == 'macos-latest'
-        run: |
-          security default-keychain -s login.keychain
-          security unlock-keychain -p ${{ secrets.APPLE_KEYCHAIN_PASSWORD }} login.keychain
-          security set-key-partition-list -S apple-tool:,apple: -s -k ${{ secrets.APPLE_KEYCHAIN_PASSWORD }} login.keychain
+          keychain-password: ${{ secrets.APPLE_KEYCHAIN_PASSWORD }}
 
       - name: setup node
         uses: actions/setup-node@v4

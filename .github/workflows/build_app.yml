@@ -29,6 +29,22 @@ jobs:
           repository: ${{ secrets.REPO }} # 替换为私有仓库的实际路径
           token: ${{ secrets.DEPLOY_TOKEN }} # 使用 GitHub 提供的 GITHUB_TOKEN 进行身份验证
 
+      # 导入 Apple 证书（仅限 macOS）
+      - name: Import Certificate
+        if: matrix.platform == 'macos-latest'
+        uses: apple-actions/import-codesign-certs@v3
+        with:
+          p12-file-base64: ${{ secrets.APPLE_CERTIFICATE }}
+          p12-password: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+
+      # 解锁 Keychain（仅限 macOS）
+      - name: Unlock keychain
+        if: matrix.platform == 'macos-latest'
+        run: |
+          security set-keychain-password -p ${{ secrets.APPLE_KEYCHAIN_PASSWORD }} login.keychain || true
+          security default-keychain -s login.keychain
+          security unlock-keychain -p ${{ secrets.APPLE_KEYCHAIN_PASSWORD }} login.keychain
+
       - name: setup node
         uses: actions/setup-node@v4
         with:

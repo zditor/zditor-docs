@@ -135,6 +135,11 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
 
       # ====== 2. 构建、签名、公证 ======
+      - name: Write Apple API Key
+        if: matrix.platform == 'macos-latest'
+        run: |
+          echo "${{ secrets.APPLE_API_KEY_P8 }}" > ./apple-api-key.p8
+
       - uses: tauri-apps/tauri-action@v0
         if: matrix.platform == 'macos-latest'
         env:
@@ -144,9 +149,11 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
           # 以下是新增 Apple 签名 / 公证所需
           APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
           APPLE_TEAM_ID: ${{secrets.APPLE_TEAM_ID}}
+
+          APPLE_API_ISSUER: ${{secrets.APPLE_API_ISSUER}}
+          APPLE_API_KEY: ${{secrets.APPLE_API_KEY}}
+          APPLE_API_KEY_PATH: ./apple-api-key.p8
         with:
           tagName: zditor-v__VERSION__
           releaseName: "Zditor v__VERSION__"

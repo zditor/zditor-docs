@@ -29,20 +29,36 @@ jobs:
           repository: ${{ secrets.REPO }} # 替换为私有仓库的实际路径
           token: ${{ secrets.DEPLOY_TOKEN }} # 使用 GitHub 提供的 GITHUB_TOKEN 进行身份验证
 
-      # ====== 1. 导入证书（仅 macOS） ======
-      - name: Import Apple certificate
+      # # ====== 1. 导入证书（仅 macOS） ======
+      # - name: Import Apple certificate
+      #   if: matrix.platform == 'macos-latest'
+      #   env:
+      #     APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+      #     APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+      #     KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+      #   run: |
+      #     echo "$APPLE_CERTIFICATE" | base64 --decode > cert.p12
+      #     security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+      #     security default-keychain -s build.keychain
+      #     security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
+      #     security import cert.p12 -k build.keychain -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+      #     security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" build.keychain
+
+      # 导入 Apple 证书（仅限 macOS）
+      - name: Import Certificate
         if: matrix.platform == 'macos-latest'
-        env:
-          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
-          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        uses: apple-actions/import-codesign-certs@v3
+        with:
+          p12-file-base64: ${{ secrets.APPLE_CERTIFICATE }}
+          p12-password: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+
+      # 解锁 Keychain（仅限 macOS）
+      - name: Unlock keychain
+        if: matrix.platform == 'macos-latest'
         run: |
-          echo "$APPLE_CERTIFICATE" | base64 --decode > cert.p12
-          security create-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
-          security default-keychain -s build.keychain
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" build.keychain
-          security import cert.p12 -k build.keychain -P "$APPLE_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" build.keychain
+          security set-keychain-password -p ${{ secrets.APPLE_KEYCHAIN_PASSWORD }} login.keychain || true
+          security default-keychain -s login.keychain
+          security unlock-keychain -p ${{ secrets.APPLE_KEYCHAIN_PASSWORD }} login.keychain
 
       - name: setup node
         uses: actions/setup-node@v4
@@ -151,7 +167,7 @@ jobs:
           APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
           APPLE_TEAM_ID: ${{secrets.APPLE_TEAM_ID}}
 
-          # APPLE_API_ISSUER: ${{secrets.APPLE_API_ISSUER}}
+          APPLE_API_ISSUER: ${{secrets.APPLE_API_ISSUER}}
           APPLE_API_KEY: ${{secrets.APPLE_API_KEY}}
           APPLE_API_KEY_PATH: ./apple-api-key.p8
         with:

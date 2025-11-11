@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - "v*" # 只会在以 v 开头的标签推送时触发
-    branches:
-      - debug_sign
 jobs:
   publish-tauri:
     permissions:
@@ -136,20 +134,6 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}-
 
-      
-      # - uses: tauri-apps/tauri-action@v0
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-      #     NODE_OPTIONS: "--max-old-space-size=4096"
-      #     TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-      #     TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-      #   with:
-      #     tagName: zditor-v__VERSION__
-      #     releaseName: "Zditor v__VERSION__"
-      #     releaseBody: ${{ steps.get_release_notes.outputs.release_body }}
-      #     releaseDraft: true
-      #     prerelease: false
-      #     args: ${{ matrix.args }}
       # ====== 2. 构建、签名、公证 ======
       - uses: tauri-apps/tauri-action@v0
         if: matrix.platform == 'macos-latest'

@@ -146,6 +146,7 @@ jobs:
           APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
           APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
+          APPLE_TEAM_ID: ${{secrets.APPLE_TEAM_ID}}
         with:
           tagName: zditor-v__VERSION__
           releaseName: "Zditor v__VERSION__"

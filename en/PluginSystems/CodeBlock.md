@@ -1,5 +1,5 @@
 ---
-createdAt: 2025-10-26
+created: 2025-10-26
 ---
 
 # Zditor Code Plugin Feature Guide

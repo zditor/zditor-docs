@@ -1,5 +1,5 @@
 ---
-createdAt: 2025-11-02
+created: 2025-11-02
 ---
 
 <div align="center">

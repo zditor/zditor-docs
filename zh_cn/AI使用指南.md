@@ -1,6 +1,6 @@
 ---
 created: 2025-10-26
-show_property: null
+display: null
 authors: []
 tone: cold
 favorites: false

@@ -282,4 +282,5 @@ douban_rating:
   label: 豆瓣评分
   value: 8.7
   default: 0
+field: ["created", "language", "price", "rating", "display", "category", "difficulty", "recommendation", "review", "warm", "cover", "watch_end_date", "isbn", "original_title", "format", "pages", "authors", "release_date", "print_date", "read", "watching_status", "subject", "title", "translators", "updated", "row", "tags", "watching_progress", "subtitle", "publisher", "volume", "series", "location", "notes", "quotes", "favorites", "icon", "genre", "duration", "box_office", "actors", "country", "awards", "imdb_rating", "douban_rating"]
 ---

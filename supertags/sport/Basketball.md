@@ -287,5 +287,6 @@ competition_level:
   value: ["业余","专业"]
   default: []
   options: ["娱乐","业余","半专业","专业","国际赛事"]
+field: ["created", "language", "price", "rating", "display", "category", "difficulty", "recommendation", "review", "warm", "cover", "participation_end_date", "isbn", "original_title", "format", "pages", "authors", "release_date", "print_date", "read", "participation_status", "subject", "title", "translators", "updated", "row", "tags", "participation_progress", "subtitle", "publisher", "volume", "series", "location", "notes", "quotes", "favorites", "icon", "genre", "duration", "equipment_cost", "rules_complexity", "intensity_level", "fitness_benefits", "age_group", "competition_level"]
 ---
 

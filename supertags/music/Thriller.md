@@ -252,5 +252,6 @@ play_count:
   label: 播放次数
   value: 0
   default: 0
+field: ["created", "language", "price", "rating", "display", "category", "difficulty", "recommendation", "review", "warm", "cover", "play_end_date", "isbn", "original_title", "format", "pages", "authors", "release_date", "print_date", "read", "playing_status", "subject", "title", "translators", "updated", "row", "tags", "playing_progress", "subtitle", "publisher", "volume", "series", "location", "notes", "quotes", "favorites", "icon", "genre", "duration", "play_count"]
 ---
 

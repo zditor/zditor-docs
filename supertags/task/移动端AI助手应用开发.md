@@ -29,12 +29,6 @@ warm:
   label: 暖色调
   value: false
   default: false
-icon:
-  type: asset
-  description: 用于列表展示的项目Logo
-  label: 项目图标
-  value: "https://cdn-icons-png.flaticon.com/512/2693/2693868.png"
-  default: ""
 team:
   type: multiselect
   description: 参与该项目的成员列表

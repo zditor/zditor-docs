@@ -62,12 +62,6 @@ progress:
   label: 完成进度
   value: 72
   default: 0
-icon:
-  type: asset
-  description: 用于列表展示的项目Logo
-  label: 项目图标
-  value: "https://cdn-icons-png.flaticon.com/512/6146/6146599.png"
-  default: ""
 warm:
   type: checkbox
   description: warm

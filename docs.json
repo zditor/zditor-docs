@@ -81,13 +81,13 @@
       "anchors": [
         {
           "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
+          "href": "https://zditor.com",
           "icon": "book-open-cover"
         },
         {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
+          "anchor": "Github",
+          "href": "https://github.com/zditor/zditor-docs",
+          "icon": "github"
         }
       ]
     }

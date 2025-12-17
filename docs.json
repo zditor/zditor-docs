@@ -15,7 +15,7 @@
         "groups": [
           {
             "group": "Getting started",
-            "pages": ["index","readme", "quickstart", "development"]
+            "pages": ["index","README", "quickstart", "development"]
           },
           {
             "group": "Customization",

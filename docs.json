@@ -44,8 +44,8 @@
         "tab": "中文",
         "groups": [
           {
-            "group": "API 文档",
-            "pages": ["zh/api-reference/introduction"]
+            "group": "快速开始",
+            "pages": ["zh/快速开始/简介","zh/快速开始/快速入门"]
           },
           {
             "group": "端点示例",

@@ -48,6 +48,10 @@
             "pages": ["zh/快速开始/简介","zh/快速开始/快速入门"]
           },
           {
+            "group": "核心功能",
+            "pages": ["zh/文件树"]
+          },
+          {
             "group": "端点示例",
             "pages": [
               "zh/api-reference/endpoint/get",

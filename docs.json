@@ -11,72 +11,15 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
-        "groups": [
-          {
-            "group": "Getting started",
-            "pages": ["index", "quickstart", "development"]
-          },
-          {
-            "group": "Customization",
-            "pages": ["essentials/settings", "essentials/navigation"]
-          },
-          {
-            "group": "Writing content",
-            "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
-            ]
-          },
-          {
-            "group": "AI tools",
-            "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
-            ]
-          }
-        ]
-      },
-      {
         "tab": "中文",
         "groups": [
           {
             "group": "快速开始",
-            "pages": ["zh/快速开始/简介","zh/快速开始/快速入门"]
+            "pages": ["zh/快速开始/简介"]
           },
           {
             "group": "核心功能",
             "pages": ["zh/文件树"]
-          },
-          {
-            "group": "端点示例",
-            "pages": [
-              "zh/api-reference/endpoint/get",
-              "zh/api-reference/endpoint/create",
-              "zh/api-reference/endpoint/delete",
-              "zh/api-reference/endpoint/webhook"
-            ]
-          }
-        ]
-      },
-      {
-        "tab": "API reference",
-        "groups": [
-          {
-            "group": "API documentation",
-            "pages": ["api-reference/introduction"]
-          },
-          {
-            "group": "Endpoint examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
           }
         ]
       }

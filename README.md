@@ -42,6 +42,7 @@ Localized, File-Based, Dual-Link
 ## Table of Contents
 
 - [Getting Started](#getting-started)
+- [Keyboard Shortcuts](#keyboard-shortcuts)
 - [Roadmap](#roadmap)
 - [MCP Server Configuration Guide](#mcp-server-configuration-guide)
 
@@ -56,6 +57,10 @@ Zditor is a WYSIWYG markdown editor that supports basic markdown syntax and exte
 ### Demo Video
 
 [Simple Demo of Zditor](https://www.bilibili.com/video/BV1sKZPYBEJA/?share_source=copy_web&vd_source=1974ff0cf0dde44aad6580cca6526a34)
+
+### Keyboard Shortcuts
+
+For a complete list of keyboard shortcuts, see the [Keyboard Shortcuts Guide](zh_cn/快捷键指南.md) (中文版).
 
 ### Signature Issue
 

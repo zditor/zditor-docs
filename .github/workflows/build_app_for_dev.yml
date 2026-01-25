@@ -1,4 +1,4 @@
-name: "build_zditor"
+name: "build_zditor_dev"
 
 on:
   workflow_dispatch:
@@ -174,4 +174,4 @@ jobs:
           releaseBody: ${{ steps.get_release_notes.outputs.release_body }}
           releaseDraft: true
           prerelease: false
-          args: ${{ matrix.args }}
+          args: --debug ${{ matrix.args }}

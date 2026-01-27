@@ -140,7 +140,6 @@ jobs:
           echo "${{ secrets.APPLE_API_KEY_P8 }}" > ./apple-api-key.p8
 
       - uses: tauri-apps/tauri-action@v0
-        if: matrix.platform == 'macos-latest'
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
           NODE_OPTIONS: "--max-old-space-size=4096"
@@ -160,18 +159,3 @@ jobs:
           prerelease: false
           args: ${{ matrix.args }}
 
-      # ====== 3. 非 macOS 平台开启 debug ======
-      - uses: tauri-apps/tauri-action@v0
-        if: matrix.platform != 'macos-latest'
-        env:
-          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-          NODE_OPTIONS: "--max-old-space-size=4096"
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-        with:
-          tagName: zditor-v__VERSION__
-          releaseName: "Zditor v__VERSION__"
-          releaseBody: ${{ steps.get_release_notes.outputs.release_body }}
-          releaseDraft: true
-          prerelease: false
-          args: ${{ matrix.args }}

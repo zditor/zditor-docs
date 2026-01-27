@@ -161,17 +161,33 @@ jobs:
           args: ${{ matrix.args }}
 
       # ====== 3. 非 macOS 平台开启 debug ======
+      - name: Build Tauri app in debug mode (non-macOS)
+        if: matrix.platform != 'macos-latest'
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: npm run tauri -- build --debug ${{ matrix.args }}
+
+      - name: Copy debug artifacts to release directory (non-macOS)
+        if: matrix.platform != 'macos-latest'
+        shell: bash
+        run: |
+          if [ -d "src-tauri/target/debug/bundle" ]; then
+            mkdir -p src-tauri/target/release
+            cp -r src-tauri/target/debug/bundle src-tauri/target/release/
+            echo "Copied debug artifacts to release directory"
+            ls -la src-tauri/target/release/bundle/
+          fi
+
       - uses: tauri-apps/tauri-action@v0
         if: matrix.platform != 'macos-latest'
         env:
           GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
-          NODE_OPTIONS: "--max-old-space-size=4096"
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         with:
           tagName: zditor-v${{ github.event.inputs.tag }}
           releaseName: "Zditor v${{ github.event.inputs.tag }}"
           releaseBody: ${{ steps.get_release_notes.outputs.release_body }}
           releaseDraft: true
           prerelease: false
-          args: --debug ${{ matrix.args }}
+          includeRelease: true
+          includeUpdaterJson: true

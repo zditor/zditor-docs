@@ -74,48 +74,60 @@ jobs:
         if: matrix.platform == 'ubuntu-22.04'
         run: echo "Skipping AppImage build on Ubuntu."
 
-      - name: Get latest release notes from CHANGELOG.md
+      - name: Get latest release notes from CHANGELOG
         id: get_release_notes
         shell: bash
         run: |
           TAG_NAME="${GITHUB_REF##*/}"
           echo "Current tag: $TAG_NAME"
 
-          if [ -f "CHANGELOG.md" ]; then
-            echo "CHANGELOG.md exists, parsing release notes..."
-            # Extract content between the current version header and next version header
-            RELEASE_BODY=$(awk -v version="$TAG_NAME" '
-              BEGIN { in_version = 0; first_line = 1 }
-              /^## / && $2 == version { in_version = 1; next }
-              /^## / && in_version { in_version = 0 }
-              in_version {
-                if (first_line) {
-                  # Skip initial empty lines
-                  if (NF) {
-                    first_line = 0
+          RELEASE_BODY=""
+
+          # Check for both English and Chinese changelog files
+          for CHANGELOG_FILE in "CHANGELOG.md" "CHANGELOG.zh-CN.md"; do
+            if [ -f "$CHANGELOG_FILE" ]; then
+              echo "$CHANGELOG_FILE exists, parsing release notes..."
+
+              # Extract content between the current version header and next version header
+              VERSION_CONTENT=$(awk -v version="$TAG_NAME" '
+                BEGIN { in_version = 0; first_line = 1 }
+                /^## / && $2 == version { in_version = 1; next }
+                /^## / && in_version { in_version = 0 }
+                in_version {
+                  if (first_line) {
+                    # Skip initial empty lines
+                    if (NF) {
+                      first_line = 0
+                      print
+                    }
+                  } else {
                     print
                   }
-                } else {
-                  print
                 }
-              }
-            ' CHANGELOG.md)
+              ' "$CHANGELOG_FILE")
 
-            echo "Raw release notes from CHANGELOG.md:"
-            echo "------------------------------------"
-            echo "$RELEASE_BODY"
-            echo "------------------------------------"
+              if [ -n "$VERSION_CONTENT" ]; then
+                # Add language header
+                if [ "$CHANGELOG_FILE" = "CHANGELOG.md" ]; then
+                  RELEASE_BODY="${RELEASE_BODY}## English\n\n${VERSION_CONTENT}\n\n"
+                elif [ "$CHANGELOG_FILE" = "CHANGELOG.zh-CN.md" ]; then
+                  RELEASE_BODY="${RELEASE_BODY}## 中文\n\n${VERSION_CONTENT}\n\n"
+                fi
 
-            # Trim leading/trailing whitespace and empty lines (cross-platform method)
-            RELEASE_BODY_TRIMMED=$(echo "$RELEASE_BODY" | sed -e ':a' -e '/./,$!d;/^\n*$/{$d;N;ba' -e '}' -e 's/[[:space:]]*$//')
-
-            if [ -z "$RELEASE_BODY_TRIMMED" ]; then
-              RELEASE_BODY_TRIMMED="See the assets to download this version and install."
-              echo "No release notes found for this tag, using default message"
+                echo "Raw release notes from $CHANGELOG_FILE:"
+                echo "------------------------------------"
+                echo "$VERSION_CONTENT"
+                echo "------------------------------------"
+              fi
             fi
-          else
+          done
+
+          # Trim leading/trailing whitespace
+          RELEASE_BODY_TRIMMED=$(echo -e "$RELEASE_BODY" | sed -e ':a' -e '/./,$!d;/^\n*$/{$d;N;ba' -e '}' -e 's/[[:space:]]*$//')
+
+          if [ -z "$RELEASE_BODY_TRIMMED" ]; then
             RELEASE_BODY_TRIMMED="See the assets to download this version and install."
-            echo "CHANGELOG.md not found, using default message"
+            echo "No release notes found for this tag, using default message"
           fi
 
           echo "Final release notes that will be used:"

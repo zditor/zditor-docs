@@ -1,0 +1,78 @@
+---
+title: "配置与日志路径"
+description: "查看 Zditor 在 macOS、Windows、Linux 的配置目录和日志目录，便于备份与排障"
+icon: "folder-open"
+---
+
+本文整理了 Zditor 在不同系统下的默认配置路径和日志路径，方便你做以下操作：
+
+- 迁移配置到新电脑
+- 收集日志进行问题排查
+- 快速打开对应目录
+
+<Warning>
+  以下为默认路径。若你手动修改了系统环境变量或使用了便携版，实际路径可能不同。
+</Warning>
+
+## 默认路径
+
+| 系统 | 配置路径 | 日志路径 |
+| :--- | :--- | :--- |
+| macOS | `~/Library/Application Support/com.zditor.ai` | `~/Library/Logs/com.zditor.ai` |
+| Windows | `%APPDATA%\com.zditor.ai` | `%LOCALAPPDATA%\com.zditor.ai\logs` |
+| Linux | `~/.config/com.zditor.ai` | `~/.local/state/com.zditor.ai/logs` |
+
+## 快速打开目录
+
+<Tabs>
+<Tab title="mac/linux">
+  ```bash
+  # macOS 配置目录
+  open ~/Library/Application\ Support/com.zditor.ai
+  
+  # macOS 日志目录
+  open ~/Library/Logs/com.zditor.ai
+  
+  # Linux 配置目录
+  xdg-open ~/.config/com.zditor.ai
+  
+  # Linux 日志目录
+  xdg-open ~/.local/state/com.zditor.ai/logs
+  ```
+</Tab>
+
+<Tab title="windows">
+  ```powershell
+  # 配置目录
+  explorer "$env:APPDATA\com.zditor.ai"
+  
+  # 日志目录
+  explorer "$env:LOCALAPPDATA\com.zditor.ai\logs"
+  ```
+</Tab>
+</Tabs>
+
+## 备份建议
+
+1. 先完全退出 Zditor，再复制配置目录，避免文件写入冲突。
+2. 日志目录通常只用于排障，不建议长期全量备份。
+3. 升级或重装前，优先备份配置目录。
+
+## 常见问题
+
+### 找不到目录
+
+- 先启动一次 Zditor，目录通常会在首次运行后创建。
+- Windows 下可在资源管理器地址栏直接粘贴 `%APPDATA%` 或 `%LOCALAPPDATA%`。
+- macOS 的 `Library` 默认隐藏，可使用 `Cmd + Shift + G` 跳转到 `~/Library`。
+
+### 想确认当前实际路径
+
+如果你使用了自定义环境（例如改过 `XDG_CONFIG_HOME`），实际目录会跟随系统环境变量变化。此时建议在终端输出环境变量后再定位目录：
+
+```bash
+# macOS / Linux
+echo $HOME
+echo $XDG_CONFIG_HOME
+echo $XDG_STATE_HOME
+```

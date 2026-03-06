@@ -1,0 +1,864 @@
+---
+title: "数学公式使用指南"
+description: "使用 LaTeX 语法在文档中插入和编辑精美的数学公式"
+---
+
+Zditor 提供强大的数学公式支持，让你可以在文档中轻松插入和编辑专业的数学表达式。基于 LaTeX/KaTeX 渲染引擎，支持行内公式和独立公式块两种模式。
+
+## 功能概览
+
+Zditor 的数学公式功能完全支持标准 LaTeX 数学语法，并提供实时渲染和所见即所得的编辑体验。
+
+<CardGroup cols={2}>
+  <Card title="LaTeX 语法" icon="square-root-variable">
+    支持完整的 LaTeX 数学语法，包括符号、运算符、矩阵等
+  </Card>
+
+  <Card title="实时渲染" icon="eye">
+    输入公式后立即渲染，无需切换预览模式
+  </Card>
+
+  <Card title="两种模式" icon="list">
+    行内公式和块级公式，适应不同的排版需求
+  </Card>
+
+  <Card title="所见即所得" icon="wand-sparkles">
+    点击公式可直接编辑 LaTeX 源码
+  </Card>
+</CardGroup>
+
+## 公式类型
+
+Zditor 支持两种数学公式类型，分别适用于不同的场景。
+
+### 行内公式（Inline Math）
+
+行内公式嵌入在文本段落中，与文字保持同一行显示。
+
+<AccordionGroup>
+  <Accordion title="Markdown 语法" icon="code" defaultOpen>
+    使用单个美元符号 `$` 包裹公式：
+
+    ```markdown
+    这是行内公式 $E = mc^2$ 的示例。
+    爱因斯坦方程 $E = mc^2$ 描述了质能关系。
+    勾股定理：$a^2 + b^2 = c^2$
+    ```
+
+    **渲染效果**：
+
+    这是行内公式 $E = mc^2$ 的示例。
+
+    爱因斯坦方程 $E = mc^2$ 描述了质能关系。
+  </Accordion>
+
+  <Accordion title="自动转换" icon="sparkles">
+    输入 `$公式$` 后按空格或回车，会自动转换为行内公式：
+
+    **示例**：
+    ```
+    输入：$x^2$[空格]
+    结果：x² （渲染为公式）
+    ```
+
+    **转换规则**：
+    - 开头和结尾必须是 `$` 符号
+    - `$` 前后不能紧跟数字（避免货币符号误判）
+    - `$` 前后不能是空格或制表符
+    - 不能为空（`$$` 不会转换）
+  </Accordion>
+
+  <Accordion title="使用场景" icon="lightbulb">
+    **适用于**：
+    - 在句子中引用简短公式
+    - 变量、常数的数学表示
+    - 简单的数学表达式
+    - 不希望公式独占一行的情况
+
+    **示例**：
+    - 变量定义：设 $x$ 为未知数
+    - 简短公式：根据 $f(x) = x^2 + 1$ 可知
+    - 数学符号：当 $n \to \infty$ 时
+  </Accordion>
+
+  <Accordion title="快捷键" icon="keyboard">
+    - **macOS**: `Cmd + M`
+    - **Windows/Linux**: `Ctrl + M`
+
+    选中文本后按快捷键，会将文本包裹在 `$...$` 中创建行内公式。
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  **排版建议**：行内公式高度有限，避免使用过高的符号（如大型分数、多层上下标）。复杂公式建议使用块级公式。
+</Tip>
+
+### 块级公式（Display Math）
+
+块级公式独占一行或多行，居中显示，适合展示重要的、复杂的数学表达式。
+
+<AccordionGroup>
+  <Accordion title="Markdown 语法" icon="code" defaultOpen>
+    使用双美元符号 `$$` 包裹公式：
+
+    **单行块级公式**：
+    ```markdown
+    $$ E = mc^2 $$
+    ```
+
+    **多行块级公式**：
+    ```markdown
+    $$
+    \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+    $$
+    ```
+
+    **渲染效果**：
+
+    $$
+    E = mc^2
+    $$
+
+    $$
+    \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+    $$
+  </Accordion>
+
+  <Accordion title="自动转换" icon="sparkles">
+    输入 `$$` 后按空格，会自动创建块级公式编辑器：
+
+    **示例**：
+    ```
+    输入：$$[空格]
+    结果：创建一个公式块，光标进入编辑模式
+    ```
+
+    然后你可以：
+    1. 输入 LaTeX 公式代码
+    2. 按 `Esc` 或点击外部完成编辑
+    3. 公式会立即渲染显示
+  </Accordion>
+
+  <Accordion title="多行公式支持" icon="lines-leaning">
+    块级公式支持复杂的多行结构：
+
+    **对齐公式**（使用 `aligned` 环境）：
+    ```latex
+    $$
+    \begin{aligned}
+    x &= a + b \\
+    y &= c + d \\
+    z &= e + f
+    \end{aligned}
+    $$
+    ```
+
+    **矩阵**：
+    ```latex
+    $$
+    \begin{bmatrix}
+    1 & 2 & 3 \\
+    4 & 5 & 6 \\
+    7 & 8 & 9
+    \end{bmatrix}
+    $$
+    ```
+
+    **分段函数**：
+    ```latex
+    $$
+    f(x) = \begin{cases}
+    x^2 & \text{if } x \geq 0 \\
+    -x^2 & \text{if } x < 0
+    \end{cases}
+    $$
+    ```
+  </Accordion>
+
+  <Accordion title="使用场景" icon="lightbulb">
+    **适用于**：
+    - 重要的数学定理、公式
+    - 复杂的表达式（分数、积分、矩阵等）
+    - 需要突出显示的公式
+    - 多行对齐的公式组
+
+    **示例**：
+    - 定理证明中的关键步骤
+    - 算法的数学描述
+    - 统计公式
+    - 物理定律
+  </Accordion>
+
+  <Accordion title="快捷键" icon="keyboard">
+    - **macOS**: `Cmd + Shift + M`
+    - **Windows/Linux**: `Ctrl + Shift + M`
+
+    按快捷键会在当前位置插入一个块级公式编辑器。
+  </Accordion>
+</AccordionGroup>
+
+<Warning>
+  **注意**：块级公式会独占一行或多行，并居中显示。如果需要在行内显示公式，请使用行内公式 `$...$`。
+</Warning>
+
+## 编辑公式
+
+Zditor 提供直观的公式编辑体验，支持所见即所得的编辑模式。
+
+### 创建新公式
+
+<Steps>
+  <Step title="使用 Markdown 语法">
+    直接输入 `$公式$`（行内）或 `$$公式$$`（块级），按空格触发自动转换。
+  </Step>
+
+  <Step title="使用快捷键">
+    - 行内公式：`Cmd/Ctrl + M`
+    - 块级公式：`Cmd/Ctrl + Shift + M`
+  </Step>
+
+  <Step title="输入 LaTeX 代码">
+    在公式编辑器中输入标准的 LaTeX 数学语法。
+  </Step>
+
+  <Step title="完成编辑">
+    按 `Esc` 键或点击公式外部，公式会自动渲染显示。
+  </Step>
+</Steps>
+
+### 编辑现有公式
+
+<AccordionGroup>
+  <Accordion title="进入编辑模式" icon="pen" defaultOpen>
+    **方法 1：单击公式**
+
+    直接点击已渲染的公式，会进入编辑模式，显示 LaTeX 源码。
+
+    **方法 2：使用快捷键**
+
+    光标移动到公式上，按 `Enter` 键进入编辑模式。
+  </Accordion>
+
+  <Accordion title="修改公式" icon="keyboard">
+    在编辑模式下：
+    - 可以自由修改 LaTeX 代码
+    - 支持所有标准的文本编辑操作（复制、粘贴、撤销等）
+    - 实时显示语法高亮（如果支持）
+  </Accordion>
+
+  <Accordion title="退出编辑模式" icon="door-open">
+    **保存并退出**：
+    - 按 `Esc` 键
+    - 点击公式外部的任意位置
+    - 公式会自动重新渲染
+
+    **取消编辑**：
+    - 按 `Ctrl + Z` 撤销所有修改
+    - 然后按 `Esc` 退出
+  </Accordion>
+
+  <Accordion title="导航快捷键" icon="arrows">
+    在编辑模式下：
+    - `左/右方向键`：移动光标
+    - `Cmd/Ctrl + A`：全选公式代码
+    - `Home/End`：跳到行首/行尾
+    - `Backspace/Delete`：删除字符
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  **提示**：如果公式渲染出错，会显示错误提示或保持源码显示。检查 LaTeX 语法是否正确。
+</Tip>
+
+## LaTeX 语法速查
+
+这里列出常用的 LaTeX 数学语法，帮助你快速上手。
+
+### 基础运算符
+
+| 符号 | LaTeX 代码 | 说明 |
+| --- | --- | --- |
+| $+$ | `+` | 加号 |
+| $-$ | `-` | 减号 |
+| $\times$ | `\times` | 乘号 |
+| $\div$ | `\div` | 除号 |
+| $\pm$ | `\pm` | 正负号 |
+| $\cdot$ | `\cdot` | 点乘 |
+| $=$ | `=` | 等号 |
+| $\neq$ | `\neq` | 不等号 |
+| $\leq$ | `\leq` | 小于等于 |
+| $\geq$ | `\geq` | 大于等于 |
+
+### 上标与下标
+
+| 效果 | LaTeX 代码 | 说明 |
+| --- | --- | --- |
+| $x^2$ | `x^2` | 上标（幂次） |
+| $x_i$ | `x_i` | 下标 |
+| $x^{2y}$ | `x^{2y}` | 多字符上标用大括号 |
+| $x_{i,j}$ | `x_{i,j}` | 多字符下标用大括号 |
+| $x_1^2$ | `x_1^2` | 同时使用上下标 |
+
+<Tip>
+  **技巧**：如果上标或下标包含多个字符，必须用大括号 `{}` 包裹，否则只有第一个字符会被识别。
+</Tip>
+
+### 分数与根式
+
+| 效果 | LaTeX 代码 | 说明 |
+| --- | --- | --- |
+| $\frac{1}{2}$ | `\frac{1}{2}` | 分数 |
+| $\dfrac{a}{b}$ | `\dfrac{a}{b}` | 大尺寸分数（display） |
+| $\tfrac{x}{y}$ | `\tfrac{x}{y}` | 小尺寸分数（text） |
+| $\sqrt{x}$ | `\sqrt{x}` | 平方根 |
+| $\sqrt[3]{x}$ | `\sqrt[3]{x}` | n 次方根 |
+
+### 求和与积分
+
+| 效果 | LaTeX 代码 | 说明 |
+| --- | --- | --- |
+| $\sum_{i=1}^{n}$ | `\sum_{i=1}^{n}` | 求和 |
+| $\prod_{i=1}^{n}$ | `\prod_{i=1}^{n}` | 连乘 |
+| $\int_{a}^{b}$ | `\int_{a}^{b}` | 定积分 |
+| $\iint$ | `\iint` | 二重积分 |
+| $\oint$ | `\oint` | 环路积分 |
+| $\lim_{x \to 0}$ | `\lim_{x \to 0}` | 极限 |
+
+<Note>
+  **行内与块级区别**：在行内公式中，求和/积分的上下限显示在右侧；在块级公式中，显示在上下方。可以使用 `\limits` 和 `\nolimits` 强制指定。
+</Note>
+
+### 希腊字母
+
+| 小写 | 代码 | 大写 | 代码 |
+| --- | --- | --- | --- |
+| $\alpha$ | `\alpha` | $\Alpha$ | `\Alpha` |
+| $\beta$ | `\beta` | $\Beta$ | `\Beta` |
+| $\gamma$ | `\gamma` | $\Gamma$ | `\Gamma` |
+| $\delta$ | `\delta` | $\Delta$ | `\Delta` |
+| $\epsilon$ | `\epsilon` | $\Epsilon$ | `\Epsilon` |
+| $\theta$ | `\theta` | $\Theta$ | `\Theta` |
+| $\lambda$ | `\lambda` | $\Lambda$ | `\Lambda` |
+| $\mu$ | `\mu` | $\Mu$ | `\Mu` |
+| $\pi$ | `\pi` | $\Pi$ | `\Pi` |
+| $\sigma$ | `\sigma` | $\Sigma$ | `\Sigma` |
+| $\phi$ | `\phi` | $\Phi$ | `\Phi` |
+| $\omega$ | `\omega` | $\Omega$ | `\Omega` |
+
+### 括号与定界符
+
+| 效果 | LaTeX 代码 | 说明 |
+| --- | --- | --- |
+| $(x)$ | `(x)` | 圆括号 |
+| $[x]$ | `[x]` | 方括号 |
+| $\{x\}$ | `\{x\}` | 花括号（需转义） |
+| $\langle x \rangle$ | `\langle x \rangle` | 尖括号 |
+| $\|x\|$ | `\|x\|` | 绝对值 |
+| $\left( \frac{a}{b} \right)$ | `\left( \frac{a}{b} \right)` | 自动调整大小的括号 |
+
+<Tip>
+  **自适应括号**：使用 `\left` 和 `\right` 可以让括号自动匹配内容的高度，特别适合包含分数、根式的表达式。
+</Tip>
+
+### 矩阵
+
+不同的矩阵环境提供不同的括号样式：
+
+```latex
+# 圆括号矩阵
+$$
+\begin{pmatrix}
+a & b \\
+c & d
+\end{pmatrix}
+$$
+
+# 方括号矩阵
+$$
+\begin{bmatrix}
+1 & 2 \\
+3 & 4
+\end{bmatrix}
+$$
+
+# 花括号矩阵
+$$
+\begin{Bmatrix}
+x & y \\
+z & w
+\end{Bmatrix}
+$$
+
+# 行列式
+$$
+\begin{vmatrix}
+a & b \\
+c & d
+\end{vmatrix}
+$$
+
+# 无括号矩阵
+$$
+\begin{matrix}
+1 & 0 \\
+0 & 1
+\end{matrix}
+$$
+```
+
+<Note>
+  **矩阵语法规则**：
+  - 使用 `&` 分隔列
+  - 使用 `\\` 换行
+  - 矩阵只能在块级公式中使用（行内公式不支持）
+</Note>
+
+### 特殊符号
+
+| 效果 | LaTeX 代码 | 说明 |
+| --- | --- | --- |
+| $\infty$ | `\infty` | 无穷大 |
+| $\partial$ | `\partial` | 偏导数 |
+| $\nabla$ | `\nabla` | 梯度算子 |
+| $\forall$ | `\forall` | 任意 |
+| $\exists$ | `\exists` | 存在 |
+| $\in$ | `\in` | 属于 |
+| $\subset$ | `\subset` | 子集 |
+| $\cup$ | `\cup` | 并集 |
+| $\cap$ | `\cap` | 交集 |
+| $\emptyset$ | `\emptyset` | 空集 |
+| $\rightarrow$ | `\rightarrow` | 右箭头 |
+| $\Rightarrow$ | `\Rightarrow` | 双线右箭头 |
+| $\approx$ | `\approx` | 约等于 |
+| $\equiv$ | `\equiv` | 恒等于 |
+
+## 实用示例
+
+以下是一些常见场景的公式示例，可以直接复制使用。
+
+### 数学公式
+
+<AccordionGroup>
+  <Accordion title="二次方程求根公式" icon="square-root-variable">
+    ```latex
+    $$
+    x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+    $$
+    ```
+
+    渲染效果：
+    $$
+    x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+    $$
+  </Accordion>
+
+  <Accordion title="欧拉公式" icon="circle-nodes">
+    ```latex
+    $$
+    e^{i\pi} + 1 = 0
+    $$
+    ```
+
+    渲染效果：
+    $$
+    e^{i\pi} + 1 = 0
+    $$
+  </Accordion>
+
+  <Accordion title="泰勒级数" icon="wave-square">
+    ```latex
+    $$
+    f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!}(x-a)^n
+    $$
+    ```
+
+    渲染效果：
+    $$
+    f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!}(x-a)^n
+    $$
+  </Accordion>
+
+  <Accordion title="矩阵乘法" icon="grid">
+    ```latex
+    $$
+    \begin{bmatrix}
+    a & b \\
+    c & d
+    \end{bmatrix}
+    \begin{bmatrix}
+    x \\
+    y
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    ax + by \\
+    cx + dy
+    \end{bmatrix}
+    $$
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### 物理公式
+
+<AccordionGroup>
+  <Accordion title="质能方程" icon="atom">
+    ```latex
+    $E = mc^2$
+    ```
+
+    行内显示：$E = mc^2$
+  </Accordion>
+
+  <Accordion title="薛定谔方程" icon="wave-square">
+    ```latex
+    $$
+    i\hbar\frac{\partial}{\partial t}\Psi(\mathbf{r},t) = \hat{H}\Psi(\mathbf{r},t)
+    $$
+    ```
+  </Accordion>
+
+  <Accordion title="麦克斯韦方程组" icon="bolt">
+    ```latex
+    $$
+    \begin{aligned}
+    \nabla \cdot \mathbf{E} &= \frac{\rho}{\epsilon_0} \\
+    \nabla \cdot \mathbf{B} &= 0 \\
+    \nabla \times \mathbf{E} &= -\frac{\partial \mathbf{B}}{\partial t} \\
+    \nabla \times \mathbf{B} &= \mu_0\mathbf{J} + \mu_0\epsilon_0\frac{\partial \mathbf{E}}{\partial t}
+    \end{aligned}
+    $$
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### 统计与概率
+
+<AccordionGroup>
+  <Accordion title="正态分布" icon="chart-simple">
+    ```latex
+    $$
+    f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+    $$
+    ```
+  </Accordion>
+
+  <Accordion title="贝叶斯定理" icon="percent">
+    ```latex
+    $$
+    P(A|B) = \frac{P(B|A)P(A)}{P(B)}
+    $$
+    ```
+  </Accordion>
+
+  <Accordion title="期望与方差" icon="chart-line">
+    ```latex
+    $$
+    \begin{aligned}
+    E[X] &= \sum_{i=1}^{n} x_i p_i \\
+    Var(X) &= E[(X - E[X])^2]
+    \end{aligned}
+    $$
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### 计算机科学
+
+<AccordionGroup>
+  <Accordion title="时间复杂度" icon="clock">
+    ```latex
+    $O(n \log n)$
+    ```
+
+    行内显示：$O(n \log n)$
+  </Accordion>
+
+  <Accordion title="递归关系" icon="arrows-spin">
+    ```latex
+    $$
+    T(n) = \begin{cases}
+    1 & \text{if } n = 1 \\
+    2T(n/2) + n & \text{if } n > 1
+    \end{cases}
+    $$
+    ```
+  </Accordion>
+
+  <Accordion title="信息熵" icon="database">
+    ```latex
+    $$
+    H(X) = -\sum_{i=1}^{n} p(x_i) \log_2 p(x_i)
+    $$
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## 高级技巧
+
+<AccordionGroup>
+  <Accordion title="文本与公式混合" icon="text">
+    在公式中插入文本，使用 `\text{}` 命令：
+
+    ```latex
+    $$
+    f(x) = \begin{cases}
+    x^2 & \text{当 } x \geq 0 \\
+    -x^2 & \text{当 } x < 0
+    \end{cases}
+    $$
+    ```
+
+    这样文本会以正常字体显示，而不是数学斜体。
+  </Accordion>
+
+  <Accordion title="多行对齐公式" icon="align-justify">
+    使用 `aligned` 环境创建对齐的多行公式：
+
+    ```latex
+    $$
+    \begin{aligned}
+    (x + y)^2 &= x^2 + 2xy + y^2 \\
+    &= x^2 + y^2 + 2xy
+    \end{aligned}
+    $$
+    ```
+
+    `&` 符号指定对齐位置（通常在等号处）。
+  </Accordion>
+
+  <Accordion title="颜色与样式" icon="palette">
+    使用 `\color{}` 为公式元素添加颜色：
+
+    ```latex
+    $$
+    \color{red}{x} + \color{blue}{y} = \color{green}{z}
+    $$
+    ```
+
+    常用颜色：`red`、`blue`、`green`、`purple`、`orange`、`black`
+  </Accordion>
+
+  <Accordion title="空格控制" icon="expand">
+    LaTeX 会自动处理公式中的空格，但可以手动控制：
+
+    | 代码 | 说明 | 宽度 |
+    | --- | --- | --- |
+    | `\,` | 小空格 | 3/18 em |
+    | `\:` | 中空格 | 4/18 em |
+    | `\;` | 大空格 | 5/18 em |
+    | `\quad` | 1 em 空格 | 1 em |
+    | `\qquad` | 2 em 空格 | 2 em |
+    | `\!` | 负空格 | -3/18 em |
+
+    示例：`$a \, b$` 与 `$a \quad b$` 的间距不同。
+  </Accordion>
+
+  <Accordion title="编号公式" icon="list-ol">
+    如果需要给公式编号，可以手动添加：
+
+    ```latex
+    $$
+    E = mc^2 \tag{1}
+    $$
+    ```
+
+    `\tag{}` 会在公式右侧显示标签。
+  </Accordion>
+
+  <Accordion title="跨行大括号" icon="bracket-curly">
+    使用 `cases` 或手动构建：
+
+    ```latex
+    $$
+    f(x) = \left\{
+    \begin{array}{ll}
+    x^2 & x \geq 0 \\
+    -x & x < 0
+    \end{array}
+    \right.
+    $$
+    ```
+
+    注意右侧的 `\right.` 表示不显示右括号。
+  </Accordion>
+</AccordionGroup>
+
+## 常见问题
+
+<AccordionGroup>
+  <Accordion title="为什么公式没有渲染，显示为纯文本？" icon="question">
+    **可能原因**：
+
+    1. **语法错误**：检查 LaTeX 代码是否有拼写错误或语法错误
+    2. **未闭合**：确保 `$` 或 `$$` 正确配对
+    3. **转义问题**：某些特殊字符需要转义，如 `\{` `\}`
+    4. **渲染引擎未加载**：刷新页面重试
+
+    **解决方案**：
+    - 点击公式进入编辑模式，检查源码
+    - 查看是否有错误提示
+    - 尝试简化公式，逐步排查问题
+  </Accordion>
+
+  <Accordion title="如何在公式中显示美元符号 $？" icon="question">
+    美元符号是公式定界符，需要转义：
+
+    ```latex
+    $\$100$  # 显示：$100
+    ```
+
+    或者使用 `\text{}`：
+    ```latex
+    $\text{\$100}$
+    ```
+  </Accordion>
+
+  <Accordion title="行内公式太高，撑开了行距怎么办？" icon="question">
+    **解决方案**：
+
+    1. **使用 `\tfrac`** 代替 `\frac`：小尺寸分数
+       ```latex
+       $\tfrac{a}{b}$ 而不是 $\frac{a}{b}$
+       ```
+
+    2. **使用斜线分数**：`$a/b$`
+
+    3. **改用块级公式**：如果公式确实复杂，考虑改为块级显示
+  </Accordion>
+
+  <Accordion title="如何输入多行公式并对齐？" icon="question">
+    使用 `aligned` 环境（必须在块级公式中）：
+
+    ```latex
+    $$
+    \begin{aligned}
+    a + b &= c \\
+    d + e &= f
+    \end{aligned}
+    $$
+    ```
+
+    `&` 指定对齐点，`\\` 换行。
+  </Accordion>
+
+  <Accordion title="某些 LaTeX 命令不支持？" icon="question">
+    Zditor 使用 KaTeX 渲染引擎，支持大部分常用 LaTeX 命令，但不是全部。
+
+    **不支持的功能**：
+    - TikZ 图形
+    - 某些高级宏包
+    - 复杂的表格（建议用 Markdown 表格代替）
+
+    **查看支持列表**：
+    访问 [KaTeX 支持的函数列表](https://katex.org/docs/supported.html)
+  </Accordion>
+
+  <Accordion title="如何复制公式？" icon="question">
+    **方法 1：复制 LaTeX 源码**
+    - 点击公式进入编辑模式
+    - `Cmd/Ctrl + A` 全选
+    - `Cmd/Ctrl + C` 复制
+
+    **方法 2：复制整个公式节点**
+    - 选中公式（光标移到公式上）
+    - `Cmd/Ctrl + C` 复制
+    - 在其他位置粘贴
+
+    粘贴的公式保留 LaTeX 源码，可以继续编辑。
+  </Accordion>
+
+  <Accordion title="公式在导出的 PDF 中无法显示？" icon="question">
+    这取决于导出工具是否支持数学公式渲染。
+
+    **建议**：
+    - 使用支持 LaTeX 的 Markdown 导出工具
+    - 或在浏览器中打开 HTML 预览，然后"打印为 PDF"
+    - 确保导出时包含数学公式渲染库
+  </Accordion>
+</AccordionGroup>
+
+## 性能与最佳实践
+
+<Steps>
+  <Step title="避免过度使用">
+    数学公式渲染需要一定的计算资源，大量公式可能影响性能。合理使用，不要在不需要的地方使用公式。
+  </Step>
+
+  <Step title="行内公式保持简洁">
+    复杂的公式使用块级显示，保持行内公式简短，避免影响行高和阅读体验。
+  </Step>
+
+  <Step title="使用语义化命令">
+    使用 LaTeX 的语义化命令（如 `\sin`、`\log`）而不是手动输入斜体字母，这样渲染效果更好。
+  </Step>
+
+  <Step title="检查语法">
+    在保存文档前检查公式是否正确渲染，避免语法错误导致的显示问题。
+  </Step>
+
+  <Step title="利用代码片段">
+    将常用的公式保存为代码片段或模板，提高输入效率。
+  </Step>
+</Steps>
+
+## 学习资源
+
+<CardGroup cols={2}>
+  <Card title="KaTeX 文档" icon="book" href="https://katex.org/docs/supported.html">
+    查看完整的支持函数列表和语法说明
+  </Card>
+
+  <Card title="LaTeX 数学符号" icon="symbols" href="https://oeis.org/wiki/List_of_LaTeX_mathematical_symbols">
+    全面的 LaTeX 数学符号参考手册
+  </Card>
+
+  <Card title="在线公式编辑器" icon="pen-to-square" href="https://www.latexlive.com/">
+    在线实时预览 LaTeX 公式效果
+  </Card>
+
+  <Card title="快捷键指南" icon="keyboard" href="/zh/快捷键指南">
+    查看所有编辑器快捷键
+  </Card>
+</CardGroup>
+
+## 快捷键速查
+
+| 操作 | macOS | Windows/Linux |
+| --- | --- | --- |
+| 插入行内公式 | `Cmd + M` | `Ctrl + M` |
+| 插入块级公式 | `Cmd + Shift + M` | `Ctrl + Shift + M` |
+| 进入公式编辑 | `点击公式` 或 `Enter` | `点击公式` 或 `Enter` |
+| 退出公式编辑 | `Esc` | `Esc` |
+| 全选公式代码 | `Cmd + A` | `Ctrl + A` |
+
+## 总结
+
+Zditor 的数学公式功能强大而易用，支持完整的 LaTeX 语法和实时渲染。无论是撰写学术论文、技术文档，还是记录数学笔记，都能满足你的需求。
+
+<CardGroup cols={3}>
+  <Card title="两种模式" icon="list">
+    行内公式 `$...$`
+    块级公式 `$$...$$`
+  </Card>
+
+  <Card title="LaTeX 语法" icon="code">
+    支持完整的 LaTeX 数学命令和符号
+  </Card>
+
+  <Card title="所见即所得" icon="eye">
+    实时渲染，点击即可编辑源码
+  </Card>
+</CardGroup>
+
+## 反馈与建议
+
+<Note>
+  如果你在使用数学公式功能时遇到问题或有改进建议，欢迎通过以下方式反馈：
+
+  - 在 GitHub 上提交 Issue
+  - 在 Discord 社区讨论
+  - 发送邮件到支持团队
+
+  感谢使用 Zditor！
+</Note>

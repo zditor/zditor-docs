@@ -1,0 +1,810 @@
+---
+title: "文本标记使用指南"
+description: "掌握 Markdown 编辑器中的各种文本标记，让你的文档更加丰富多彩"
+---
+
+文本标记（Marks）是 Zditor Markdown 编辑器的核心功能之一，提供了丰富的文本格式化选项。通过简单的 Markdown 语法或快捷键，你可以快速为文本添加各种样式和功能。
+
+## 什么是文本标记？
+
+文本标记是应用于文本片段的格式化属性，不同于块级元素（如段落、标题），标记可以应用于行内的任意文本范围。Zditor 支持 7 种文本标记类型，每种都有其独特的用途和表现形式。
+
+<CardGroup cols={2}>
+  <Card title="所见即所得" icon="eye">
+    编辑时实时预览标记效果，无需切换视图
+  </Card>
+
+  <Card title="Markdown 兼容" icon="markdown">
+    完全兼容标准 Markdown 语法，支持导入导出
+  </Card>
+
+  <Card title="快捷键支持" icon="keyboard">
+    每种标记都有对应的快捷键，提升编辑效率
+  </Card>
+
+  <Card title="智能输入" icon="wand-magic-sparkles">
+    输入特定语法后自动转换为对应标记
+  </Card>
+</CardGroup>
+
+## 基础文本标记
+
+这些是最常用的文本格式化标记，适用于日常文档编写。
+
+### 粗体（Bold）
+
+使用粗体强调重要内容或关键词。
+
+<AccordionGroup>
+  <Accordion title="Markdown 语法" icon="code" defaultOpen>
+    使用双星号 `**` 包裹文本：
+
+    ```markdown
+    这是 **粗体文本** 的示例。
+    **整段文本都可以加粗。**
+    ```
+
+    **渲染效果**：
+
+    这是 **粗体文本** 的示例。
+  </Accordion>
+
+  <Accordion title="快捷键" icon="keyboard">
+    - **macOS**: `Cmd + B`
+    - **Windows/Linux**: `Ctrl + B`
+
+    选中文本后按快捷键可以切换粗体状态。
+  </Accordion>
+
+  <Accordion title="自动转换" icon="sparkles">
+    输入 `**文本**` 后按空格或回车，会自动转换为粗体标记。
+
+    **示例**：
+    ```
+    输入：**重要**[空格]
+    结果：重要 （以粗体显示）
+    ```
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  **使用建议**：
+  - 用于强调关键术语、重要概念
+  - 不要过度使用，否则会失去强调效果
+  - 可以与其他标记组合使用
+</Tip>
+
+### 斜体（Italic）
+
+使用斜体表示强调、外来词或特殊术语。
+
+<AccordionGroup>
+  <Accordion title="Markdown 语法" icon="code" defaultOpen>
+    使用单下划线 `_` 或单星号 `*` 包裹文本：
+
+    ```markdown
+    这是 _斜体文本_ 的示例。
+    也可以使用 *单星号* 创建斜体。
+    ```
+
+    **渲染效果**：
+
+    这是 _斜体文本_ 的示例。
+  </Accordion>
+
+  <Accordion title="快捷键" icon="keyboard">
+    - **macOS**: `Cmd + I`
+    - **Windows/Linux**: `Ctrl + I`
+
+    选中文本后按快捷键可以切换斜体状态。
+  </Accordion>
+
+  <Accordion title="自动转换规则" icon="sparkles">
+    为避免误触发（如变量名 `snake_case`），斜体的自动转换规则更严格：
+
+    **会转换**：
+    ```
+    _123_     → 斜体
+    (_one_    → 斜体
+    [_one_    → 斜体
+    ```
+
+    **不会转换**：
+    ```
+    __        → 保持原样
+    one_two   → 保持原样（变量名）
+    ONE_TWO   → 保持原样（常量名）
+    ```
+  </Accordion>
+</AccordionGroup>
+
+<Warning>
+  **注意**：在技术文档中，如果大量使用下划线命名（如 `file_name`），建议使用 `*星号*` 语法创建斜体，避免混淆。
+</Warning>
+
+### 删除线（Strikethrough）
+
+使用删除线表示已删除或不再有效的内容。
+
+<AccordionGroup>
+  <Accordion title="Markdown 语法" icon="code" defaultOpen>
+    使用单波浪号 `~` 包裹文本：
+
+    ```markdown
+    这是 ~已删除的文本~ 示例。
+    ~~双波浪号~~ 也支持。
+    ```
+
+    **渲染效果**：
+
+    这是 ~已删除的文本~ 示例。
+  </Accordion>
+
+  <Accordion title="快捷键" icon="keyboard">
+    - **macOS**: `Cmd + Shift + X`
+    - **Windows/Linux**: `Ctrl + Shift + X`
+
+    选中文本后按快捷键可以切换删除线状态。
+  </Accordion>
+
+  <Accordion title="使用场景" icon="lightbulb">
+    - 任务列表中标记已完成项目
+    - 文档修订时显示被删除的内容
+    - 价格调整时显示原价：~~$99~~ $79
+    - 勘误说明
+  </Accordion>
+</AccordionGroup>
+
+### 高亮（Highlight）
+
+使用高亮标记重要信息或需要特别注意的内容。
+
+<AccordionGroup>
+  <Accordion title="Markdown 语法" icon="code" defaultOpen>
+    使用双等号 `==` 包裹文本：
+
+    ```markdown
+    这是 ==高亮文本== 的示例。
+    ==整段重要内容都可以高亮==
+    ```
+
+    **渲染效果**：
+
+    这是 ==高亮文本== 的示例。
+  </Accordion>
+
+  <Accordion title="快捷键" icon="keyboard">
+    - **macOS**: `Cmd + Shift + H`
+    - **Windows/Linux**: `Ctrl + Shift + H`
+
+    选中文本后按快捷键可以切换高亮状态。
+  </Accordion>
+
+  <Accordion title="高级功能" icon="palette">
+    高亮标记支持自定义颜色（通过属性配置）：
+
+    - 默认为黄色背景
+    - 可以通过编辑器配置更改高亮颜色
+    - 适合创建彩色笔记或标注系统
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  **使用建议**：
+  - 用于标记关键定义、重要结论
+  - 阅读笔记中标记精华内容
+  - 学习材料中突出重点
+  - 不要过度高亮，保持简洁
+</Tip>
+
+## 功能性标记
+
+这些标记不仅改变文本外观，还提供额外的功能。
+
+### 行内代码（Code Inline）
+
+使用行内代码标记显示代码片段、命令、变量名等。
+
+<AccordionGroup>
+  <Accordion title="Markdown 语法" icon="code" defaultOpen>
+    使用反引号 `` ` `` 包裹文本：
+
+    ```markdown
+    使用 `npm install` 安装依赖。
+    变量 `userName` 存储用户名。
+    ```
+
+    **渲染效果**：
+
+    使用 `npm install` 安装依赖。
+  </Accordion>
+
+  <Accordion title="快捷键" icon="keyboard">
+    - **macOS**: `Cmd + E`
+    - **Windows/Linux**: `Ctrl + E`
+
+    选中文本后按快捷键可以切换行内代码状态。
+  </Accordion>
+
+  <Accordion title="智能输入" icon="wand-sparkles">
+    **方法 1：标准语法**
+
+    输入 `` `代码` `` 后按空格自动转换。
+
+    **方法 2：自动包裹**
+
+    当光标位于两个反引号之间时，输入的字符会自动应用代码标记：
+
+    ```
+    输入：`█`  （█ 表示光标）
+    输入字符：x
+    结果：`x`  （已应用代码标记）
+    ```
+
+    这个功能也支持粘贴：在两个反引号之间粘贴文本，会自动应用代码标记。
+  </Accordion>
+
+  <Accordion title="排他性规则" icon="ban">
+    **重要特性**：行内代码与所有其他标记**互斥**，即：
+
+    - 代码内不能包含粗体、斜体、链接等其他标记
+    - 应用代码标记会自动移除其他标记
+    - 这确保代码以纯文本形式显示，不受格式干扰
+
+    **示例**：
+    ```
+    **`代码`**  → 只保留代码标记
+    `**文本**`  → 显示为纯文本：**文本**
+    ```
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  **技术细节**：
+  - 代码标记会禁用拼写检查
+  - 使用等宽字体显示
+  - 保留所有空格和特殊字符
+  - 适合显示文件名、路径、命令、变量名
+</Note>
+
+### 链接（Link）
+
+创建可点击的超链接，连接到其他文件或网页。
+
+<AccordionGroup>
+  <Accordion title="Markdown 语法" icon="code" defaultOpen>
+    使用 `[链接文本](URL)` 格式：
+
+    ```markdown
+    访问 [Zditor 官网](https://zditor.com) 了解更多。
+    查看 [文档](./docs/guide.md) 获取帮助。
+    [带标题的链接](https://example.com "这是标题")
+    ```
+
+    **渲染效果**：
+
+    访问 [Zditor 官网](https://zditor.com) 了解更多。
+  </Accordion>
+
+  <Accordion title="自动转换" icon="sparkles">
+    输入完整的链接语法后，会自动转换为可点击的链接标记：
+
+    ```
+    输入：[文档](./guide.md)[空格]
+    结果：文档（显示为蓝色可点击链接）
+    ```
+
+    **注意**：链接语法不会与图片语法冲突，因为图片以 `!` 开头。
+  </Accordion>
+
+  <Accordion title="交互行为" icon="hand-pointer">
+    **编辑模式**：
+    - 点击链接会选中整个链接文本
+    - 可以编辑链接文本和 URL
+    - 右键菜单提供链接管理选项
+
+    **预览/只读模式**：
+    - 点击链接会触发跳转
+    - 支持悬停预览（显示目标内容）
+    - 外部链接在新标签页打开
+  </Accordion>
+
+  <Accordion title="链接类型" icon="link">
+    **外部链接**：
+    ```markdown
+    [Google](https://google.com)
+    ```
+
+    **相对路径链接**：
+    ```markdown
+    [文档](./docs/guide.md)
+    [上级目录](../index.md)
+    ```
+
+    **绝对路径链接**：
+    ```markdown
+    [配置文件](/config/settings.json)
+    ```
+
+    **带标题的链接**：
+    ```markdown
+    [Zditor](https://zditor.com "官方网站")
+    ```
+    悬停时会显示标题文本。
+  </Accordion>
+</AccordionGroup>
+
+<Warning>
+  **安全提示**：
+  - 所有外部链接会自动添加 `rel="noopener noreferrer nofollow"` 属性
+  - 这可以防止潜在的安全风险
+  - 内部链接不受影响
+</Warning>
+
+<Tip>
+  **知识图谱集成**：
+  - 链接是构建知识图谱的基础
+  - 每个链接会在图谱中显示为一条有向边
+  - 链接文本作为边的标签
+  - 参考[知识图谱使用指南](/zh/知识图谱)了解更多
+</Tip>
+
+### 修订标记（Revision）
+
+修订标记用于跟踪文档变更、标记审阅意见或添加协作批注。
+
+<AccordionGroup>
+  <Accordion title="基本用法" icon="pen-to-square" defaultOpen>
+    修订标记可以包含多种属性：
+
+    - **style**：视觉样式（颜色）
+    - **mode**：标记模式（修订、建议、批注等）
+    - **title**：标记标题
+    - **advice**：附加建议或说明
+
+    **示例**：
+    ```markdown
+    这是<span class="revision">需要修订</span>的文本。
+    ```
+  </Accordion>
+
+  <Accordion title="快捷键" icon="keyboard">
+    - **macOS**: `Cmd + Shift + R`
+    - **Windows/Linux**: `Ctrl + Shift + R`
+
+    选中文本后按快捷键可以添加修订标记。
+  </Accordion>
+
+  <Accordion title="交互行为" icon="mouse-pointer">
+    **点击修订标记**：
+    - 自动选中整个修订范围
+    - 显示修订详情（标题、建议等）
+    - 可以编辑或移除修订标记
+
+    **右键菜单**：
+    - 接受修订
+    - 拒绝修订
+    - 编辑修订属性
+    - 添加回复
+  </Accordion>
+
+  <Accordion title="使用场景" icon="lightbulb">
+    **文档审阅**：
+    - 标记需要改进的内容
+    - 添加审阅意见
+    - 跟踪修改历史
+
+    **协作写作**：
+    - 提出修改建议
+    - 标记争议内容
+    - 记录讨论要点
+
+    **内容校对**：
+    - 标记错误
+    - 建议替换文本
+    - 添加校对备注
+  </Accordion>
+
+  <Accordion title="样式选项" icon="palette">
+    修订标记支持多种颜色样式：
+
+    - **teal**（青色）- 默认
+    - **red**（红色）- 删除
+    - **green**（绿色）- 添加
+    - **yellow**（黄色）- 警告
+    - **blue**（蓝色）- 信息
+
+    可以根据修订类型选择合适的颜色。
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  **专业功能**：修订标记是 Zditor 的高级功能，特别适合：
+  - 技术写作团队
+  - 文档审阅流程
+  - 协作编辑场景
+  - 版本控制追踪
+</Note>
+
+## 标记组合使用
+
+多种标记可以组合使用，创造丰富的文本效果。
+
+### 基本组合规则
+
+<AccordionGroup>
+  <Accordion title="允许的组合" icon="layer-group" defaultOpen>
+    大多数标记可以自由组合：
+
+    ```markdown
+    **_粗体加斜体_**
+    **==粗体加高亮==**
+    _~斜体加删除线~_
+    [**粗体链接**](https://example.com)
+    ```
+
+    **渲染效果**：
+    - **_粗体加斜体_**
+    - **==粗体加高亮==**
+    - [**粗体链接**](https://example.com)
+  </Accordion>
+
+  <Accordion title="排他性规则" icon="ban">
+    **行内代码与其他标记互斥**：
+
+    ```markdown
+    `**这不是粗体**`  → 显示为纯文本
+    **`只保留代码`**   → 只应用代码标记
+    ```
+
+    这确保代码以纯文本形式显示，不受其他格式影响。
+  </Accordion>
+
+  <Accordion title="嵌套顺序" icon="arrows-down-to-line">
+    标记可以嵌套，但要注意顺序：
+
+    **正确**：
+    ```markdown
+    **_先粗体后斜体_**
+    _**也可以先斜体后粗体**_
+    ```
+
+    **错误**（嵌套不匹配）：
+    ```markdown
+    **_交叉嵌套**_  ❌
+    ```
+
+    保持嵌套的配对和顺序正确。
+  </Accordion>
+</AccordionGroup>
+
+### 实用组合示例
+
+<CardGroup cols={2}>
+  <Card title="强调 + 链接" icon="link">
+    ```markdown
+    **[重要文档](./important.md)**
+    _[参考链接](https://example.com)_
+    ```
+    让链接更醒目
+  </Card>
+
+  <Card title="高亮 + 粗体" icon="highlighter">
+    ```markdown
+    ==**关键结论**==
+    ```
+    最强调效果，适合标记核心内容
+  </Card>
+
+  <Card title="删除 + 修订" icon="pen-ruler">
+    ```markdown
+    ~旧内容~ <span class="revision">新内容</span>
+    ```
+    显示内容变更
+  </Card>
+
+  <Card title="多重强调" icon="stars">
+    ```markdown
+    **_==核心概念==_**
+    ```
+    组合多种标记（谨慎使用）
+  </Card>
+</CardGroup>
+
+<Warning>
+  **避免过度组合**：
+  - 组合过多标记会让文本难以阅读
+  - 一般最多组合 2-3 种标记
+  - 保持格式简洁，内容为王
+</Warning>
+
+## 快捷键速查表
+
+所有标记的快捷键汇总，方便快速查阅。
+
+### macOS
+
+| 标记 | 快捷键 | 说明 |
+| --- | --- | --- |
+| **粗体** | `Cmd + B` | 切换粗体 |
+| _斜体_ | `Cmd + I` | 切换斜体 |
+| ~删除线~ | `Cmd + Shift + X` | 切换删除线 |
+| ==高亮== | `Cmd + Shift + H` | 切换高亮 |
+| `代码` | `Cmd + E` | 切换行内代码 |
+| <span class="revision">修订</span> | `Cmd + Shift + R` | 添加修订标记 |
+
+### Windows / Linux
+
+| 标记 | 快捷键 | 说明 |
+| --- | --- | --- |
+| **粗体** | `Ctrl + B` | 切换粗体 |
+| _斜体_ | `Ctrl + I` | 切换斜体 |
+| ~删除线~ | `Ctrl + Shift + X` | 切换删除线 |
+| ==高亮== | `Ctrl + Shift + H` | 切换高亮 |
+| `代码` | `Ctrl + E` | 切换行内代码 |
+| <span class="revision">修订</span> | `Ctrl + Shift + R` | 添加修订标记 |
+
+<Tip>
+  **提示**：快捷键对选中的文本起作用。如果没有选中文本，会影响后续输入的文本。
+</Tip>
+
+## 输入规则速查表
+
+自动转换语法汇总，提高输入效率。
+
+| 标记 | 输入语法 | 示例 | 结果 |
+| --- | --- | --- | --- |
+| 粗体 | `**文本**` + 空格 | `**重要**` | **重要** |
+| 斜体 | `_文本_` + 空格 | `_强调_` | _强调_ |
+| 斜体 | `*文本*` + 空格 | `*注意*` | *注意* |
+| 删除线 | `~文本~` + 空格 | `~删除~` | ~删除~ |
+| 高亮 | `==文本==` + 空格 | `==重点==` | ==重点== |
+| 代码 | `` `文本` `` + 空格 | `` `code` `` | `code` |
+| 链接 | `[文本](URL)` + 空格 | `[链接](url)` | [链接](url) |
+
+<Note>
+  **自动转换时机**：
+  - 输入完语法后按**空格**触发
+  - 某些情况下按**回车**也会触发
+  - 可以在编辑器设置中禁用自动转换
+</Note>
+
+## 高级技巧
+
+<AccordionGroup>
+  <Accordion title="批量应用标记" icon="layer-group">
+    选中多个段落或大段文本，按快捷键可以批量应用标记：
+
+    1. 按住 `Shift` + 方向键选择多行
+    2. 按快捷键（如 `Cmd + B`）
+    3. 所有选中文本都会应用标记
+
+    **适用于**：
+    - 整理笔记时批量加粗关键词
+    - 标记整段代码
+    - 高亮多个重要段落
+  </Accordion>
+
+  <Accordion title="快速移除标记" icon="eraser">
+    **方法 1：再次按快捷键**
+
+    选中已标记的文本，再次按相同快捷键可以移除标记。
+
+    **方法 2：清除所有格式**
+
+    选中文本后，可以使用"清除格式"命令移除所有标记（如果编辑器提供）。
+
+    **方法 3：手动编辑 Markdown**
+
+    切换到源码视图，直接删除标记语法。
+  </Accordion>
+
+  <Accordion title="使用自定义样式" icon="palette">
+    某些标记支持自定义样式：
+
+    **高亮颜色**：
+    可以在编辑器配置中设置高亮的默认颜色。
+
+    **修订样式**：
+    修订标记支持多种颜色和模式，可以创建自己的审阅系统。
+
+    **链接样式**：
+    可以通过 CSS 自定义链接的显示效果。
+  </Accordion>
+
+  <Accordion title="键盘导航" icon="keyboard">
+    使用键盘在标记之间快速导航：
+
+    - `Cmd/Ctrl + 左/右方向键`：按词移动
+    - `Option/Alt + 左/右方向键`：跳过标记边界
+    - `Shift + 方向键`：扩展选区
+
+    熟练使用键盘可以大幅提升编辑效率。
+  </Accordion>
+
+  <Accordion title="标记与自动补全" icon="wand-magic">
+    在输入标记语法时，编辑器可能提供自动补全：
+
+    - 输入 `**` 后自动补全闭合 `**`
+    - 输入 `[` 后提示链接语法
+    - 输入 `` ` `` 后自动配对
+
+    利用自动补全可以减少输入错误。
+  </Accordion>
+</AccordionGroup>
+
+## 常见问题
+
+<AccordionGroup>
+  <Accordion title="为什么输入 _ 不会自动转换为斜体？" icon="question">
+    为了避免误触发（如 `snake_case` 变量名），斜体的自动转换规则较为严格。
+
+    **解决方案**：
+    - 使用 `*星号*` 语法创建斜体
+    - 确保 `_下划线_` 前后有空格或标点
+    - 手动选中文本后用快捷键 `Cmd/Ctrl + I` 应用斜体
+  </Accordion>
+
+  <Accordion title="如何在代码中显示格式化文本？" icon="question">
+    行内代码标记会显示纯文本，不会应用其他格式。如果需要在代码中显示格式：
+
+    **不可行**（代码内不支持格式）：
+    ```markdown
+    `**粗体代码**`  → 显示为：**粗体代码**（纯文本）
+    ```
+
+    **替代方案**：
+    - 使用代码块而非行内代码
+    - 在代码外添加说明和格式
+    - 使用注释说明重点
+  </Accordion>
+
+  <Accordion title="链接可以嵌套在其他标记中吗？" icon="question">
+    可以，链接可以与大多数标记组合：
+
+    ```markdown
+    **[粗体链接](url)**  ✅
+    _[斜体链接](url)_    ✅
+    `[代码链接](url)`    ❌（代码排他）
+    ```
+
+    代码标记除外，其他标记都可以与链接组合。
+  </Accordion>
+
+  <Accordion title="如何跨段落应用标记？" icon="question">
+    标记是行内元素，通常应用于段落内的文本。如果需要跨段落：
+
+    **分别标记每个段落**：
+    ```markdown
+    **第一段粗体**
+
+    **第二段也粗体**
+    ```
+
+    **或使用块级元素**：
+    某些情况下，使用引用块或自定义容器更合适。
+  </Accordion>
+
+  <Accordion title="修订标记的数据会保存在 Markdown 文件中吗？" icon="question">
+    是的，修订标记会以 HTML 格式保存在 Markdown 文件中：
+
+    ```markdown
+    这是<span class="revision" data-style="teal" data-mode="revision" title="标题">修订内容</span>。
+    ```
+
+    - 这是标准的 Markdown HTML 混合语法
+    - 可以在其他 Markdown 编辑器中查看（但可能失去样式）
+    - 导出为 HTML 时会保留完整功能
+  </Accordion>
+
+  <Accordion title="可以自定义快捷键吗？" icon="question">
+    取决于编辑器设置：
+
+    - 某些版本支持自定义快捷键
+    - 查看编辑器设置中的"快捷键"或"键绑定"选项
+    - 也可能需要修改配置文件
+
+    具体请参考编辑器文档或设置界面。
+  </Accordion>
+</AccordionGroup>
+
+## 最佳实践
+
+<Steps>
+  <Step title="保持格式简洁">
+    - 不要过度使用标记
+    - 一般一个文本片段最多 2-3 种标记
+    - 让内容本身说话，格式只是辅助
+  </Step>
+
+  <Step title="建立一致的使用规范">
+    - 粗体用于关键术语
+    - 斜体用于外来词和引用
+    - 高亮用于定义和核心结论
+    - 代码用于所有技术内容
+    - 在整个文档中保持一致
+  </Step>
+
+  <Step title="善用快捷键">
+    - 记住常用标记的快捷键
+    - 减少鼠标使用，提高效率
+    - 养成快捷键习惯
+  </Step>
+
+  <Step title="合理使用自动转换">
+    - 熟悉各种输入语法
+    - 利用自动转换提速
+    - 必要时禁用容易误触的规则
+  </Step>
+
+  <Step title="注意可读性">
+    - 标记应该增强而非干扰阅读
+    - 避免花哨组合
+    - 测试不同主题下的显示效果
+  </Step>
+</Steps>
+
+## 总结对比
+
+<CardGroup cols={2}>
+  <Card title="强调类标记" icon="text">
+    **粗体、斜体、高亮**
+    - 改变文本视觉效果
+    - 用于强调和区分
+    - 可以自由组合
+  </Card>
+
+  <Card title="语义类标记" icon="code">
+    **代码、链接、删除线**
+    - 携带语义信息
+    - 提供特定功能
+    - 有特殊交互行为
+  </Card>
+
+  <Card title="协作类标记" icon="users">
+    **修订标记**
+    - 支持团队协作
+    - 跟踪变更和意见
+    - 可配置多种样式
+  </Card>
+
+  <Card title="通用特性" icon="check">
+    **所有标记**
+    - Markdown 兼容
+    - 支持快捷键
+    - 所见即所得
+    - 可导入导出
+  </Card>
+</CardGroup>
+
+## 相关资源
+
+<CardGroup cols={2}>
+  <Card title="快捷键指南" icon="keyboard" href="/zh/快捷键指南">
+    查看完整的快捷键列表和编辑技巧
+  </Card>
+
+  <Card title="知识图谱" icon="diagram-project" href="/zh/知识图谱">
+    了解链接如何构建知识网络
+  </Card>
+
+  <Card title="Markdown 语法" icon="markdown">
+    深入了解 Markdown 语法规范
+  </Card>
+
+  <Card title="编辑器配置" icon="gear">
+    自定义编辑器行为和样式
+  </Card>
+</CardGroup>
+
+## 反馈与建议
+
+<Note>
+  如果你在使用文本标记功能时遇到问题或有改进建议，欢迎通过以下方式反馈：
+
+  - 在 GitHub 上提交 Issue
+  - 在 Discord 社区讨论
+  - 发送邮件到支持团队
+
+  感谢使用 Zditor！
+</Note>

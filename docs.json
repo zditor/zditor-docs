@@ -1,0 +1,77 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "ZDItor Docs",
+  "colors": {
+    "primary": "#7C3AED",
+    "light": "#A78BFA",
+    "dark": "#5B21B6"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "中文",
+        "groups": [
+          {
+            "group": "快速开始",
+            "pages": ["zh/快速开始/简介"]
+          },
+          {
+            "group": "核心功能",
+            "pages": ["zh/文件树", "zh/知识图谱", "zh/文本标记", "zh/数学公式", "zh/脚注", "zh/SuperTag", "zh/Frontmatter", "zh/快捷键指南", "zh/Agent智能体使用指南", "zh/MCP服务使用指南", "zh/配置与日志路径"]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Documentation",
+          "href": "https://zditor.com",
+          "icon": "book-open-cover"
+        },
+        {
+          "anchor": "Github",
+          "href": "https://github.com/zditor/zditor-docs",
+          "icon": "github"
+        }
+      ]
+    }
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "反馈",
+        "href": "https://github.com/zditor/zditor-docs/issues"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "下载 ZDItor",
+      "href": "https://zditor.com"
+    }
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "mcp",
+      "cursor",
+      "vscode"
+    ]
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/zditor/zditor-docs",
+      "website": "https://zditor.com"
+    }
+  }
+}

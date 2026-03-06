@@ -1,0 +1,198 @@
+---
+title: "Frontmatter 使用指南"
+description: "使用 YAML Frontmatter 为文档添加结构化元数据，支持多种字段类型和可视化编辑"
+---
+
+Frontmatter 是文档顶部的 YAML 元数据区域，用于为 Markdown 文件添加结构化属性。Zditor 提供了可视化的表格编辑界面，让你无需手写 YAML 即可管理文档元数据。
+
+## 功能概览
+
+<CardGroup cols={2}>
+  <Card title="可视化编辑" icon="table">
+    表格式界面直接编辑字段，无需手写 YAML
+  </Card>
+
+  <Card title="11 种字段类型" icon="list-check">
+    文本、数字、日期、复选框、进度条、选择器等
+  </Card>
+
+  <Card title="封面图片" icon="image">
+    支持设置文档封面图，提供冷暖两种主题风格
+  </Card>
+
+  <Card title="数据库联动" icon="database">
+    通过 `class` 字段与 SuperTag 表格系统联动
+  </Card>
+</CardGroup>
+
+## 基本语法
+
+Frontmatter 位于文档最顶部，使用 `---` 分隔符包裹 YAML 内容：
+
+```yaml
+---
+title: "我的文档"
+date: 2024-01-15
+tags: [技术, 笔记]
+draft: true
+---
+
+正文内容从这里开始...
+```
+
+Zditor 支持两种 Frontmatter 书写格式：
+
+<AccordionGroup>
+  <Accordion title="简写格式" icon="bolt" defaultOpen>
+    直接写键值对，编辑器自动推断字段类型：
+
+    ```yaml
+    ---
+    title: "文档标题"
+    count: 42
+    done: true
+    tags: [标签1, 标签2]
+    ---
+    ```
+
+    **自动推断规则**：
+    - 数组 `[a, b]` → array 类型
+    - `true` / `false` → checkbox 类型
+    - 数字 → number 类型
+    - 其他字符串 → text 类型
+  </Accordion>
+
+  <Accordion title="完整格式" icon="sliders">
+    显式定义字段的类型、标签、描述等属性：
+
+    ```yaml
+    ---
+    status:
+      type: select
+      label: "状态"
+      description: "当前文档状态"
+      value: "进行中"
+      options: [待办, 进行中, 已完成]
+    priority:
+      type: number
+      label: "优先级"
+      value: 3
+      default: 1
+    ---
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## 字段类型
+
+Zditor 支持 11 种字段类型：
+
+| 类型 | 说明 | 值示例 |
+|------|------|--------|
+| `text` | 文本字符串 | `"Hello"` |
+| `number` | 数字 | `42` |
+| `checkbox` | 布尔值 | `true` / `false` |
+| `date` | 日期 | `2024-01-15` |
+| `datetime` | 日期时间 | `2024-01-15T10:30:00` |
+| `time` | 时间 | `10:30` |
+| `array` | 字符串数组 | `[标签1, 标签2]` |
+| `select` | 单选 | `"选项A"` |
+| `multiselect` | 多选 | `[选项A, 选项B]` |
+| `progress` | 进度（0-100） | `75` |
+| `asset` | 文件路径或 URL | `"cover.png"` |
+
+## 可视化编辑
+
+Zditor 提供表格式的 Frontmatter 编辑界面，无需手写 YAML。
+
+### 表格编辑器
+
+当文档包含 Frontmatter 时，编辑器顶部会显示可视化表格，包含以下列：
+
+- **Property** — 字段名称（点击可重命名）
+- **Type** — 字段类型（下拉选择）
+- **Value** — 当前值（根据类型提供对应的编辑器）
+- **Label** — 显示标签
+- **Description** — 字段描述
+- **Default** — 默认值
+- **Options** — 选项列表（仅 select/multiselect）
+
+### 添加字段
+
+<AccordionGroup>
+  <Accordion title="添加自定义字段" icon="plus" defaultOpen>
+    点击表格底部的 `+` 按钮，创建一个新的文本字段，然后修改名称和类型。
+  </Accordion>
+
+  <Accordion title="添加预定义字段" icon="ellipsis">
+    点击 `⋯` 更多菜单，可快速添加常用字段：
+
+    **结构字段**：
+    - `row` — 行布局显示的字段列表
+    - `col` — 列布局显示的字段列表
+
+    **元数据字段**：
+    - `favorite` — 收藏标记
+    - `warm` — 冷暖主题切换
+    - `display` — 是否显示属性面板
+    - `cover` — 封面图片
+    - `template` — 模板标记
+  </Accordion>
+</AccordionGroup>
+
+## 封面图片
+
+通过 `cover` 字段可以为文档设置封面图片。
+
+<Steps>
+  <Step title="添加 cover 字段">
+    在 Frontmatter 中添加 `cover` 字段，类型为 `asset`。
+  </Step>
+  <Step title="选择图片">
+    点击 cover 字段值，打开图片选择器，支持三种方式：
+    - **上传**：拖拽或选择本地文件
+    - **图库**：搜索工作区中的图片
+    - **链接**：输入外部图片 URL
+  </Step>
+  <Step title="调整主题">
+    封面图片上方的工具栏可以切换冷暖主题：
+    - **暖色主题**：浅色半透明背景，深色文字
+    - **冷色主题**：深色半透明背景，白色文字
+  </Step>
+</Steps>
+
+## 特殊字段
+
+以下字段在 Zditor 中具有特殊含义：
+
+| 字段 | 说明 |
+|------|------|
+| `class` | 文件所属的表格/分类名称，与 SuperTag 系统联动 |
+| `field` | 表格的字段定义（数组），用于定义表格 Schema |
+| `row` | 行布局中显示的字段列表 |
+| `col` | 列布局中显示的字段列表 |
+| `cover` | 封面图片路径 |
+| `warm` | 封面主题，`true` 为暖色，`false` 为冷色 |
+| `display` | 是否显示属性面板 |
+| `favorite` | 收藏标记 |
+| `template` | 模板标记 |
+
+## 常见问题
+
+<AccordionGroup>
+  <Accordion title="Frontmatter 会显示在文档正文中吗？">
+    不会。Frontmatter 与正文内容分开管理，仅在编辑器顶部的可视化面板中显示。
+  </Accordion>
+
+  <Accordion title="如何导出 Frontmatter 数据？">
+    在表格编辑器的更多菜单中，选择「导出 CSV」即可将当前文档的 Frontmatter 导出为 CSV 格式。
+  </Accordion>
+
+  <Accordion title="简写格式和完整格式可以混用吗？">
+    可以。编辑器会自动识别两种格式，简写格式的字段会根据值自动推断类型。
+  </Accordion>
+
+  <Accordion title="如何删除所有 Frontmatter？">
+    在封面图片工具栏中点击删除按钮，或手动删除 `---` 之间的所有内容。
+  </Accordion>
+</AccordionGroup>

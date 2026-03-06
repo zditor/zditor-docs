@@ -1,0 +1,144 @@
+---
+title: "MCP 服务使用指南"
+description: "在 Zditor 中接入和使用 MCP 服务，扩展 Agent 的工具能力"
+icon: "server"
+---
+
+MCP（Model Context Protocol）可以理解为 Agent 的外部工具接口。通过接入 MCP 服务，Agent 可以在对话中调用更多能力，例如检索知识库、读取外部系统数据、执行特定工作流等。
+
+<Warning>
+  **安全提醒**：请仅连接可信来源的 MCP 服务。MCP 可能涉及文件、网络或第三方系统访问权限。
+</Warning>
+
+## 支持类型与兼容性
+
+Zditor 的 MCP 支持三种传输类型：
+
+- `stdio`
+- `http`
+- `sse`
+
+<Tip>
+  **是否可用以 Agent 能力为准**：具体某个 Agent 能否使用上述类型，需要在 **Agent 配置页面**点击 **Test Connection** 查看能力检测结果。
+</Tip>
+
+## Zditor 内置 MCP 服务
+
+Zditor 内置了官方 MCP 服务，当前已支持约 15 个工具能力，后续会持续增加。你可以在会话里直接让 Agent 调用这些工具完成任务。
+
+| 工具 | 功能说明 | 使用场景 |
+| :--- | :--- | :--- |
+| `list_supertag_classes` | 列出工作区中所有 SuperTag 类 | 想先了解当前项目有哪些结构化类型，再决定要分析哪个类 |
+| `get_supertag_schema` | 获取 SuperTag 项目的完整 schema 定义 | 需要让 Agent 按 schema 约束生成或修复结构化记录 |
+| `get_supertag_info` | 列出某个 SuperTag 类的所有文件及 schema 状态 | 排查某个类下哪些文件已合规、哪些文件有状态异常 |
+| `audit_supertag_class` | 审查 SuperTag 类的所有记录文件，检测字段缺失/类型冲突等问题 | 做批量质量检查，输出可修复的问题清单 |
+| `read_file_frontmatter` | 读取并解析 Markdown 文件的 frontmatter | 批量抽取元信息，或在迁移前检查 frontmatter 完整性 |
+| `list_agent_sessions` | 列出历史 Agent 会话 | 需要找到可复用的旧任务会话（如上周的需求分析） |
+| `get_agent_session_context` | 获取指定会话的历史上下文 | 把旧 session 加载为当前上下文，让 Agent 延续之前的工作 |
+| `generate_image` | 使用 Gemini API 生成或编辑图片 | 文档配图、封面图生成，或基于已有图像进行编辑 |
+| `upload_image` | 上传本地图片到远程图床（GitHub 或 S3） | 将本地图直接转为可分享链接，便于文档引用 |
+| `list_remote_images` | 列出远程图床上的图片 | 盘点图床资源，查找可复用图片或清理前确认文件 |
+| `delete_remote_image` | 删除远程图床上的图片 | 删除误传或过期图片，保持图床整洁 |
+| `list_image_hosting_configs` | 列出所有图床配置 | 确认当前可用图床和配置名称，避免上传到错误仓库/桶 |
+| `open_file` | 在 Zditor 中打开指定文件（支持 `left` / `right` 位置） | 让 Agent 定位到目标文档并在左右分栏对照编辑 |
+| `get_open_tabs` | 获取当前所有打开的标签页 | 多文件协作时让 Agent 感知当前工作集并减少误操作 |
+| `hello_world` | 返回带时间戳的问候消息 | 快速测试内置 MCP 服务是否已连接可用 |
+| `get_ai_api_info` | 获取内置 AI API 服务信息和可用工具列表（后续推出） | 该服务上线后可用于环境自检，确认当前模型与工具能力是否齐全 |
+
+## 什么时候需要 MCP
+
+如果你的任务只需要纯文本问答，通常不需要 MCP。
+
+以下场景建议启用 MCP：
+
+- 需要访问外部数据源（文档库、API、业务系统）
+- 需要让 Agent 使用特定工具链完成任务
+- 需要在多轮任务中复用同一套外部能力
+
+## 使用流程（推荐）
+
+在 Zditor 中，推荐按下面顺序操作：
+
+1. **选模型**：先确定本次任务使用的模型
+2. **选 MCP**：只勾选当前任务必须的 MCP 服务
+3. **Slash Command**：用 `/` 命令触发结构化操作
+4. **Mode**：按风险选择 `ask` 或 `bypass`
+
+<Tip>
+  详细的 Agent 整体流程可参考 [Agent 智能体使用指南](/zh/Agent智能体使用指南)。
+</Tip>
+
+## 如何接入 MCP
+
+### 1. 准备 MCP 服务
+
+先确认你要接入的 MCP 服务可用，并准备好其连接信息（例如地址、鉴权参数或启动命令）。
+
+### 2. 在 Agent 中启用 MCP
+
+1. 打开 Agent 会话
+2. 进入 MCP 选择器或 MCP 面板
+3. 勾选需要的 MCP 服务
+4. 返回对话并发起任务
+
+![MCP配置界面](https://download.zditor.com/newweb/mcp_config.png)
+
+### 3. 图片生成 API 配置（`generate_image`）
+
+若要使用 `generate_image`，需要先在对应配置项中填写图片生成 API 参数：
+
+- `url`：图片生成服务地址
+- `key`：图片生成服务 API Key
+- `model`：图片生成模型名称
+
+![图片生成配置](https://download.zditor.com/newweb/image_gen_config.png)
+
+### 4. 验证是否生效
+
+你可以让 Agent 先执行一个最小动作来验证 MCP 是否已接通，例如：
+
+```text
+请先列出你当前可用的 MCP 工具，并说明每个工具的用途。
+```
+
+如果返回了可用工具列表，说明 MCP 已正常接入。
+
+## 多 MCP 协作建议
+
+- 任务开始前先明确目标，避免一次性启用过多 MCP
+- 将不同职责拆分给不同 MCP（检索、执行、写入）
+- 对高风险操作使用 `ask` 模式，逐步确认再执行
+
+## 权限与安全
+
+### 最小权限原则
+
+- 只启用当前任务需要的 MCP
+- 任务结束后可关闭不再使用的 MCP
+- 避免给不可信 MCP 长期权限
+
+### 敏感信息处理
+
+- 不在提示词里直接粘贴长期有效密钥
+- 优先使用临时凭据或受限权限账号
+- 定期轮换第三方系统密钥
+
+## 常见问题
+
+### MCP 连接后没有可用工具
+
+- 检查 MCP 服务本身是否正常运行
+- 检查当前 Agent 会话是否已经勾选该 MCP
+- 重新发起会话后再测试一次最小动作
+
+### 启用多个 MCP 后响应变慢
+
+- 减少同时启用的 MCP 数量
+- 只保留当前任务必需的服务
+- 将复杂任务拆分为多个阶段执行
+
+### Agent 调用了不希望使用的工具
+
+- 缩小 MCP 启用范围
+- 在提示词中明确“仅允许使用哪些工具”
+- 对关键操作切换为 `ask` 模式

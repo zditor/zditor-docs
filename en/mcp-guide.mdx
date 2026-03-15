@@ -1,0 +1,144 @@
+---
+title: "MCP Guide"
+description: "Connect and use MCP services in Zditor to extend Agent tool capability."
+icon: "server"
+---
+
+MCP, or Model Context Protocol, acts like an external tool interface for Agent. Once connected, Agent can call additional tools during a conversation, such as knowledge retrieval, external system access, and workflow execution.
+
+<Warning>
+  Connect only trusted MCP services. An MCP server may request access to files, networks, or third-party systems.
+</Warning>
+
+## Supported transport types
+
+Zditor supports three MCP transport modes:
+
+- `stdio`
+- `http`
+- `sse`
+
+<Tip>
+  Actual availability depends on the connected Agent implementation. Use **Test Connection** on the Agent configuration page to see which MCP transport types the current Agent supports.
+</Tip>
+
+## Built-in Zditor MCP service
+
+Zditor ships with an official MCP service that already exposes roughly fifteen tools, with more planned over time.
+
+| Tool | What it does | Common use case |
+| :--- | :--- | :--- |
+| `list_supertag_classes` | List all SuperTag classes in the workspace | Discover the structured datasets available in the current project |
+| `get_supertag_schema` | Return the full schema for a SuperTag class | Generate or fix structured records against the expected schema |
+| `get_supertag_info` | List all files and schema status for one SuperTag class | Audit which files are compliant and which ones have schema issues |
+| `audit_supertag_class` | Check every record file in a class for missing fields or type conflicts | Run a quality check before a bulk update |
+| `read_file_frontmatter` | Read and parse Frontmatter from a Markdown file | Extract metadata or verify migration readiness |
+| `list_agent_sessions` | List historical Agent sessions | Find an older session to reuse as context |
+| `get_agent_session_context` | Load historical context for a given session | Continue a previous multi-step task |
+| `generate_image` | Generate or edit images through a Gemini-based API | Create document illustrations or cover images |
+| `upload_image` | Upload a local image to GitHub or S3 hosting | Turn a local file into a shareable document URL |
+| `list_remote_images` | List files on the configured image host | Review existing assets before reuse or cleanup |
+| `delete_remote_image` | Delete an image from the remote host | Remove mistaken or expired uploads |
+| `list_image_hosting_configs` | List configured image hosting targets | Verify the correct destination before upload |
+| `open_file` | Open a file in Zditor on the left or right side | Jump Agent directly to the document that needs editing |
+| `get_open_tabs` | Return all currently open tabs | Help Agent understand the current working set |
+| `hello_world` | Return a timestamped greeting | Verify that the built-in MCP service is connected |
+| `get_ai_api_info` | Return AI API service info and available tools | Planned environment self-check and capability overview |
+
+## When you need MCP
+
+If your task is only plain text Q and A, you usually do not need MCP.
+
+Enable MCP when you need:
+
+- External data sources such as APIs, knowledge bases, or business systems
+- Specific toolchains during an Agent workflow
+- Repeatable external capabilities across multiple steps or sessions
+
+## Recommended workflow
+
+Use MCP in this order inside Zditor:
+
+1. **Choose a model**
+2. **Enable only the MCP services required for the current task**
+3. **Use slash commands when you want a structured action**
+4. **Choose `ask` or `bypass` based on risk**
+
+<Tip>
+  For the complete Agent workflow, see the [Agent Guide](/en/agent-guide).
+</Tip>
+
+## Connect MCP
+
+### 1. Prepare the MCP service
+
+Make sure the target MCP service is available and that you have its connection details, such as an address, auth parameters, or startup command.
+
+### 2. Enable MCP in Agent
+
+1. Open an Agent session
+2. Open the MCP selector or MCP panel
+3. Check the MCP services you want
+4. Return to the chat and start the task
+
+![MCP configuration panel](https://download.zditor.com/newweb/mcp_config.png)
+
+### 3. Configure image generation for `generate_image`
+
+If you want to use `generate_image`, fill in the related API settings first:
+
+- `url` for the image generation endpoint
+- `key` for the API key
+- `model` for the model name
+
+![Image generation configuration](https://download.zditor.com/newweb/image_gen_config.png)
+
+### 4. Verify the connection
+
+Ask Agent to perform a minimal check, such as:
+
+```text
+Please list the MCP tools currently available to you and explain what each tool is for.
+```
+
+If the response includes the tool list, the MCP service is connected correctly.
+
+## Tips for using multiple MCP services
+
+- Define the goal before enabling services
+- Split responsibilities across services, such as retrieval, execution, and writing
+- Use `ask` mode for higher-risk operations
+
+## Permissions and safety
+
+### Least privilege
+
+- Enable only the MCP services needed for the current task
+- Disable services after the task if you no longer need them
+- Avoid long-lived access for untrusted services
+
+### Sensitive data handling
+
+- Do not paste long-lived secrets directly into prompts
+- Prefer short-lived credentials or limited-scope accounts
+- Rotate third-party credentials regularly
+
+## FAQ
+
+### MCP connects but no tools are available
+
+- Verify that the MCP service itself is healthy
+- Confirm the MCP service is checked in the current Agent session
+- Start a fresh session and retry a minimal test action
+
+### Responses become slow after enabling multiple MCP services
+
+- Reduce the number of enabled MCP services
+- Keep only the services the current task truly needs
+- Split the work into phases instead of one large run
+
+### Agent called a tool I did not want it to use
+
+- Narrow the enabled MCP set
+- State explicitly in the prompt which tools are allowed
+- Switch important operations to `ask` mode

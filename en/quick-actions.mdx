@@ -1,0 +1,300 @@
+---
+title: "Quick Actions"
+description: "Learn the most frequent workflows in Zditor: drag and drop, shortcuts, trigger menus, and toolbars."
+icon: "bolt"
+---
+
+This page collects the highest-frequency interactions in Zditor. If you are just getting started, read this page first and then move into the more detailed feature guides.
+
+## Overview
+
+<CardGroup cols={2}>
+  <Card title="Drag and drop" icon="arrows-up-down-left-right">
+    Reorder content, move files, and bring resources into Markdown quickly.
+  </Card>
+
+  <Card title="Keyboard shortcuts" icon="keyboard">
+    Use the keyboard for saving, formatting, structure changes, and navigation.
+  </Card>
+
+  <Card title="Trigger menus" icon="terminal">
+    Use `/`, `@`, `#`, and `:` to open structured menus instead of typing everything manually.
+  </Card>
+
+  <Card title="Toolbars" icon="wand-magic-sparkles">
+    Work with context-sensitive floating toolbars that change with the current selection.
+  </Card>
+</CardGroup>
+
+## Drag and Drop
+
+### Video demo
+
+<Frame>
+  <video
+    controls
+    style={{ width: '100%', height: '500px', borderRadius: '0.5rem' }}
+    src="https://download.zditor.com/newweb/drag_drop.mov"
+  >
+    Your browser does not support the video tag.
+  </video>
+</Frame>
+
+### Five drag-and-drop patterns
+
+ZDItor supports more than one drag-and-drop workflow.
+
+#### 1. Dragging inside the file tree
+
+Files and folders in the left file tree can be dragged inside the tree to change their location in the workspace.
+
+This is useful for:
+
+- Reorganizing folders
+- Moving files into another directory
+- Cleaning up workspace structure
+
+#### 2. Dragging from the file tree into a Markdown document
+
+Files from the left file tree can be dragged directly into a Markdown document.
+
+By default, the dropped file is inserted as an **attachment node**. After insertion, you can click that node to open its toolbar and convert it into a more suitable node type, such as:
+
+- An image node
+- A video node
+- Another display type that better matches the file
+
+This is useful when you want to insert first and decide the final presentation after that.
+
+#### 3. Dragging external files into a Markdown document
+
+You can drag files from the system file manager directly into a Markdown document.
+
+ZDItor inserts them according to file type:
+
+- Image files -> image nodes
+- Video files -> video nodes
+- Other files -> attachment nodes
+
+This is the fastest way to bring local assets into notes or documents.
+
+#### 4. Dragging nodes across Markdown documents
+
+You can drag nodes between different Markdown documents, such as between left and right split panes.
+
+Across documents, the default behavior is **copy**, meaning the target document receives a copy while the original stays in the source document.
+
+This is useful for:
+
+- Moving draft content into a formal document
+- Reusing blocks between split panes
+- Reorganizing content across several notes
+
+#### 5. Dragging inside the same document
+
+Inside a single document, block-level content can be dragged to a new position without cutting and pasting.
+
+Within the same document, the default behavior is **move**.
+
+This is useful for:
+
+- Reordering paragraphs
+- Restructuring sections
+- Moving text, images, or code blocks into a better location
+
+### Drag handles inside the editor
+
+When you hover near block content in the editor, ZDItor shows a drag handle. Dragging this handle reorders the block directly.
+
+Common node types generally support drag and drop, including:
+
+- Paragraphs
+- Headings
+- Lists
+- Images
+- Videos
+- Code
+- Attachments
+- Admonitions
+- Tables
+
+<Warning>
+  **Drag-and-drop feedback**
+
+  If you find a node type that does not drag correctly, such as:
+
+  - It cannot be dragged
+  - It drops into the wrong position
+  - Its content becomes abnormal after dropping
+
+  file a bug report and we can continue fixing gaps.
+</Warning>
+
+### Where drag handles usually appear
+
+Drag handles do not always appear on the same side:
+
+- **Left side**: common for paragraphs and similar block content
+- **Right side**: common for some nodes such as lists, videos, and images
+
+<Tip>
+  The core value of drag and drop is structural editing. It is much faster than cut and paste when you are reorganizing long notes, drafts, or outlines.
+</Tip>
+
+### Related note
+
+If you want more detail about file-level drag operations in the sidebar, continue with the [File Tree Guide](/en/file-tree).
+
+## Keyboard shortcuts
+
+Keyboard shortcuts are one of the fastest ways to improve editing speed in Zditor.
+
+Common scenarios include:
+
+- Saving the document
+- Searching content
+- Setting heading levels
+- Toggling bold, italic, highlight, and inline code
+- Creating lists, blockquotes, tables, code blocks, and math
+
+### A small set of high-value shortcuts
+
+| Shortcut | Action |
+| --- | --- |
+| `Mod-K` | Open search |
+| `Mod-S` | Save the current document |
+| `Mod-B` | Toggle bold |
+| `Mod-I` | Toggle italic |
+| `Mod-H` | Toggle highlight |
+| `Mod-Shift-C` | Toggle inline code |
+| `Mod-1` to `Mod-6` | Set heading level |
+| `Mod-Shift-8` | Toggle bullet list |
+| `Mod-Shift-7` | Toggle ordered list |
+| `Mod-Shift-9` | Toggle checkbox list |
+| `Mod-Shift-\`` | Toggle code block |
+| `Mod-T` | Create a table |
+
+<Warning>
+  `Mod` means:
+  <ul>
+    <li><strong>macOS</strong>: `Command`</li>
+    <li><strong>Windows / Linux</strong>: `Ctrl`</li>
+  </ul>
+</Warning>
+
+### When shortcuts help most
+
+Shortcuts are especially useful when:
+
+- You already know which formatting or structure you want
+- You do not want to break flow by reaching for the mouse
+- You are repeating the same operation many times
+
+For the full list, see [Keyboard Shortcuts](/en/keyboard-shortcuts).
+
+## Trigger menus
+
+Trigger menus are the fastest way to open structured actions from the keyboard.
+
+### `/` command menu
+
+In supported inputs, typing `/` opens a command menu. You can continue typing to filter the list and insert the selected command into the input field.
+
+The source of the list depends on the mode:
+
+- **Chat mode**: reusable prompt-style commands
+- **Agent mode**: commands exposed by the current Agent session
+
+This helps you:
+
+- Avoid repetitive typing
+- Discover available commands quickly
+- Use more structured workflows
+
+### Other trigger menus in the editor
+
+Besides `/`, the editor also exposes several common trigger menus:
+
+- `@`: reference workspace resources such as Markdown and PDF files
+- `#`: insert or create SuperTag items
+- `:`: open the emoji toolbar or emoji suggestion menu
+
+<Tip>
+  If you rely on repeated editor or AI actions often, trigger menus are usually faster and more stable than rewriting the same intent every time.
+</Tip>
+
+## Toolbars
+
+ZDItor does not rely on one fixed toolbar. Instead, it shows context-sensitive toolbars based on what you selected.
+
+### Selection toolbars
+
+When you select text or a node, the editor can show a matching toolbar, for example:
+
+- Text formatting toolbar
+- Link toolbar
+- Image toolbar
+- Footnote toolbar
+- Table toolbar
+- SuperTag toolbar
+- PDF card toolbar
+- Code toolbar
+- Attachment toolbar
+
+That means you often do not have to remember all syntax in advance. A common pattern is:
+
+1. Select the content first
+2. Use the toolbar to apply or adjust the action
+
+### Toolbar behavior
+
+<AccordionGroup>
+  <Accordion title="Changes with the selected object" icon="arrows-rotate" defaultOpen>
+    Different objects show different toolbars. Text shows formatting tools, images show image tools, and PDF cards show a PDF-card-specific toolbar.
+  </Accordion>
+
+  <Accordion title="Can open secondary floating panels" icon="layer-group">
+    Some toolbar buttons open a second floating panel for more specific options or targets.
+  </Accordion>
+
+  <Accordion title="Supports in-place editing" icon="pen-to-square">
+    Toolbars appear near the selected content so you can keep your eyes close to the editing context.
+  </Accordion>
+</AccordionGroup>
+
+### When toolbars help most
+
+Toolbars are usually better when:
+
+- You know which content to edit, but do not want to remember syntax
+- You want to see the possible actions before deciding
+- You are working with visual nodes such as images, attachments, PDF cards, or SuperTags
+
+## Recommended onboarding order
+
+If you are just starting with Zditor, a practical sequence is:
+
+1. Learn drag and drop for structural editing
+2. Memorize a small set of high-value keyboard shortcuts
+3. Start using `/`, `@`, `#`, and `:` trigger menus
+4. Get comfortable with object-specific toolbars during real writing
+
+## Related guides
+
+<CardGroup cols={2}>
+  <Card title="Keyboard Shortcuts" icon="keyboard" href="/en/keyboard-shortcuts">
+    Open the full shortcut reference.
+  </Card>
+
+  <Card title="File Tree" icon="folder-tree" href="/en/file-tree">
+    Learn file-level drag and organization workflows.
+  </Card>
+
+  <Card title="SuperTag" icon="hashtag" href="/en/supertag">
+    Learn the `#` trigger workflow and structured references.
+  </Card>
+
+  <Card title="PDF Annotations" icon="file-text" href="/en/pdf-annotations">
+    Review PDF cards, PDF annotations, and related workflows.
+  </Card>
+</CardGroup>

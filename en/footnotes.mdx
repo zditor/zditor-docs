@@ -1,0 +1,133 @@
+---
+title: "Footnotes Guide"
+description: "Add numbered footnotes to Markdown documents without breaking reading flow."
+---
+
+Zditor supports standard Markdown footnote syntax, so you can add references, notes, and supporting details without interrupting the main text.
+
+## Overview
+
+<CardGroup cols={2}>
+  <Card title="Standard syntax" icon="hashtag">
+    Use standard Markdown footnote references such as `[^1]`.
+  </Card>
+
+  <Card title="Bottom summary" icon="list-ol">
+    All footnotes are collected automatically at the end of the document.
+  </Card>
+
+  <Card title="Floating editor" icon="pen-to-square">
+    Click a footnote reference to review or edit the matching content quickly.
+  </Card>
+
+  <Card title="Synced updates" icon="arrows-rotate">
+    Repeated references with the same label always share the same content.
+  </Card>
+</CardGroup>
+
+## Create footnotes
+
+<AccordionGroup>
+  <Accordion title="Markdown syntax" icon="code" defaultOpen>
+    Insert a footnote reference such as:
+
+    ```markdown
+    This paragraph has a footnote[^1], and it can have another one[^2].
+    ```
+
+    After you enter `[^1]`, Zditor converts it into a superscript-style footnote reference.
+  </Accordion>
+
+  <Accordion title="Auto-conversion rules" icon="sparkles">
+    Footnotes convert automatically when you type `[^` + number + `]`.
+
+    **Notes**
+    - Only numeric labels are supported, such as `[^1]` and `[^2]`
+    - The same numeric label always points to the same footnote content
+  </Accordion>
+</AccordionGroup>
+
+## Edit footnote content
+
+Footnotes start with empty content. You can edit them in two ways.
+
+### Edit from the floating toolbar
+
+<Steps>
+  <Step title="Select a reference">
+    Click a footnote reference in the document, such as `[1]`.
+  </Step>
+  <Step title="Open the editor">
+    The floating toolbar shows the label and current content. Click the edit button to enter editing mode.
+  </Step>
+  <Step title="Save or cancel">
+    Press `Enter` to save the new content or `Esc` to cancel.
+  </Step>
+</Steps>
+
+### Edit from the bottom list
+
+<Steps>
+  <Step title="Scroll to the bottom">
+    When a document contains footnotes, Zditor renders a footnote list below the main body.
+  </Step>
+  <Step title="Click the content">
+    Click a footnote entry to edit it inline.
+  </Step>
+  <Step title="Save changes">
+    Press `Enter` or click elsewhere to save.
+  </Step>
+</Steps>
+
+<Tip>
+  Editing one footnote updates every reference that uses the same numeric label.
+</Tip>
+
+## Display behavior
+
+### Inline references
+
+Footnotes appear as superscript references in the body. Hovering over a reference shows the current footnote content in a tooltip.
+
+### Bottom list
+
+The document bottom shows an ordered list of all distinct footnotes:
+
+- Each item shows the numeric label and content
+- Repeated labels are deduplicated automatically
+- Entries are sorted by label order
+
+## Example
+
+```markdown
+Quantum computing uses quantum mechanics for information processing[^1],
+and in some problems it can outperform classical systems[^2].
+
+Common hardware approaches include superconducting qubits[^1] and trapped ions.
+```
+
+In that example:
+
+- `[^1]` appears twice and shares one footnote body
+- `[^2]` remains independent
+- The bottom list contains two entries, `1` and `2`
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Can footnotes use text labels?">
+    Not in the current implementation. Only numeric labels such as `[^1]` are supported.
+  </Accordion>
+
+  <Accordion title="How do I delete a footnote?">
+    Select the footnote reference and press `Delete` or `Backspace`. Once all references with the same label are removed, the bottom entry disappears automatically.
+  </Accordion>
+
+  <Accordion title="What if two references with the same label show different content?">
+    Zditor keeps them synchronized. Editing any instance updates all references that share that label.
+  </Accordion>
+
+  <Accordion title="How do footnotes behave in read-only mode?">
+    References and the bottom list still render, but editing is disabled.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,248 @@
+---
+title: "Keyboard Shortcuts"
+description: "Learn the core keyboard shortcuts in Zditor to edit faster."
+icon: "keyboard"
+---
+
+Zditor includes extensive keyboard shortcut support for editing, formatting, structure changes, and navigation.
+
+### Video demo
+
+<Frame>
+  <iframe
+    src="//player.bilibili.com/player.html?bvid=BV1nzrWBuEuu&page=1&high_quality=1&danmaku=0"
+    style={{ width: '100%', height: '500px', borderRadius: '0.5rem' }}
+    scrolling="no"
+    border="0"
+    frameBorder="no"
+    framespacing="0"
+    allowFullScreen={true}
+  />
+</Frame>
+
+<Warning>
+  `Mod` means `Ctrl` on Windows and Linux, and `Command` on macOS.
+</Warning>
+
+## Contents
+
+- [Global shortcuts](#global-shortcuts)
+- [Editor operations](#editor-operations)
+- [Text formatting](#text-formatting)
+- [Heading controls](#heading-controls)
+- [List operations](#list-operations)
+- [Code block editing](#code-block-editing)
+- [Math editing](#math-editing)
+- [Table operations](#table-operations)
+- [Other operations](#other-operations)
+- [Shortcut customization](#shortcut-customization)
+
+## Global shortcuts
+
+### Search and save
+
+| Shortcut | Action |
+| --- | --- |
+| `Mod-K` | Open the search box |
+| `Mod-S` | Save the current document |
+
+### View zoom
+
+| Shortcut | Action |
+| --- | --- |
+| `Mod-=` | Zoom in |
+| `Mod--` | Zoom out |
+| `Mod-0` | Reset zoom |
+
+## Editor operations
+
+### Basic editing
+
+| Shortcut | Action |
+| --- | --- |
+| `Mod-A` | Select the whole document |
+| `Escape` | Blur the current editor focus |
+| `Shift-Enter` | Insert a hard line break |
+
+### Undo and redo
+
+| Shortcut | Action |
+| --- | --- |
+| `Mod-Z` | Undo |
+| `Mod-Y` | Redo |
+| `Shift-Mod-Z` | Alternate redo shortcut |
+| `Backspace` | Undo certain input rules |
+
+## Text formatting
+
+### Style toggles
+
+| Shortcut | Action |
+| --- | --- |
+| `Mod-B` | Toggle bold |
+| `Mod-I` | Toggle italic |
+| `Mod-D` | Toggle strikethrough |
+| `Mod-H` | Toggle highlight |
+| `Mod-Shift-C` | Toggle inline code |
+| `Mod-R` | Toggle revision mark |
+
+### Insert elements
+
+| Shortcut | Action |
+| --- | --- |
+| `Mod-Shift-E` | Insert inline math |
+| `Mod-Shift-D` | Insert display math |
+| `Mod-Shift-H` | Insert a horizontal rule |
+| `Mod-P` | Insert a page break |
+| `Mod-T` | Create a `3x3` table |
+
+## Heading controls
+
+| Shortcut | Action |
+| --- | --- |
+| `Mod-1` | Heading 1 |
+| `Mod-2` | Heading 2 |
+| `Mod-3` | Heading 3 |
+| `Mod-4` | Heading 4 |
+| `Mod-5` | Heading 5 |
+| `Mod-6` | Heading 6 |
+| `Mod-Shift-P` | Convert to paragraph |
+| `Backspace` | Convert a heading back to a paragraph when pressed at the start |
+
+![Heading demo](https://download.zditor.com/uploads/heading-demo.gif)
+
+## List operations
+
+### Create lists
+
+| Shortcut | Action |
+| --- | --- |
+| `Mod-Shift-8` | Toggle bullet list |
+| `Mod-Shift-7` | Toggle ordered list |
+| `Mod-Shift-9` | Toggle checkbox list |
+| `Mod-Shift-B` | Toggle blockquote |
+
+### List item operations
+
+| Shortcut | Action |
+| --- | --- |
+| `Enter` | Split a list item |
+| `Tab` | Indent a list item |
+| `Shift-Tab` | Outdent a list item |
+| `Mod-Shift-Enter` | Split inside a list |
+| `Alt-ArrowUp` | Move item up |
+| `Alt-ArrowDown` | Move item down |
+
+### Checkbox operations
+
+| Shortcut | Action |
+| --- | --- |
+| `Mod-Enter` | Toggle checkbox state |
+| `Enter` | Split a checkbox item |
+| `Tab` | Indent a checkbox item |
+| `Shift-Tab` | Outdent a checkbox item |
+
+## Code block editing
+
+### Create code blocks
+
+| Shortcut | Action |
+| --- | --- |
+| `Mod-Shift-\`` | Toggle a code block |
+
+### Navigate code blocks
+
+| Shortcut | Action |
+| --- | --- |
+| `ArrowUp` | Move up or leave the code block |
+| `ArrowDown` | Move down or leave the code block |
+| `ArrowLeft` | Move left or leave the code block |
+| `ArrowRight` | Move right or leave the code block |
+| `Mod-Enter` | Exit the code block |
+| `Backspace` | Convert the code block back to a paragraph |
+
+### Format code blocks
+
+| Shortcut | Action |
+| --- | --- |
+| `Mod-Shift-F` | Format the code block |
+| `Alt-Shift-F` | Alternate code format shortcut |
+
+## Math editing
+
+### Inline math
+
+| Shortcut | Action |
+| --- | --- |
+| `Tab` | Insert a tab in a math node |
+| `Mod-Backspace` | Delete the math node and leave it |
+| `Enter` | Insert a newline or exit |
+| `Mod-Enter` | Exit math editing |
+
+### Math navigation
+
+| Shortcut | Action |
+| --- | --- |
+| `ArrowLeft` | Move left or exit the math node |
+| `ArrowRight` | Move right or exit the math node |
+| `ArrowUp` | Move up or exit the math node |
+| `ArrowDown` | Move down or exit the math node |
+
+## Table operations
+
+### Table navigation
+
+| Shortcut | Action |
+| --- | --- |
+| `Tab` | Move to the next cell |
+| `Shift-Tab` | Move to the previous cell |
+
+### Table editing
+
+| Shortcut | Action |
+| --- | --- |
+| `Mod-Enter` | Add a row and move into it |
+| `Mod-Shift-Enter` | Add a column and move into it |
+| `Mod-Backspace` | Delete the current row |
+| `Mod-Shift-Backspace` | Delete the current column |
+
+## Other operations
+
+### Other elements
+
+| Shortcut | Action |
+| --- | --- |
+| `Mod-Shift-M` | Create a metadata view |
+| `Mod-Shift-V` | Toggle an HTML block |
+
+### Suggestion menu
+
+| Shortcut | Action |
+| --- | --- |
+| `ArrowUp` | Move up in the suggestion list |
+| `ArrowDown` | Move down in the suggestion list |
+| `Enter` | Confirm the current suggestion |
+| `Tab` | Confirm or advance in the suggestion list |
+| `Backspace` | Delete and update the suggestion query |
+
+## Shortcut customization
+
+<Tip>
+  Some versions of Zditor allow custom key bindings in the settings panel. Core read-only shortcuts, such as global actions and some structural navigation keys, may remain fixed.
+</Tip>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Why does a shortcut not work?" icon="question">
+    Check whether the editor has focus, whether the current node type supports that action, and whether the operating system intercepted the shortcut first.
+  </Accordion>
+
+  <Accordion title="Are shortcuts different on macOS?" icon="question">
+    The bindings are the same conceptually. Replace `Mod` with `Command` on macOS and `Ctrl` elsewhere.
+  </Accordion>
+
+  <Accordion title="Can I customize everything?" icon="question">
+    Usually no. Some shortcuts are reserved by the editor or by the operating system.
+  </Accordion>
+</AccordionGroup>

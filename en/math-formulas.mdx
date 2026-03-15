@@ -1,0 +1,467 @@
+---
+title: "Math Formula Guide"
+description: "Insert and edit LaTeX formulas in Zditor with live rendering."
+---
+
+Zditor supports math formulas through a LaTeX and KaTeX-based rendering pipeline. You can write inline formulas for short expressions or display formulas for larger derivations and structured mathematics.
+
+## Overview
+
+<CardGroup cols={2}>
+  <Card title="LaTeX syntax" icon="square-root-variable">
+    Use standard LaTeX math syntax for operators, symbols, matrices, and more.
+  </Card>
+
+  <Card title="Live rendering" icon="eye">
+    Formulas render immediately while you edit.
+  </Card>
+
+  <Card title="Two modes" icon="list">
+    Use inline math for short expressions and display math for larger formulas.
+  </Card>
+
+  <Card title="Direct editing" icon="wand-sparkles">
+    Click a rendered formula to edit its LaTeX source directly.
+  </Card>
+</CardGroup>
+
+## Formula types
+
+### Inline math
+
+Inline math stays inside a text paragraph.
+
+<AccordionGroup>
+  <Accordion title="Markdown syntax" icon="code" defaultOpen>
+    Wrap the expression with single dollar signs:
+
+    ```markdown
+    This is inline math $E = mc^2$.
+    ```
+  </Accordion>
+
+  <Accordion title="Auto-conversion" icon="sparkles">
+    Typing `$formula$` and pressing space or enter converts it into an inline math node.
+
+    Rules include:
+    - The delimiters must both be present
+    - Empty `$$` does not convert into inline math
+    - Dollar signs around plain currency should not be interpreted as formulas
+  </Accordion>
+
+  <Accordion title="Good use cases" icon="lightbulb">
+    Use inline math for variables, short equations, limits, and compact notation inside normal prose.
+  </Accordion>
+
+  <Accordion title="Shortcut" icon="keyboard">
+    - macOS: `Cmd + M`
+    - Windows/Linux: `Ctrl + M`
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Keep inline formulas compact. If the formula includes large fractions, stacked scripts, or several lines, switch to display math.
+</Tip>
+
+### Display math
+
+Display math uses a centered block that occupies its own line or lines.
+
+<AccordionGroup>
+  <Accordion title="Markdown syntax" icon="code" defaultOpen>
+    Wrap the expression with double dollar signs:
+
+    ```markdown
+    $$
+    \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+    $$
+    ```
+  </Accordion>
+
+  <Accordion title="Auto-conversion" icon="sparkles">
+    Typing `$$` and pressing space creates a display-math editor block immediately.
+  </Accordion>
+
+  <Accordion title="Multi-line support" icon="lines-leaning">
+    Display math supports aligned equations, matrices, piecewise functions, and other multi-line structures.
+  </Accordion>
+
+  <Accordion title="Shortcut" icon="keyboard">
+    - macOS: `Cmd + Shift + M`
+    - Windows/Linux: `Ctrl + Shift + M`
+  </Accordion>
+</AccordionGroup>
+
+<Warning>
+  Display math always occupies its own visual block. Use inline math when the expression should stay inside a sentence.
+</Warning>
+
+## Editing formulas
+
+### Create a new formula
+
+<Steps>
+  <Step title="Use Markdown syntax">
+    Type `$...$` for inline math or `$$...$$` for display math and let input rules convert it.
+  </Step>
+
+  <Step title="Use shortcuts">
+    Insert an inline formula with `Cmd/Ctrl + M` or a display formula with `Cmd/Ctrl + Shift + M`.
+  </Step>
+
+  <Step title="Write LaTeX">
+    Enter standard LaTeX math code inside the editor.
+  </Step>
+
+  <Step title="Finish editing">
+    Press `Esc` or click outside the formula to render it.
+  </Step>
+</Steps>
+
+### Edit an existing formula
+
+<AccordionGroup>
+  <Accordion title="Enter edit mode" icon="pen" defaultOpen>
+    Click a rendered formula or move the cursor onto it and press `Enter`.
+  </Accordion>
+
+  <Accordion title="Update the source" icon="keyboard">
+    Once inside edit mode, you can use normal text editing operations such as copy, paste, selection, and undo.
+  </Accordion>
+
+  <Accordion title="Exit edit mode" icon="door-open">
+    Press `Esc` or click outside the formula to save and re-render it.
+  </Accordion>
+
+  <Accordion title="Navigation shortcuts" icon="arrows">
+    Use arrow keys, `Home`, `End`, `Cmd/Ctrl + A`, `Backspace`, and `Delete` as expected while editing LaTeX source.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  If a formula fails to render, Zditor usually leaves the source visible or indicates an error. Check the LaTeX syntax first.
+</Tip>
+
+## LaTeX quick reference
+
+### Basic operators
+
+| Symbol | LaTeX | Meaning |
+| --- | --- | --- |
+| $+$ | `+` | Addition |
+| $-$ | `-` | Subtraction |
+| $\times$ | `\times` | Multiplication |
+| $\div$ | `\div` | Division |
+| $\pm$ | `\pm` | Plus or minus |
+| $\cdot$ | `\cdot` | Dot product |
+| $=$ | `=` | Equality |
+| $\neq$ | `\neq` | Not equal |
+| $\leq$ | `\leq` | Less than or equal |
+| $\geq$ | `\geq` | Greater than or equal |
+
+### Superscripts and subscripts
+
+| Result | LaTeX | Meaning |
+| --- | --- | --- |
+| $x^2$ | `x^2` | Superscript |
+| $x_i$ | `x_i` | Subscript |
+| $x^{2y}$ | `x^{2y}` | Multi-character superscript |
+| $x_{i,j}$ | `x_{i,j}` | Multi-character subscript |
+| $x_1^2$ | `x_1^2` | Both at once |
+
+<Tip>
+  Use braces `{}` whenever a superscript or subscript contains more than one character.
+</Tip>
+
+### Fractions and roots
+
+| Result | LaTeX | Meaning |
+| --- | --- | --- |
+| $\frac{1}{2}$ | `\frac{1}{2}` | Fraction |
+| $\dfrac{a}{b}$ | `\dfrac{a}{b}` | Display-sized fraction |
+| $\tfrac{x}{y}$ | `\tfrac{x}{y}` | Text-sized fraction |
+| $\sqrt{x}$ | `\sqrt{x}` | Square root |
+| $\sqrt[3]{x}$ | `\sqrt[3]{x}` | Nth root |
+
+### Sums and integrals
+
+| Result | LaTeX | Meaning |
+| --- | --- | --- |
+| $\sum_{i=1}^{n}$ | `\sum_{i=1}^{n}` | Summation |
+| $\prod_{i=1}^{n}$ | `\prod_{i=1}^{n}` | Product |
+| $\int_{a}^{b}$ | `\int_{a}^{b}` | Definite integral |
+| $\iint$ | `\iint` | Double integral |
+| $\oint$ | `\oint` | Contour integral |
+| $\lim_{x \to 0}$ | `\lim_{x \to 0}` | Limit |
+
+<Note>
+  In inline math, upper and lower limits are usually rendered to the side. In display math, they typically appear above and below.
+</Note>
+
+### Greek letters
+
+| Lowercase | LaTeX | Uppercase | LaTeX |
+| --- | --- | --- | --- |
+| $\alpha$ | `\alpha` | $\Gamma$ | `\Gamma` |
+| $\beta$ | `\beta` | $\Delta$ | `\Delta` |
+| $\gamma$ | `\gamma` | $\Theta$ | `\Theta` |
+| $\delta$ | `\delta` | $\Lambda$ | `\Lambda` |
+| $\theta$ | `\theta` | $\Pi$ | `\Pi` |
+| $\lambda$ | `\lambda` | $\Sigma$ | `\Sigma` |
+| $\mu$ | `\mu` | $\Phi$ | `\Phi` |
+| $\pi$ | `\pi` | $\Omega$ | `\Omega` |
+
+### Delimiters
+
+| Result | LaTeX | Meaning |
+| --- | --- | --- |
+| $(x)$ | `(x)` | Parentheses |
+| $[x]$ | `[x]` | Brackets |
+| $\{x\}$ | `\{x\}` | Braces |
+| $\langle x \rangle$ | `\langle x \rangle` | Angle brackets |
+| $\|x\|$ | `\|x\|` | Norm bars |
+| $\left( \frac{a}{b} \right)$ | `\left( \frac{a}{b} \right)` | Auto-sized delimiters |
+
+### Matrices
+
+```latex
+$$
+\begin{bmatrix}
+1 & 2 \\
+3 & 4
+\end{bmatrix}
+$$
+```
+
+Matrix rules:
+
+- Use `&` to separate columns
+- Use `\\` to separate rows
+- Prefer display math for matrices
+
+### Special symbols
+
+| Result | LaTeX | Meaning |
+| --- | --- | --- |
+| $\infty$ | `\infty` | Infinity |
+| $\partial$ | `\partial` | Partial derivative |
+| $\nabla$ | `\nabla` | Nabla operator |
+| $\forall$ | `\forall` | For all |
+| $\exists$ | `\exists` | There exists |
+| $\in$ | `\in` | Element of |
+| $\subset$ | `\subset` | Subset |
+| $\cup$ | `\cup` | Union |
+| $\cap$ | `\cap` | Intersection |
+| $\emptyset$ | `\emptyset` | Empty set |
+| $\Rightarrow$ | `\Rightarrow` | Implies |
+
+## Practical examples
+
+### Mathematics
+
+<AccordionGroup>
+  <Accordion title="Quadratic formula" icon="square-root-variable">
+    ```latex
+    $$
+    x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+    $$
+    ```
+  </Accordion>
+
+  <Accordion title="Euler's identity" icon="circle-nodes">
+    ```latex
+    $$
+    e^{i\pi} + 1 = 0
+    $$
+    ```
+  </Accordion>
+
+  <Accordion title="Taylor series" icon="wave-square">
+    ```latex
+    $$
+    f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!}(x-a)^n
+    $$
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Physics
+
+<AccordionGroup>
+  <Accordion title="Mass-energy relation" icon="atom">
+    ```latex
+    $E = mc^2$
+    ```
+  </Accordion>
+
+  <Accordion title="Schrodinger equation" icon="wave-square">
+    ```latex
+    $$
+    i\hbar\frac{\partial}{\partial t}\Psi(\mathbf{r},t) = \hat{H}\Psi(\mathbf{r},t)
+    $$
+    ```
+  </Accordion>
+
+  <Accordion title="Maxwell equations" icon="bolt">
+    ```latex
+    $$
+    \begin{aligned}
+    \nabla \cdot \mathbf{E} &= \frac{\rho}{\epsilon_0} \\
+    \nabla \cdot \mathbf{B} &= 0 \\
+    \nabla \times \mathbf{E} &= -\frac{\partial \mathbf{B}}{\partial t}
+    \end{aligned}
+    $$
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Statistics and probability
+
+<AccordionGroup>
+  <Accordion title="Normal distribution" icon="chart-simple">
+    ```latex
+    $$
+    f(x) = \frac{1}{\sigma\sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+    $$
+    ```
+  </Accordion>
+
+  <Accordion title="Bayes theorem" icon="percent">
+    ```latex
+    $$
+    P(A|B) = \frac{P(B|A)P(A)}{P(B)}
+    $$
+    ```
+  </Accordion>
+</AccordionGroup>
+
+### Computer science
+
+<AccordionGroup>
+  <Accordion title="Time complexity" icon="clock">
+    ```latex
+    $O(n \log n)$
+    ```
+  </Accordion>
+
+  <Accordion title="Recurrence relation" icon="arrows-spin">
+    ```latex
+    $$
+    T(n) = \begin{cases}
+    1 & \text{if } n = 1 \\
+    2T(n/2) + n & \text{if } n > 1
+    \end{cases}
+    $$
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Advanced techniques
+
+<AccordionGroup>
+  <Accordion title="Mix text inside formulas" icon="text">
+    Use `\text{}` to insert normal text inside math mode.
+  </Accordion>
+
+  <Accordion title="Align multi-line equations" icon="align-justify">
+    Use the `aligned` environment and place `&` at the alignment points.
+  </Accordion>
+
+  <Accordion title="Color formulas" icon="palette">
+    Use `\color{}` for emphasis when color is supported.
+  </Accordion>
+
+  <Accordion title="Control spacing" icon="expand">
+    Commands such as `\,`, `\:`, `\;`, `\quad`, and `\qquad` adjust spacing.
+  </Accordion>
+
+  <Accordion title="Tag equations" icon="list-ol">
+    Use `\tag{}` to add manual numbering to a display equation.
+  </Accordion>
+
+  <Accordion title="Piecewise formulas" icon="bracket-curly">
+    Use `cases` or matching `\left` and `\right.` constructs for piecewise expressions.
+  </Accordion>
+</AccordionGroup>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Why is my formula not rendering?" icon="question">
+    Check for LaTeX syntax mistakes, unmatched delimiters, missing escapes, or a rendering error caused by an unsupported command.
+  </Accordion>
+
+  <Accordion title="How do I show a dollar sign?" icon="question">
+    Escape it as `\$`, or place it inside `\text{}`.
+  </Accordion>
+
+  <Accordion title="Why is inline math stretching line height?" icon="question">
+    Replace `\frac` with `\tfrac`, simplify the expression, or move it to display math.
+  </Accordion>
+
+  <Accordion title="How do I write aligned multi-line math?" icon="question">
+    Use display math with an `aligned` environment and set `&` at alignment points.
+  </Accordion>
+
+  <Accordion title="Are all LaTeX commands supported?" icon="question">
+    No. Zditor uses KaTeX, which covers most common math but not every package or feature such as TikZ.
+  </Accordion>
+
+  <Accordion title="How do I copy a formula?" icon="question">
+    You can copy the LaTeX source from edit mode or copy the entire formula node and paste it elsewhere.
+  </Accordion>
+</AccordionGroup>
+
+## Performance and best practices
+
+<Steps>
+  <Step title="Use formulas when they add value">
+    Large numbers of formulas increase rendering cost, so keep them purposeful.
+  </Step>
+
+  <Step title="Keep inline math short">
+    Use display math for anything complex.
+  </Step>
+
+  <Step title="Prefer semantic commands">
+    Commands like `\sin` and `\log` render better than manually italicizing operator names.
+  </Step>
+
+  <Step title="Check rendering before saving">
+    Catch syntax mistakes early by reviewing the rendered output.
+  </Step>
+
+  <Step title="Reuse common snippets">
+    Save your most frequent formulas as templates or snippets.
+  </Step>
+</Steps>
+
+## Learning resources
+
+<CardGroup cols={2}>
+  <Card title="KaTeX Docs" icon="book" href="https://katex.org/docs/supported.html">
+    Review the supported function and command list.
+  </Card>
+
+  <Card title="LaTeX Math Symbols" icon="symbols" href="https://oeis.org/wiki/List_of_LaTeX_mathematical_symbols">
+    Browse a large reference of math symbols.
+  </Card>
+
+  <Card title="Online Formula Editor" icon="pen-to-square" href="https://www.latexlive.com/">
+    Preview LaTeX expressions outside the editor.
+  </Card>
+
+  <Card title="Keyboard Shortcuts" icon="keyboard" href="/en/keyboard-shortcuts">
+    Review formula-related editor shortcuts.
+  </Card>
+</CardGroup>
+
+## Shortcut reference
+
+| Action | macOS | Windows/Linux |
+| --- | --- | --- |
+| Insert inline math | `Cmd + M` | `Ctrl + M` |
+| Insert display math | `Cmd + Shift + M` | `Ctrl + Shift + M` |
+| Enter formula edit mode | Click formula or press `Enter` | Click formula or press `Enter` |
+| Exit formula edit mode | `Esc` | `Esc` |
+| Select all formula source | `Cmd + A` | `Ctrl + A` |

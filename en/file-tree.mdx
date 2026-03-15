@@ -1,0 +1,310 @@
+---
+title: "Sidebar File Tree Guide"
+description: "Manage files and folders efficiently with the Zditor sidebar file tree."
+---
+
+The sidebar file tree is one of the core parts of Zditor. It gives you a direct way to browse, create, rename, move, and organize files inside the current workspace.
+
+## Interface overview
+
+The file tree sits on the left side of the app and shows every file and folder in the current workspace by default.
+
+![File tree layout](https://download.zditor.com/uploads/2025-12-30/1767098416_a892.png)
+
+### Top toolbar
+
+The toolbar at the top of the file tree provides:
+
+- **New file** to create a file in the root directory
+- **New folder** to create a folder in the root directory
+- **Clear clipboard** to cancel a pending copy or cut state
+- **Filter** to show only certain file types
+- **More actions** for refresh, collapse all, and opening the workspace in the system file manager
+
+![Top toolbar](https://download.zditor.com/uploads/2025-12-30/1767098468_e055.png)
+
+### File list
+
+The main list shows files and folders with indentation that reflects the current hierarchy.
+
+### Bottom status bar
+
+The bottom area shows the current workspace name. You can click it to switch workspaces, use the left button for quick creation, and open the upward menu from the right button.
+
+![Bottom status bar](https://download.zditor.com/uploads/2025-12-30/1767098497_18f2.png)
+
+## Basic operations
+
+<AccordionGroup>
+  <Accordion title="Single click" icon="mouse">
+    - Click a file to open it in the editor
+    - Click a folder to expand or collapse it
+  </Accordion>
+
+  <Accordion title="Context menus" icon="menu">
+    - Right-click a file to open the file menu for actions such as copy and rename
+    - Right-click a folder to create new items or paste into it
+    - Right-click the empty bottom area to open the root-level menu
+
+    ![File tree actions](https://download.zditor.com/uploads/2025-12-30/1767099426_ce21.gif)
+  </Accordion>
+</AccordionGroup>
+
+### Select items
+
+Click a file or folder to select it. The selected item is highlighted.
+
+### Rename
+
+<AccordionGroup>
+  <Accordion title="How to rename" icon="pen">
+    1. Right-click a file or folder and choose **Rename**
+    2. Or hover over the item and use the more menu
+    3. Press `Enter` to confirm or `Esc` to cancel
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  When you rename a file, the extension is selected automatically so you can change the base name quickly.
+</Tip>
+
+## File and folder management
+
+### Create files and folders
+
+<AccordionGroup>
+  <Accordion icon="plus" title="Method 1: top toolbar">
+    Click **New file** or **New folder** in the toolbar.
+  </Accordion>
+
+  <Accordion icon="folder-plus" title="Method 2: hover shortcuts">
+    When you hover over a folder, quick action buttons appear.
+
+    ![Hover actions](https://download.zditor.com/uploads/2025-12-30/1767099518_9353.png)
+
+    - `+` creates a new file inside that folder
+    - The folder icon creates a child folder
+  </Accordion>
+
+  <Accordion icon="mouse-right-click" title="Method 3: right-click menu">
+    Right-click the target folder and choose **New file** or **New folder**.
+
+    ![Create file](https://download.zditor.com/uploads/2025-12-30/1767099547_5e5d.png)
+  </Accordion>
+</AccordionGroup>
+
+### Delete files and folders
+
+1. Right-click the target file or folder
+2. Choose **Delete**
+3. Confirm the operation
+
+<Warning>
+  Delete cannot be undone. Confirm carefully before removing files or folders.
+</Warning>
+
+### Copy, cut, and paste
+
+<AccordionGroup>
+  <Accordion icon="copy" title="Copy">
+    1. Right-click a file and choose **Copy**
+    2. The file shows a yellow copy marker
+
+    ![Copy marker](https://download.zditor.com/uploads/2025-12-30/1767099594_c544.png)
+  </Accordion>
+
+  <Accordion icon="scissors" title="Cut">
+    1. Right-click a file and choose **Cut**
+    2. The file shows a cyan cut marker
+
+    ![Cut marker](https://download.zditor.com/uploads/2025-12-30/1767099613_b832.png)
+  </Accordion>
+
+  <Accordion icon="paste" title="Paste">
+    1. Right-click the destination folder or root area
+    2. Choose **Paste**
+    3. The file is copied or moved to that location
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  You cannot paste a file into itself or into one of its own descendants.
+</Tip>
+
+## Sorting and filtering
+
+### File type filters
+
+Click the filter button in the top toolbar to show only certain file types:
+
+![File type filters](https://download.zditor.com/uploads/2025-12-30/1767099649_ac0e.png)
+
+- **All**
+- **Markdown**
+- **Documents**
+- **Assets**
+- **Code**
+- **Excalidraw**
+- **Other**
+
+You can enable multiple filters at once. The filter icon shows the number of active filters.
+
+### Sort options
+
+Open the recent-folder menu at the bottom to access sort options:
+
+![Sort options](https://download.zditor.com/uploads/2025-12-30/1767099743_db4d.png)
+
+#### Sort mode
+
+- **By name** sorts alphabetically
+- **By created time** sorts by file creation time
+- **By modified time** sorts by last modified time
+
+#### Sort direction
+
+- **Ascending**
+- **Descending**
+
+#### Folder grouping
+
+- **Group folders first** keeps folders above files
+
+## Drag and drop
+
+The file tree supports drag-and-drop management.
+
+<AccordionGroup>
+  <Accordion icon="file-import" title="Move files or folders">
+    1. Drag the target file or folder
+    2. Drop it onto the destination folder
+    3. Release to finish the move
+
+    ![Drag to move](https://download.zditor.com/uploads/2025-12-30/1767099808_3abe.png)
+  </Accordion>
+
+  <Accordion icon="upload" title="Import files from outside">
+    Drag files directly from the system file manager into the tree to copy them into the workspace.
+
+    ![Drag external files](https://download.zditor.com/uploads/2025-12-30/1767099842_1cef.png)
+  </Accordion>
+
+  <Accordion icon="home" title="Drop to the root">
+    Drop files onto the blank tree area to move them to the workspace root.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  While dragging, the destination folder is highlighted. If you hover for about 600 ms, the folder expands automatically.
+</Tip>
+
+## Context menus
+
+Files and folders expose rich context menus.
+
+### File context menu
+
+![File context menu](https://download.zditor.com/uploads/2025-12-30/1767099869_e82c.png)
+
+| Item | What it does |
+| --- | --- |
+| **Open** | Open the file in the left editor |
+| **Open on right** | Open the file in the right panel |
+| **Open in new window** | Open the file in a new window |
+| **Rename** | Rename the file |
+| **Copy** | Copy the file to the clipboard |
+| **Cut** | Cut the file to the clipboard |
+| **Paste** | Paste clipboard contents when the target is a folder |
+| **Open in folder** | Reveal the file in the system file manager |
+| **Copy file path** | Copy the absolute path to the clipboard |
+| **Delete** | Delete the file |
+
+### Folder context menu
+
+![Folder context menu](https://download.zditor.com/uploads/2025-12-30/1767100024_43c.png)
+
+Folder menus include the file actions plus:
+
+| Item | What it does |
+| --- | --- |
+| **New file** | Create a file in that folder |
+| **New folder** | Create a child folder |
+
+### Root context menu
+
+Right-click the blank area in the file tree to open the root menu:
+
+![Root context menu](https://download.zditor.com/uploads/2025-12-30/1767100061_b76e.png)
+
+It includes the usual file actions plus:
+
+- **Refresh** to rescan the workspace
+- **Collapse all** to close expanded folders
+- **Open in folder** to open the workspace in the system file manager
+
+## Workspace management
+
+### Switch workspaces
+
+1. Click the workspace name in the bottom bar
+2. Pick a different folder in the system folder picker
+3. Zditor reloads the new workspace automatically
+
+### Recent folders
+
+Use the right-side bottom menu to see recently used folders:
+
+![Recent folders](https://download.zditor.com/uploads/2025-12-30/1767100229_406f.png)
+
+<AccordionGroup>
+  <Accordion icon="thumbtack" title="Pin folders">
+    Click the pin icon to keep an important folder at the top of the recent list.
+  </Accordion>
+
+  <Accordion icon="trash" title="Remove recent entries">
+    For unpinned folders, click the trash icon to remove the entry from the recent list.
+  </Accordion>
+</AccordionGroup>
+
+### Auto refresh
+
+The file tree watches the workspace automatically:
+
+- Creating, deleting, or renaming a file updates the tree
+- A blue progress bar appears at the top while the tree is refreshing
+
+## Advanced tips
+
+<CardGroup cols={2}>
+  <Card title="Fast navigation" icon="lightning">
+    Double-click files to open them quickly, use the arrow keys to move through the list, and press `Enter` to expand the selected folder.
+  </Card>
+
+  <Card title="Bulk moves" icon="layers">
+    Copy and paste are useful for moving or duplicating several files across folders quickly.
+  </Card>
+
+  <Card title="Copy paths" icon="clipboard">
+    Use **Copy file path** when you need to share or reference a file path elsewhere.
+  </Card>
+</CardGroup>
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Why are some files missing from the tree?" icon="question">
+    Check whether a file type filter is active. Set the filter back to **All** first.
+  </Accordion>
+
+  <Accordion title="Why does dragging not work?" icon="question">
+    Make sure the destination folder is expanded or hover on the folder long enough for auto-expand to trigger.
+  </Accordion>
+
+  <Accordion title="How do I find recently changed files quickly?" icon="question">
+    Use **Sort by modified time** with descending order.
+  </Accordion>
+
+  <Accordion title="Can I open multiple files at once?" icon="question">
+    Yes. Each file opens in its own tab when you click it.
+  </Accordion>
+</AccordionGroup>

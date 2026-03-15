@@ -1,0 +1,74 @@
+---
+title: "Configuration and Log Paths"
+description: "Find Zditor configuration and log directories on macOS, Windows, and Linux."
+icon: "folder-open"
+---
+
+This page lists the default configuration and log paths used by Zditor across operating systems. It is useful when you want to migrate settings, collect logs for troubleshooting, or open the correct folder quickly.
+
+<Warning>
+  These are the default paths. If you changed environment variables manually or use a portable setup, your real paths may differ.
+</Warning>
+
+## Default paths
+
+| System | Config path | Log path |
+| :--- | :--- | :--- |
+| macOS | `~/Library/Application Support/com.zditor.ai` | `~/Library/Logs/com.zditor.ai` |
+| Windows | `%APPDATA%\com.zditor.ai` | `%LOCALAPPDATA%\com.zditor.ai\logs` |
+| Linux | `~/.config/com.zditor.ai` | `~/.local/state/com.zditor.ai/logs` |
+
+## Open the directories quickly
+
+<Tabs>
+<Tab title="mac/linux">
+  ```bash
+  # macOS config directory
+  open ~/Library/Application\ Support/com.zditor.ai
+
+  # macOS log directory
+  open ~/Library/Logs/com.zditor.ai
+
+  # Linux config directory
+  xdg-open ~/.config/com.zditor.ai
+
+  # Linux log directory
+  xdg-open ~/.local/state/com.zditor.ai/logs
+  ```
+</Tab>
+
+<Tab title="windows">
+  ```powershell
+  # Config directory
+  explorer "$env:APPDATA\com.zditor.ai"
+
+  # Log directory
+  explorer "$env:LOCALAPPDATA\com.zditor.ai\logs"
+  ```
+</Tab>
+</Tabs>
+
+## Backup suggestions
+
+1. Fully quit Zditor before copying the config directory to avoid file write conflicts.
+2. Logs are mainly for troubleshooting and usually do not need full long-term backups.
+3. Back up the config directory before an upgrade or reinstall.
+
+## FAQ
+
+### I cannot find the directory
+
+- Launch Zditor once; the directories are usually created on first run
+- On Windows, paste `%APPDATA%` or `%LOCALAPPDATA%` directly into File Explorer
+- On macOS, use `Cmd + Shift + G` to jump to `~/Library`
+
+### I want to confirm the real path on my machine
+
+If you changed your environment, such as `XDG_CONFIG_HOME`, the actual path follows the system environment variables. Print them in a terminal first:
+
+```bash
+# macOS / Linux
+echo $HOME
+echo $XDG_CONFIG_HOME
+echo $XDG_STATE_HOME
+```

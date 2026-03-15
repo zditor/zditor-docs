@@ -1,0 +1,189 @@
+---
+title: "Frontmatter Guide"
+description: "Use YAML Frontmatter to add structured metadata to Markdown documents in Zditor."
+---
+
+Frontmatter is the YAML metadata block at the top of a document. In Zditor, it can be edited through a visual table UI, so you do not need to manage every field by hand.
+
+## Overview
+
+<CardGroup cols={2}>
+  <Card title="Visual editing" icon="table">
+    Edit fields in a table instead of hand-writing YAML.
+  </Card>
+
+  <Card title="11 field types" icon="list-check">
+    Zditor supports text, number, date, checkbox, progress, select, and more.
+  </Card>
+
+  <Card title="Cover image support" icon="image">
+    Use a cover image field and switch between warm and cool themes.
+  </Card>
+
+  <Card title="Database integration" icon="database">
+    Connect Frontmatter fields with the SuperTag table system through the `class` field.
+  </Card>
+</CardGroup>
+
+## Basic syntax
+
+Frontmatter is wrapped by `---` at the very top of the file:
+
+```yaml
+---
+title: "My document"
+date: 2024-01-15
+tags: [product, notes]
+draft: true
+---
+
+Document content starts here...
+```
+
+## Supported formats
+
+<AccordionGroup>
+  <Accordion title="Shorthand format" icon="bolt" defaultOpen>
+    Write plain key-value pairs and let the editor infer the field type.
+
+    ```yaml
+    ---
+    title: "Document title"
+    count: 42
+    done: true
+    tags: [tag-1, tag-2]
+    ---
+    ```
+
+    **Inference rules**
+    - Arrays such as `[a, b]` become `array`
+    - `true` and `false` become `checkbox`
+    - Numbers become `number`
+    - Other strings become `text`
+  </Accordion>
+
+  <Accordion title="Full format" icon="sliders">
+    Explicitly define a field's type, label, description, value, and options.
+
+    ```yaml
+    ---
+    status:
+      type: select
+      label: "Status"
+      description: "Current document status"
+      value: "In Progress"
+      options: [Todo, In Progress, Done]
+    priority:
+      type: number
+      label: "Priority"
+      value: 3
+      default: 1
+    ---
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Field types
+
+| Type | Description | Example |
+|------|------|--------|
+| `text` | Text string | `"Hello"` |
+| `number` | Numeric value | `42` |
+| `checkbox` | Boolean value | `true` / `false` |
+| `date` | Date | `2024-01-15` |
+| `datetime` | Date and time | `2024-01-15T10:30:00` |
+| `time` | Time | `10:30` |
+| `array` | String array | `[tag-1, tag-2]` |
+| `select` | Single choice | `"Option A"` |
+| `multiselect` | Multiple choice | `[Option A, Option B]` |
+| `progress` | Progress from 0 to 100 | `75` |
+| `asset` | File path or URL | `"cover.png"` |
+
+## Visual editor
+
+Zditor provides a table-style Frontmatter editor so you do not need to hand-author YAML for every change.
+
+### Table editor
+
+When a document contains Frontmatter, the editor shows a structured table above the document body with columns such as:
+
+- `Property` for the field name
+- `Type` for the field kind
+- `Value` for the current value
+- `Label` for the UI label
+- `Description` for extra context
+- `Default` for the fallback value
+- `Options` for select and multiselect values
+
+### Add fields
+
+<AccordionGroup>
+  <Accordion title="Add a custom field" icon="plus" defaultOpen>
+    Click the `+` button at the bottom of the table to create a new text field, then rename it and switch the type if needed.
+  </Accordion>
+
+  <Accordion title="Add predefined fields" icon="ellipsis">
+    Use the more menu to insert common predefined fields quickly.
+
+    **Structure fields**
+    - `row` for row layout field lists
+    - `col` for column layout field lists
+
+    **Metadata fields**
+    - `favorite`
+    - `warm`
+    - `display`
+    - `cover`
+    - `template`
+  </Accordion>
+</AccordionGroup>
+
+## Cover image
+
+Use the `cover` field to add a document cover image.
+
+<Steps>
+  <Step title="Add the cover field">
+    Add a `cover` field in Frontmatter and set its type to `asset`.
+  </Step>
+  <Step title="Choose an image">
+    Click the field value to open the image picker. You can upload a local file, search images in the workspace, or paste an external URL.
+  </Step>
+  <Step title="Adjust the theme">
+    Use the toolbar above the cover image to switch between warm and cool visual themes for the overlay.
+  </Step>
+</Steps>
+
+## Special fields
+
+| Field | Meaning |
+|------|------|
+| `class` | Category or table name used by SuperTag |
+| `field` | Array-based field definitions for table schemas |
+| `row` | Fields shown in row layouts |
+| `col` | Fields shown in column layouts |
+| `cover` | Cover image path |
+| `warm` | Cover theme switch, `true` for warm and `false` for cool |
+| `display` | Whether to show the property panel |
+| `favorite` | Favorite marker |
+| `template` | Template marker |
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Does Frontmatter appear in the document body?">
+    No. Frontmatter is managed separately from the main body and is shown through the editor UI above the document content.
+  </Accordion>
+
+  <Accordion title="How do I export Frontmatter data?">
+    Open the table editor's more menu and choose the CSV export action to export the current document's Frontmatter.
+  </Accordion>
+
+  <Accordion title="Can shorthand and full format be mixed?">
+    Yes. Zditor can detect both formats in the same document and infer shorthand field types automatically.
+  </Accordion>
+
+  <Accordion title="How do I remove all Frontmatter?">
+    Delete the YAML block between the opening and closing `---` lines, or remove it from the cover toolbar when applicable.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,143 @@
+---
+title: "SuperTag Guide"
+description: "Use SuperTag to insert structured references backed by Frontmatter tables."
+---
+
+SuperTag is Zditor's structured data feature. It organizes Markdown files like database rows, then lets you insert references to those rows as colored tags inside documents.
+
+## Overview
+
+<CardGroup cols={2}>
+  <Card title="Database-style organization" icon="database">
+    Group files into tables and treat each file as one row in that table.
+  </Card>
+
+  <Card title="Fast insertion" icon="hashtag">
+    Type `#` to open the object menu and choose a table plus row.
+  </Card>
+
+  <Card title="Color-coded tags" icon="palette">
+    The tag color is derived automatically from the table name.
+  </Card>
+
+  <Card title="Metadata integration" icon="link">
+    SuperTag works with the Frontmatter `class` field to keep rows organized.
+  </Card>
+</CardGroup>
+
+## Core concepts
+
+Before using SuperTag, understand two concepts:
+
+- **Table**: a collection of files that share the same structure, identified by the Frontmatter `class` field
+- **Row**: a specific file inside a table whose `class` value matches that table name
+
+## Create a SuperTag
+
+<AccordionGroup>
+  <Accordion title="Insert from the # menu" icon="hashtag" defaultOpen>
+    Type `#` in the editor to open the object menu.
+
+    1. The first list shows all available tables
+    2. Choose a table to open its row list
+    3. Choose a row to insert the SuperTag node
+
+    The inserted tag renders as `#Table Name · File Name`.
+  </Accordion>
+
+  <Accordion title="Create a new table" icon="plus">
+    If the target table does not exist, type `#table-name` and choose the add action at the bottom of the menu. Zditor creates the matching schema file automatically.
+  </Accordion>
+
+  <Accordion title="Create a new row" icon="file-circle-plus">
+    After selecting a table, use the add-row action at the bottom of the row list. Zditor creates a new file, fills in the `class` field, and inserts the new row as a SuperTag immediately.
+  </Accordion>
+</AccordionGroup>
+
+## Markdown format
+
+SuperTag is stored as a Markdown link with a `mode=supertag` suffix:
+
+```markdown
+[Table Name](path/to/file.md|mode=supertag)
+```
+
+The editor renders it as a colored tag such as `#Table Name · File Name`.
+
+## Selection toolbar
+
+When you select a SuperTag, a floating toolbar appears with:
+
+- The **table name**, which opens the table view
+- The **file name**, which opens the referenced file
+- An **info button**, which expands matching Frontmatter metadata
+
+The metadata preview can show checkbox states, progress values, select badges, dates, and numbers with type-specific display styles.
+
+## Color system
+
+SuperTag assigns one of eight palette slots based on the table name:
+
+| Index | Color |
+|------|------|
+| 0 | Indigo |
+| 1 | Rose |
+| 2 | Emerald |
+| 3 | Amber |
+| 4 | Cyan |
+| 5 | Violet |
+| 6 | Pink |
+| 7 | Teal |
+
+The same table name always maps to the same color.
+
+## Relationship with Frontmatter
+
+The table system depends on Frontmatter special fields.
+
+**Schema file**
+
+```yaml
+---
+class:
+  type: text
+  value: "Project"
+field:
+  type: array
+  value: [Name, Status, Priority]
+---
+```
+
+**Data file**
+
+```yaml
+---
+class:
+  type: text
+  value: "Project"
+Name:
+  type: text
+  value: "My Project"
+Status:
+  type: select
+  value: "In Progress"
+---
+```
+
+All files whose `class` value is `Project` are grouped into the same table view automatically.
+
+## FAQ
+
+<AccordionGroup>
+  <Accordion title="Can I customize a SuperTag color?">
+    Not directly. Colors are assigned automatically from the table name. If you need a different color bucket, rename the table.
+  </Accordion>
+
+  <Accordion title="How do I see every row in a table?">
+    Click the table name from the SuperTag floating toolbar to jump into the table view.
+  </Accordion>
+
+  <Accordion title="Does deleting a SuperTag delete the referenced file?">
+    No. Removing a SuperTag only removes the reference from the current document.
+  </Accordion>
+</AccordionGroup>

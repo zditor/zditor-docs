@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "ZDItor Docs",
+  "name": "Zditor Docs",
   "colors": {
     "primary": "#7C3AED",
     "light": "#A78BFA",
@@ -11,15 +11,41 @@
   "navigation": {
     "tabs": [
       {
+        "tab": "English",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": ["en/introduction", "en/quickstart", "en/quick-actions"]
+          },
+          {
+            "group": "Core Features",
+            "pages": [
+              "en/file-tree",
+              "en/knowledge-graph",
+              "en/text-marks",
+              "en/math-formulas",
+              "en/footnotes",
+              "en/pdf-annotations",
+              "en/supertag",
+              "en/frontmatter",
+              "en/keyboard-shortcuts",
+              "en/agent-guide",
+              "en/mcp-guide",
+              "en/config-and-logs"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "中文",
         "groups": [
           {
             "group": "快速开始",
-            "pages": ["zh/快速开始/简介"]
+            "pages": ["zh/quickstart", "zh/快捷操作"]
           },
           {
             "group": "核心功能",
-            "pages": ["zh/文件树", "zh/知识图谱", "zh/文本标记", "zh/数学公式", "zh/脚注", "zh/SuperTag", "zh/Frontmatter", "zh/快捷键指南", "zh/Agent智能体使用指南", "zh/MCP服务使用指南", "zh/配置与日志路径"]
+            "pages": ["zh/文件树", "zh/知识图谱", "zh/文本标记", "zh/数学公式", "zh/脚注", "zh/PDF批注使用指南", "zh/SuperTag", "zh/Frontmatter", "zh/快捷键指南", "zh/Agent智能体使用指南", "zh/MCP服务使用指南", "zh/配置与日志路径"]
           }
         ]
       }
@@ -52,7 +78,7 @@
     ],
     "primary": {
       "type": "button",
-      "label": "下载 ZDItor",
+      "label": "下载 Zditor",
       "href": "https://zditor.com"
     }
   },

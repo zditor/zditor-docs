@@ -1,0 +1,293 @@
+---
+title: "OpenClaw 配置指南"
+description: "在 Zditor 中通过 ACP 接入 OpenClaw，并完成连接测试与常见排障。"
+icon: "plug"
+---
+
+如果你已经在使用 OpenClaw，那么它可以直接作为 Zditor 的 Agent 接入。
+
+原因很简单：Zditor 的 Agent 侧兼容 `ACP`，而 OpenClaw 提供了 `openclaw acp` 桥接命令，因此两者可以直接对接。
+
+<Info>
+  OpenClaw 的 `acp` 子命令本质上是一个由 Gateway 驱动的 ACP bridge。也就是说，`openclaw` 可执行文件存在并不等于一定能连通，Gateway 本身也需要处于可用状态。
+</Info>
+
+## 适用场景
+
+这页适合你在以下情况下使用：
+
+- 已经在本机安装并使用 OpenClaw
+- 希望在 Zditor 中复用 OpenClaw 的 Agent 能力
+- 需要通过 OpenClaw Gateway 把会话、鉴权或路由能力接到 Zditor
+
+## 配置前检查
+
+<Steps>
+<Step title="确认 OpenClaw 已安装">
+  先确认本机可以直接调用 `openclaw`。
+
+  <Tabs>
+  <Tab title="mac/linux">
+    ```bash
+    openclaw --version
+    which openclaw
+    ```
+  </Tab>
+
+  <Tab title="windows">
+    ```powershell
+    openclaw --version
+    where openclaw
+    ```
+  </Tab>
+  </Tabs>
+
+  <Tip>
+    `Agent 路径` 应填写这里查到的可执行文件路径，而不是你自己猜测的安装目录。
+  </Tip>
+</Step>
+
+<Step title="确认 ACP 子命令可用">
+  在终端执行：
+
+  ```bash
+  openclaw acp --help
+  ```
+
+  如果能看到 `Run an ACP bridge backed by the Gateway` 之类的帮助信息，说明当前 OpenClaw 构建已包含 ACP 支持。
+</Step>
+
+<Step title="先在终端直连测试一次">
+  在正式写入 Zditor 配置前，建议先在终端直接启动一次 ACP bridge：
+
+  ```bash
+  openclaw acp \
+    --url wss://your-openclaw.example.com \
+    --token YOUR_OPENCLAW_TOKEN \
+    --session agent:main:main \
+    --verbose
+  ```
+
+  如果输出里出现：
+
+  ```text
+  [acp] ready
+  ```
+
+  就说明当前 OpenClaw ACP bridge 已经成功启动，Zditor 后续只需要用相同的参数去拉起它。
+
+  <Tip>
+    终端里即使出现 OpenClaw banner、插件注册日志或 `--token can be exposed via process listings` 的警告，也不代表失败。判断是否成功，关键看最后是否出现 `[acp] ready`。
+  </Tip>
+
+  <Tip>
+    `--url` 需要替换成你自己的 Gateway 地址，可以是域名，也可以是 `ws://IP:端口` 或 `wss://域名`。
+  </Tip>
+</Step>
+
+<Step title="确认 Gateway 正常">
+  OpenClaw 的 ACP bridge 依赖 Gateway。建议先在终端做健康检查：
+
+  ```bash
+  openclaw gateway health --json
+  ```
+
+  如果你连接的是远程 Gateway，或 Gateway 需要鉴权，也可以显式带上连接参数：
+
+  ```bash
+  openclaw gateway health \
+    --url ws://127.0.0.1:18789 \
+    --token YOUR_TOKEN
+  ```
+
+  <Warning>
+    如果这一步不通，Zditor 里的 `Test Connection` 大概率也会失败。
+  </Warning>
+</Step>
+</Steps>
+
+## 在 Zditor 中如何填写
+
+打开 **设置 → 智能体配置 → 添加**，然后按下面方式填写。
+
+![OpenClaw 配置界面](https://download.zditor.com/newweb/openclaw_config.png)
+
+| 字段 | 推荐填写 | 说明 |
+| :--- | :--- | :--- |
+| 智能体名称 | `openclaw` | 名称可自定义，建议和实际工具一致 |
+| 智能体路径 | `which openclaw` / `where openclaw` 的结果 | 必须是可执行文件完整路径 |
+| 参数 | `acp, --url, ..., --token, ..., --session, ...` | 推荐显式写清 Gateway 地址和会话 |
+| 环境变量 | `OPENCLAW_HIDE_BANNER=1, OPENCLAW_SUPPRESS_NOTES=1, PATH=...` | 推荐关闭额外 banner 和提示输出，减少握手噪音 |
+
+<Tip>
+  如果 OpenClaw 本地配置里已经保存了默认的 Gateway 地址或鉴权信息，很多情况下 `参数` 只填 `acp` 就够了。
+</Tip>
+
+## 常见配置模板
+
+### 1. 最小可用配置
+
+适合本机已经配置好 OpenClaw，且默认 Gateway 可以直接使用的情况。
+
+```text
+智能体名称：openclaw
+智能体路径：/path/to/openclaw
+参数：acp
+环境变量：OPENCLAW_HIDE_BANNER=1, OPENCLAW_SUPPRESS_NOTES=1, PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin
+```
+
+### 2. 推荐的远程 Gateway 配置
+
+如果你已经有固定的 Gateway 地址、token 和 session，推荐直接把这些参数写进 Zditor。注意 `参数` 字段需要用英文逗号分隔：
+
+```text
+acp, --url, wss://your-openclaw.example.com, --token, YOUR_OPENCLAW_TOKEN, --session, agent:main:main
+```
+
+对应的 `环境变量` 可以写成：
+
+```text
+OPENCLAW_HIDE_BANNER=1, OPENCLAW_SUPPRESS_NOTES=1, PATH=/Users/zz/.nvm/versions/node/v24.7.0/bin
+```
+
+### 3. 指定 Gateway 地址但不直写 token
+
+如果 Gateway 开启了鉴权，文档里仍然更推荐使用文件参数，而不是把敏感信息直接写在页面里：
+
+```text
+acp, --url, wss://gateway.example.com, --token-file, /path/to/openclaw.token
+```
+
+也可以使用密码文件：
+
+```text
+acp, --url, wss://gateway.example.com, --password-file, /path/to/openclaw.password
+```
+
+<Warning>
+  即使你当前是通过 `--token` 直传在使用，公开文档里也不建议写入真实长期有效凭证。对外说明时优先使用占位符，或改用 `--token-file` / `--password-file`。
+</Warning>
+
+## 连接测试
+
+配置完成后，点击 **Test Connection**。
+
+建议按这个顺序排查：
+
+1. Zditor 是否能启动 `openclaw`
+2. `openclaw acp` 是否能正常握手
+3. OpenClaw Gateway 是否可访问
+4. 当前参数里的 `--url`、`--session`、`--token-file` 是否正确
+
+如果你现在的实际接入方式和下面类似，那么文档中的配置思路就是匹配的：
+
+```text
+参数：acp, --url, wss://your-openclaw.example.com, --token, YOUR_OPENCLAW_TOKEN, --session, agent:main:main
+环境变量：OPENCLAW_HIDE_BANNER=1, OPENCLAW_SUPPRESS_NOTES=1, PATH=/Users/zz/.nvm/versions/node/v24.7.0/bin
+```
+
+如果你想在终端先做一遍完整验证，可以直接运行：
+
+```bash
+openclaw acp \
+  --url wss://your-openclaw.example.com \
+  --token YOUR_OPENCLAW_TOKEN \
+  --session agent:main:main \
+  --verbose
+```
+
+只要最后看到 `[acp] ready`，通常就说明这组参数本身是可用的。
+
+测试通过后，你应该可以在能力检测结果里看到当前 Agent 返回的能力项，然后就可以像其他 ACP Agent 一样在会话里使用它。
+
+## 推荐使用方式
+
+接入成功后，建议仍然按照 Zditor 的标准流程来用：
+
+1. 先选模型
+2. 再选当前任务需要的 MCP
+3. 再决定用 `ask` 还是 `bypass`
+
+<Tip>
+  通用 Agent 工作流可继续参考 [Agent 智能体使用指南](/zh/Agent智能体使用指南)，MCP 相关内容可参考 [MCP 服务使用指南](/zh/MCP服务使用指南)。
+</Tip>
+
+## 常见问题
+
+<AccordionGroup>
+  <Accordion title="Test Connection 失败，但 openclaw 路径是对的" icon="circle-xmark">
+    这通常说明问题不在可执行文件路径，而在 OpenClaw Gateway。
+
+    先在终端执行：
+
+    ```bash
+    openclaw gateway health --json
+    ```
+
+    如果这里就失败，先修复 Gateway，再回到 Zditor 测试连接。
+  </Accordion>
+
+  <Accordion title="进程能启动，但很快退出" icon="circle-xmark">
+    先检查 `参数` 字段是否至少包含 `acp`。
+
+    如果你填写的是：
+
+    ```text
+    --url, ws://127.0.0.1:18789
+    ```
+
+    这种写法会少掉真正的子命令。正确写法应该是：
+
+    ```text
+    acp, --url, wss://your-openclaw.example.com, --token, YOUR_OPENCLAW_TOKEN, --session, agent:main:main
+    ```
+  </Accordion>
+
+  <Accordion title="显示 command not found 或找不到依赖" icon="circle-xmark">
+    这通常是 `PATH` 不完整导致的。尤其是通过 `nvm` 或全局 npm 安装 OpenClaw 时，Zditor 运行环境里的 PATH 可能和你的交互式终端不同。
+
+    可在 `环境变量` 中补充：
+
+    ```text
+    OPENCLAW_HIDE_BANNER=1, OPENCLAW_SUPPRESS_NOTES=1, PATH=/Users/username/.nvm/versions/node/v24.x.x/bin:/usr/local/bin:/usr/bin:/bin
+    ```
+  </Accordion>
+
+  <Accordion title="远程 Gateway 需要鉴权，应该填到哪里" icon="key">
+    优先放到 `参数` 字段，并使用 `--token-file` 或 `--password-file`。这样更接近 OpenClaw 原生命令行用法，也比直接写明文更安全。
+  </Accordion>
+
+  <Accordion title="能不能只配置 OpenClaw，不单独配置 MCP" icon="server">
+    可以。是否启用 MCP 取决于你的任务需求，不是 OpenClaw 接入 Zditor 的前置条件。
+  </Accordion>
+</AccordionGroup>
+
+## 命令参考
+
+下面这些命令在排障时最有用：
+
+```bash
+openclaw --version
+openclaw acp --help
+openclaw gateway health --json
+```
+
+终端完整联调示例：
+
+```bash
+openclaw acp \
+  --url wss://your-openclaw.example.com \
+  --token YOUR_OPENCLAW_TOKEN \
+  --session agent:main:main \
+  --verbose
+```
+
+成功标志：
+
+```text
+[acp] ready
+```
+
+其中 `your-openclaw.example.com` 只是示例，需要替换成你自己的域名，或者改成 `ws://127.0.0.1:18789`、`ws://服务器IP:端口` 这类实际地址。
+
+如果你想进一步查看 OpenClaw 官方 ACP 说明，也可以参考其命令帮助里给出的文档入口：`https://docs.openclaw.ai/cli/acp`

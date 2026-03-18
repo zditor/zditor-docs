@@ -1,0 +1,293 @@
+---
+title: "OpenClaw Setup"
+description: "Connect OpenClaw to Zditor through ACP and verify the integration."
+icon: "plug"
+---
+
+If you already use OpenClaw, you can connect it to Zditor as an Agent directly.
+
+The reason is straightforward: Zditor supports `ACP` on the Agent side, and OpenClaw exposes an `openclaw acp` bridge command. That makes OpenClaw an ACP-compatible Agent entry point for Zditor.
+
+<Info>
+  OpenClaw's `acp` command runs an ACP bridge backed by the Gateway. A valid executable path alone is not enough. The Gateway also needs to be reachable.
+</Info>
+
+## When to use this
+
+This page is useful if you:
+
+- already have OpenClaw installed locally
+- want to reuse OpenClaw inside Zditor Agent sessions
+- need Gateway-backed routing, sessions, or authentication from OpenClaw in Zditor
+
+## Pre-flight checks
+
+<Steps>
+<Step title="Confirm OpenClaw is installed">
+  Make sure `openclaw` runs from your terminal.
+
+  <Tabs>
+  <Tab title="mac/linux">
+    ```bash
+    openclaw --version
+    which openclaw
+    ```
+  </Tab>
+
+  <Tab title="windows">
+    ```powershell
+    openclaw --version
+    where openclaw
+    ```
+  </Tab>
+  </Tabs>
+
+  <Tip>
+    Use the resolved executable path for the `Agent path` field in Zditor instead of guessing the install location.
+  </Tip>
+</Step>
+
+<Step title="Confirm ACP support is available">
+  Run:
+
+  ```bash
+  openclaw acp --help
+  ```
+
+  If the help output mentions an ACP bridge backed by the Gateway, your current OpenClaw build includes ACP support.
+</Step>
+
+<Step title="Run one direct terminal test first">
+  Before saving the Zditor configuration, it is useful to start the ACP bridge directly from the terminal once:
+
+  ```bash
+  openclaw acp \
+    --url wss://your-openclaw.example.com \
+    --token YOUR_OPENCLAW_TOKEN \
+    --session agent:main:main \
+    --verbose
+  ```
+
+  If the output includes:
+
+  ```text
+  [acp] ready
+  ```
+
+  the OpenClaw ACP bridge started successfully, and Zditor should be able to launch it with the same arguments.
+
+  <Tip>
+    OpenClaw banners, plugin registration logs, or the warning about `--token` appearing in process listings do not mean the startup failed. The real success signal is `[acp] ready`.
+  </Tip>
+
+  <Tip>
+    Replace `--url` with your own Gateway address. That can be a domain name, `ws://IP:port`, or `wss://domain`.
+  </Tip>
+</Step>
+
+<Step title="Confirm the Gateway is healthy">
+  OpenClaw's ACP bridge depends on the Gateway, so verify it before configuring Zditor:
+
+  ```bash
+  openclaw gateway health --json
+  ```
+
+  If you use a remote Gateway or require authentication, test it explicitly:
+
+  ```bash
+  openclaw gateway health \
+    --url ws://127.0.0.1:18789 \
+    --token YOUR_TOKEN
+  ```
+
+  <Warning>
+    If this check fails, Zditor's **Test Connection** will usually fail as well.
+  </Warning>
+</Step>
+</Steps>
+
+## What to enter in Zditor
+
+Open **Settings -> Agent Configuration -> Add** and fill the fields like this.
+
+![OpenClaw configuration screen](https://download.zditor.com/newweb/openclaw_config.png)
+
+| Field | Recommended value | Notes |
+| :--- | :--- | :--- |
+| Agent name | `openclaw` | The label is up to you, but matching the tool name is clearer |
+| Agent path | Output of `which openclaw` or `where openclaw` | Must be the full executable path |
+| Arguments | `acp, --url, ..., --token, ..., --session, ...` | Explicit Gateway and session arguments are the most predictable setup |
+| Environment variables | `OPENCLAW_HIDE_BANNER=1, OPENCLAW_SUPPRESS_NOTES=1, PATH=...` | Recommended to suppress extra banner and note output |
+
+<Tip>
+  If OpenClaw already has its default Gateway URL and auth configured locally, the `Arguments` field is often just `acp`.
+</Tip>
+
+## Common configuration templates
+
+### 1. Minimal working setup
+
+Use this when OpenClaw is already configured locally and the default Gateway works:
+
+```text
+Agent name: openclaw
+Agent path: /path/to/openclaw
+Arguments: acp
+Environment variables: OPENCLAW_HIDE_BANNER=1, OPENCLAW_SUPPRESS_NOTES=1, PATH=/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin
+```
+
+### 2. Recommended remote Gateway setup
+
+If you already have a fixed Gateway URL, token, and session, pass them directly. Zditor expects comma-separated values in the `Arguments` field:
+
+```text
+acp, --url, wss://your-openclaw.example.com, --token, YOUR_OPENCLAW_TOKEN, --session, agent:main:main
+```
+
+The matching `Environment variables` value can look like this:
+
+```text
+OPENCLAW_HIDE_BANNER=1, OPENCLAW_SUPPRESS_NOTES=1, PATH=/Users/zz/.nvm/versions/node/v24.7.0/bin
+```
+
+### 3. Gateway URL without embedding the token
+
+If the Gateway requires authentication, the docs should still prefer file-based arguments over plain-text secrets:
+
+```text
+acp, --url, wss://gateway.example.com, --token-file, /path/to/openclaw.token
+```
+
+Password-based example:
+
+```text
+acp, --url, wss://gateway.example.com, --password-file, /path/to/openclaw.password
+```
+
+<Warning>
+  Even if your local setup currently uses `--token`, avoid publishing real long-lived credentials in documentation. Use placeholders in docs, or switch to `--token-file` / `--password-file`.
+</Warning>
+
+## Test the connection
+
+After saving the configuration, click **Test Connection**.
+
+Check these in order if the test fails:
+
+1. Zditor can launch `openclaw`
+2. `openclaw acp` can complete the ACP handshake
+3. the OpenClaw Gateway is reachable
+4. the current `--url`, `--session`, and auth arguments are correct
+
+If your real-world setup looks roughly like the following, the examples on this page now match that pattern:
+
+```text
+Arguments: acp, --url, wss://your-openclaw.example.com, --token, YOUR_OPENCLAW_TOKEN, --session, agent:main:main
+Environment variables: OPENCLAW_HIDE_BANNER=1, OPENCLAW_SUPPRESS_NOTES=1, PATH=/Users/zz/.nvm/versions/node/v24.7.0/bin
+```
+
+If you want to validate the same setup directly in the terminal first, run:
+
+```bash
+openclaw acp \
+  --url wss://your-openclaw.example.com \
+  --token YOUR_OPENCLAW_TOKEN \
+  --session agent:main:main \
+  --verbose
+```
+
+If the final output includes `[acp] ready`, the argument set is usually valid.
+
+Once the test succeeds, OpenClaw behaves like any other ACP-compatible Agent inside Zditor.
+
+## Recommended usage flow
+
+After the integration is working, keep using the normal Zditor workflow:
+
+1. choose the model
+2. choose only the MCP services needed for the task
+3. choose `ask` or `bypass` based on risk
+
+<Tip>
+  For the broader Agent workflow, see the [Agent Guide](/en/agent-guide). For tool integrations, see the [MCP Guide](/en/mcp-guide).
+</Tip>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Test Connection fails even though the binary path is correct" icon="circle-xmark">
+    This usually points to a Gateway issue rather than an executable path issue.
+
+    Run:
+
+    ```bash
+    openclaw gateway health --json
+    ```
+
+    If that fails, fix the Gateway first and then retry the connection test in Zditor.
+  </Accordion>
+
+  <Accordion title="The process starts but exits immediately" icon="circle-xmark">
+    Check whether the `Arguments` field includes the `acp` subcommand.
+
+    This is wrong:
+
+    ```text
+    --url, ws://127.0.0.1:18789
+    ```
+
+    This is correct:
+
+    ```text
+    acp, --url, wss://your-openclaw.example.com, --token, YOUR_OPENCLAW_TOKEN, --session, agent:main:main
+    ```
+  </Accordion>
+
+  <Accordion title="command not found or missing dependency errors" icon="circle-xmark">
+    This is usually a `PATH` issue. It is common when OpenClaw was installed through `nvm` or a global npm prefix that Zditor does not inherit automatically.
+
+    Add a fuller PATH in the `Environment variables` field:
+
+    ```text
+    OPENCLAW_HIDE_BANNER=1, OPENCLAW_SUPPRESS_NOTES=1, PATH=/Users/username/.nvm/versions/node/v24.x.x/bin:/usr/local/bin:/usr/bin:/bin
+    ```
+  </Accordion>
+
+  <Accordion title="Where should Gateway auth go" icon="key">
+    Prefer the `Arguments` field and use `--token-file` or `--password-file`. That matches OpenClaw's native CLI behavior and keeps secrets out of plain text where possible.
+  </Accordion>
+
+  <Accordion title="Do I need MCP just to use OpenClaw" icon="server">
+    No. MCP is optional and depends on the task. It is not a prerequisite for connecting OpenClaw itself.
+  </Accordion>
+</AccordionGroup>
+
+## Useful commands
+
+These are the most useful commands during setup and troubleshooting:
+
+```bash
+openclaw --version
+openclaw acp --help
+openclaw gateway health --json
+```
+
+Full terminal validation example:
+
+```bash
+openclaw acp \
+  --url wss://your-openclaw.example.com \
+  --token YOUR_OPENCLAW_TOKEN \
+  --session agent:main:main \
+  --verbose
+```
+
+Success signal:
+
+```text
+[acp] ready
+```
+
+Here `your-openclaw.example.com` is only a placeholder. Replace it with your own domain, or use a concrete address such as `ws://127.0.0.1:18789` or `ws://server-ip:port`.
+
+For the upstream OpenClaw ACP reference, the command help points to: `https://docs.openclaw.ai/cli/acp`

@@ -52,7 +52,7 @@ Claude Code is a good first Agent to try.
   node --version
 
   # Install the Claude Agent ACP adapter
-  npm install -g claude-agent-acp
+  npm install -g @agentclientprotocol/claude-agent-acp
 
   # Verify the install
   claude-agent-acp --version
@@ -62,7 +62,7 @@ Claude Code is a good first Agent to try.
 <Tab title="windows">
   ```powershell
   node --version
-  npm install -g claude-agent-acp
+  npm install -g @agentclientprotocol/claude-agent-acp
   claude-agent-acp --version
   ```
 </Tab>
@@ -78,8 +78,8 @@ Create an API key from [Anthropic Console](https://console.anthropic.com/).
 2. Fill in:
    - **Agent name**: `claude-code`
    - **Agent path**
-     - macOS/Linux: `/Users/zz/.nvm/versions/node/v24.7.0/bin/claude-agent-acp`
-     - Windows: `C:\Users\zz\AppData\Roaming\npm\claude-agent-acp.cmd`
+     - macOS/Linux: the output of `which claude-agent-acp`, for example `/usr/local/bin/claude-agent-acp`
+     - Windows: the output of `where claude-agent-acp`, for example `C:\Users\<username>\AppData\Roaming\npm\claude-agent-acp.cmd`
    - **Environment variables**
      - macOS/Linux: `ANTHROPIC_API_KEY=your_api_key_here, ANTHROPIC_BASE_URL=https://xaapi.ai, PATH=/usr/local/bin`
      - Windows: `ANTHROPIC_API_KEY=your_api_key_here, ANTHROPIC_BASE_URL=https://xaapi.ai, PATH=C:\Program Files\nodejs`
@@ -159,8 +159,8 @@ Examples: `gemini-cli`, `claude-code`, `custom-agent`
 
 Examples:
 
-- macOS: `/Users/zz/.nvm/versions/node/v24.7.0/bin/claude-agent-acp`
-- Windows: `C:\Users\zz\AppData\Roaming\npm\claude-agent-acp.cmd`
+- macOS: the output of `which claude-agent-acp`, for example `/usr/local/bin/claude-agent-acp`
+- Windows: the output of `where claude-agent-acp`, for example `C:\Users\<username>\AppData\Roaming\npm\claude-agent-acp.cmd`
 
 <Tip>
   Use `which` on macOS/Linux and `where` on Windows if you need to locate the executable path.
@@ -388,7 +388,7 @@ You can usually:
 ```bash
 # Example: manage Node.js with nvm
 nvm use 18
-npm install -g claude-agent-acp
+npm install -g @agentclientprotocol/claude-agent-acp
 
 # Inspect globally installed npm packages
 npm list -g --depth=0
@@ -397,7 +397,7 @@ npm list -g --depth=0
 Update commands:
 
 ```bash
-npm update -g claude-agent-acp
+npm update -g @agentclientprotocol/claude-agent-acp
 npm update -g @google/gemini-cli
 ```
 
@@ -443,7 +443,7 @@ Planned capability:
 
 #### Claude Code
 
-Install and configure `claude-agent-acp` with the executable path, API key, optional model argument, and a valid `PATH`.
+Install `@agentclientprotocol/claude-agent-acp`, then configure the `claude-agent-acp` executable path, API key, optional model argument, and a valid `PATH`.
 
 #### Gemini CLI
 

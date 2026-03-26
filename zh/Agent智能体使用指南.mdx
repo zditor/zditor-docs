@@ -41,71 +41,112 @@ Zditor 通过兼容 Agent Client Protocol (ACP) 协议，与您电脑上的 CLI 
 
 ## 快速开始
 
-### Claude Code 快速配置
+推荐第一次使用的用户，直接按下面 5 步完成 Claude Code 接入：
 
-推荐从 Claude Code 开始体验 Agent 功能：
+### 第 1 步：检查是否安装 Node.js
 
-**1. 安装依赖**
+`claude-agent-acp` 依赖 Node.js 运行。先检查本机是否已安装：
 
 <Tabs>
 <Tab title="mac/linux">
   ```bash
-  # 确保已安装 Node.js (v18+)
   node --version
-  
-  # 安装 Claude Agent ACP 适配器
-  npm install -g claude-agent-acp
-  
-  # 验证安装
+  npm --version
+  ```
+</Tab>
+
+<Tab title="windows">
+  ```powershell
+  node --version
+  npm --version
+  ```
+</Tab>
+</Tabs>
+
+如果能看到版本号，说明已安装，可以继续下一步。  
+如果提示命令不存在，请先到 [Node.js 官网](https://nodejs.org/) 安装 Node.js（建议 `18+` 版本），安装完成后重新打开终端再继续。
+
+### 第 2 步：安装 Claude ACP 适配器
+
+<Tabs>
+<Tab title="mac/linux">
+  ```bash
+  npm install -g @agentclientprotocol/claude-agent-acp
   claude-agent-acp --version
   ```
 </Tab>
 
 <Tab title="windows">
   ```powershell
-  # 确保已安装 Node.js (v18+)
-  node --version
-  
-  # 安装 Claude Agent ACP 适配器
-  npm install -g claude-agent-acp
-  
-  # 验证安装
+  npm install -g @agentclientprotocol/claude-agent-acp
   claude-agent-acp --version
   ```
 </Tab>
 </Tabs>
 
-**2. 获取 API 密钥**
+如果第二条命令能输出版本号，说明安装成功。
 
-访问 [Anthropic Console](https://console.anthropic.com/) 获取 API 密钥
+### 第 3 步：找到可执行文件路径
 
-**3. 在 Zditor 中配置**
+Zditor 需要填写 `claude-agent-acp` 的实际路径：
 
-1. 打开 **设置 → 智能体配置 → 添加**
-2. 填写配置：
-   - **智能体名称**：`claude-code`
-   - **智能体路径**：
-     - macOS/Linux: `/Users/zz/.nvm/versions/node/v24.7.0/bin/claude-agent-acp`
-     - Windows: `C:\Users\zz\AppData\Roaming\npm\claude-agent-acp.cmd`
-   - **环境变量**：
-     - macOS/Linux: `ANTHROPIC_API_KEY=your_api_key_here, ANTHROPIC_BASE_URL=https://xaapi.ai, PATH=/usr/local/bin`
-     - Windows: `ANTHROPIC_API_KEY=your_api_key_here, ANTHROPIC_BASE_URL=https://xaapi.ai, PATH=C:\Program Files\nodejs`
-3. 点击 **Test Connection** 验证连接
-4. 保存配置
+<Tabs>
+<Tab title="mac/linux">
+  ```bash
+  which claude-agent-acp
+  ```
+
+  常见结果示例：
+  ```text
+  /usr/local/bin/claude-agent-acp
+  ```
+</Tab>
+
+<Tab title="windows">
+  ```powershell
+  where claude-agent-acp
+  ```
+
+  常见结果示例：
+  ```text
+  C:\Users\你的用户名\AppData\Roaming\npm\claude-agent-acp.cmd
+  ```
+</Tab>
+</Tabs>
+
+把输出的完整路径复制下来，后面要填到 Zditor。
+
+### 第 4 步：在 Zditor 中填写配置
+
+打开 **设置 → 智能体配置 → 添加**，按下面填写：
+
+- **智能体名称**：`claude-code`
+- **智能体路径**：上一步查到的完整路径
+- **参数**：可留空
+- **环境变量**：
+  - macOS/Linux: 先运行 `which node`，如果结果是 `/usr/local/bin/node`，则填写 `ANTHROPIC_API_KEY=your_api_key_here, ANTHROPIC_BASE_URL=https://xaapi.ai, PATH=/usr/local/bin`
+  - Windows: 先运行 `where node`，如果结果是 `C:\Program Files\nodejs\node.exe`，则填写 `ANTHROPIC_API_KEY=your_api_key_here, ANTHROPIC_BASE_URL=https://xaapi.ai, PATH=C:\Program Files\nodejs`
+
+你需要先从 [Anthropic Console](https://console.anthropic.com/) 获取 API Key，再填入 `ANTHROPIC_API_KEY`。
 
 <Tip>
-  **PATH 配置说明**：如果使用 nvm 管理 Node.js，PATH 需要包含 nvm 路径，例如：
-  `PATH=/Users/username/.nvm/versions/node/v18.0.0/bin:/usr/local/bin`
+  `PATH` 要填写的是 `node` 所在目录，不是 `node` 文件本身。
+  例如 `which node` 返回 `/usr/local/bin/node`，那就填 `PATH=/usr/local/bin`。
+  如果你使用 `nvm`，通常需要填对应版本目录，例如：
+  `PATH=/Users/username/.nvm/versions/node/v18.0.0/bin`
 </Tip>
 
-**4. 安装后开始使用**
+### 第 5 步：测试连接
 
-完成安装和连接测试后，直接进入使用流程：
+填写完成后，点击 **Test Connection**：
 
-1. **选模型**：根据任务复杂度选择合适模型
-2. **选 MCP**：选择需要接入的 MCP 服务（可选）
-3. **Slash Command**：用斜杠命令快速执行常见操作
-4. **Mode**：按场景选择 `ask` 或 `bypass`
+1. 如果测试成功，直接保存配置并开始使用
+2. 如果测试失败，优先检查：
+   - `claude-agent-acp` 路径是否正确
+   - `ANTHROPIC_API_KEY` 是否填写正确
+   - `PATH` 是否包含 Node.js 所在目录
+
+完成后就可以进入 Agent 模式开始使用。
 
 ---
 
@@ -192,8 +233,8 @@ Zditor 通过兼容 Agent Client Protocol (ACP) 协议，与您电脑上的 CLI 
   - 文件必须具有执行权限
   - 不能包含制表符或前后空格
 - **示例**：
-  - macOS: `/Users/zz/.nvm/versions/node/v24.7.0/bin/claude-agent-acp`
-  - Windows: `C:\Users\zz\AppData\Roaming\npm\claude-agent-acp.cmd`
+  - macOS: `which claude-agent-acp` 的输出结果，例如 `/usr/local/bin/claude-agent-acp`
+  - Windows: `where claude-agent-acp` 的输出结果，例如 `C:\Users\<用户名>\AppData\Roaming\npm\claude-agent-acp.cmd`
 
 <Tip>
   **查找路径**：macOS/Linux 使用 `which`，Windows 使用 `where`
@@ -230,7 +271,7 @@ Zditor 通过兼容 Agent Client Protocol (ACP) 协议，与您电脑上的 CLI 
 - **作用**：CLI 工具运行时需要的环境变量
 - **格式**：`键=值` 形式，用英文逗号分隔
 - **示例**：
-  - `ANTHROPIC_API_KEY=your_key, ANTHROPIC_BASE_URL=https://xaapi.ai, PATH=/usr/local/bin`
+  - `ANTHROPIC_API_KEY=your_key, ANTHROPIC_BASE_URL=https://xaapi.ai, PATH=/usr/local/bin`（假设 `which node` 返回 `/usr/local/bin/node`）
   - `GEMINI_API_KEY=your_key, PATH=/usr/local/bin:/usr/bin:/bin`
 
 <Warning>
@@ -529,7 +570,7 @@ Agent 在执行任务时会显示详细的思考过程：
 ```bash
 # 使用 nvm 管理 Node.js 版本
 nvm use 18
-npm install -g claude-agent-acp
+npm install -g @agentclientprotocol/claude-agent-acp
 
 # 查看已安装的全局 npm 包
 npm list -g --depth=0
@@ -551,7 +592,7 @@ GEMINI_API_KEY=your_key, PATH=/usr/local/bin
 
 ```bash
 # 更新 Claude Agent ACP
-npm update -g claude-agent-acp
+npm update -g @agentclientprotocol/claude-agent-acp
 
 # 更新 Gemini CLI
 npm update -g @google/gemini-cli
@@ -613,7 +654,7 @@ npm update -g @google/gemini-cli
   node --version
   
   # 安装 Claude Agent ACP 适配器
-  npm install -g claude-agent-acp
+  npm install -g @agentclientprotocol/claude-agent-acp
   
   # 验证安装
   claude-agent-acp --version
@@ -626,7 +667,7 @@ npm update -g @google/gemini-cli
   node --version
   
   # 安装 Claude Agent ACP 适配器
-  npm install -g claude-agent-acp
+  npm install -g @agentclientprotocol/claude-agent-acp
   
   # 验证安装
   claude-agent-acp --version
@@ -640,12 +681,12 @@ npm update -g @google/gemini-cli
 2. 在 Zditor 中配置：
    - **智能体名称**：`claude-code`
    - **智能体路径**：
-     - macOS/Linux: `/Users/zz/.nvm/versions/node/v24.7.0/bin/claude-agent-acp`
-     - Windows: `C:\Users\zz\AppData\Roaming\npm\claude-agent-acp.cmd`
-   - **参数**：`--model, claude-3-5-sonnet-20241022`
+     - macOS/Linux: `which claude-agent-acp` 的输出结果，例如 `/usr/local/bin/claude-agent-acp`
+     - Windows: `where claude-agent-acp` 的输出结果，例如 `C:\Users\<用户名>\AppData\Roaming\npm\claude-agent-acp.cmd`
+   - **参数**：可留空
    - **环境变量**：
-     - macOS/Linux: `ANTHROPIC_API_KEY=your_api_key_here, ANTHROPIC_BASE_URL=https://xaapi.ai, PATH=/usr/local/bin`
-     - Windows: `ANTHROPIC_API_KEY=your_api_key_here, ANTHROPIC_BASE_URL=https://xaapi.ai, PATH=C:\Program Files\nodejs`
+     - macOS/Linux: 如果 `which node` 返回 `/usr/local/bin/node`，则填写 `ANTHROPIC_API_KEY=your_api_key_here, ANTHROPIC_BASE_URL=https://xaapi.ai, PATH=/usr/local/bin`
+     - Windows: 如果 `where node` 返回 `C:\Program Files\nodejs\node.exe`，则填写 `ANTHROPIC_API_KEY=your_api_key_here, ANTHROPIC_BASE_URL=https://xaapi.ai, PATH=C:\Program Files\nodejs`
 
 #### Gemini CLI
 

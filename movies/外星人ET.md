@@ -84,6 +84,43 @@ notes:
   description: ""
   value: ""
   default: ""
+cover:
+  type: asset
+  description: 
+  label: Cover Image
+  value: ""
+  default: ""
+display:
+  type: checkbox
+  description: display
+  label: 显示属性
+  value: false
+  default: false
+warm:
+  type: checkbox
+  description: warm
+  label: 暖色调
+  value: false
+  default: false
+col:
+  type: array
+  description: ''
+  label: Col
+  value:
+  - year
+  - title
+  - director
+  default: []
+row:
+  type: array
+  description: ''
+  label: Row
+  value:
+  - genre
+  - afi_rank
+  - douban_score
+  - watched
+  default: []
 ---
 
 > 孩子与外星人的纯真友情，斯皮尔伯格献给童年的礼物。

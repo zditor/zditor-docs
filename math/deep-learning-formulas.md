@@ -1,0 +1,1157 @@
+# 深度学习公式详解
+
+深度学习是机器学习的一个分支，其核心是通过多层神经网络来学习数据的层次化表示。本文档系统整理了深度学习中常用的数学公式，涵盖神经网络基础、优化算法、卷积网络、循环网络等核心内容。
+
+
+---
+
+## 1. 神经网络基础
+
+### 1.1 神经元模型
+
+神经网络的基本单元是神经元，也称为感知机。一个神经元接收 $n$ 个输入 $x_1, x_2, \ldots, x_n$，通过权重 $w_1, w_2, \ldots, w_n$ 进行加权求和，再加上偏置 $b$，最后通过激活函数 $\sigma$ 输出结果。
+
+单个神经元的输出定义为：
+
+$$
+y = \sigma\left(\sum_{i=1}^{n} w_i x_i + b\right) = \sigma(\mathbf{w}^T \mathbf{x} + b)
+$$
+
+其中 $\mathbf{w} = [w_1, w_2, \ldots, w_n]^T$ 是权重向量，$\mathbf{x} = [x_1, x_2, \ldots, x_n]^T$ 是输入向量。
+
+!!! info 矩阵形式
+    对于一层 $m$ 个神经元接收 $n$ 维输入的情况，输出向量 $\mathbf{y} \in \mathbb{R}^m$ 为：
+
+    $$
+    \mathbf{y} = \sigma(\mathbf{W} \mathbf{x} + \mathbf{b})
+    $$
+
+    其中 $\mathbf{W} \in \mathbb{R}^{m \times n}$ 是权重矩阵，$\mathbf{b} \in \mathbb{R}^m$ 是偏置向量。
+
+### 1.2 常用激活函数
+
+激活函数为神经网络引入非线性，是深度学习能够拟合复杂函数的关键。以下是常用的激活函数及其导数。
+
+#### Sigmoid 函数
+
+Sigmoid 函数将输入压缩到 $(0, 1)$ 区间，定义为：
+
+$$
+\sigma(x) = \frac{1}{1 + e^{-x}} = \frac{e^x}{e^x + 1}
+$$
+
+其导数为：
+
+$$
+\sigma'(x) = \sigma(x)(1 - \sigma(x))
+$$
+
+!!! warning 注意
+    Sigmoid 函数在 $x \to \infty$ 或 $x \to -\infty$ 时梯度接近零，这会导致梯度消失问题，在深层网络中尤为明显。
+
+#### Tanh 函数
+
+Tanh（双曲正切）函数将输入压缩到 $(-1, 1)$ 区间：
+
+$$
+\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}} = 2\sigma(2x) - 1
+$$
+
+其导数为：
+
+$$
+\tanh'(x) = 1 - \tanh^2(x)
+$$
+
+Tanh 的输出以零为中心，比 Sigmoid 收敛更快，但同样存在梯度消失问题。
+
+#### ReLU 函数
+
+ReLU（Rectified Linear Unit）是目前最广泛使用的激活函数：
+
+$$
+\text{ReLU}(x) = \max(0, x) = \begin{cases} x & \text{if } x > 0 \\ 0 & \text{if } x \leq 0 \end{cases}
+$$
+
+其导数为：
+
+$$
+\text{ReLU}'(x) = \begin{cases} 1 & \text{if } x > 0 \\ 0 & \text{if } x \leq 0 \end{cases}
+$$
+
+ReLU 计算简单，收敛速度快，但存在"dying ReLU"问题——当神经元输出恒为负时，梯度为零，权重无法更新。
+
+#### Leaky ReLU
+
+Leaky ReLU 解决了 ReLU 的"dying"问题：
+
+$$
+\text{LeakyReLU}(x) = \begin{cases} x & \text{if } x > 0 \\ \alpha x & \text{if } x \leq 0 \end{cases}
+$$
+
+其中 $\alpha$ 是一个小的正常数，通常设为 $0.01$。其导数为：
+
+$$
+\text{LeakyReLU}'(x) = \begin{cases} 1 & \text{if } x > 0 \\ \alpha & \text{if } x \leq 0 \end{cases}
+$$
+
+#### ELU 函数
+
+ELU（Exponential Linear Unit）在负值区域使用指数函数：
+
+$$
+\text{ELU}(x) = \begin{cases} x & \text{if } x > 0 \\ \alpha(e^x - 1) & \text{if } x \leq 0 \end{cases}
+$$
+
+其导数为：
+
+$$
+\text{ELU}'(x) = \begin{cases} 1 & \text{if } x > 0 \\ \text{ELU}(x) + \alpha & \text{if } x \leq 0 \end{cases}
+$$
+
+#### Swish 函数
+
+Swish 是 Google 提出的自门控激活函数：
+
+$$
+\text{Swish}(x) = x \cdot \sigma(x) = \frac{x}{1 + e^{-x}}
+$$
+
+其导数为：
+
+$$
+\text{Swish}'(x) = \sigma(x) + x \cdot \sigma(x)(1 - \sigma(x)) = \sigma(x) + x \cdot \sigma'(x)
+$$
+
+#### GELU 函数
+
+GELU（Gaussian Error Linear Unit）是 BERT 等 Transformer 模型使用的激活函数：
+
+$$
+\text{GELU}(x) = x \cdot \Phi(x) = x \cdot \frac{1}{2}\left[1 + \text{erf}\left(\frac{x}{\sqrt{2}}\right)\right]
+$$
+
+其中 $\Phi(x)$ 是标准正态分布的累积分布函数，$\text{erf}$ 是误差函数。
+
+### 1.3 Softmax 函数
+
+Softmax 函数将 $K$ 维向量 $\mathbf{z}$ 转换为概率分布：
+
+$$
+\text{Softmax}(z_i) = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}}
+$$
+
+对于输入向量 $\mathbf{z} = [z_1, z_2, \ldots, z_K]$，Softmax 的第 $i$ 个输出为 $P(y=i|\mathbf{z})$，表示分类为第 $i$ 类的概率。
+
+!!! tip 计算技巧
+    为避免数值溢出，通常使用减去最大值的技巧：
+
+    $$
+    \text{Softmax}(z_i) = \frac{e^{z_i - \max(\mathbf{z})}}{\sum_{j=1}^{K} e^{z_j - \max(\mathbf{z})}}
+    $$
+
+
+---
+
+## 2. 损失函数
+
+损失函数衡量模型预测值与真实值之间的差异，是网络训练优化的目标。
+
+### 2.1 均方误差损失 (MSE)
+
+均方误差是最常用的回归损失函数：
+
+$$
+L_{\text{MSE}} = \frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 = \frac{1}{n} \|\mathbf{y} - \hat{\mathbf{y}}\|_2^2
+$$
+
+其中 $y_i$ 是真实值，$\hat{y}_i$ 是预测值。
+
+对于单个样本：
+
+$$
+\mathcal{L} = (y - \hat{y})^2
+$$
+
+MSE 的梯度为：
+
+$$
+\frac{\partial \mathcal{L}}{\partial \hat{y}} = -2(y - \hat{y}) = 2(\hat{y} - y)
+$$
+
+### 2.2 交叉熵损失 (Cross-Entropy)
+
+交叉熵是分类问题中最常用的损失函数。对于 $K$ 类分类问题，给定真实标签 $y$（one-hot 编码）和预测概率 $\hat{\mathbf{y}} = \text{Softmax}(\mathbf{z})$：
+
+$$
+L_{\text{CE}} = -\sum_{i=1}^{K} y_i \log(\hat{y}_i) = -\log(\hat{y}_{\text{true}})
+$$
+
+当使用 Softmax 输出时，交叉熵损失的梯度非常简洁：
+
+$$
+\frac{\partial L_{\text{CE}}}{\partial z_i} = \hat{y}_i - y_i
+$$
+
+这个性质被称为"梯度软化"，使得训练过程更加稳定。
+
+### 2.3 二元交叉熵损失 (Binary Cross-Entropy)
+
+对于二分类问题，损失函数定义为：
+
+$$
+L_{\text{BCE}} = -\frac{1}{n} \sum_{i=1}^{n} [y_i \log(\hat{y}_i) + (1 - y_i) \log(1 - \hat{y}_i)]
+$$
+
+其中 $\hat{y}_i$ 是预测为正类的概率。
+
+其梯度为：
+
+$$
+\frac{\partial L_{\text{BCE}}}{\partial \hat{y}_i} = -\frac{y_i}{\hat{y}_i} + \frac{1 - y_i}{1 - \hat{y}_i}
+$$
+
+### 2.4 稀疏交叉熵损失
+
+当标签是整数索引而不是 one-hot 编码时，使用稀疏交叉熵：
+
+$$
+L_{\text{sparse-CE}} = -\log(\hat{y}_{\text{true class}})
+$$
+
+这与普通交叉熵等价，但计算更高效，因为不需要处理稀疏的 one-hot 向量。
+
+### 2.5 Focal Loss
+
+Focal Loss 用于处理类别不平衡问题：
+
+$$
+L_{\text{Focal}} = -\alpha_t (1 - \hat{y}_t)^\gamma \log(\hat{y}_t)
+$$
+
+其中 $\alpha_t$ 是类别权重，$\gamma$ 是聚焦参数（通常取 $2$）。
+
+当 $\gamma > 0$ 时，Focal Loss 减少对易分类样本的关注，更多聚焦于难分类的样本。
+
+### 2.6 合页损失 (Hinge Loss)
+
+合页损失用于支持向量机（SVM）和某些神经网络：
+
+$$
+L_{\text{Hinge}} = \sum_{i=1}^{n} \max(0, 1 - y_i \cdot \hat{y}_i)
+$$
+
+其中 $y_i \in \{-1, +1\}$ 是真实标签，$\hat{y}_i$ 是预测分数。
+
+### 2.7 KL 散度损失
+
+KL 散度衡量两个概率分布的差异：
+
+$$
+L_{\text{KL}}(p \| q) = \sum_{i} p_i \log \frac{p_i}{q_i} = \sum_{i} p_i \log p_i - \sum_{i} p_i \log q_i
+$$
+
+!!! note 特性
+    KL 散度是不对称的，即 $D_{\text{KL}}(p \| q)￼eq D_{\text{KL}}(q \| p)$。这在某些应用场景中很重要，如变分自编码器（VAE）中使用了相反的顺序。
+
+
+---
+
+## 3. 前向传播与反向传播
+
+### 3.1 前向传播
+
+对于一个 $L$ 层的神经网络，第 $l$ 层的前向传播为：
+
+$$
+\mathbf{z}^{(l)} = \mathbf{W}^{(l)} \mathbf{a}^{(l-1)} + \mathbf{b}^{(l)}
+$$
+
+$$
+\mathbf{a}^{(l)} = \sigma^{(l)}(\mathbf{z}^{(l)})
+$$
+
+其中 $\mathbf{a}^{(0)} = \mathbf{x}$ 是输入，$\mathbf{a}^{(L)} = \hat{\mathbf{y}}$ 是最终输出。
+
+### 3.2 反向传播
+
+反向传播（Backpropagation）是计算梯度的核心算法。设损失函数为 $\mathcal{L}$，反向传播的基本步骤如下：
+
+#### 输出层梯度
+
+对于输出层 $L$，损失对带权输入 $z_i^{(L)}$ 的偏导为：
+
+$$
+\delta_i^{(L)} = \frac{\partial \mathcal{L}}{\partial z_i^{(L)}} = \frac{\partial \mathcal{L}}{\partial a_i^{(L)}} \cdot \sigma'(z_i^{(L)})
+$$
+
+以交叉熵损失 + Softmax 为例：
+
+$$
+\delta_i^{(L)} = \hat{y}_i - y_i
+$$
+
+#### 隐藏层梯度
+
+对于隐藏层 $l$，使用链式法则：
+
+$$
+\delta_i^{(l)} = \left(\sum_{j=1}^{n_{l+1}} W_{ji}^{(l+1)} \delta_j^{(l+1)}\right) \cdot \sigma'(z_i^{(l)})
+$$
+
+向量形式为：
+
+$$
+\boldsymbol{\delta}^{(l)} = (\mathbf{W}^{(l+1)})^T \boldsymbol{\delta}^{(l+1)} \odot \sigma'(\mathbf{z}^{(l)})
+$$
+
+其中 $\odot$ 表示逐元素乘法。
+
+#### 权重梯度
+
+损失对权重和偏置的梯度为：
+
+$$
+\frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(l)}} = \boldsymbol{\delta}^{(l)} (\mathbf{a}^{(l-1)})^T
+$$
+
+$$
+\frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(l)}} = \boldsymbol{\delta}^{(l)}
+$$
+
+
+---
+
+## 4. 优化算法
+
+### 4.1 梯度下降法
+
+参数更新的基本形式为：
+
+$$
+\theta_{t+1} = \theta_t - \eta \nabla_\theta \mathcal{L}(\theta_t)
+$$
+
+其中 $\eta$ 是学习率，\
+abla_\theta \mathcal{L} 是损失函数对参数 $\theta$ 的梯度。
+
+### 4.2 批量梯度下降与小批量梯度下降
+
+实际应用中，通常使用小批量（mini-batch）梯度下降：
+
+$$
+\theta_{t+1} = \theta_t - \eta \frac{1}{|\mathcal{B}|} \sum_{x \in \mathcal{B}} \nabla_\theta \mathcal{L}(x; \theta_t)
+$$
+
+其中 $\mathcal{B}$ 是一个 mini-batch 的样本集合。
+
+### 4.3 动量法 (Momentum)
+
+动量法加速收敛，减少振荡：
+
+$$
+v_{t+1} = \beta v_t + (1 - \beta) \nabla_\theta \mathcal{L}(\theta_t)
+$$
+
+$$
+\theta_{t+1} = \theta_t - \eta v_{t+1}
+$$
+
+其中 $v_t$ 是速度项，$\beta \in [0, 1)$ 是动量系数，通常取 $0.9$。
+
+物理意义上，这类似于将参数空间的几何形状"压扁"，使得在曲率较小的方向上更新更快。
+
+### 4.4 Nesterov 动量
+
+Nesterov 动量是动量法的改进版本：
+
+$$
+v_{t+1} = \beta v_t - \eta \nabla_\theta \mathcal{L}(\theta_t + \beta v_t)
+$$
+
+$$
+\theta_{t+1} = \theta_t + v_{t+1}
+$$
+
+Nesterov 动量先根据历史速度预更新，再计算梯度，因此比标准动量更"前瞻"。
+
+### 4.5 AdaGrad
+
+AdaGrad 自适应调整每个参数的学习率：
+
+$$
+g_{t,i} = \nabla_{\theta_i} \mathcal{L}(\theta_t)
+$$
+
+$$
+r_{t,i} = r_{t-1,i} + g_{t,i}^2
+$$
+
+$$
+\theta_{t+1,i} = \theta_{t,i} - \frac{\eta}{\sqrt{r_{t,i} + \epsilon}} g_{t,i}
+$$
+
+其中 $r_{t,i}$ 是累积梯度平方和，$\epsilon$ 是防止除零的小常数（通常 $10^{-8}$）。
+
+!!! warning 缺点
+    AdaGrad 的学习率会随时间单调递减，可能在训练后期过小，导致提前停止学习。
+
+### 4.6 RMSProp
+
+RMSProp 修改了 AdaGrad 的累积方式，使用指数移动平均：
+
+$$
+r_{t,i} = \beta r_{t-1,i} + (1 - \beta) g_{t,i}^2
+$$
+
+$$
+\theta_{t+1,i} = \theta_{t,i} - \frac{\eta}{\sqrt{r_{t,i} + \epsilon}} g_{t,i}
+$$
+
+其中 $\beta$ 通常取 $0.9$。这使得学习率不会单调下降。
+
+### 4.7 Adam
+
+Adam（Adaptive Moment Estimation）结合了动量法和 RMSProp 的优点：
+
+$$
+m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t \quad \text{（一阶矩估计）}
+$$
+
+$$
+v_t = \beta_2 v_{t-1} + (1 - \beta_2) g_t^2 \quad \text{（二阶矩估计）}
+$$
+
+偏差校正：
+
+$$
+\hat{m}_t = \frac{m_t}{1 - \beta_1^t}
+$$
+
+$$
+\hat{v}_t = \frac{v_t}{1 - \beta_2^t}
+$$
+
+参数更新：
+
+$$
+\theta_{t+1} = \theta_t - \frac{\eta}{\sqrt{\hat{v}_t} + \epsilon} \hat{m}_t
+$$
+
+!!! tip 典型超参数
+    论文中推荐的默认参数：$\beta_1 = 0.9$，$\beta_2 = 0.999$，$\epsilon = 10^{-8}$，$\eta = 0.001$。
+
+### 4.8 AdamW
+
+AdamW（Adam with Weight Decay）将权重衰减与 Adam 分离：
+
+$$
+m_t = \beta_1 m_{t-1} + (1 - \beta_1) g_t
+$$
+
+$$
+v_t = \beta_2 v_{t-1} + (1 - \beta_2) g_t^2
+$$
+
+$$
+\hat{m}_t = \frac{m_t}{1 - \beta_1^t}
+$$
+
+$$
+\hat{v}_t = \frac{v_t}{1 - \beta_2^t}
+$$
+
+$$
+\theta_{t+1} = \theta_t - \eta \left(\frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon} + \lambda \theta_t\right)
+$$
+
+其中 $\lambda$ 是权重衰减系数。标准 Adam 的 L2 正则化与 AdamW 的权重衰减在理论上不同。
+
+### 4.9 学习率调度
+
+学习率衰减策略：
+
+#### 步衰减 (Step Decay)
+
+$$
+\eta_t = \eta_0 \cdot \gamma^{\lfloor t / T \rfloor}
+$$
+
+其中 $\gamma$ 是衰减率（通常 $0.5$），$T$ 是衰减周期。
+
+#### 指数衰减 (Exponential Decay)
+
+$$
+\eta_t = \eta_0 \cdot e^{-\lambda t}
+$$
+
+#### 余弦退火 (Cosine Annealing)
+
+$$
+\eta_t = \eta_{\min} + \frac{1}{2}(\eta_{\max} - \eta_{\min})(1 + \cos(\pi t / T))
+$$
+
+#### Warmup
+
+在训练初期逐渐增加学习率：
+
+$$
+\eta_t = \eta_{\max} \cdot \frac{t}{T_{\text{warmup}}}
+$$
+
+
+---
+
+## 5. 卷积神经网络 (CNN)
+
+### 5.1 二维卷积
+
+对于输入特征图 $\mathbf{X} \in \mathbb{R}^{H \times W}$ 和卷积核 $\mathbf{K} \in \mathbb{R}^{k_h \times k_w}$，二维卷积定义为：
+
+$$
+(\mathbf{X} * \mathbf{K})_{i,j} = \sum_{m=-k_h/2}^{k_h/2} \sum_{n=-k_w/2}^{k_w/2} \mathbf{K}_{m,n} \cdot \mathbf{X}_{i+m,j+n}
+$$
+
+### 5.2 步长与填充
+
+设输入尺寸为 $H \times W$，卷积核尺寸为 $k_h \times k_w$，步长为 $s$，填充为 $p$，输出尺寸为：
+
+$$
+H_{\text{out}} = \left\lfloor \frac{H + 2p - k_h}{s} \right\rfloor + 1
+$$
+
+$$
+W_{\text{out}} = \left\lfloor \frac{W + 2p - k_w}{s} \right\rfloor + 1
+$$
+
+### 5.3 空洞卷积 (Dilated Convolution)
+
+空洞卷积在卷积核中间插入空洞：
+
+$$
+(\mathbf{X} *_\text{dilated} \mathbf{K})_{i,j} = \sum_{m=-k_h/2}^{k_h/2} \sum_{n=-k_w/2}^{k_w/2} \mathbf{K}_{m,n} \cdot \mathbf{X}_{i+dm,j+dn}
+$$
+
+其中 $d$ 是空洞率。空洞卷积可以在不增加参数的情况下扩大感受野。
+
+感受野计算：
+
+$$
+r_{\text{out}} = r_{\text{in}} + (k - 1) \cdot d
+$$
+
+### 5.4 深度可分离卷积 (Depthwise Separable Convolution)
+
+深度可分离卷积将空间卷积和逐点卷积分开：
+
+$$
+\mathbf{Y}_{\text{depthwise}} = \text{DepthwiseConv}(\mathbf{X}, \mathbf{K}) = \mathbf{X} * \mathbf{K}
+$$
+
+$$
+\mathbf{Y}_{\text{pointwise}} = \text{PointwiseConv}(\mathbf{Y}_{\text{depthwise}}, \mathbf{W}) = \mathbf{W} \cdot \mathbf{Y}_{\text{depthwise}}
+$$
+
+
+计算量减少比例：
+
+$$
+\frac{\text{Depthwise Separable}}{\text{Standard}} = \frac{1}{N} + \frac{1}{k_h \cdot k_w}
+$$
+
+其中 $N$ 是通道数。
+
+### 5.5 池化操作
+
+#### 最大池化 (Max Pooling)
+
+$$
+y_{i,j,k} = \max_{(p,q) \in \mathcal{N}_{i,j}} x_{p,q,k}
+$$
+
+其中 $\mathcal{N}_{i,j}$ 是池化窗口覆盖的区域。
+
+#### 平均池化 (Average Pooling)
+
+$$
+y_{i,j,k} = \frac{1}{|\mathcal{N}_{i,j}|} \sum_{(p,q) \in \mathcal{N}_{i,j}} x_{p,q,k}
+$$
+
+#### 全局池化 (Global Pooling)
+
+对整个特征图进行池化，输出单个值：
+
+$$
+y_k = \frac{1}{HW} \sum_{i=1}^{H} \sum_{j=1}^{W} x_{i,j,k}
+$$
+
+
+---
+
+## 6. 循环神经网络 (RNN)
+
+### 6.1 基本 RNN 单元
+
+对于输入序列 $\mathbf{x}^{(1)}, \mathbf{x}^{(2)}, \ldots, \mathbf{x}^{(T)}$，基本 RNN 的更新公式：
+
+$$
+\mathbf{h}^{(t)} = \sigma_h(\mathbf{W}_{hh} \mathbf{h}^{(t-1)} + \mathbf{W}_{xh} \mathbf{x}^{(t)} + \mathbf{b}_h)
+$$
+
+$$
+\mathbf{y}^{(t)} = \sigma_y(\mathbf{W}_{hy} \mathbf{h}^{(t)} + \mathbf{b}_y)
+$$
+
+### 6.2 LSTM
+
+长短期记忆网络（LSTM）通过门控机制解决梯度消失问题：
+
+#### 遗忘门
+
+$$
+\mathbf{f}^{(t)} = \sigma(\mathbf{W}_f \mathbf{h}^{(t-1)} + \mathbf{U}_f \mathbf{x}^{(t)} + \mathbf{b}_f)
+$$
+
+#### 输入门
+
+$$
+\mathbf{i}^{(t)} = \sigma(\mathbf{W}_i \mathbf{h}^{(t-1)} + \mathbf{U}_i \mathbf{x}^{(t)} + \mathbf{b}_i)
+$$
+
+#### 候选记忆
+
+$$
+\tilde{\mathbf{c}}^{(t)} = \tanh(\mathbf{W}_c \mathbf{h}^{(t-1)} + \mathbf{U}_c \mathbf{x}^{(t)} + \mathbf{b}_c)
+$$
+
+#### 细胞状态更新
+
+$$
+\mathbf{c}^{(t)} = \mathbf{f}^{(t)} \odot \mathbf{c}^{(t-1)} + \mathbf{i}^{(t)} \odot \tilde{\mathbf{c}}^{(t)}
+$$
+
+#### 输出门
+
+$$
+\mathbf{o}^{(t)} = \sigma(\mathbf{W}_o \mathbf{h}^{(t-1)} + \mathbf{U}_o \mathbf{x}^{(t)} + \mathbf{b}_o)
+$$
+
+#### 隐藏状态
+
+$$
+\mathbf{h}^{(t)} = \mathbf{o}^{(t)} \odot \tanh(\mathbf{c}^{(t)})
+$$
+
+### 6.3 GRU
+
+门控循环单元（GRU）是 LSTM 的简化版本：
+
+#### 更新门
+
+$$
+\mathbf{z}^{(t)} = \sigma(\mathbf{W}_z \mathbf{h}^{(t-1)} + \mathbf{U}_z \mathbf{x}^{(t)} + \mathbf{b}_z)
+$$
+
+#### 重置门
+
+$$
+\mathbf{r}^{(t)} = \sigma(\mathbf{W}_r \mathbf{h}^{(t-1)} + \mathbf{U}_r \mathbf{x}^{(t)} + \mathbf{b}_r)
+$$
+
+#### 候选隐藏状态
+
+$$
+\tilde{\mathbf{h}}^{(t)} = \tanh(\mathbf{W}_h (\mathbf{r}^{(t)} \odot \mathbf{h}^{(t-1)}) + \mathbf{U}_h \mathbf{x}^{(t)} + \mathbf{b}_h)
+$$
+
+#### 隐藏状态更新
+
+$$
+\mathbf{h}^{(t)} = (1 - \mathbf{z}^{(t)}) \odot \mathbf{h}^{(t-1)} + \mathbf{z}^{(t)} \odot \tilde{\mathbf{h}}^{(t)}
+$$
+
+
+---
+
+## 7. 注意力机制
+
+### 7.1 点积注意力
+
+给定查询 $\mathbf{Q} \in \mathbb{R}^{n \times d_k}$、键 $\mathbf{K} \in \mathbb{R}^{m \times d_k}$、值 $\mathbf{V} \in \mathbb{R}^{m \times d_v}$：
+
+$$
+\text{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{softmax}\left(\frac{\mathbf{Q}\mathbf{K}^T}{\sqrt{d_k}}\right) \mathbf{V}
+$$
+
+缩放因子 $\sqrt{d_k}$ 防止点积值过大导致 softmax 梯度消失。
+
+### 7.2 多头注意力 (Multi-Head Attention)
+
+$$
+\text{MultiHead}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h) \mathbf{W}^O
+$$
+
+$$
+\text{head}_i = \text{Attention}(\mathbf{Q}\mathbf{W}_i^Q, \mathbf{K}\mathbf{W}_i^K, \mathbf{V}\mathbf{W}_i^V)
+$$
+
+其中投影矩阵 $\mathbf{W}_i^Q, \mathbf{W}_i^K, \mathbf{W}_i^V \in \mathbb{R}^{d_{\text{model}} \times d_k}$，$\mathbf{W}^O \in \mathbb{R}^{hd_v \times d_{\text{model}}}$。
+
+
+---
+
+## 8. 正则化
+
+### 8.1 L2 正则化
+
+在损失函数中添加权重范数惩罚：
+
+$$
+\tilde{\mathcal{L}}(\theta) = \mathcal{L}(\theta) + \frac{\lambda}{2} \|\theta\|_2^2 = \mathcal{L}(\theta) + \frac{\lambda}{2} \sum_i \theta_i^2
+$$
+
+梯度为：
+
+$$
+\nabla_\theta \tilde{\mathcal{L}} = \nabla_\theta \mathcal{L} + \lambda \theta
+$$
+
+参数更新：
+
+$$
+\theta_{t+1} = \theta_t - \eta(\nabla_\theta \mathcal{L} + \lambda \theta_t) = (1 - \eta\lambda)\theta_t - \eta \nabla_\theta \mathcal{L}
+$$
+
+这等价于权重衰减。
+
+### 8.2 L1 正则化
+
+$$
+\tilde{\mathcal{L}}(\theta) = \mathcal{L}(\theta) + \lambda \|\theta\|_1 = \mathcal{L}(\theta) + \lambda \sum_i |\theta_i|
+$$
+
+L1 正则化产生稀疏权重，具有特征选择的作用。
+
+### 8.3 Dropout
+
+训练时以概率 $p$ 随机将部分神经元置零：
+
+$$
+\mathbf{y} = \frac{1}{1-p} \mathbf{d} \odot \sigma(\mathbf{W}\mathbf{x} + \mathbf{b})
+$$
+
+其中 $\mathbf{d} \in \{0,1\}^n$ 是随机掩码，$1/(1-p)$ 用于测试时保持期望一致。
+
+!!! note 测试时处理
+    测试时不需要 Dropout，所有神经元参与计算，权重按 $p$ 缩放（或者保持不变，在训练时进行缩放）。
+
+### 8.4 DropConnect
+
+DropConnect 是 Dropout 的变体，随机将部分连接权重置零：
+
+$$
+\mathbf{y} = \sigma((\mathbf{W} \odot \mathbf{D})\mathbf{x} + \mathbf{b})
+$$
+
+其中 $\mathbf{D}$ 是与 $\mathbf{W}$ 形状相同的随机掩码矩阵。
+
+### 8.5 批归一化 (Batch Normalization)
+
+设 mini-batch 均值为 $\mu_\mathcal{B}$，方差为 $\sigma_\mathcal{B}^2$：
+
+$$
+\hat{x}_i = \frac{x_i - \mu_\mathcal{B}}{\sqrt{\sigma_\mathcal{B}^2 + \epsilon}}
+$$
+
+$$
+y_i = \gamma \hat{x}_i + \beta
+$$
+
+其中 $\gamma$ 和 $\beta$ 是可学习的缩放和偏移参数。
+
+!!! tip 优势
+    批归一化使得网络对权重初始化不那么敏感，允许使用更大的学习率，加速收敛。
+
+
+---
+
+## 9. 归一化技术
+
+### 9.1 层归一化 (Layer Normalization)
+
+与批归一化不同，层归一化在单个样本内计算均值和方差：
+
+$$
+\mu^{(i)} = \frac{1}{H} \sum_{j=1}^{H} x_j^{(i)}
+$$
+
+$$
+\sigma^{(i)} = \sqrt{\frac{1}{H} \sum_{j=1}^{H} (x_j^{(i)} - \mu^{(i)})^2}
+$$
+
+$$
+\hat{x}_j^{(i)} = \frac{x_j^{(i)} - \mu^{(i)}}{\sqrt{\sigma^{(i)2} + \epsilon}}
+$$
+
+$$
+y_j^{(i)} = \gamma \hat{x}_j^{(i)} + \beta
+$$
+
+### 9.2 实例归一化 (Instance Normalization)
+
+主要用于风格迁移，计算每个样本、每个通道的均值和方差：
+
+$$
+\hat{x}_{c,j}^{(i)} = \frac{x_{c,j}^{(i)} - \mu_c^{(i)}}{\sqrt{(\sigma_c^{(i)})^2 + \epsilon}}
+$$
+
+### 9.3 组归一化 (Group Normalization)
+
+将通道分组，在每组内计算均值和方差：
+
+$$
+\mu_g^{(i)} = \frac{1}{(C/g) \cdot H \cdot W} \sum_{c=(g-1)C/g}^{C} \sum_{j=1}^{H \cdot W} x_{c,j}^{(i)}
+$$
+
+
+---
+
+## 10. 词嵌入
+
+### 10.1 Word2Vec - Skip-gram
+
+给定中心词 $w_c$，预测上下文词 $w_o$ 的概率：
+
+$$
+P(w_o | w_c) = \frac{\exp(\mathbf{u}_o^T \mathbf{v}_c)}{\sum_{w \in \mathcal{V}} \exp(\mathbf{u}_w^T \mathbf{v}_c)}
+$$
+
+目标函数（负采样近似）：
+
+$$
+\mathcal{L} = \log \sigma(\mathbf{u}_o^T \mathbf{v}_c) + \sum_{i=1}^{k} \mathbb{E}_{w_i \sim P_n(w)}[\log \sigma(-\mathbf{u}_{w_i}^T \mathbf{v}_c)]
+$$
+
+### 10.2 GloVe
+
+GloVe 的目标函数是最小化词向量与共现概率的差异：
+
+$$
+\mathcal{L} = \sum_{i,j} f(X_{ij})(w_i^T \tilde{w}_j + b_i + \tilde{b}_j - \log X_{ij})^2
+$$
+
+其中 $X_{ij}$ 是词 $i$ 和词 $j$ 的共现次数，$f$ 是加权函数：
+
+$$
+f(x) = \begin{cases} (x / x_{\max})^\alpha & \text{if } x < x_{\max} \\ 1 & \text{otherwise} \end{cases}
+$$
+
+
+---
+
+## 11. 目标检测
+
+### 11.1 IoU (Intersection over Union)
+
+IoU 衡量预测框与真实框的重叠程度：
+
+$$
+\text{IoU} = \frac{\text{Area}(B_p \cap B_{gt})}{\text{Area}(B_p \cup B_{gt})}
+$$
+
+### 11.2 NMS (Non-Maximum Suppression)
+
+对于类别 $c$，按置信度排序后：
+
+$$
+\text{NMS}(B, S, \theta) = \left\{ b_i \in B \mid \text{IoU}(b_i, b_j) < \theta, \forall b_j \in \text{Keep}(S) \right\}
+$$
+
+### 11.3 mAP (mean Average Precision)
+
+$$
+\text{AP} = \int_0^1 P(r) \, dr
+$$
+
+$$
+\text{mAP} = \frac{1}{K} \sum_{k=1}^{K} \text{AP}_k
+$$
+
+其中 $P$ 是精确率，$R$ 是召回率，$K$ 是类别数。
+
+
+---
+
+## 12. 图像分割
+
+### 12.1 FCN (Fully Convolutional Network)
+
+将全连接层替换为卷积层，允许输入任意尺寸：
+
+$$
+\text{Output} = \text{Conv}(\text{Conv}(\ldots \text{Conv}(\text{Input})))
+$$
+
+### 12.2 转置卷积 (Transposed Convolution)
+
+用于上采样，输出尺寸：
+
+$$
+H_{\text{out}} = (H_{\text{in}} - 1) \cdot s - 2p + k
+$$
+
+其中 $s$ 是步长，$p$ 是填充，$k$ 是卷积核尺寸。
+
+### 12.3 U-Net
+
+编码器-解码器架构，跳跃连接：
+
+$$
+\mathbf{y} = \text{Decoder}(\text{Encoder}(\mathbf{x}), \text{Skip}(\mathbf{x}))
+$$
+
+
+---
+
+## 13. 自编码器
+
+### 13.1 基本自编码器
+
+编码：$\mathbf{h} = f(\mathbf{W}_e \mathbf{x} + \mathbf{b}_e)$
+
+解码：$\hat{\mathbf{x}} = g(\mathbf{W}_d \mathbf{h} + \mathbf{b}_d)$
+
+重构损失：$\mathcal{L} = \|\mathbf{x} - \hat{\mathbf{x}}\|^2$
+
+### 13.2 变分自编码器 (VAE)
+
+隐变量的变分下界（ELBO）：
+
+$$
+\mathcal{L}_{\text{ELBO}} = \mathbb{E}_{q_\phi(\mathbf{z}|\mathbf{x})}[\log p_\theta(\mathbf{x}|\mathbf{z})] - \text{KL}(q_\phi(\mathbf{z}|\mathbf{x}) \| p(\mathbf{z}))
+$$
+
+其中先验 $p(\mathbf{z}) = \mathcal{N}(\mathbf{0}, \mathbf{I})$，近似后验 $q_\phi(\mathbf{z}|\mathbf{x}) = \mathcal{N}(\boldsymbol{\mu}_\phi(\mathbf{x}), \boldsymbol{\sigma}_\phi^2(\mathbf{x}))$。
+
+重参数化技巧：
+
+$$
+\mathbf{z} = \boldsymbol{\mu} + \boldsymbol{\sigma} \odot \boldsymbol{\epsilon}, \quad \boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})
+$$
+
+
+---
+
+## 14. 生成对抗网络 (GAN)
+
+### 14.1 GAN 目标函数
+
+$$
+\min_G \max_D V(D, G) = \mathbb{E}_{\mathbf{x} \sim p_{\text{data}}(\mathbf{x})}[\log D(\mathbf{x})] + \mathbb{E}_{\mathbf{z} \sim p_\mathbf{z}(\mathbf{z})}[\log(1 - D(G(\mathbf{z})))]
+$$
+
+### 14.2 WGAN
+
+Wasserstein 距离替代 JS 散度：
+
+$$
+\mathcal{L} = \mathbb{E}_{\mathbf{x} \sim p_g}[D(\mathbf{x})] - \mathbb{E}_{\mathbf{x} \sim p_{\text{data}}}[D(\mathbf{x})]
+$$
+
+加上梯度惩罚：
+
+$$
+\mathcal{L} = \mathbb{E}_{\tilde{\mathbf{x}} \sim p_g}[D(\tilde{\mathbf{x}})] - \mathbb{E}_{\mathbf{x} \sim p_{\text{data}}}[D(\mathbf{x})] + \lambda \mathbb{E}_{\hat{\mathbf{x}} \sim p_{\hat{\mathbf{x}}}}[(\|\nabla_{\hat{\mathbf{x}}} D(\hat{\mathbf{x}})\|_2 - 1)^2]
+$$
+
+
+---
+
+## 15. 残差网络 (ResNet)
+
+### 15.1 残差块
+
+$$
+\mathbf{y} = \mathcal{F}(\mathbf{x}, \{W_i\}) + \mathbf{x}
+$$
+
+其中 $\mathcal{F}$ 是学习的残差映射。当输入输出维度不匹配时，使用线性投影：
+
+$$
+\mathbf{y} = \mathcal{F}(\mathbf{x}, \{W_i\}) + W_s \mathbf{x}
+$$
+
+### 15.2 恒等映射的梯度
+
+主路径梯度：
+
+$$
+\frac{\partial \mathcal{L}}{\partial \mathbf{x}} = \frac{\partial \mathcal{L}}{\partial \mathbf{y}} \cdot \frac{\partial \mathbf{y}}{\partial \mathbf{x}} = \frac{\partial \mathcal{L}}{\partial \mathbf{y}} \cdot (I + \frac{\partial \mathcal{F}}{\partial \mathbf{x}})
+$$
+
+即使 $\frac{\partial \mathcal{F}}{\partial \mathbf{x}}$ 很小，梯度也能直接回传，解决了深层网络的梯度消失问题。
+
+
+---
+
+## 16. 归一化流 (Normalizing Flows)
+
+### 16.1 变量变换公式
+
+若 $\mathbf{z} = f(\mathbf{x})$，$f$ 是双射，则：
+
+$$
+p_X(\mathbf{x}) = p_Z(f(\mathbf{x})) \left| \det \frac{\partial f}{\partial \mathbf{x}} \right|
+$$
+
+$$
+\log p_X(\mathbf{x}) = \log p_Z(f(\mathbf{x})) + \log \left| \det \frac{\partial f}{\partial \mathbf{x}} \right|
+$$
+
+### 16.2 Jacobian 行列式计算
+
+对于因果链式变换 $\mathbf{z} = f_K \circ f_{K-1} \circ \cdots \circ f_1(\mathbf{x})$：
+
+$$
+\log \left| \det \frac{\partial \mathbf{z}}{\partial \mathbf{x}} \right| = \sum_{k=1}^{K} \log \left| \det \frac{\partial f_k}{\partial \mathbf{h}_{k-1}} \right|
+$$
+
+其中每一层只需要计算自己的 Jacobian，使得计算 tractable。
+
+
+---
+
+## 17. Transformer 架构
+
+### 17.1 位置编码 (Positional Encoding)
+
+#### 正弦位置编码
+
+$$
+PE_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)
+$$
+
+$$
+PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)
+$$
+
+#### 旋转位置编码 (RoPE)
+
+通过旋转矩阵编码相对位置：
+
+$$
+\mathbf{q}_i' = \mathbf{R}_{\theta, i} \mathbf{q}_i, \quad \mathbf{k}_j' = \mathbf{R}_{\theta, j} \mathbf{k}_j
+$$
+
+$$
+\mathbf{R}_{\theta, i} = \begin{bmatrix} \cos(i\theta) & -\sin(i\theta) \\ \sin(i\theta) & \cos(i\theta) \end{bmatrix}
+$$
+
+注意力分数：
+
+$$
+\text{Attention}(\mathbf{q}_i', \mathbf{k}_j', \mathbf{v}_j) = \frac{\mathbf{q}_i'^T \mathbf{k}_j'}{\sqrt{d}} \mathbf{v}_j = \frac{\mathbf{q}_i^T \mathbf{R}_{\theta, i}^T \mathbf{R}_{\theta, j} \mathbf{k}_j}{\sqrt{d}} \mathbf{v}_j
+$$
+
+
+---
+
+## 18. 知识蒸馏
+
+### 18.1 蒸馏损失
+
+教师网络的软标签提供暗知识：
+
+$$
+p_i = \text{softmax}\left(\frac{z_i}{T}\right) \quad \text{（温度 } T \text{）}
+$$
+
+学生网络蒸馏损失：
+
+$$
+\mathcal{L}_{\text{distil}} = \text{KL}(p^{\text{teacher}} \| p^{\text{student}}) = \sum_i p_i^{\text{teacher}} \log \frac{p_i^{\text{teacher}}}{p_i^{\text{student}}}
+$$
+
+### 18.2 综合损失
+
+$$
+\mathcal{L} = \alpha \mathcal{L}_{\text{CE}}^{\text{student}} + (1 - \alpha) T^2 \mathcal{L}_{\text{distil}}
+$$
+
+其中 $\alpha$ 是平衡系数，当 $T > 1$ 时软化分布，使暗知识更容易迁移。
+
+
+---
+
+## 19. 不确定性估计
+
+### 19.1 贝叶斯神经网络
+
+权重后验：$p(\mathbf{w} | \mathcal{D}) \propto p(\mathcal{D} | \mathbf{w}) p(\mathbf{w})$
+
+预测分布：
+
+$$
+p(y | \mathbf{x}, \mathcal{D}) = \int p(y | \mathbf{x}, \mathbf{w}) p(\mathbf{w} | \mathcal{D}) d\mathbf{w}
+$$
+
+### 19.2 MC Dropout
+
+使用 Dropout 进行蒙特卡洛采样近似贝叶斯推断：
+
+$$
+\mathbb{E}[y | \mathbf{x}] \approx \frac{1}{T} \sum_{t=1}^{T} \hat{y}_t
+$$
+
+$$
+\mathbb{V}[y | \mathbf{x}] \approx \frac{1}{T} \sum_{t=1}^{T} \hat{y}_t^2 - \left(\frac{1}{T} \sum_{t=1}^{T} \hat{y}_t\right)^2 + \tau^{-1} I
+$$
+
+其中 $\tau$ 是 Dropout 率的函数。
+
+
+---
+
+## 20. 对比学习
+
+### 20.1 InfoNCE 损失
+
+$$
+\mathcal{L}_{\text{InfoNCE}} = -\log \frac{\exp(\mathbf{z}_i \cdot \mathbf{z}_j / \tau)}{\sum_{k=1}^{2N} \mathbb{1}_{[k \neq i]} \exp(\mathbf{z}_i \cdot \mathbf{z}_k / \tau)}
+$$
+
+其中 $\tau$ 是温度系数，$N$ 是正样本对数量，$\mathbf{z}_i, \mathbf{z}_j$ 是正样本对的表示。
+
+### 20.2 对比损失的温度参数
+
+温度系数 $\tau$ 控制对相似样本的敏感度：
+
+- $\tau$ 较小：更关注难负例
+- $\tau$ 较大：分布更平滑
+
+!!! tip 典型取值
+    实践中 $\tau$ 通常在 $0.1$ 到 $0.5$ 之间，具体取决于任务难度和数据分布。
+
+
+---
+
+## 附录：常用数学符号表
+
+|符号 |含义 |
+|---|---|
+|\ abla |梯度算子 |
+|$\Delta$ |拉普拉斯算子 |
+|$\odot$ |逐元素乘法（Hadamard 积） |
+|$\otimes$ |卷积运算 |
+|$\sigma$ |激活函数 |
+|$\Sigma$ |求和 |
+|$\prod$ |连乘 |
+|$\mathbb{E}$ |数学期望 |
+|$\mathbb{V}$ |方差 |
+|$\|\cdot\|$ |范数 |
+|$\det$ |行列式 |
+
+
+---
+
+本文档涵盖了深度学习中 100+ 核心公式，涵盖神经网络基础、优化算法、卷积网络、循环网络、注意力机制、正则化、生成模型等主要内容。公式使用 Zditor 的块公式 `$$...$$` 和行内公式 `$...$` 语法编写，支持 LaTeX 格式渲染。

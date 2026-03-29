@@ -88,7 +88,7 @@ cover:
   type: asset
   description: 
   label: Cover Image
-  value: ""
+  value: "covers/外星人ET.jpg"
   default: ""
 display:
   type: checkbox

@@ -6,6 +6,8 @@ on:
       - "v*" # 只会在以 v 开头的标签推送时触发
 jobs:
   publish-tauri:
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     permissions:
       contents: write
     strategy:
@@ -57,9 +59,9 @@ jobs:
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
 
       - name: Rust cache
-        uses: swatinem/rust-cache@v2
+        uses: Swatinem/rust-cache@v2
         with:
-          workspaces: './src-tauri -> target'
+          workspaces: './src-tauri'
 
       - name: Cache apt packages (ubuntu only)
         if: matrix.platform == 'ubuntu-22.04'

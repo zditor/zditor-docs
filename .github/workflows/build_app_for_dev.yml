@@ -6,6 +6,9 @@ on:
       tag:
         description: "version"
         required: true
+      commit_id:
+        description: "commit ID (optional, defaults to latest)"
+        required: false
 jobs:
   publish-tauri:
     env:
@@ -32,6 +35,7 @@ jobs:
         with:
           repository: ${{ secrets.REPO }} # 替换为私有仓库的实际路径
           token: ${{ secrets.DEPLOY_TOKEN }} # 使用 GitHub 提供的 GITHUB_TOKEN 进行身份验证
+          ref: ${{ github.event.inputs.commit_id || '' }} # 如果提供了 commit_id 则使用，否则使用默认分支
 
       # 导入 Apple 证书（仅限 macOS）
       - name: Import Certificate

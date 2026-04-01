@@ -1,83 +1,64 @@
 ---
-cover:
-  type: asset
-  label: Cover Image
-  description: ''
-  value: 'assets/physics-formulas-cover.jpg'
-  default: ''
-warm:
-  type: checkbox
-  label: Warm
-  description: ''
-  value: false
-  default: false
 display:
   type: checkbox
-  label: Display
-  description: ''
+  description: display
+  label: 显示属性
   value: false
-  default: false
-col:
-  type: array
-  label: Col
-  description: ''
-  value:
-    - subject
-    - title
-    - description
-  default: []
-row:
-  type: array
-  label: Row
-  description: ''
-  value:
-    - avatar
-    - author
-    - updated
-    - tags
-  default: []
 title:
   type: text
+  description: 
   label: Title
-  description: ''
-  value: 经典物理学公式详解
-  default: ''
-subject:
-  type: text
-  label: Subject
-  description: ''
-  value: Physics
-  default: ''
-description:
-  type: text
-  label: Description
-  description: ''
-  value: 力学 · 电磁学 · 热力学 · 光学 · 相对论 · 量子力学
-  default: ''
+  value: "经典物理学公式详解"
+row:
+  type: array
+  description: 
+  label: Row
+  value: ["avatar","author","updated","tags"]
 avatar:
   type: asset
+  description: 
   label: Avatar
-  description: ''
-  value: 'assets/physics-author-avatar.jpg'
-  default: ''
-author:
-  type: text
-  label: Author
-  description: ''
-  value: SeeLey & ClaudeCode
-  default: ''
-updated:
-  type: date
-  label: Updated
-  description: ''
-  value: '2026-04-01'
-  default: ''
+  value: "assets/physics-author-avatar.jpg"
 tags:
   type: text
+  description: 
   label: Tags
-  description: ''
-  value: 物理 · 公式 · 参考
-  default: ''
+  value: "物理 · 公式 · 参考"
+updated:
+  type: date
+  description: 
+  label: Updated
+  value: "2026-04-01"
+subject:
+  type: text
+  description: 
+  label: Subject
+  value: "Physics"
+col:
+  type: array
+  description: 
+  label: Col
+  value: ["subject","title","description"]
+cover:
+  type: asset
+  description: 
+  label: Cover Image
+  value: "assets/physics-formulas-cover.jpg"
+description:
+  type: text
+  description: 
+  label: Description
+  value: "力学 · 电磁学 · 热力学 · 光学 · 相对论 · 量子力学"
+warm:
+  type: checkbox
+  description: warm
+  label: 暖色调
+  value: false
+author:
+  type: text
+  description: 
+  label: Author
+  value: "SeeLey & ClaudeCode"
 ---
 # 经典物理学公式详解
 
@@ -652,6 +633,7 @@ $$
 $$
 F = BIL\sin\theta
 $$
+
 
 #### 毕奥-萨伐尔定律
 

@@ -1,6 +1,88 @@
+---
+cover:
+  type: asset
+  label: Cover Image
+  description: ''
+  value: 'assets/physics-formulas-cover.jpg'
+  default: ''
+warm:
+  type: checkbox
+  label: Warm
+  description: ''
+  value: false
+  default: false
+display:
+  type: checkbox
+  label: Display
+  description: ''
+  value: false
+  default: false
+col:
+  type: array
+  label: Col
+  description: ''
+  value:
+    - subject
+    - title
+    - description
+  default: []
+row:
+  type: array
+  label: Row
+  description: ''
+  value:
+    - avatar
+    - author
+    - updated
+    - tags
+  default: []
+title:
+  type: text
+  label: Title
+  description: ''
+  value: 经典物理学公式详解
+  default: ''
+subject:
+  type: text
+  label: Subject
+  description: ''
+  value: Physics
+  default: ''
+description:
+  type: text
+  label: Description
+  description: ''
+  value: 力学 · 电磁学 · 热力学 · 光学 · 相对论 · 量子力学
+  default: ''
+avatar:
+  type: asset
+  label: Avatar
+  description: ''
+  value: 'assets/physics-author-avatar.jpg'
+  default: ''
+author:
+  type: text
+  label: Author
+  description: ''
+  value: SeeLey & ClaudeCode
+  default: ''
+updated:
+  type: date
+  label: Updated
+  description: ''
+  value: '2026-04-01'
+  default: ''
+tags:
+  type: text
+  label: Tags
+  description: ''
+  value: 物理 · 公式 · 参考
+  default: ''
+---
 # 经典物理学公式详解
 
 物理学是研究物质、能量及其相互作用的自然科学。本文档系统整理了经典物理学中的核心公式，涵盖力学、电磁学、热力学、光学、相对论和量子力学等主要领域。
+
 
 ---
 
@@ -363,6 +445,7 @@ $$
 $$
 E_p = \frac{1}{2}kx^2 = \frac{1}{2}kA^2 \cos^2(\omega t + \varphi)
 $$
+
 
 ---
 
@@ -735,6 +818,7 @@ $$
 c = \frac{1}{\sqrt{\mu_0\epsilon_0}} \approx 3 \times 10^8 \, \text{m/s}
 $$
 
+
 ---
 
 ## 3. 热力学
@@ -894,6 +978,7 @@ $$
 $$
 
 其中 $\alpha = k/(\rho c)$ 是热扩散系数。
+
 
 ---
 
@@ -1059,6 +1144,7 @@ $$
 
 此时反射光完全偏振。
 
+
 ---
 
 ## 5. 狭义相对论
@@ -1146,6 +1232,7 @@ $$
 E = pc = h\nu = \frac{hc}{\lambda}
 $$
 
+
 ---
 
 ## 6. 量子力学基础
@@ -1166,7 +1253,8 @@ $$
 E_k = h\nu - W = h\nu - h\nu_0
 $$
 
-其中 $W$ 是逸出功，$\nu_0$ 是截止频率。
+其中 $W$ 是逸出功，\
+u_0 是截止频率。
 
 #### 康普顿散射
 
@@ -1288,6 +1376,7 @@ $$
 
 其中 $R_\infty = 1.097 \times 10^7 \, \text{m}^{-1}$ 是里德伯常数。
 
+
 ---
 
 ## 7. 流体力学
@@ -1334,6 +1423,7 @@ $$
 F = 6\pi\eta Rv
 $$
 
+
 ---
 
 ## 8. 原子核物理
@@ -1370,27 +1460,29 @@ $$
 A = \lambda N = \frac{dN}{dt}
 $$
 
+
 ---
 
 ## 附录：物理常数表
 
-| 常数 | 符号 | 数值 |
-|------|------|------|
-| 光速 | $c$ | $2.998 \times 10^8 \, \text{m/s}$ |
-| 引力常数 | $G$ | $6.674 \times 10^{-11} \, \text{N·m}^2/\text{kg}^2$ |
-| 普朗克常数 | $h$ | $6.626 \times 10^{-34} \, \text{J·s}$ |
-| 约化普朗克常数 | $\hbar$ | $1.055 \times 10^{-34} \, \text{J·s}$ |
-| 玻尔兹曼常数 | $k_B$ | $1.381 \times 10^{-23} \, \text{J/K}$ |
-| 气体常数 | $R$ | $8.314 \, \text{J/(mol·K)}$ |
-| 阿伏伽德罗常数 | $N_A$ | $6.022 \times 10^{23} \, \text{mol}^{-1}$ |
-| 真空介电常数 | $\epsilon_0$ | $8.854 \times 10^{-12} \, \text{F/m}$ |
-| 真空磁导率 | $\mu_0$ | $4\pi \times 10^{-7} \, \text{H/m}$ |
-| 电子质量 | $m_e$ | $9.109 \times 10^{-31} \, \text{kg}$ |
-| 质子质量 | $m_p$ | $1.673 \times 10^{-27} \, \text{kg}$ |
-| 中子质量 | $m_n$ | $1.675 \times 10^{-27} \, \text{kg}$ |
-| 元电荷 | $e$ | $1.602 \times 10^{-19} \, \text{C}$ |
-| 玻尔半径 | $a_0$ | $5.292 \times 10^{-11} \, \text{m}$ |
-| 里德伯常数 | $R_\infty$ | $1.097 \times 10^7 \, \text{m}^{-1}$ |
+|常数 |符号 |数值 |
+|---|---|---|
+|光速 |$c$ |$2.998 \times 10^8 \, \text{m/s}$ |
+|引力常数 |$G$ |$6.674 \times 10^{-11} \, \text{N·m}^2/\text{kg}^2$ |
+|普朗克常数 |$h$ |$6.626 \times 10^{-34} \, \text{J·s}$ |
+|约化普朗克常数 |$\hbar$ |$1.055 \times 10^{-34} \, \text{J·s}$ |
+|玻尔兹曼常数 |$k_B$ |$1.381 \times 10^{-23} \, \text{J/K}$ |
+|气体常数 |$R$ |$8.314 \, \text{J/(mol·K)}$ |
+|阿伏伽德罗常数 |$N_A$ |$6.022 \times 10^{23} \, \text{mol}^{-1}$ |
+|真空介电常数 |$\epsilon_0$ |$8.854 \times 10^{-12} \, \text{F/m}$ |
+|真空磁导率 |$\mu_0$ |$4\pi \times 10^{-7} \, \text{H/m}$ |
+|电子质量 |$m_e$ |$9.109 \times 10^{-31} \, \text{kg}$ |
+|质子质量 |$m_p$ |$1.673 \times 10^{-27} \, \text{kg}$ |
+|中子质量 |$m_n$ |$1.675 \times 10^{-27} \, \text{kg}$ |
+|元电荷 |$e$ |$1.602 \times 10^{-19} \, \text{C}$ |
+|玻尔半径 |$a_0$ |$5.292 \times 10^{-11} \, \text{m}$ |
+|里德伯常数 |$R_\infty$ |$1.097 \times 10^7 \, \text{m}^{-1}$ |
+
 
 ---
 

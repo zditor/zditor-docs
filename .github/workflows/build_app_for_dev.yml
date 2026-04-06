@@ -29,13 +29,40 @@ jobs:
             args: ""
     runs-on: ${{ matrix.platform }}
     steps:
-      # 使用 GitHub token 访问私有仓库
-      - name: Checkout repository
+      # Checkout 主仓库到 zditor，保证本地 file:../zditor-excalidraw 依赖可解析
+      - name: Checkout zditor repository
         uses: actions/checkout@v4
         with:
           repository: ${{ secrets.REPO }} # 替换为私有仓库的实际路径
           token: ${{ secrets.DEPLOY_TOKEN }} # 使用 GitHub 提供的 GITHUB_TOKEN 进行身份验证
           ref: ${{ github.event.inputs.commit_id || '' }} # 如果提供了 commit_id 则使用，否则使用默认分支
+          path: zditor
+
+      # 优先读取 zditor 仓库中的固定 ref，若缺失则回退到仓库变量 / 默认分支
+      - name: Resolve zditor-excalidraw ref
+        id: resolve_excalidraw_ref
+        shell: bash
+        run: |
+          EXCALIDRAW_REF=""
+
+          if [ -f "zditor/zditor-excalidraw.ref" ]; then
+            EXCALIDRAW_REF="$(tr -d '\r\n' < "zditor/zditor-excalidraw.ref")"
+          fi
+
+          if [ -z "$EXCALIDRAW_REF" ]; then
+            EXCALIDRAW_REF="${{ vars.EXCALIDRAW_REF }}"
+          fi
+
+          echo "Using zditor-excalidraw ref: ${EXCALIDRAW_REF:-<default branch>}"
+          echo "ref=$EXCALIDRAW_REF" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout zditor-excalidraw repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.EXCALIDRAW_REPO }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          ref: ${{ steps.resolve_excalidraw_ref.outputs.ref }}
+          path: zditor-excalidraw
 
       # 导入 Apple 证书（仅限 macOS）
       - name: Import Certificate
@@ -58,6 +85,12 @@ jobs:
         with:
           node-version: lts/*
           cache: 'npm'
+          cache-dependency-path: zditor/package-lock.json
+
+      - name: Enable Corepack
+        run: |
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
 
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
@@ -67,7 +100,7 @@ jobs:
       - name: Rust cache
         uses: Swatinem/rust-cache@v2
         with:
-          workspaces: './src-tauri'
+          workspaces: './zditor/src-tauri'
 
       - name: Cache apt packages (ubuntu only)
         if: matrix.platform == 'ubuntu-22.04'
@@ -82,10 +115,20 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
+      - name: install zditor-excalidraw dependencies
+        working-directory: zditor-excalidraw
+        run: yarn install --frozen-lockfile
+
+      - name: build zditor-excalidraw packages
+        working-directory: zditor-excalidraw
+        run: yarn build:packages
+
       - name: install frontend dependencies
+        working-directory: zditor
         run: npm install # change this to npm, pnpm or bun depending on which one you use.
 
       - name: build frontend
+        working-directory: zditor
         env:
           NODE_OPTIONS: "--max-old-space-size=4096"
         run: npm run build
@@ -97,9 +140,10 @@ jobs:
 
       - name: Get latest release notes from CHANGELOG
         id: get_release_notes
+        working-directory: zditor
         shell: bash
         run: |
-          TAG_NAME="${GITHUB_REF##*/}"
+          TAG_NAME="v${{ github.event.inputs.tag }}"
           echo "Current tag: $TAG_NAME"
 
           RELEASE_BODY=""
@@ -167,6 +211,7 @@ jobs:
       # ====== 2. 构建、签名、公证 ======
       - name: Write Apple API Key
         if: matrix.platform == 'macos-latest'
+        working-directory: zditor
         run: |
           echo "${{ secrets.APPLE_API_KEY_P8 }}" > ./apple-api-key.p8
 
@@ -183,10 +228,10 @@ jobs:
           APPLE_TEAM_ID: ${{secrets.APPLE_TEAM_ID}}
 
         with:
+          projectPath: zditor
           tagName: zditor-v${{ github.event.inputs.tag }}
           releaseName: "Zditor v${{ github.event.inputs.tag }}"
           releaseBody: ${{ steps.get_release_notes.outputs.release_body }}
           releaseDraft: true
           prerelease: false
           args: ${{ matrix.args }}
-

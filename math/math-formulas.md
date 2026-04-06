@@ -1,3 +1,65 @@
+---
+warm:
+  type: checkbox
+  description: warm
+  label: 暖色调
+  value: false
+author:
+  type: text
+  description: 
+  label: Author
+  value: "SeeLey & ClaudeCode"
+subject:
+  type: text
+  description: 
+  label: Subject
+  value: "Mathematics"
+avatar:
+  type: asset
+  description: 
+  label: Avatar
+  value: "assets/physics-author-avatar.jpg"
+cover:
+  type: asset
+  description: 
+  label: Cover Image
+  value: "assets/math-formulas-cover.jpg"
+tags:
+  type: text
+  description: 
+  label: Tags
+  value: "数学 · 公式 · 参考"
+display:
+  type: checkbox
+  description: display
+  label: 显示属性
+  value: false
+col:
+  type: array
+  description: 
+  label: Col
+  value: ["subject","title","description"]
+row:
+  type: array
+  description: 
+  label: Row
+  value: ["avatar","author","updated","tags"]
+updated:
+  type: date
+  description: 
+  label: Updated
+  value: "2026-04-06"
+description:
+  type: text
+  description: 
+  label: Description
+  value: "微积分 · 线性代数 · 概率论 · 统计学 · 优化理论"
+title:
+  type: text
+  description: 
+  label: Title
+  value: "数学公式详解"
+---
 # 数学公式详解
 
 数学是自然科学的基础，也是工程技术和数据科学的支柱。从微积分到概率论，从线性代数到优化理论，数学为各个学科提供了严谨的分析框架和计算工具。本文档系统整理了常用数学分支的核心公式，每个公式都配有详细的解释、几何意义说明和应用场景介绍，帮助读者不仅记住公式，更能理解其背后的数学思想。
@@ -578,6 +640,7 @@ $$
     - 约 68% 的数据落在 $\mu \pm \sigma$ 内
     - 约 95% 的数据落在 $\mu \pm 2\sigma$ 内
     - 约 99.7% 的数据落在 $\mu \pm 3\sigma$ 内
+
 
 ### 3.3 数字特征
 

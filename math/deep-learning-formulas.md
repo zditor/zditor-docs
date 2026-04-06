@@ -1,3 +1,65 @@
+---
+title:
+  type: text
+  description: 
+  label: Title
+  value: "深度学习公式详解"
+display:
+  type: checkbox
+  description: display
+  label: 显示属性
+  value: false
+subject:
+  type: text
+  description: 
+  label: Subject
+  value: "Deep Learning"
+warm:
+  type: checkbox
+  description: warm
+  label: 暖色调
+  value: true
+cover:
+  type: asset
+  description: 
+  label: Cover Image
+  value: "assets/deep-learning-formulas-cover.jpg"
+description:
+  type: text
+  description: 
+  label: Description
+  value: "神经网络 · 优化算法 · CNN · RNN · Transformer"
+author:
+  type: text
+  description: 
+  label: Author
+  value: "SeeLey & ClaudeCode"
+avatar:
+  type: asset
+  description: 
+  label: Avatar
+  value: "assets/physics-author-avatar.jpg"
+row:
+  type: array
+  description: 
+  label: Row
+  value: ["avatar","author","updated","tags"]
+tags:
+  type: text
+  description: 
+  label: Tags
+  value: "深度学习 · 公式 · AI"
+updated:
+  type: date
+  description: 
+  label: Updated
+  value: "2026-04-06"
+col:
+  type: array
+  description: 
+  label: Col
+  value: ["subject","title","description"]
+---
 # 深度学习公式详解
 
 深度学习是机器学习的一个分支，其核心是通过多层神经网络来学习数据的层次化表示。本文档系统整理了深度学习中常用的数学公式，涵盖神经网络基础、优化算法、卷积网络、循环网络等核心内容。
@@ -551,7 +613,6 @@ $$
 $$
 \mathbf{Y}_{\text{pointwise}} = \text{PointwiseConv}(\mathbf{Y}_{\text{depthwise}}, \mathbf{W}) = \mathbf{W} \cdot \mathbf{Y}_{\text{depthwise}}
 $$
-
 
 计算量减少比例：
 

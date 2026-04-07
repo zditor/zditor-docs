@@ -69,3 +69,14 @@ Your browser does not support the video tag.
 ## Documentation
 
 See the [documentation site](https://docs.zditor.com), or switch to the `docs` branch with `git checkout docs`.
+
+#### Math Formula Document Examples
+
+This repository includes math and deep learning formula document examples in the `math` directory. They demonstrate Zditor's Cover Card feature combined with SuperTag structured data and LaTeX formula rendering:
+
+- **Cover images**: Cartoon-style illustrations with clean top-left area for titles, dense elements toward bottom-right
+- **Structured metadata**: title, subject, description, author, tags, updated date, and more
+- **LaTeX formulas**: calculus, linear algebra, probability, neural networks, optimization algorithms, etc.
+- **Warm/cool tone**: controlled via the `warm` field to adjust cover color style
+
+Example files: [math/math-formulas.md](math/math-formulas.md), [math/deep-learning-formulas.md](math/deep-learning-formulas.md)

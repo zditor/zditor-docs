@@ -1,54 +1,9 @@
 ---
-warm:
-  type: checkbox
-  description: warm
-  label: 暖色调
-  value: false
-author:
-  type: text
-  description: 
-  label: Author
-  value: "SeeLey & ClaudeCode"
-subject:
-  type: text
-  description: 
-  label: Subject
-  value: "Mathematics"
-avatar:
-  type: asset
-  description: 
-  label: Avatar
-  value: "assets/physics-author-avatar.jpg"
-cover:
-  type: asset
-  description: 
-  label: Cover Image
-  value: "assets/math-formulas-cover.jpg"
 tags:
   type: text
   description: 
   label: Tags
   value: "数学 · 公式 · 参考"
-display:
-  type: checkbox
-  description: display
-  label: 显示属性
-  value: false
-col:
-  type: array
-  description: 
-  label: Col
-  value: ["subject","title","description"]
-row:
-  type: array
-  description: 
-  label: Row
-  value: ["avatar","author","updated","tags"]
-updated:
-  type: date
-  description: 
-  label: Updated
-  value: "2026-04-06"
 description:
   type: text
   description: 
@@ -59,6 +14,51 @@ title:
   description: 
   label: Title
   value: "数学公式详解"
+cover:
+  type: asset
+  description: 
+  label: Cover Image
+  value: "assets/math-formulas-cover.jpg"
+col:
+  type: array
+  description: 
+  label: Col
+  value: ["subject","title","description"]
+warm:
+  type: checkbox
+  description: warm
+  label: 暖色调
+  value: true
+display:
+  type: checkbox
+  description: display
+  label: 显示属性
+  value: false
+avatar:
+  type: asset
+  description: 
+  label: Avatar
+  value: "assets/physics-author-avatar.jpg"
+row:
+  type: array
+  description: 
+  label: Row
+  value: ["avatar","author","updated","tags"]
+author:
+  type: text
+  description: 
+  label: Author
+  value: "SeeLey & ClaudeCode"
+updated:
+  type: date
+  description: 
+  label: Updated
+  value: "2026-04-06"
+subject:
+  type: text
+  description: 
+  label: Subject
+  value: "Mathematics"
 ---
 # 数学公式详解
 
@@ -1044,5 +1044,3 @@ $$
 \hat{\beta}_0 &= \bar{Y} - \hat{\beta}_1 \bar{X}
 \end{aligned}
 $$
-
-

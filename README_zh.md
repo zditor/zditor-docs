@@ -80,6 +80,17 @@ style="width: 100%; ">
 
 这个数据表可以作为你创建自己的数据库表的参考模板，展示了如何使用 Zditor 管理结构化内容。
 
+#### 数学公式文档示例
+
+本仓库包含数学与深度学习公式文档示例，位于 `math` 目录下。这些文档展示了 Zditor 的封面卡片（Cover Card）功能，结合 SuperTag 结构化数据与丰富的 LaTeX 公式渲染：
+
+- **封面图片**：卡通风格插画，左上角留白供标题展示，右下密集元素
+- **结构化元信息**：标题、学科、描述、作者、标签、更新日期等字段
+- **LaTeX 公式**：微积分、线性代数、概率论、神经网络、优化算法等
+- **暖/冷色调**：通过 `warm` 字段控制封面色调风格
+
+示例文件：[math/math-formulas.md](math/math-formulas.md)、[math/deep-learning-formulas.md](math/deep-learning-formulas.md)
+
 #### PPT 演示文档示例
 
 本仓库包含一个完整的 PPT 演示文档示例，位于 `examples/llm_model_critique_talk` 目录下。这个示例展示了如何使用 Zditor 创建富媒体演示文档：

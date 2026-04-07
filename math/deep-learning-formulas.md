@@ -1,64 +1,64 @@
 ---
-title:
-  type: text
-  description: 
-  label: Title
-  value: "深度学习公式详解"
-display:
-  type: checkbox
-  description: display
-  label: 显示属性
-  value: false
-subject:
-  type: text
-  description: 
-  label: Subject
-  value: "Deep Learning"
-warm:
-  type: checkbox
-  description: warm
-  label: 暖色调
-  value: true
-cover:
-  type: asset
-  description: 
-  label: Cover Image
-  value: "assets/deep-learning-formulas-cover.jpg"
-description:
-  type: text
-  description: 
-  label: Description
-  value: "神经网络 · 优化算法 · CNN · RNN · Transformer"
-author:
-  type: text
-  description: 
-  label: Author
-  value: "SeeLey & ClaudeCode"
 avatar:
   type: asset
   description: 
   label: Avatar
   value: "assets/physics-author-avatar.jpg"
-row:
-  type: array
+cover:
+  type: asset
   description: 
-  label: Row
-  value: ["avatar","author","updated","tags"]
-tags:
+  label: Cover Image
+  value: "assets/deep-learning-formulas-cover.jpg"
+title:
   type: text
   description: 
-  label: Tags
-  value: "深度学习 · 公式 · AI"
-updated:
-  type: date
+  label: Title
+  value: "深度学习公式详解"
+warm:
+  type: checkbox
+  description: warm
+  label: 暖色调
+  value: true
+author:
+  type: text
   description: 
-  label: Updated
-  value: "2026-04-06"
+  label: Author
+  value: "SeeLey & ClaudeCode"
 col:
   type: array
   description: 
   label: Col
   value: ["subject","title","description"]
+tags:
+  type: text
+  description: 
+  label: Tags
+  value: "深度学习 · 公式 · AI"
+display:
+  type: checkbox
+  description: display
+  label: 显示属性
+  value: false
+row:
+  type: array
+  description: 
+  label: Row
+  value: ["avatar","author","updated","tags"]
+description:
+  type: text
+  description: 
+  label: Description
+  value: "神经网络 · 优化算法 · CNN · RNN · Transformer"
+subject:
+  type: text
+  description: 
+  label: Subject
+  value: "Deep Learning"
+updated:
+  type: date
+  description: 
+  label: Updated
+  value: "2026-04-06"
 ---
 # 深度学习公式详解
 
@@ -613,6 +613,7 @@ $$
 $$
 \mathbf{Y}_{\text{pointwise}} = \text{PointwiseConv}(\mathbf{Y}_{\text{depthwise}}, \mathbf{W}) = \mathbf{W} \cdot \mathbf{Y}_{\text{depthwise}}
 $$
+
 
 计算量减少比例：
 

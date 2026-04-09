@@ -16,7 +16,7 @@
 **创新点**：提出完全基于注意力机制（Attention Mechanism）的网络架构——**Transformer**，彻底摒弃了传统的 RNN 和 CNN 结构。
 
 !!! info "核心思想"
-    Transformer 的核心思想是： ==仅使用注意力机制== 来处理序列建模任务，不再依赖循环或卷积结构，从而实现更好的并行化能力。
+    Transformer 的核心思想是： 仅使用注意力机制 来处理序列建模任务，不再依赖循环或卷积结构，从而实现更好的并行化能力。
 
 ## 核心架构
 
@@ -99,6 +99,172 @@ $$
 
 其中 $d_{\text{model}} = 512$，$d_{ff} = 2048$。
 
+## 代码实现示例
+
+以下使用 PyTorch 实现 Transformer 的核心组件。
+
+### 1. Scaled Dot-Product Attention
+
+![Scaled Dot-Product Attention](./scaled-dot-product-attention.jpg)
+
+```py
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import math
+
+def scaled_dot_product_attention(Q, K, V, mask=None):
+    """
+    Q: (batch, heads, seq_len, d_k)
+    K: (batch, heads, seq_len, d_k)
+    V: (batch, heads, seq_len, d_v)
+    """
+    d_k = Q.size(-1)
+
+    # 计算点积并缩放
+    scores = torch.matmul(Q, K.transpose(-2, -1)) / math.sqrt(d_k)
+
+    # 应用 mask（用于 decoder 的 masked attention）
+    if mask is not None:
+        scores = scores.masked_fill(mask == 0, float('-inf'))
+
+    # softmax 后乘以 V
+    attention_weights = F.softmax(scores, dim=-1)
+    output = torch.matmul(attention_weights, V)
+
+    return output, attention_weights
+```
+
+### 2. Multi-Head Attention
+
+![Multi-Head Attention](./multi-head-attention.jpg)
+
+```py
+class MultiHeadAttention(nn.Module):
+    def __init__(self, d_model=512, num_heads=8):
+        super().__init__()
+        assert d_model % num_heads == 0
+
+        self.d_model = d_model
+        self.num_heads = num_heads
+        self.d_k = d_model // num_heads  # 64
+
+        # 投影矩阵
+        self.W_Q = nn.Linear(d_model, d_model)
+        self.W_K = nn.Linear(d_model, d_model)
+        self.W_V = nn.Linear(d_model, d_model)
+        self.W_O = nn.Linear(d_model, d_model)
+
+    def forward(self, Q, K, V, mask=None):
+        batch = Q.size(0)
+
+        # 线性投影并分头
+        Q = self.W_Q(Q).view(batch, -1, self.num_heads, self.d_k).transpose(1, 2)
+        K = self.W_K(K).view(batch, -1, self.num_heads, self.d_k).transpose(1, 2)
+        V = self.W_V(V).view(batch, -1, self.num_heads, self.d_k).transpose(1, 2)
+
+        # 计算注意力
+        x, attn_weights = scaled_dot_product_attention(Q, K, V, mask)
+
+        # 合并多头并输出
+        x = x.transpose(1, 2).contiguous().view(batch, -1, self.d_model)
+        output = self.W_O(x)
+
+        return output, attn_weights
+```
+
+### 3. Position-wise Feed-Forward Network
+
+![Position-wise FFN](./encoder-layer.jpg)
+
+```py
+class PositionwiseFFN(nn.Module):
+    def __init__(self, d_model=512, d_ff=2048, dropout=0.1):
+        super().__init__()
+        self.linear1 = nn.Linear(d_model, d_ff)
+        self.linear2 = nn.Linear(d_ff, d_model)
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x):
+        return self.linear2(self.dropout(F.relu(self.linear1(x))))
+```
+
+### 4. Positional Encoding
+
+![Positional Encoding](./positional-encoding.jpg)
+
+```py
+class PositionalEncoding(nn.Module):
+    def __init__(self, d_model=512, max_len=5000, dropout=0.1):
+        super().__init__()
+        self.dropout = nn.Dropout(p=dropout)
+
+        # 创建位置编码表
+        pe = torch.zeros(max_len, d_model)
+        position = torch.arange(0, max_len).unsqueeze(1).float()
+        div_term = torch.exp(
+            torch.arange(0, d_model, 2).float() * (-math.log(10000.0) / d_model)
+        )
+
+        pe[:, 0::2] = torch.sin(position * div_term)  # 偶数维度
+        pe[:, 1::2] = torch.cos(position * div_term)  # 奇数维度
+        pe = pe.unsqueeze(0)  # (1, max_len, d_model)
+
+        self.register_buffer('pe', pe)
+
+    def forward(self, x):
+        x = x + self.pe[:, :x.size(1)]
+        return self.dropout(x)
+```
+
+### 5. 完整 Encoder Layer
+
+```py
+class TransformerEncoderLayer(nn.Module):
+    def __init__(self, d_model=512, num_heads=8, d_ff=2048, dropout=0.1):
+        super().__init__()
+        self.self_attn = MultiHeadAttention(d_model, num_heads)
+        self.ffn = PositionwiseFFN(d_model, d_ff, dropout)
+
+        self.norm1 = nn.LayerNorm(d_model)
+        self.norm2 = nn.LayerNorm(d_model)
+        self.dropout1 = nn.Dropout(dropout)
+        self.dropout2 = nn.Dropout(dropout)
+
+    def forward(self, x, mask=None):
+        # 自注意力子层
+        attn_output, _ = self.self_attn(x, x, x, mask)
+        x = self.norm1(x + self.dropout1(attn_output))
+
+        # 前馈网络子层
+        ffn_output = self.ffn(x)
+        x = self.norm2(x + self.dropout2(ffn_output))
+
+        return x
+```
+
+### 使用示例
+
+```py
+# 超参数
+batch_size = 2
+seq_len = 10
+d_model = 512
+
+# 初始化
+encoder_layer = TransformerEncoderLayer()
+positional_encoding = PositionalEncoding()
+
+# 输入（已通过 embedding）
+x = torch.randn(batch_size, seq_len, d_model)
+x = positional_encoding(x)
+
+# 通过 Encoder Layer
+output = encoder_layer(x)
+print(f"输入形状: {x.shape}")   # (2, 10, 512)
+print(f"输出形状: {output.shape}")  # (2, 10, 512)
+```
+
 ## 与传统模型对比
 
 |模型 |复杂度（每层） |最大路径长度 |顺序操作 |
@@ -134,7 +300,7 @@ $$
 
 ## 影响力
 
-这篇论文开创了 NLP 的 Transformer 时代，直接催生了 ==BERT==、==GPT==、==T5== 等一系列划时代模型，至今仍是大语言模型的核心架构。
+这篇论文开创了 NLP 的 Transformer 时代，直接催生了 BERT、GPT、T5 等一系列划时代模型，至今仍是大语言模型的核心架构。
 
 ??? quote "论文摘要原文"
     > The dominant sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely.

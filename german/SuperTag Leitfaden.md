@@ -64,7 +64,7 @@ row:
 
 SuperTag ist die Zditor-Art, Markdown-Dokumente als strukturierte Eintraege zu organisieren. Du schreibst weiterhin normale `.md`-Dateien, kannst aber im Frontmatter Feldtypen, Anzeigenamen, Layoutregeln und Gruppierung definieren. Dadurch funktionieren dieselben Dateien zugleich als lesbare Dokumente und als filterbare Datentabelle.
 
-Als praktisches Beispiel nutzt dieser Leitfaden die englische Filmklasse in [english/movies/](../english/movies/).
+Als praktisches Beispiel nutzt dieser Leitfaden die deutsche Filmklasse in [filme/](./filme/).
 
 ## Wofuer SuperTag geeignet ist
 
@@ -81,7 +81,7 @@ Die Filmklasse ist ein gutes Beispiel: Jeder Film ist eine eigene Markdown-Datei
 title:
   type: text
   label: Titel
-  value: "The Godfather"
+  value: "Der Pate"
 director:
   type: text
   label: Regie
@@ -93,12 +93,12 @@ year:
 genre:
   type: multiselect
   label: Genre
-  value: ["Crime", "Drama"]
-  options: ["Drama", "Mystery", "Crime", "Romance", "Comedy"]
+  value: ["Krimi", "Drama"]
+  options: ["Drama", "Mystery", "Krimi", "Romanze", "Komoedie"]
 class:
   type: text
   label: class
-  value: "ClassicMovieEnglish"
+  value: "ClassicMovieGerman"
 ---
 ```
 
@@ -109,7 +109,7 @@ Zwei Punkte sind zentral:
 
 ## Welche Felder die Filmklasse benutzt
 
-Siehe [The Godfather](../english/movies/The%20Godfather.md).
+Siehe [Der Pate](./filme/Der%20Pate.md).
 
 Die Klasse deckt bereits eine recht vollstaendige Struktur ab:
 
@@ -141,16 +141,16 @@ Wenn du eine eigene Klasse aufbaust, reichen diese Typen fuer die meisten Dokume
 
 `class` bestimmt, zu welcher SuperTag-Gruppe ein Dokument gehoert.
 
-Die englischen Filmdokumente verwenden zum Beispiel:
+Die deutschen Filmdokumente verwenden zum Beispiel:
 
 ```yaml
 class:
   type: text
   label: class
-  value: "ClassicMovieEnglish"
+  value: "ClassicMovieGerman"
 ```
 
-Mit diesem gemeinsamen Wert kann Zditor alle `ClassicMovieEnglish`-Dateien als eine Tabelle verstehen. Eine neue Datei wie [Chinatown](../english/movies/Chinatown.md) landet automatisch in derselben Gruppe, solange `class` gleich bleibt.
+Mit diesem gemeinsamen Wert kann Zditor alle `ClassicMovieGerman`-Dateien als eine Tabelle verstehen. Eine neue Datei wie [Chinatown](./filme/Chinatown.md) landet automatisch in derselben Gruppe, solange `class` gleich bleibt.
 
 ## Wie `col` und `row` das Cover steuern
 
@@ -180,7 +180,7 @@ Zusammen mit `cover` und `warm` entsteht daraus ein Einstieg, der sich gleichzei
 
 SuperTag schraenkt den Dokumenttext nicht ein. Das ist eine der staerksten Eigenschaften: Frontmatter liefert die Struktur, der Haupttext liefert Analyse, Querverweise und laengere Erklaerungen.
 
-Zum Beispiel enthaelt [The Godfather](../english/movies/The%20Godfather.md):
+Zum Beispiel enthaelt [Der Pate](./filme/Der%20Pate.md):
 
 - laengere Filmkommentare
 - Links zu anderen Filmdokumenten
@@ -193,10 +193,10 @@ SuperTag macht Markdown also nicht zu einer starren Tabelle. Es bringt strukturi
 Verwende einen normalen Link mit `mode=supertag`:
 
 ```md
-[ClassicMovieEnglish](/english/movies/The%20Godfather.md|mode=supertag)
+[ClassicMovieGerman](/german/filme/Der%20Pate.md|mode=supertag)
 ```
 
-Darstellung direkt im Dokument: [ClassicMovieEnglish](/english/movies/The%20Godfather.md|mode=supertag)
+Darstellung direkt im Dokument: [ClassicMovieGerman](/german/filme/Der%20Pate.md|mode=supertag)
 
 Entscheidend ist `mode=supertag`. Dadurch rendert Zditor das Ziel als SuperTag-Knoten und nicht als einfachen Link.
 
@@ -206,7 +206,7 @@ Am sichersten ist es, eine bestehende Datei zu kopieren und danach nur Werte anz
 
 Empfohlene Schritte:
 
-1. Eine aehnliche Datei kopieren, zum Beispiel [The Godfather](../english/movies/The%20Godfather.md)
+1. Eine aehnliche Datei kopieren, zum Beispiel [Der Pate](./filme/Der%20Pate.md)
 2. Feldstruktur und `class` beibehalten
 3. Werte ersetzen: Titel, Regie, Jahr, Cover und Haupttext
 4. Wenn ein neues Feld fuer die ganze Klasse noetig wird, spaeter die ganze Klasse angleichen
@@ -225,8 +225,8 @@ Die Filmklasse funktioniert gut, weil sie ein nuetzliches gemeinsames Schema mit
 
 ## Empfohlene Weiterlektuere
 
-- [english/movies/](../english/movies/)
-- [The Godfather](../english/movies/The%20Godfather.md)
-- [English Docs Entry](../english/README.md)
+- [filme/](./filme/)
+- [Der Pate](./filme/Der%20Pate.md)
+- [Deutscher Doku-Einstieg](./README.md)
 
 Wenn du deine eigene strukturierte Sammlung bauen willst, ist das Filmbeispiel ein direkter Ausgangspunkt.

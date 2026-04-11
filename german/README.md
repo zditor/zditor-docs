@@ -3,7 +3,7 @@ description:
   type: text
   description:
   label: Description
-  value: "Deutscher Doku-Einstieg · Mathematik · Codebeispiele · SuperTag · Mermaid"
+  value: "Deutscher Doku-Einstieg · Mathematik · Filme · Codebeispiele · SuperTag · Mermaid"
 author:
   type: text
   description:
@@ -62,11 +62,12 @@ row:
 ---
 # Deutscher Doku-Einstieg
 
-Dieses Verzeichnis sammelt die deutschsprachigen Dokumente des Repositoriums. Aktuell gibt es Mathematikseiten, Codebeispiele, einen Mermaid-Leitfaden und einen SuperTag-Leitfaden.
+Dieses Verzeichnis sammelt die deutschsprachigen Dokumente des Repositoriums. Aktuell gibt es Mathematikseiten, Filmdokumente, Codebeispiele, einen Mermaid-Leitfaden und einen SuperTag-Leitfaden.
 
 ## Verzeichnisueberblick
 
 - [Mathematik](./mathematik/)
+- [Filme](./filme/)
 - [Code Beispiele](./Code%20Beispiele.md)
 - [SuperTag Leitfaden](./SuperTag%20Leitfaden.md)
 - [Mermaid Leitfaden](./Mermaid%20Leitfaden.md)
@@ -88,9 +89,17 @@ Dieses Verzeichnis sammelt die deutschsprachigen Dokumente des Repositoriums. Ak
 
 - [SuperTag Leitfaden](./SuperTag%20Leitfaden.md)
 
+## Filme
+
+- [Der Pate](./filme/Der%20Pate.md)
+- [Citizen Kane](./filme/Citizen%20Kane.md)
+- [Das Fenster zum Hof](./filme/Das%20Fenster%20zum%20Hof.md)
+- [Psycho](./filme/Psycho.md)
+- [Ganzes Filmverzeichnis](./filme/)
+
 ## Diagramme
 
 - [Mermaid Leitfaden](./Mermaid%20Leitfaden.md)
 
 !!! tip Empfohlener Einstieg
-    Wenn du dieses Verzeichnis zum ersten Mal oeffnest, beginne mit dem Mermaid-Leitfaden und dem SuperTag-Leitfaden. Danach lohnen sich ein oder zwei Mathematikseiten als vollstaendige Dokumentbeispiele.
+    Wenn du dieses Verzeichnis zum ersten Mal oeffnest, beginne mit dem Mermaid-Leitfaden und dem SuperTag-Leitfaden. Danach lohnen sich ein oder zwei Mathematikseiten und anschliessend das Filmverzeichnis als zusammenhaengendes SuperTag-Beispiel.

@@ -70,11 +70,6 @@ class:
   description:
   label: class
   value: "ClassicMovieGerman"
-field:
-  type: array
-  description:
-  label: field
-  value: ["title", "original_title", "year", "director", "cast", "country", "genre", "afi_rank", "douban_score", "watched", "watch_date", "my_score", "notes"]
 cover:
   type: asset
   description:

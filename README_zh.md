@@ -10,7 +10,7 @@
 <br/>
 <p align="center">
 轻量、高性能、AI赋能、写画一体、所见即所得<br />
-本地化、基于文件、双链
+本地优先、基于文件、双向链接
 </p>
 
 </div>
@@ -23,14 +23,13 @@
 
 </div>
 
-[English Version](README.md)
-
+[English](README.md) | [日本語](README_ja.md) | [Deutsch](README_de.md)
 
 ---
 
-<p align="center">欢迎来到 Zditor，一个AI加持的markdown编辑器。</p>
+<p align="center">欢迎来到 Zditor，一个 AI 加持的 Markdown 编辑器。</p>
 
-<p align="center">这个仓库是Zditor的文档仓库(markdown)，<code>docs</code> 分支可以查看富文本文档</p>
+<p align="center">这个仓库是 Zditor 的 Markdown 文档仓库，切换到 <code>docs</code> 分支可以查看富文本文档。</p>
 
 <p align="center">
 <img alt="home" src="https://download.zditor.com/newweb/home.png">
@@ -38,25 +37,31 @@
 
 ## 目录
 
-- [入门指南](#入门指南)
+- [入门](#入门)
+- [社区](#社区)
 - [技能](#技能)
-- [文档](#文档)
+- [中文文档](#中文文档)
+- [其他语言](#其他语言)
+
+## 入门
+
+Zditor 是一个所见即所得的 Markdown 编辑器，支持标准 Markdown，并在此基础上扩展出结构化文档能力。目前支持 `Windows`、`macOS` 和 `Linux`。
+
+下载请前往 [Releases 页面](https://github.com/zditor/zditor-docs/releases)，或访问 [官网](https://zditor.com)。
 
 ## 社区
 
-- [公众号](https://zditor.com/wechat) 后续接bot用于反馈和排序功能&优先级
+- [公众号](https://zditor.com/wechat)
 - [微信群](https://zditor.com/wechat)
-
-## 入门指南
-
-Zditor 是一个所见即所得的 markdown 编辑器，支持 markdown 基础语法，并在此基础上扩展。目前支持`Windows`、`Macos`、`Linux大的多大的点点滴滴sadfasdfdd`da1平台，下载请前往 [release下载界面](https://github.com/zditor/zditor-docs/releases),或者前往[官网](https://zditor.com)下载。
+- [Discord](https://discord.gg/juxMNxKs)
+- [YouTube](https://youtube.com/@SeeLeyWang)
 
 ## 技能
 
-当前工作区 `.claudes/commands`可用的两个技能如下：
+当前 `.claude/commands` 里有两个可直接使用的技能：
 
-- `zditor-syntex`: 用于帮助agent学习使用zditor的markdown扩展语法。
-- `import-excel`: 是将excel文档转换为zditor支持的数据库表。
+- `zditor-syntax`：帮助 agent 学习和使用 Zditor 扩展 Markdown 语法。
+- `import-excel`：将 Excel 文档转换为 Zditor 支持的数据库表。
 
 #### 强大的文本格式化功能
 
@@ -65,97 +70,49 @@ style="width: 100%; ">
 您的浏览器不支持 Video 标签。
 </video></div>
 
-#### 数据表示例
+## 中文文档
 
-本仓库包含一个完整的电影数据表示例，位于 `movies` 目录下。这个数据表展示了 Zditor 的 SuperTag 功能，每部电影都是一个独立的 markdown 文件，包含丰富的结构化数据：
+中文文档位于 [中文/](中文/) 目录，当前包含数学、电影、代码示例、SuperTag 指南和 Mermaid 指南。
 
-- **片名**、**原片名**、**导演**、**主演**等基本信息
-- **年份**、**国家**、**类型**等分类字段
-- **豆瓣评分**、**AFI排名**、**我的评分**等评分系统
-- **观看日期**、**已看状态**、**观后感**等个人记录
-- **封面图片**、**暖色调标记**等视觉元素
-- 支持多种字段类型：文本、数字、日期、多选、进度条、数组等
+### 目录导航
 
-示例文件：[中文/电影/教父.md](中文/电影/教父.md)，你也可以在文档中这样引用 [ClassicMovie](/中文/电影/教父.md|mode=supertag)
+- [数学](中文/数学/)
+- [代码示例](中文/代码示例.md)
+- [电影](中文/电影/)
+- [SuperTag 使用指南](中文/SuperTag使用指南.md)
+- [Mermaid 使用指南](中文/Mermaid使用指南.md)
 
-这个数据表可以作为你创建自己的数据库表的参考模板，展示了如何使用 Zditor 管理结构化内容。
+### 数学文档
 
-中文指南入口：
+- [数学公式详解](中文/数学/数学公式详解.md)
+- [统计学公式详解](中文/数学/统计学公式详解.md)
+- [线性代数公式详解](中文/数学/线性代数公式详解.md)
+- [经典物理学公式详解](中文/数学/经典物理学公式详解.md)
+- [化学公式与反应详解](中文/数学/化学公式与反应详解.md)
+- [深度学习公式详解](中文/数学/深度学习公式详解.md)
+- [数学公式排版示例](中文/数学/示例/数学公式排版示例.md)
+- [公式推导示例](中文/数学/示例/公式推导示例.md)
 
-- [中文/SuperTag使用指南.md](中文/SuperTag使用指南.md)
+### 电影文档
 
-#### 数学公式文档示例
+电影目录是一组结构化电影文档，每部电影对应一个独立 Markdown 文件。
 
-本仓库包含一组跨学科的公式文档示例，位于 `math` 目录下。这些文档展示了 Zditor 的封面卡片（Cover Card）功能，结合 SuperTag 结构化数据与丰富的 LaTeX 公式渲染：
+- [教父](中文/电影/教父.md)
+- [公民凯恩](中文/电影/公民凯恩.md)
+- [后窗](中文/电影/后窗.md)
+- [惊魂记](中文/电影/惊魂记.md)
+- [浏览完整电影目录](中文/电影/)
 
-- **封面图片**：卡通风格插画，左上角留白供标题展示，右下密集元素
-- **结构化元信息**：标题、学科、描述、作者、标签、更新日期等字段
-- **LaTeX 公式**：微积分、线性代数、概率论、统计推断、物理、化学、神经网络、优化算法等
-- **暖/冷色调**：通过 `warm` 字段控制封面色调风格
+### 其他中文文档
 
-示例文件：[中文/数学/数学公式详解.md](中文/数学/数学公式详解.md)、[中文/数学/统计学公式详解.md](中文/数学/统计学公式详解.md)、[中文/数学/线性代数公式详解.md](中文/数学/线性代数公式详解.md)、[中文/数学/经典物理学公式详解.md](中文/数学/经典物理学公式详解.md)、[中文/数学/化学公式与反应详解.md](中文/数学/化学公式与反应详解.md)、[中文/数学/深度学习公式详解.md](中文/数学/深度学习公式详解.md)
+- [代码示例](中文/代码示例.md)
+- [SuperTag 使用指南](中文/SuperTag使用指南.md)
+- [Mermaid 使用指南](中文/Mermaid使用指南.md)
 
-此外，`中文/数学/示例` 子目录提供了更偏“公式展示能力”的演示文档，强调排版形式和推导表达，而不是按学科组织内容：
+## 其他语言
 
-- **公式排版示例**：集中展示块公式、行内公式、多行推导、分段函数、矩阵和表格混排
-- **公式推导示例**：展示链式法则、最小二乘、几何级数、牛顿法等连续推导写法
+其他语言的根 README：
 
-示例文件：[中文/数学/示例/数学公式排版示例.md](中文/数学/示例/数学公式排版示例.md)、[中文/数学/示例/公式推导示例.md](中文/数学/示例/公式推导示例.md)
-
-当前多语言目录：
-
-- 中文：[中文/数学/](中文/%E6%95%B0%E5%AD%A6/)
-- English：[english/mathematics/](english/mathematics/)
-- Deutsch：[german/mathematik/](german/mathematik/)
-- 日本語：[japanese/数学/](japanese/%E6%95%B0%E5%AD%A6/)
-
-#### PPT 演示文档示例
-
-本仓库包含一个完整的 PPT 演示文档示例，位于 `examples/llm_model_critique_talk` 目录下。这个示例展示了如何使用 Zditor 创建富媒体演示文档：
-
-- **视频嵌入**：支持在文档中直接嵌入和播放视频
-- **音频讲解**：每一页 PPT 都配有对应的音频讲解文件
-- **图片展示**：包含完整的 PPT 页面截图
-- **结构化内容**：清晰的章节划分，包含页上文字和详细讲稿
-- **多媒体整合**：将视频、音频、图片和文本完美结合在一个 markdown 文档中
-
-示例文件：[examples/llm_model_critique_talk/llm_world_model_critique_talk.md](examples/llm_model_critique_talk/llm_world_model_critique_talk.md)
-
-这个示例展示了 Zditor 在创建演示文档、教学材料、多媒体笔记等场景下的强大能力。
-
-#### 代码示例文档
-
-本仓库新增了一个代码示例目录，位于 `examples/code-examples`。这个示例展示了如何在 Zditor 文档中直接编写和组织代码内容：
-
-- **行内代码**：适合在正文中标注命令、变量、函数名
-- **多语言代码块**：包含 JavaScript、TypeScript、Python、Bash、JSON 等示例
-- **文档与代码混排**：适合教程、API 文档、开发说明等场景
-
-示例文件：[examples/code-examples/code-examples.md](examples/code-examples/code-examples.md)
-
-中文入口：
-
-- [中文/代码示例.md](中文/代码示例.md)
-
-#### Mermaid 图表文档
-
-本仓库包含一个 Mermaid 示例目录，位于 `examples/mermaid-examples`。这个示例展示了如何在 Zditor 中通过 ` ```mermaid ` 代码块编写常见图表：
-
-- **流程图**：用于展示业务流程、判断分支与系统流转
-- **时序图**：用于描述前后端、服务与数据库之间的调用顺序
-- **甘特图**：用于项目排期、任务计划与关键路径表达
-- **类图 / 状态图 / ER 图**：用于软件设计、状态机和数据建模
-- **思维导图 / Git 图 / 饼图 / 用户旅程图**：适合知识整理、版本历史和产品分析
-
-示例文件：[examples/mermaid-examples/mermaid-examples.md](examples/mermaid-examples/mermaid-examples.md)
-
-多语言指南：
-
-- 中文：[中文/Mermaid使用指南.md](中文/Mermaid使用指南.md)
-- English：[english/Mermaid Guide.md](english/Mermaid%20Guide.md)
-- Deutsch：[german/Mermaid Leitfaden.md](german/Mermaid%20Leitfaden.md)
-- 日本語：[japanese/Mermaid利用ガイド.md](japanese/Mermaid利用ガイド.md)
-
-## 文档
-
-文档见网站[文档](https://docs.zditor.com)或者切换到分支`git checkout docs`。
+- [English](README.md)
+- [日本語](README_ja.md)
+- [Deutsch](README_de.md)

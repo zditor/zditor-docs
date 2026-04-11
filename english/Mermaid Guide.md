@@ -465,10 +465,7 @@ journey
 - Try `LR` or `TD`
 - Split the content into multiple diagrams
 
-## References
-
-- [examples/mermaid-examples/mermaid-examples.md](../examples/mermaid-examples/mermaid-examples.md)
-- [guides/mermaid-guide.md](../guides/mermaid-guide.md)
-
 !!! tip Recommended workflow
     Start with the smallest working example. Once the structure is correct, expand it step by step.
+
+

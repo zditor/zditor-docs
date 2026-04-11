@@ -318,6 +318,3 @@ mindmap
 - Inhalt auf mehrere Diagramme aufteilen
 
 ## Referenzen
-
-- [examples/mermaid-examples/mermaid-examples.md](../examples/mermaid-examples/mermaid-examples.md)
-- [guides/mermaid-guide.md](../guides/mermaid-guide.md)

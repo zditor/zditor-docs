@@ -23,13 +23,14 @@ Local-first, file-based, bidirectional links
 
 </div>
 
-[中文版本](README_zh.md)
+[中文](README_zh.md) | [日本語](README_ja.md) | [Deutsch](README_de.md)
+
 
 ---
 
 <p align="center">Welcome to Zditor, an AI-enhanced markdown editor.</p>
 
-<p align="center">This repository contains Zditor documentation (Markdown). Switch to the <code>docs</code> branch to view rich-text documents.</p>
+<p align="center">This repository contains Zditor documentation in Markdown. Switch to the <code>docs</code> branch to view rich-text documents.</p>
 
 <p align="center">
 <img alt="home" src="https://download.zditor.com/newweb/home.png">
@@ -38,25 +39,29 @@ Local-first, file-based, bidirectional links
 ## Table of Contents
 
 - [Getting Started](#getting-started)
+- [Community](#community)
 - [Skills](#skills)
-- [Documentation](#documentation)
-
-## Community
-
-- [WeChat Official Account](https://zditor.com/wechat) (A bot will be added later for feedback collection and feature-priority ranking.)
-- [WeChat Group](https://zditor.com/wechat)
+- [English Docs](#english-docs)
+- [Other Languages](#other-languages)
 
 ## Getting Started
 
-Zditor is a WYSIWYG markdown editor. It supports standard markdown syntax and extends it with additional capabilities. It currently supports `Windows`, `macOS`, and `Linux`.
+Zditor is a WYSIWYG markdown editor that supports standard Markdown and extends it with structured-document features. It currently supports `Windows`, `macOS`, and `Linux`.
 
 Download from the [Releases page](https://github.com/zditor/zditor-docs/releases), or from the [official website](https://zditor.com).
 
+## Community
+
+- [WeChat Official Account](https://zditor.com/wechat)
+- [WeChat Group](https://zditor.com/wechat)
+- [Discord](https://discord.gg/juxMNxKs)
+- [YouTube](https://youtube.com/@SeeLeyWang)
+
 ## Skills
 
-Two skills are currently available in the workspace `.claudes/commands`:
+Two skills are currently available in `.claude/commands`:
 
-- `zditor-syntex`: Helps agents learn and use Zditor's extended markdown syntax.
+- `zditor-syntax`: Helps agents learn and use Zditor's extended markdown syntax.
 - `import-excel`: Converts Excel documents into database tables supported by Zditor.
 
 #### Powerful Text Formatting
@@ -66,50 +71,49 @@ style="width: 100%; ">
 Your browser does not support the video tag.
 </video></div>
 
-## Documentation
+## English Docs
 
-See the [documentation site](https://docs.zditor.com), or switch to the `docs` branch with `git checkout docs`.
+The English documentation lives in the [english/](english/) directory. It currently includes mathematics guides, code examples, movies, a SuperTag guide, and a Mermaid guide.
 
-#### Mermaid Diagram Guide
+### Directory Guide
 
-This repository includes a Mermaid example directory in `examples/mermaid-examples`. It shows how to write common diagrams in Zditor with fenced `mermaid` code blocks:
+- [Mathematics](english/mathematics/)
+- [Code Examples](english/Code%20Examples.md)
+- [Movies](english/movies/)
+- [SuperTag Guide](english/SuperTag%20Guide.md)
+- [Mermaid Guide](english/Mermaid%20Guide.md)
 
-- **Flowcharts** for workflows, branching logic, and process visualization
-- **Sequence diagrams** for frontend/backend/service interaction flows
-- **Gantt charts** for schedules, milestones, and task planning
-- **Class, state, and ER diagrams** for software and data modeling
-- **Mindmaps, git graphs, pie charts, and user journeys** for planning and analysis
+### Mathematics Docs
 
-Example file: [examples/mermaid-examples/mermaid-examples.md](examples/mermaid-examples/mermaid-examples.md)
+- [Mathematics Formula Guide](english/mathematics/Mathematics%20Formula%20Guide.md)
+- [Statistics Formula Guide](english/mathematics/Statistics%20Formula%20Guide.md)
+- [Linear Algebra Formula Guide](english/mathematics/Linear%20Algebra%20Formula%20Guide.md)
+- [Classical Physics Formula Guide](english/mathematics/Classical%20Physics%20Formula%20Guide.md)
+- [Chemistry Formulas and Reactions Guide](english/mathematics/Chemistry%20Formulas%20and%20Reactions%20Guide.md)
+- [Deep Learning Formula Guide](english/mathematics/Deep%20Learning%20Formula%20Guide.md)
 
-Language-specific guides:
+### Movies
 
-- Chinese: [中文/Mermaid使用指南.md](中文/Mermaid使用指南.md)
-- English: [english/Mermaid Guide.md](english/Mermaid%20Guide.md)
-- German: [german/Mermaid Leitfaden.md](german/Mermaid%20Leitfaden.md)
-- Japanese: [japanese/Mermaid利用ガイド.md](japanese/Mermaid利用ガイド.md)
+The movie directory contains a structured movie database. Each movie is stored as its own Markdown file with frontmatter fields and body content.
 
-#### Math Formula Document Examples
+- [The Godfather](english/movies/The%20Godfather.md)
+- [Citizen Kane](english/movies/Citizen%20Kane.md)
+- [Rear Window](english/movies/Rear%20Window.md)
+- [Psycho](english/movies/Psycho.md)
+- [Browse the full movie directory](english/movies/)
 
-This repository includes cross-disciplinary formula document examples in the `math` directory. They demonstrate Zditor's Cover Card feature combined with SuperTag structured data and LaTeX formula rendering:
+### More English Guides
 
-- **Cover images**: Cartoon-style illustrations with clean top-left area for titles, dense elements toward bottom-right
-- **Structured metadata**: title, subject, description, author, tags, updated date, and more
-- **LaTeX formulas**: calculus, linear algebra, probability, statistics, physics, chemistry, neural networks, optimization algorithms, and more
-- **Warm/cool tone**: controlled via the `warm` field to adjust cover color style
+- [Code Examples](english/Code%20Examples.md)
+- [SuperTag Guide](english/SuperTag%20Guide.md)
+- [Mermaid Guide](english/Mermaid%20Guide.md)
 
-Example files: [中文/数学/数学公式详解.md](中文/数学/数学公式详解.md), [中文/数学/统计学公式详解.md](中文/数学/统计学公式详解.md), [中文/数学/线性代数公式详解.md](中文/数学/线性代数公式详解.md), [中文/数学/经典物理学公式详解.md](中文/数学/经典物理学公式详解.md), [中文/数学/化学公式与反应详解.md](中文/数学/化学公式与反应详解.md), [中文/数学/深度学习公式详解.md](中文/数学/深度学习公式详解.md)
+## Other Languages
 
-The `中文/数学/示例` subdirectory contains demos focused on formula presentation rather than subject coverage:
+Root README files in other languages:
 
-- **Equation layout examples**: block formulas, inline formulas, multi-step derivations, piecewise functions, matrices, and formulas inside tables
-- **Derivation examples**: chain rule, least squares, geometric series, Newton updates, and other step-by-step derivations
+- [中文](README_zh.md)
+- [日本語](README_ja.md)
+- [Deutsch](README_de.md)
 
-Example files: [中文/数学/示例/数学公式排版示例.md](中文/数学/示例/数学公式排版示例.md), [中文/数学/示例/公式推导示例.md](中文/数学/示例/公式推导示例.md)
 
-Current multilingual layout:
-
-- Chinese: [中文/数学/](中文/%E6%95%B0%E5%AD%A6/)
-- English: [english/mathematics/](english/mathematics/)
-- German: [german/mathematik/](german/mathematik/)
-- Japanese: [japanese/数学/](japanese/%E6%95%B0%E5%AD%A6/)

@@ -655,9 +655,6 @@ journey
 
 仓库里已经有可直接打开的 Mermaid 示例：
 
-- [examples/mermaid-examples/mermaid-examples.md](../examples/mermaid-examples/mermaid-examples.md)
-- [guides/mermaid-guide.md](../guides/mermaid-guide.md)
 
 !!! tip 建议用法
     先从最小示例开始，确认图表类型和结构正确，再逐步增加节点、注释和分组。Mermaid 图最怕一次写太满。
-

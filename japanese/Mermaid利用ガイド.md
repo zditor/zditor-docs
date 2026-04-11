@@ -349,6 +349,3 @@ mindmap
 - 複数の図に分割する
 
 ## 参考資料
-
-- [examples/mermaid-examples/mermaid-examples.md](../examples/mermaid-examples/mermaid-examples.md)
-- [guides/mermaid-guide.md](../guides/mermaid-guide.md)

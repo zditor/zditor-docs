@@ -82,13 +82,34 @@ This repository includes a Mermaid example directory in `examples/mermaid-exampl
 
 Example file: [examples/mermaid-examples/mermaid-examples.md](examples/mermaid-examples/mermaid-examples.md)
 
+Language-specific guides:
+
+- Chinese: [中文/Mermaid使用指南.md](中文/Mermaid使用指南.md)
+- English: [english/Mermaid Guide.md](english/Mermaid%20Guide.md)
+- German: [german/Mermaid Leitfaden.md](german/Mermaid%20Leitfaden.md)
+- Japanese: [japanese/Mermaid利用ガイド.md](japanese/Mermaid利用ガイド.md)
+
 #### Math Formula Document Examples
 
-This repository includes math and deep learning formula document examples in the `math` directory. They demonstrate Zditor's Cover Card feature combined with SuperTag structured data and LaTeX formula rendering:
+This repository includes cross-disciplinary formula document examples in the `math` directory. They demonstrate Zditor's Cover Card feature combined with SuperTag structured data and LaTeX formula rendering:
 
 - **Cover images**: Cartoon-style illustrations with clean top-left area for titles, dense elements toward bottom-right
 - **Structured metadata**: title, subject, description, author, tags, updated date, and more
-- **LaTeX formulas**: calculus, linear algebra, probability, neural networks, optimization algorithms, etc.
+- **LaTeX formulas**: calculus, linear algebra, probability, statistics, physics, chemistry, neural networks, optimization algorithms, and more
 - **Warm/cool tone**: controlled via the `warm` field to adjust cover color style
 
-Example files: [math/math-formulas.md](math/math-formulas.md), [math/deep-learning-formulas.md](math/deep-learning-formulas.md)
+Example files: [中文/数学/数学公式详解.md](中文/数学/数学公式详解.md), [中文/数学/统计学公式详解.md](中文/数学/统计学公式详解.md), [中文/数学/线性代数公式详解.md](中文/数学/线性代数公式详解.md), [中文/数学/经典物理学公式详解.md](中文/数学/经典物理学公式详解.md), [中文/数学/化学公式与反应详解.md](中文/数学/化学公式与反应详解.md), [中文/数学/深度学习公式详解.md](中文/数学/深度学习公式详解.md)
+
+The `中文/数学/示例` subdirectory contains demos focused on formula presentation rather than subject coverage:
+
+- **Equation layout examples**: block formulas, inline formulas, multi-step derivations, piecewise functions, matrices, and formulas inside tables
+- **Derivation examples**: chain rule, least squares, geometric series, Newton updates, and other step-by-step derivations
+
+Example files: [中文/数学/示例/数学公式排版示例.md](中文/数学/示例/数学公式排版示例.md), [中文/数学/示例/公式推导示例.md](中文/数学/示例/公式推导示例.md)
+
+Current multilingual layout:
+
+- Chinese: [中文/数学/](中文/%E6%95%B0%E5%AD%A6/)
+- English: [english/mathematics/](english/mathematics/)
+- German: [german/mathematik/](german/mathematik/)
+- Japanese: [japanese/数学/](japanese/%E6%95%B0%E5%AD%A6/)

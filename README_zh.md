@@ -76,20 +76,38 @@ style="width: 100%; ">
 - **封面图片**、**暖色调标记**等视觉元素
 - 支持多种字段类型：文本、数字、日期、多选、进度条、数组等
 
-示例文件：[movies/教父.md](movies/教父.md)，你也可以在文档中这样引用 [ClassicMovie](/movies/教父.md|mode=supertag)
+示例文件：[中文/电影/教父.md](中文/电影/教父.md)，你也可以在文档中这样引用 [ClassicMovie](/中文/电影/教父.md|mode=supertag)
 
 这个数据表可以作为你创建自己的数据库表的参考模板，展示了如何使用 Zditor 管理结构化内容。
 
+中文指南入口：
+
+- [中文/SuperTag使用指南.md](中文/SuperTag使用指南.md)
+
 #### 数学公式文档示例
 
-本仓库包含数学与深度学习公式文档示例，位于 `math` 目录下。这些文档展示了 Zditor 的封面卡片（Cover Card）功能，结合 SuperTag 结构化数据与丰富的 LaTeX 公式渲染：
+本仓库包含一组跨学科的公式文档示例，位于 `math` 目录下。这些文档展示了 Zditor 的封面卡片（Cover Card）功能，结合 SuperTag 结构化数据与丰富的 LaTeX 公式渲染：
 
 - **封面图片**：卡通风格插画，左上角留白供标题展示，右下密集元素
 - **结构化元信息**：标题、学科、描述、作者、标签、更新日期等字段
-- **LaTeX 公式**：微积分、线性代数、概率论、神经网络、优化算法等
+- **LaTeX 公式**：微积分、线性代数、概率论、统计推断、物理、化学、神经网络、优化算法等
 - **暖/冷色调**：通过 `warm` 字段控制封面色调风格
 
-示例文件：[math/math-formulas.md](math/math-formulas.md)、[math/deep-learning-formulas.md](math/deep-learning-formulas.md)
+示例文件：[中文/数学/数学公式详解.md](中文/数学/数学公式详解.md)、[中文/数学/统计学公式详解.md](中文/数学/统计学公式详解.md)、[中文/数学/线性代数公式详解.md](中文/数学/线性代数公式详解.md)、[中文/数学/经典物理学公式详解.md](中文/数学/经典物理学公式详解.md)、[中文/数学/化学公式与反应详解.md](中文/数学/化学公式与反应详解.md)、[中文/数学/深度学习公式详解.md](中文/数学/深度学习公式详解.md)
+
+此外，`中文/数学/示例` 子目录提供了更偏“公式展示能力”的演示文档，强调排版形式和推导表达，而不是按学科组织内容：
+
+- **公式排版示例**：集中展示块公式、行内公式、多行推导、分段函数、矩阵和表格混排
+- **公式推导示例**：展示链式法则、最小二乘、几何级数、牛顿法等连续推导写法
+
+示例文件：[中文/数学/示例/数学公式排版示例.md](中文/数学/示例/数学公式排版示例.md)、[中文/数学/示例/公式推导示例.md](中文/数学/示例/公式推导示例.md)
+
+当前多语言目录：
+
+- 中文：[中文/数学/](中文/%E6%95%B0%E5%AD%A6/)
+- English：[english/mathematics/](english/mathematics/)
+- Deutsch：[german/mathematik/](german/mathematik/)
+- 日本語：[japanese/数学/](japanese/%E6%95%B0%E5%AD%A6/)
 
 #### PPT 演示文档示例
 
@@ -115,6 +133,10 @@ style="width: 100%; ">
 
 示例文件：[examples/code-examples/code-examples.md](examples/code-examples/code-examples.md)
 
+中文入口：
+
+- [中文/代码示例.md](中文/代码示例.md)
+
 #### Mermaid 图表文档
 
 本仓库包含一个 Mermaid 示例目录，位于 `examples/mermaid-examples`。这个示例展示了如何在 Zditor 中通过 ` ```mermaid ` 代码块编写常见图表：
@@ -126,6 +148,13 @@ style="width: 100%; ">
 - **思维导图 / Git 图 / 饼图 / 用户旅程图**：适合知识整理、版本历史和产品分析
 
 示例文件：[examples/mermaid-examples/mermaid-examples.md](examples/mermaid-examples/mermaid-examples.md)
+
+多语言指南：
+
+- 中文：[中文/Mermaid使用指南.md](中文/Mermaid使用指南.md)
+- English：[english/Mermaid Guide.md](english/Mermaid%20Guide.md)
+- Deutsch：[german/Mermaid Leitfaden.md](german/Mermaid%20Leitfaden.md)
+- 日本語：[japanese/Mermaid利用ガイド.md](japanese/Mermaid利用ガイド.md)
 
 ## 文档
 

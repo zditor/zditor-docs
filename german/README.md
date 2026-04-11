@@ -1,0 +1,96 @@
+---
+description:
+  type: text
+  description:
+  label: Description
+  value: "Deutscher Doku-Einstieg · Mathematik · Codebeispiele · SuperTag · Mermaid"
+author:
+  type: text
+  description:
+  label: Author
+  value: "SeeLey & Codex"
+cover:
+  type: asset
+  description:
+  label: Cover Image
+  value: "../assets/guides/mermaid-guide-cover-nanobanana.jpg"
+col:
+  type: array
+  description:
+  label: Col
+  value: ["subject","title","description"]
+subject:
+  type: text
+  description:
+  label: Subject
+  value: "German Docs"
+avatar:
+  type: asset
+  description:
+  label: Avatar
+  value: "../assets/nanobanana-avatar.svg"
+tags:
+  type: text
+  description:
+  label: Tags
+  value: "Deutsch · Index · Navigation"
+title:
+  type: text
+  description:
+  label: Title
+  value: "Deutscher Doku-Einstieg"
+display:
+  type: checkbox
+  description: display
+  label: Eigenschaften anzeigen
+  value: false
+updated:
+  type: date
+  description:
+  label: Updated
+  value: "2026-04-11"
+warm:
+  type: checkbox
+  description: warm
+  label: Warmer Ton
+  value: true
+row:
+  type: array
+  description:
+  label: Row
+  value: ["avatar","author","updated","tags"]
+---
+# Deutscher Doku-Einstieg
+
+Dieses Verzeichnis sammelt die deutschsprachigen Dokumente des Repositoriums. Aktuell gibt es Mathematikseiten, Codebeispiele, einen Mermaid-Leitfaden und einen SuperTag-Leitfaden.
+
+## Verzeichnisueberblick
+
+- [Mathematik](./mathematik/)
+- [Code Beispiele](./Code%20Beispiele.md)
+- [SuperTag Leitfaden](./SuperTag%20Leitfaden.md)
+- [Mermaid Leitfaden](./Mermaid%20Leitfaden.md)
+
+## Mathematik
+
+- [Mathematik Formelsammlung](./mathematik/Mathematik%20Formelsammlung.md)
+- [Statistik Formelsammlung](./mathematik/Statistik%20Formelsammlung.md)
+- [Lineare Algebra Formelsammlung](./mathematik/Lineare%20Algebra%20Formelsammlung.md)
+- [Klassische Physik Formelsammlung](./mathematik/Klassische%20Physik%20Formelsammlung.md)
+- [Chemie Formeln und Reaktionen](./mathematik/Chemie%20Formeln%20und%20Reaktionen.md)
+- [Deep Learning Formelsammlung](./mathematik/Deep%20Learning%20Formelsammlung.md)
+
+## Code Beispiele
+
+- [Code Beispiele](./Code%20Beispiele.md)
+
+## SuperTag
+
+- [SuperTag Leitfaden](./SuperTag%20Leitfaden.md)
+
+## Diagramme
+
+- [Mermaid Leitfaden](./Mermaid%20Leitfaden.md)
+
+!!! tip Empfohlener Einstieg
+    Wenn du dieses Verzeichnis zum ersten Mal oeffnest, beginne mit dem Mermaid-Leitfaden und dem SuperTag-Leitfaden. Danach lohnen sich ein oder zwei Mathematikseiten als vollstaendige Dokumentbeispiele.

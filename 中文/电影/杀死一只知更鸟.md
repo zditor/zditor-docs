@@ -3,7 +3,7 @@ class:
   type: text
   label: "class"
   description: ""
-  value: "ClassicMovie"
+  value: "ClassicMovieChinese"
 title:
   type: text
   label: "片名"

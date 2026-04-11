@@ -1,44 +1,24 @@
 ---
-avatar:
-  type: asset
-  description: 
-  label: Avatar
-  value: "assets/physics-author-avatar.jpg"
-cover:
-  type: asset
-  description: 
-  label: Cover Image
-  value: "assets/deep-learning-formulas-cover.jpg"
 title:
   type: text
   description: 
   label: Title
   value: "深度学习公式详解"
-warm:
-  type: checkbox
-  description: warm
-  label: 暖色调
-  value: true
+cover:
+  type: asset
+  description: 
+  label: Cover Image
+  value: "assets/deep-learning-formulas-cover.jpg"
 author:
   type: text
   description: 
   label: Author
   value: "SeeLey & ClaudeCode"
-col:
-  type: array
+avatar:
+  type: asset
   description: 
-  label: Col
-  value: ["subject","title","description"]
-tags:
-  type: text
-  description: 
-  label: Tags
-  value: "深度学习 · 公式 · AI"
-display:
-  type: checkbox
-  description: display
-  label: 显示属性
-  value: false
+  label: Avatar
+  value: "assets/physics-author-avatar.jpg"
 row:
   type: array
   description: 
@@ -49,16 +29,36 @@ description:
   description: 
   label: Description
   value: "神经网络 · 优化算法 · CNN · RNN · Transformer"
-subject:
-  type: text
+col:
+  type: array
   description: 
-  label: Subject
-  value: "Deep Learning"
+  label: Col
+  value: ["subject","title","description"]
 updated:
   type: date
   description: 
   label: Updated
   value: "2026-04-06"
+warm:
+  type: checkbox
+  description: warm
+  label: 暖色调
+  value: true
+subject:
+  type: text
+  description: 
+  label: Subject
+  value: "Deep Learning"
+display:
+  type: checkbox
+  description: display
+  label: 显示属性
+  value: false
+tags:
+  type: text
+  description: 
+  label: Tags
+  value: "深度学习 · 公式 · AI"
 ---
 # 深度学习公式详解
 

@@ -70,6 +70,18 @@ Your browser does not support the video tag.
 
 See the [documentation site](https://docs.zditor.com), or switch to the `docs` branch with `git checkout docs`.
 
+#### Mermaid Diagram Guide
+
+This repository includes a Mermaid example directory in `examples/mermaid-examples`. It shows how to write common diagrams in Zditor with fenced `mermaid` code blocks:
+
+- **Flowcharts** for workflows, branching logic, and process visualization
+- **Sequence diagrams** for frontend/backend/service interaction flows
+- **Gantt charts** for schedules, milestones, and task planning
+- **Class, state, and ER diagrams** for software and data modeling
+- **Mindmaps, git graphs, pie charts, and user journeys** for planning and analysis
+
+Example file: [examples/mermaid-examples/mermaid-examples.md](examples/mermaid-examples/mermaid-examples.md)
+
 #### Math Formula Document Examples
 
 This repository includes math and deep learning formula document examples in the `math` directory. They demonstrate Zditor's Cover Card feature combined with SuperTag structured data and LaTeX formula rendering:

@@ -1,0 +1,205 @@
+<svg width="3840" height="2160" viewBox="0 0 3840 2160" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="268" y1="124" x2="3390" y2="1958" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B9D8F4"/>
+      <stop offset="0.45" stop-color="#8FE1DA"/>
+      <stop offset="1" stop-color="#63C6E0"/>
+    </linearGradient>
+    <linearGradient id="hill" x1="2420" y1="1540" x2="3332" y2="2154" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#95D66A"/>
+      <stop offset="1" stop-color="#5AA84E"/>
+    </linearGradient>
+    <linearGradient id="panelBlue" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#9EDDFF"/>
+      <stop offset="1" stop-color="#7AB8FF"/>
+    </linearGradient>
+    <linearGradient id="panelGreen" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#93E4C1"/>
+      <stop offset="1" stop-color="#5FD0A0"/>
+    </linearGradient>
+    <linearGradient id="panelOrange" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#FFD08A"/>
+      <stop offset="1" stop-color="#FFAC63"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="26" flood-color="#15324A" flood-opacity="0.18"/>
+    </filter>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="18" flood-color="#23435F" flood-opacity="0.14"/>
+    </filter>
+    <style>
+      .line { stroke: #22344A; stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
+      .thin { stroke: #22344A; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+      .accent { stroke: #F2A24A; stroke-width: 10; stroke-linecap: round; stroke-linejoin: round; }
+      .dot { fill: #FFF7D6; }
+      .symbol { fill: #22344A; font-family: "Trebuchet MS", "Comic Sans MS", sans-serif; font-weight: 700; }
+      .tiny { fill: #22344A; font-family: "Trebuchet MS", "Comic Sans MS", sans-serif; font-weight: 700; font-size: 58px; }
+    </style>
+  </defs>
+
+  <rect width="3840" height="2160" fill="url(#sky)"/>
+
+  <g opacity="0.92">
+    <path d="M0 1566C124 1439 248 1398 372 1450C442 1291 612 1266 756 1338C820 1195 1001 1158 1138 1244C1292 1093 1489 1118 1610 1242H0V1566Z" fill="#D9F3F0"/>
+    <path d="M1210 726C1279 660 1397 652 1486 702C1552 609 1707 592 1811 669C1902 646 1996 680 2056 748H1210V726Z" fill="#D8F0EE" opacity="0.75"/>
+    <path d="M1622 1145C1687 1088 1775 1083 1846 1124C1900 1047 2012 1036 2098 1089C2162 1068 2228 1091 2268 1145H1622Z" fill="#D8F0EE" opacity="0.72"/>
+    <path d="M2894 366C2971 268 3124 248 3235 320C3302 216 3475 201 3597 286C3683 252 3772 278 3840 348V530H2894V366Z" fill="#E5F7F5" opacity="0.68"/>
+  </g>
+
+  <g opacity="0.68">
+    <circle cx="1934" cy="1061" r="10" class="dot"/>
+    <circle cx="1768" cy="922" r="8" class="dot"/>
+    <circle cx="2208" cy="864" r="9" class="dot"/>
+    <circle cx="2416" cy="1020" r="12" class="dot"/>
+    <circle cx="2622" cy="1188" r="8" class="dot"/>
+    <circle cx="2795" cy="900" r="9" class="dot"/>
+    <circle cx="3060" cy="726" r="8" class="dot"/>
+    <circle cx="3182" cy="844" r="12" class="dot"/>
+    <circle cx="3388" cy="1014" r="10" class="dot"/>
+    <circle cx="3308" cy="1218" r="9" class="dot"/>
+    <circle cx="3596" cy="916" r="11" class="dot"/>
+    <circle cx="3652" cy="1202" r="10" class="dot"/>
+  </g>
+
+  <g opacity="0.2">
+    <path d="M2150 648H2570" class="line"/>
+    <path d="M2500 582L2590 648L2500 712" class="line"/>
+    <path d="M2332 1132H2876" class="line"/>
+    <path d="M2798 1064L2892 1132L2798 1204" class="line"/>
+    <path d="M2604 1488H3168" class="line"/>
+    <path d="M3092 1422L3184 1488L3092 1556" class="line"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="2302" y="598" width="330" height="190" rx="32" fill="url(#panelBlue)" stroke="#22344A" stroke-width="10"/>
+    <rect x="2770" y="876" width="358" height="198" rx="32" fill="url(#panelGreen)" stroke="#22344A" stroke-width="10"/>
+    <rect x="2498" y="1240" width="384" height="210" rx="32" fill="url(#panelOrange)" stroke="#22344A" stroke-width="10"/>
+    <rect x="3072" y="1360" width="308" height="176" rx="30" fill="url(#panelBlue)" stroke="#22344A" stroke-width="10"/>
+  </g>
+
+  <g class="symbol" font-size="64">
+    <text x="2386" y="708">flowchart</text>
+    <text x="2854" y="990">sequence</text>
+    <text x="2580" y="1368">classDiagram</text>
+    <text x="3136" y="1468">gantt</text>
+  </g>
+
+  <g filter="url(#softShadow)">
+    <circle cx="2842" cy="478" r="88" fill="#BDE9FF" stroke="#22344A" stroke-width="10"/>
+    <circle cx="2842" cy="462" r="10" fill="#22344A"/>
+    <circle cx="2882" cy="462" r="10" fill="#22344A"/>
+    <path d="M2824 510C2844 530 2872 530 2894 510" class="thin"/>
+
+    <path d="M3340 384L3434 288L3528 384V504H3340V384Z" fill="#A7D9FF" stroke="#22344A" stroke-width="10"/>
+    <path d="M3434 288V504" class="thin"/>
+    <path d="M3340 384H3528" class="thin"/>
+
+    <circle cx="3286" cy="602" r="74" fill="#FFE17D" stroke="#22344A" stroke-width="10"/>
+    <circle cx="3258" cy="582" r="8" fill="#22344A"/>
+    <circle cx="3314" cy="582" r="8" fill="#22344A"/>
+    <path d="M3254 626C3274 644 3302 644 3320 626" class="thin"/>
+
+    <path d="M3494 764H3642" class="line"/>
+    <path d="M3568 690V838" class="line"/>
+    <path d="M3508 748C3532 708 3604 704 3624 748" class="accent"/>
+
+    <path d="M2266 956H2418" class="line"/>
+    <path d="M2342 882V1030" class="line"/>
+    <path d="M2342 956C2372 926 2402 896 2412 850" class="accent"/>
+
+    <path d="M2134 1316H2304" class="line"/>
+    <path d="M2218 1230V1398" class="line"/>
+    <path d="M2180 1282L2218 1230L2254 1282Z" fill="#FFA56B" stroke="#22344A" stroke-width="10"/>
+
+    <path d="M2372 1556L2450 1446L2528 1556H2372Z" fill="#8AB9FF" stroke="#22344A" stroke-width="10"/>
+    <circle cx="2420" cy="1510" r="8" fill="#22344A"/>
+    <circle cx="2476" cy="1510" r="8" fill="#22344A"/>
+    <path d="M2428 1540C2442 1552 2458 1552 2470 1540" class="thin"/>
+
+    <path d="M2706 886C2706 846 2670 812 2624 812C2578 812 2542 846 2542 886C2542 932 2578 962 2624 962C2670 962 2706 932 2706 886Z" fill="#9EE8CC" stroke="#22344A" stroke-width="10"/>
+    <circle cx="2598" cy="878" r="8" fill="#22344A"/>
+    <circle cx="2648" cy="878" r="8" fill="#22344A"/>
+    <path d="M2594 914C2610 928 2634 928 2650 914" class="thin"/>
+
+    <path d="M2920 1180L3022 1084L3124 1180V1300H2920V1180Z" fill="#8FD4F6" stroke="#22344A" stroke-width="10"/>
+    <circle cx="2990" cy="1198" r="8" fill="#22344A"/>
+    <circle cx="3046" cy="1198" r="8" fill="#22344A"/>
+    <path d="M2990 1240C3008 1252 3028 1252 3046 1240" class="thin"/>
+    <path d="M2970 1118V1268" class="thin" opacity="0.45"/>
+    <path d="M2920 1180H3124" class="thin" opacity="0.45"/>
+
+    <path d="M3238 1106L3330 1008L3422 1106V1222H3238V1106Z" fill="#FFA767" stroke="#22344A" stroke-width="10"/>
+    <path d="M3330 1008V1222" class="thin" opacity="0.45"/>
+    <path d="M3238 1106H3422" class="thin" opacity="0.45"/>
+
+    <path d="M2678 1642H2812" class="line"/>
+    <path d="M2744 1570V1716" class="line"/>
+    <path d="M2700 1678C2730 1636 2772 1610 2808 1600" class="accent"/>
+    <circle cx="2808" cy="1600" r="10" fill="#F2A24A"/>
+  </g>
+
+  <g class="symbol" font-size="96">
+    <text x="3074" y="610">{ }</text>
+    <text x="3536" y="682">ER</text>
+    <text x="2552" y="1108">TD</text>
+    <text x="2830" y="1310">UI</text>
+    <text x="2308" y="1478">git</text>
+    <text x="3162" y="886">[]</text>
+    <text x="3376" y="1306">LR</text>
+  </g>
+
+  <g class="symbol" font-size="128">
+    <text x="2038" y="1714">M</text>
+    <text x="2176" y="1792">e</text>
+    <text x="2336" y="1692">r</text>
+    <text x="2460" y="1806">m</text>
+    <text x="2668" y="1714">a</text>
+    <text x="2822" y="1816">i</text>
+    <text x="2928" y="1698">d</text>
+  </g>
+
+  <g>
+    <path d="M2640 1762C2860 1640 3110 1646 3324 1768C3436 1832 3528 1920 3576 2048H2430C2478 1944 2536 1820 2640 1762Z" fill="url(#hill)"/>
+    <path d="M2484 1954C2706 1824 2942 1804 3142 1868C3298 1916 3444 1998 3548 2048H2430C2450 2002 2462 1974 2484 1954Z" fill="#7CC162" opacity="0.7"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <ellipse cx="3346" cy="1858" rx="166" ry="58" fill="#6A8EB4" opacity="0.22"/>
+
+    <path d="M3290 1536C3344 1510 3416 1510 3470 1536C3528 1564 3566 1628 3576 1698C3588 1786 3554 1874 3488 1926C3412 1986 3298 1990 3218 1936C3142 1884 3100 1790 3114 1698C3128 1626 3190 1566 3290 1536Z" fill="#8B5B49" stroke="#22344A" stroke-width="10"/>
+    <path d="M3190 1682C3202 1608 3258 1550 3334 1516C3306 1462 3308 1402 3348 1360C3404 1302 3492 1300 3556 1352C3610 1396 3628 1476 3594 1540C3654 1574 3690 1626 3696 1696C3704 1806 3628 1906 3512 1940C3410 1970 3294 1948 3218 1884C3190 1804 3182 1742 3190 1682Z" fill="#704836"/>
+
+    <circle cx="3328" cy="1658" r="22" fill="#22344A"/>
+    <circle cx="3476" cy="1658" r="22" fill="#22344A"/>
+    <circle cx="3332" cy="1652" r="8" fill="#FFFFFF"/>
+    <circle cx="3480" cy="1652" r="8" fill="#FFFFFF"/>
+
+    <path d="M3294 1770C3352 1812 3444 1812 3504 1770" class="line"/>
+    <path d="M3394 1688V1734" class="thin"/>
+    <path d="M3226 1714C3258 1744 3292 1760 3330 1764" class="thin" opacity="0.42"/>
+    <path d="M3466 1764C3508 1756 3544 1742 3576 1712" class="thin" opacity="0.42"/>
+
+    <circle cx="3260" cy="1738" r="14" fill="#F8AA97" opacity="0.7"/>
+    <circle cx="3560" cy="1738" r="14" fill="#F8AA97" opacity="0.7"/>
+
+    <path d="M3262 1710C3230 1660 3214 1606 3218 1552C3222 1478 3266 1418 3346 1390C3426 1362 3514 1378 3572 1436C3624 1488 3638 1562 3628 1632C3620 1684 3598 1736 3564 1776" class="thin" opacity="0.24"/>
+
+    <path d="M3254 1822C3312 1780 3378 1758 3452 1758C3518 1758 3574 1778 3620 1814C3646 1834 3660 1860 3662 1888C3666 1938 3632 1978 3564 1994C3498 2010 3422 1996 3362 1954C3302 1996 3222 2010 3154 1990C3088 1972 3054 1934 3058 1888C3060 1858 3078 1832 3108 1810C3154 1778 3214 1760 3280 1758C3270 1780 3260 1800 3254 1822Z" fill="#2F67D7" stroke="#22344A" stroke-width="10"/>
+    <path d="M3362 1954C3406 1920 3450 1860 3478 1794" class="thin" opacity="0.34"/>
+    <path d="M3268 1848C3312 1862 3378 1868 3440 1850" class="thin" opacity="0.34"/>
+
+    <path d="M3236 1768L3178 1790L3200 1730" fill="#FFD374" stroke="#22344A" stroke-width="10"/>
+    <path d="M3496 1802L3552 1826L3524 1768" fill="#FFD374" stroke="#22344A" stroke-width="10"/>
+
+    <rect x="3274" y="1778" width="176" height="106" rx="14" fill="#173B73" stroke="#22344A" stroke-width="10"/>
+    <text x="3320" y="1848" fill="#D6F4FF" font-size="52" font-family="Trebuchet MS, Comic Sans MS, sans-serif" font-weight="700">MMD</text>
+  </g>
+
+  <g class="tiny">
+    <text x="2188" y="1860">graph LR</text>
+    <text x="2454" y="955">pie</text>
+    <text x="2952" y="690">state</text>
+    <text x="2140" y="1184">subgraph</text>
+    <text x="3564" y="1036">mindmap</text>
+  </g>
+</svg>

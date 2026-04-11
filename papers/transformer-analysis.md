@@ -139,6 +139,8 @@ def scaled_dot_product_attention(Q, K, V, mask=None):
 
 ![Multi-Head Attention](./multi-head-attention.jpg)
 
+![Multi-Head Attention](./multi-head-attention.jpg)
+
 ```py
 class MultiHeadAttention(nn.Module):
     def __init__(self, d_model=512, num_heads=8):
@@ -282,7 +284,17 @@ print(f"输出形状: {output.shape}")  # (2, 10, 512)
 |WMT EN-DE |Transformer big |**28.4** |2.3·10¹⁹ FLOPs |
 |WMT EN-FR |Transformer big |**41.8** |2.3·10¹⁹ FLOPs |
 
+|任务 |模型 |BLEU |训练成本 |
+|---|---|---|---|
+|WMT EN-DE |Transformer big |**28.4** |2.3·10¹⁹ FLOPs |
+|WMT EN-FR |Transformer big |**41.8** |2.3·10¹⁹ FLOPs |
+
 比之前最好的模型（包含集成）高出 2+ BLEU，且训练成本大幅降低（8 P100 GPU 训练 3.5 天）。
+
+!!! success "关键成就"
+    - WMT 2014 英德翻译：首次超越 28 BLEU
+    - WMT 2014 英法翻译：41.8 BLEU，创下单模型新高
+    - 训练效率：远低于其他模型的训练成本
 
 !!! success "关键成就"
     - WMT 2014 英德翻译：首次超越 28 BLEU

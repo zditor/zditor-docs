@@ -105,6 +105,28 @@ style="width: 100%; ">
 
 这个示例展示了 Zditor 在创建演示文档、教学材料、多媒体笔记等场景下的强大能力。
 
+#### 代码示例文档
+
+本仓库新增了一个代码示例目录，位于 `examples/code-examples`。这个示例展示了如何在 Zditor 文档中直接编写和组织代码内容：
+
+- **行内代码**：适合在正文中标注命令、变量、函数名
+- **多语言代码块**：包含 JavaScript、TypeScript、Python、Bash、JSON 等示例
+- **文档与代码混排**：适合教程、API 文档、开发说明等场景
+
+示例文件：[examples/code-examples/code-examples.md](examples/code-examples/code-examples.md)
+
+#### Mermaid 图表文档
+
+本仓库包含一个 Mermaid 示例目录，位于 `examples/mermaid-examples`。这个示例展示了如何在 Zditor 中通过 ` ```mermaid ` 代码块编写常见图表：
+
+- **流程图**：用于展示业务流程、判断分支与系统流转
+- **时序图**：用于描述前后端、服务与数据库之间的调用顺序
+- **甘特图**：用于项目排期、任务计划与关键路径表达
+- **类图 / 状态图 / ER 图**：用于软件设计、状态机和数据建模
+- **思维导图 / Git 图 / 饼图 / 用户旅程图**：适合知识整理、版本历史和产品分析
+
+示例文件：[examples/mermaid-examples/mermaid-examples.md](examples/mermaid-examples/mermaid-examples.md)
+
 ## 文档
 
 文档见网站[文档](https://docs.zditor.com)或者切换到分支`git checkout docs`。

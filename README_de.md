@@ -72,13 +72,14 @@ Your browser does not support the video tag.
 
 ## Deutsche Dokumentation
 
-Die deutschsprachige Dokumentation befindet sich im Verzeichnis [german/](german/). Dort gibt es Mathematikseiten, Filmdokumente, Codebeispiele, einen SuperTag-Leitfaden und einen Mermaid-Leitfaden.
+Die deutschsprachige Dokumentation befindet sich im Verzeichnis `german/`. Dort gibt es Mathematikseiten, Filmdokumente, Codebeispiele, eine Papieranalyse, einen SuperTag-Leitfaden und einen Mermaid-Leitfaden.
 
 ### Verzeichnisueberblick
 
 - [Mathematik](german/mathematik/)
 - [Filme](german/filme/)
 - [Code Beispiele](german/Code%20Beispiele.md)
+- [Transformer-Papieranalyse](german/Transformer-Papieranalyse.md)
 - [SuperTag Leitfaden](german/SuperTag%20Leitfaden.md)
 - [Mermaid Leitfaden](german/Mermaid%20Leitfaden.md)
 
@@ -102,6 +103,7 @@ Die deutschsprachige Dokumentation befindet sich im Verzeichnis [german/](german
 ### Weitere deutsche Dokumente
 
 - [Code Beispiele](german/Code%20Beispiele.md)
+- [Transformer-Papieranalyse](german/Transformer-Papieranalyse.md)
 - [SuperTag Leitfaden](german/SuperTag%20Leitfaden.md)
 - [Mermaid Leitfaden](german/Mermaid%20Leitfaden.md)
 

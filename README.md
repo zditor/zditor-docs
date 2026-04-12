@@ -73,12 +73,13 @@ Your browser does not support the video tag.
 
 ## English Docs
 
-The English documentation lives in the [english/](english/) directory. It currently includes mathematics guides, code examples, movies, a SuperTag guide, and a Mermaid guide.
+The English documentation lives in the `english/` directory. It currently includes mathematics guides, code examples, paper notes, movies, a SuperTag guide, and a Mermaid guide.
 
 ### Directory Guide
 
 - [Mathematics](english/mathematics/)
 - [Code Examples](english/Code%20Examples.md)
+- [Transformer Paper Notes](english/Transformer%20Paper%20Notes.md)
 - [Movies](english/movies/)
 - [SuperTag Guide](english/SuperTag%20Guide.md)
 - [Mermaid Guide](english/Mermaid%20Guide.md)
@@ -105,6 +106,7 @@ The movie directory contains a structured movie database. Each movie is stored a
 ### More English Guides
 
 - [Code Examples](english/Code%20Examples.md)
+- [Transformer Paper Notes](english/Transformer%20Paper%20Notes.md)
 - [SuperTag Guide](english/SuperTag%20Guide.md)
 - [Mermaid Guide](english/Mermaid%20Guide.md)
 

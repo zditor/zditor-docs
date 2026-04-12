@@ -62,12 +62,13 @@ row:
 ---
 # English Docs Entry
 
-This directory collects the English documentation in the repository. It currently includes mathematics guides, code examples, Mermaid guidance, a SuperTag guide, and the English movie database.
+This directory collects the English documentation in the repository. It currently includes mathematics guides, code examples, paper notes, Mermaid guidance, a SuperTag guide, and the English movie database.
 
 ## Directory Guide
 
 - [Mathematics](./mathematics/)
 - [Code Examples](./Code%20Examples.md)
+- [Transformer Paper Notes](./Transformer%20Paper%20Notes.md)
 - [Movies](./movies/)
 - [SuperTag Guide](./SuperTag%20Guide.md)
 - [Mermaid Guide](./Mermaid%20Guide.md)
@@ -84,6 +85,10 @@ This directory collects the English documentation in the repository. It currentl
 ## Code Examples
 
 - [Code Examples](./Code%20Examples.md)
+
+## Paper Notes
+
+- [Attention Is All You Need Paper Notes](./Transformer%20Paper%20Notes.md)
 
 ## SuperTag Guide
 
@@ -106,4 +111,4 @@ Example entries:
 - [Mermaid Guide](./Mermaid%20Guide.md)
 
 !!! tip Suggested reading order
-    If you are opening this directory for the first time, start with the Mermaid Guide, the SuperTag Guide, and one or two mathematics pages. Then open the movie directory to see a fuller structured-document example.
+    If you are opening this directory for the first time, start with the Mermaid Guide, the SuperTag Guide, one or two mathematics pages, and the Transformer paper notes. Then open the movie directory to see a fuller structured-document example.

@@ -62,12 +62,13 @@ row:
 ---
 # 中文文档入口
 
-这个目录收纳仓库中的中文文档。目前主要分为数学文档、代码示例、电影数据文档、SuperTag 指南，以及单独的 Mermaid 指南。
+这个目录收纳仓库中的中文文档。目前主要分为数学文档、代码示例、论文解读、电影数据文档、SuperTag 指南，以及单独的 Mermaid 指南。
 
 ## 目录导航
 
 - [数学](./数学/)
 - [代码示例](./代码示例.md)
+- [Transformer论文解读](./Transformer论文解读.md)
 - [电影](./电影/)
 - [SuperTag使用指南](./SuperTag使用指南.md)
 - [Mermaid使用指南](./Mermaid使用指南.md)
@@ -86,6 +87,10 @@ row:
 ## 代码示例
 
 - [代码示例](./代码示例.md)
+
+## 论文解读
+
+- [Attention Is All You Need 论文解读](./Transformer论文解读.md)
 
 ## SuperTag 指南
 
@@ -108,4 +113,4 @@ row:
 - [Mermaid使用指南](./Mermaid使用指南.md)
 
 !!! tip 使用建议
-    如果你是第一次浏览这个目录，建议先看 Mermaid 使用指南、SuperTag 使用指南和数学文档示例，再进入电影目录查看更完整的结构化内容组织方式。
+    如果你是第一次浏览这个目录，建议先看 Mermaid 使用指南、SuperTag 使用指南、数学文档示例和 Transformer 论文解读，再进入电影目录查看更完整的结构化内容组织方式。

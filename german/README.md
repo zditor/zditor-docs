@@ -62,13 +62,14 @@ row:
 ---
 # Deutscher Doku-Einstieg
 
-Dieses Verzeichnis sammelt die deutschsprachigen Dokumente des Repositoriums. Aktuell gibt es Mathematikseiten, Filmdokumente, Codebeispiele, einen Mermaid-Leitfaden und einen SuperTag-Leitfaden.
+Dieses Verzeichnis sammelt die deutschsprachigen Dokumente des Repositoriums. Aktuell gibt es Mathematikseiten, Filmdokumente, Codebeispiele, eine Papieranalyse, einen Mermaid-Leitfaden und einen SuperTag-Leitfaden.
 
 ## Verzeichnisueberblick
 
 - [Mathematik](./mathematik/)
 - [Filme](./filme/)
 - [Code Beispiele](./Code%20Beispiele.md)
+- [Transformer-Papieranalyse](./Transformer-Papieranalyse.md)
 - [SuperTag Leitfaden](./SuperTag%20Leitfaden.md)
 - [Mermaid Leitfaden](./Mermaid%20Leitfaden.md)
 
@@ -84,6 +85,10 @@ Dieses Verzeichnis sammelt die deutschsprachigen Dokumente des Repositoriums. Ak
 ## Code Beispiele
 
 - [Code Beispiele](./Code%20Beispiele.md)
+
+## Papieranalyse
+
+- [Attention Is All You Need Papieranalyse](./Transformer-Papieranalyse.md)
 
 ## SuperTag
 
@@ -102,4 +107,4 @@ Dieses Verzeichnis sammelt die deutschsprachigen Dokumente des Repositoriums. Ak
 - [Mermaid Leitfaden](./Mermaid%20Leitfaden.md)
 
 !!! tip Empfohlener Einstieg
-    Wenn du dieses Verzeichnis zum ersten Mal oeffnest, beginne mit dem Mermaid-Leitfaden und dem SuperTag-Leitfaden. Danach lohnen sich ein oder zwei Mathematikseiten und anschliessend das Filmverzeichnis als zusammenhaengendes SuperTag-Beispiel.
+    Wenn du dieses Verzeichnis zum ersten Mal oeffnest, beginne mit dem Mermaid-Leitfaden und dem SuperTag-Leitfaden. Danach lohnen sich ein oder zwei Mathematikseiten, die Transformer-Papieranalyse und anschliessend das Filmverzeichnis als zusammenhaengendes SuperTag-Beispiel.

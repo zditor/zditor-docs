@@ -72,13 +72,14 @@ Your browser does not support the video tag.
 
 ## 日本語ドキュメント
 
-日本語ドキュメントは [japanese/](japanese/) ディレクトリにまとまっています。現在は数学、映画、コード例、SuperTag ガイド、Mermaid ガイドが含まれています。
+日本語ドキュメントは `japanese/` ディレクトリにまとまっています。現在は数学、映画、コード例、論文解説、SuperTag ガイド、Mermaid ガイドが含まれています。
 
 ### ディレクトリ案内
 
 - [数学](japanese/数学/)
 - [映画](japanese/映画/)
 - [コード例](japanese/コード例.md)
+- [Transformer論文解説](japanese/Transformer論文解説.md)
 - [SuperTag利用ガイド](japanese/SuperTag利用ガイド.md)
 - [Mermaid利用ガイド](japanese/Mermaid利用ガイド.md)
 
@@ -102,6 +103,7 @@ Your browser does not support the video tag.
 ### その他の日本語ドキュメント
 
 - [コード例](japanese/コード例.md)
+- [Transformer論文解説](japanese/Transformer論文解説.md)
 - [SuperTag利用ガイド](japanese/SuperTag利用ガイド.md)
 - [Mermaid利用ガイド](japanese/Mermaid利用ガイド.md)
 

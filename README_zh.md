@@ -10,7 +10,7 @@
 <br/>
 <p align="center">
 轻量、高性能、AI赋能、写画一体、所见即所得<br />
-本地化、基于文件、双链
+本地优先、基于文件、双向链接
 </p>
 
 </div>
@@ -23,13 +23,14 @@
 
 </div>
 
-[English Version](README.md)
+[English](README.md) | [日本語](README_ja.md) | [Deutsch](README_de.md)
+
 
 ---
 
-<p align="center">欢迎来到 Zditor，一个AI加持的markdown编辑器。</p>
+<p align="center">欢迎来到 Zditor，一个 AI 加持的 Markdown 编辑器。</p>
 
-<p align="center">这个仓库是Zditor的文档仓库(markdown)，<code>docs</code> 分支可以查看富文本文档</p>
+<p align="center">这个仓库是 Zditor 的 Markdown 文档仓库，切换到 <code>docs</code> 分支可以查看富文本文档。</p>
 
 <p align="center">
 <img alt="home" src="https://download.zditor.com/newweb/home.png">
@@ -37,25 +38,31 @@
 
 ## 目录
 
-- [入门指南](#入门指南)
+- [入门](#入门)
+- [社区](#社区)
 - [技能](#技能)
-- [文档](#文档)
+- [中文文档](#中文文档)
+- [其他语言](#其他语言)
+
+## 入门
+
+Zditor 是一个所见即所得的 Markdown 编辑器，支持标准 Markdown，并在此基础上扩展出结构化文档能力。目前支持 `Windows`、`macOS` 和 `Linux`。
+
+下载请前往 [Releases 页面](https://github.com/zditor/zditor-docs/releases)，或访问 [官网](https://zditor.com)。
 
 ## 社区
 
-- [公众号](https://zditor.com/wechat) 后续接bot用于反馈和排序功能&优先级
+- [公众号](https://zditor.com/wechat)
 - [微信群](https://zditor.com/wechat)
-
-## 入门指南
-
-Zditor 是一个所见即所得的 markdown 编辑器，支持 markdown 基础语法，并在此基础上扩展。目前支持`Windows`、`Macos`、`Linux大的多大的点点滴滴sadfasdfdd`da1平台，下载请前往 [release下载界面](https://github.com/zditor/zditor-docs/releases),或者前往[官网](https://zditor.com)下载。
+- [Discord](https://discord.gg/juxMNxKs)
+- [YouTube](https://youtube.com/@SeeLeyWang)
 
 ## 技能
 
-当前工作区 `.claudes/commands`可用的两个技能如下：
+当前 `.claude/commands` 里有两个可直接使用的技能：
 
-- `zditor-syntex`: 用于帮助agent学习使用zditor的markdown扩展语法。
-- `import-excel`: 是将excel文档转换为zditor支持的数据库表。
+- `zditor-syntax`：帮助 agent 学习和使用 Zditor 扩展 Markdown 语法。
+- `import-excel`：将 Excel 文档转换为 Zditor 支持的数据库表。
 
 #### 强大的文本格式化功能
 
@@ -64,6 +71,53 @@ style="width: 100%; ">
 您的浏览器不支持 Video 标签。
 </video></div>
 
-## 文档
+## 中文文档
 
-文档见网站[文档](https://docs.zditor.com)或者切换到分支`git checkout docs`。
+中文文档位于 `中文/` 目录，当前包含数学、电影、代码示例、论文解读、SuperTag 指南和 Mermaid 指南。
+
+### 目录导航
+
+- [数学](中文/数学/)
+- [代码示例](中文/代码示例.md)
+- [Transformer论文解读](中文/Transformer论文解读.md)
+- [电影](中文/电影/)
+- [SuperTag 使用指南](中文/SuperTag使用指南.md)
+- [Mermaid 使用指南](中文/Mermaid使用指南.md)
+
+### 数学文档
+
+- [数学公式详解](中文/数学/数学公式详解.md)
+- [统计学公式详解](中文/数学/统计学公式详解.md)
+- [线性代数公式详解](中文/数学/线性代数公式详解.md)
+- [经典物理学公式详解](中文/数学/经典物理学公式详解.md)
+- [化学公式与反应详解](中文/数学/化学公式与反应详解.md)
+- [深度学习公式详解](中文/数学/深度学习公式详解.md)
+- [数学公式排版示例](中文/数学/示例/数学公式排版示例.md)
+- [公式推导示例](中文/数学/示例/公式推导示例.md)
+
+### 电影文档
+
+电影目录是一组结构化电影文档，每部电影对应一个独立 Markdown 文件。
+
+- [教父](中文/电影/教父.md)
+- [公民凯恩](中文/电影/公民凯恩.md)
+- [后窗](中文/电影/后窗.md)
+- [惊魂记](中文/电影/惊魂记.md)
+- [浏览完整电影目录](中文/电影/)
+
+### 其他中文文档
+
+- [代码示例](中文/代码示例.md)
+- [Transformer论文解读](中文/Transformer论文解读.md)
+- [SuperTag 使用指南](中文/SuperTag使用指南.md)
+- [Mermaid 使用指南](中文/Mermaid使用指南.md)
+
+## 其他语言
+
+其他语言的根 README：
+
+- [English](README.md)
+- [日本語](README_ja.md)
+- [Deutsch](README_de.md)
+
+

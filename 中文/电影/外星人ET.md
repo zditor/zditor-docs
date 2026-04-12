@@ -1,0 +1,119 @@
+---
+class:
+  type: text
+  label: "class"
+  description: ""
+  value: "ClassicMovieChinese"
+title:
+  type: text
+  label: "片名"
+  description: ""
+  value: "外星人ET"
+original_title:
+  type: text
+  label: "原片名"
+  description: ""
+  value: "E.T. the Extra-Terrestrial"
+year:
+  type: number
+  label: "年份"
+  description: ""
+  value: 1982
+director:
+  type: text
+  label: "导演"
+  description: ""
+  value: "史蒂文·斯皮尔伯格"
+cast:
+  type: array
+  label: "主演"
+  description: ""
+  value: ["亨利·托马斯", "德鲁·巴里摩尔", "迪·华莱士"]
+country:
+  type: text
+  label: "国家"
+  description: ""
+  value: "美国"
+genre:
+  type: multiselect
+  label: "类型"
+  description: ""
+  value: ["科幻", "冒险"]
+  options: ["剧情", "悬疑", "犯罪", "爱情", "喜剧", "动作", "战争", "科幻", "恐怖", "惊悚", "西部", "音乐歌舞", "动画", "历史", "传记", "冒险", "奇幻"]
+afi_rank:
+  type: number
+  label: "AFI排名"
+  description: ""
+  value: 24
+douban_score:
+  type: number
+  label: "豆瓣评分"
+  description: ""
+  value: 8.4
+watched:
+  type: checkbox
+  label: "已看"
+  description: ""
+  value: false
+watch_date:
+  type: date
+  label: "观看日期"
+  description: ""
+  value: ""
+my_score:
+  type: progress
+  label: "我的评分"
+  description: "满分100"
+  value: 0
+notes:
+  type: text
+  label: "观后感"
+  description: ""
+  value: ""
+cover:
+  type: asset
+  description: 
+  label: Cover Image
+  value: "../../assets/movies/covers/外星人ET.jpg"
+display:
+  type: checkbox
+  description: display
+  label: 显示属性
+  value: false
+warm:
+  type: checkbox
+  description: warm
+  label: 暖色调
+  value: false
+col:
+  type: array
+  description: ''
+  label: Col
+  value:
+  - year
+  - title
+  - director
+row:
+  type: array
+  description: ''
+  label: Row
+  value:
+  - genre
+  - afi_rank
+  - douban_score
+  - watched
+---
+
+## 童真与想象力的温柔赞歌
+
+《外星人ET》是1982年的科幻、冒险电影，由史蒂文·斯皮尔伯格执导。它真正重要的地方，不只是故事本身，而是影片如何把正义与权力这些主题压进清晰的类型结构里，让观众在叙事推进中同时感受到情绪力度与思想密度。
+
+影片之所以能够成立，很大程度上依赖于影片内部最核心的人物关系。亨利·托马斯、德鲁·巴里摩尔、迪·华莱士这些演员共同支撑起人物之间的张力，使作品不会停留在概念层面，而是始终落在具体的处境、选择与情感后果上。这也是它比一般同类作品更耐看的原因。
+
+从形式上看，史蒂文·斯皮尔伯格对影像节奏、空间关系和气氛控制都非常稳定。无论是镜头距离、场面调度，还是光线与环境的组织，最终都服务于同一个目标：让冲突显得更集中、更冷静，也更有余味。
+
+## 儿童视角为何如此纯粹
+
+这部电影今天仍然有效，不只是因为它在影史中的地位很高，更因为它处理正义与权力的方式并不过时。它没有把主题写成抽象口号，而是让人物在行动与犹豫之间慢慢显露立场，因此观众即使隔着年代去看，依然能够进入它的核心问题。
+
+AFI 排名第24、豆瓣评分8.4分，这些信息说明了它在经典序列中的位置；但真正让《外星人ET》留下来的，还是它把类型表达、人物密度和作者视角压缩在同一部作品里的能力。

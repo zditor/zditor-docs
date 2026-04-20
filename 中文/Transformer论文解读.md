@@ -109,7 +109,7 @@ $$
 
 如果想直接对照原论文里的那张经典示意图，可以先看下面这张 PDF 批注卡。它圈出的正是论文中解释 scaled dot-product attention 的关键区域，适合和公式、示意图一起对照阅读。
 
-[原论文高亮：缩放点积注意力](/assets/papers/attention.pdf|mode=pdf_card|highlight=873c76c8-9921-4012-b91a-3bc6e5452330)
+[论文](/assets/papers/attention.pdf|mode=pdf_card|highlight=873c76c8-9921-4012-b91a-3bc6e5452330)
 
 下面这张整理后的示意图则更适合快速看清这一机制的输入、打分、softmax 和加权求和过程。
 

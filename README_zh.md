@@ -59,10 +59,25 @@ Zditor 是一个所见即所得的 Markdown 编辑器，支持标准 Markdown，
 
 ## 技能
 
-当前 `.claude/commands` 里有两个可直接使用的技能：
+这个仓库内置了两个可安装的 Codex skill，并同时保留了 Claude Code command：
 
 - `zditor-syntax`：帮助 agent 学习和使用 Zditor 扩展 Markdown 语法。
 - `import-excel`：将 Excel 文档转换为 Zditor 支持的数据库表。
+
+给 Codex 安装：
+
+```bash
+git clone https://github.com/zditor/zditor-docs.git
+cd zditor-docs
+./scripts/install-codex-skills.sh
+```
+
+安装脚本会优先复制到 `$CODEX_HOME/skills`；如果没有设置 `CODEX_HOME`，则复制到 `~/.codex/skills`。安装完成后重启 Codex。
+
+如果使用 Claude Code，直接把这个仓库作为工作区打开，然后使用 `.claude/commands` 里的仓库级命令：
+
+- `/zditor-syntax`
+- `/import-excel`
 
 #### 强大的文本格式化功能
 
@@ -119,5 +134,4 @@ style="width: 100%; ">
 - [English](README.md)
 - [日本語](README_ja.md)
 - [Deutsch](README_de.md)
-
 

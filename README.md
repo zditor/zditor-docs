@@ -59,10 +59,25 @@ Download from the [Releases page](https://github.com/zditor/zditor-docs/releases
 
 ## Skills
 
-Two skills are currently available in `.claude/commands`:
+This repository ships two installable Codex skills and matching Claude Code commands:
 
 - `zditor-syntax`: Helps agents learn and use Zditor's extended markdown syntax.
 - `import-excel`: Converts Excel documents into database tables supported by Zditor.
+
+Install them for Codex:
+
+```bash
+git clone https://github.com/zditor/zditor-docs.git
+cd zditor-docs
+./scripts/install-codex-skills.sh
+```
+
+The installer copies both skills into `$CODEX_HOME/skills` when `CODEX_HOME` is set, or `~/.codex/skills` otherwise. Restart Codex after installation.
+
+For Claude Code, open this repository as the workspace and use the repo-local commands in `.claude/commands`:
+
+- `/zditor-syntax`
+- `/import-excel`
 
 #### Powerful Text Formatting
 
@@ -117,5 +132,4 @@ Root README files in other languages:
 - [中文](README_zh.md)
 - [日本語](README_ja.md)
 - [Deutsch](README_de.md)
-
 

@@ -107,6 +107,10 @@ $$
 
 このスケーリングは、内積が大きくなりすぎて softmax が極端に鋭くなるのを防ぐためのものです。論文では、これを従来の additive attention とも比較しています [^2]。
 
+原論文のあの定番の図と直接見比べたい場合は、まず次の PDF 注釈カードを見ると分かりやすいです。scaled dot-product attention を説明している原論文中の該当箇所をそのまま囲っているので、数式や図と並べて読むのに向いています。
+
+[論文](/assets/papers/attention.pdf|mode=pdf_card|highlight=873c76c8-9921-4012-b91a-3bc6e5452330)
+
 ![Scaled Dot-Product Attention](../assets/papers/scaled-dot-product-attention.jpg)
 
 ### Multi-Head Attention

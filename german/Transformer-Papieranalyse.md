@@ -107,6 +107,10 @@ $$
 
 Die Skalierung verhindert, dass grosse Skalarprodukte die Softmax-Funktion zu frueh in extrem scharfe Bereiche treiben. Das Paper stellt dies auch der frueheren additiven Attention gegenueber [^2].
 
+Wer die klassische Abbildung im Originalpaper direkt daneben ansehen will, sollte zuerst die folgende PDF-Karte oeffnen. Sie markiert genau den Abschnitt, in dem das Paper scaled dot-product attention erklaert, und laesst sich gut zusammen mit Formel und Grafik lesen.
+
+[Paper](/assets/papers/attention.pdf|mode=pdf_card|highlight=873c76c8-9921-4012-b91a-3bc6e5452330)
+
 ![Scaled Dot-Product Attention](../assets/papers/scaled-dot-product-attention.jpg)
 
 ### Multi-Head Attention

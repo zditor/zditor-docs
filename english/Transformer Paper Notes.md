@@ -108,6 +108,10 @@ $$
 The scaling term keeps large dot products from pushing softmax into extremely sharp regions.
 The paper also contrasts it with earlier additive attention [^2].
 
+If you want to compare this directly with the classic figure in the original paper, start with the PDF annotation card below. It highlights the exact region where the paper explains scaled dot-product attention, which makes it easier to read side by side with the formula and the diagram.
+
+[Paper](/assets/papers/attention.pdf|mode=pdf_card|highlight=873c76c8-9921-4012-b91a-3bc6e5452330)
+
 ![Scaled Dot-Product Attention](../assets/papers/scaled-dot-product-attention.jpg)
 
 ### Multi-Head Attention

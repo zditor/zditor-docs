@@ -62,7 +62,7 @@ row:
 ---
 # English Docs Entry
 
-This directory collects the English documentation in the repository. It currently includes mathematics guides, code examples, paper notes, Mermaid guidance, a SuperTag guide, and the English movie database.
+This directory collects the English documentation in the repository. It currently includes mathematics guides, code examples, paper notes, Mermaid guidance, a SuperTag guide, a viewing guide, and the English movie database.
 
 ## Directory Guide
 
@@ -70,6 +70,7 @@ This directory collects the English documentation in the repository. It currentl
 - [Code Examples](./Code%20Examples.md)
 - [Transformer Paper Notes](./Transformer%20Paper%20Notes.md)
 - [Movies](./movies/)
+- [Viewing Guide](./Viewing%20Guide.md)
 - [SuperTag Guide](./SuperTag%20Guide.md)
 - [Mermaid Guide](./Mermaid%20Guide.md)
 
@@ -104,6 +105,7 @@ Example entries:
 - [Citizen Kane](./movies/Citizen%20Kane.md)
 - [Rear Window](./movies/Rear%20Window.md)
 - [Psycho](./movies/Psycho.md)
+- [Viewing Guide](./Viewing%20Guide.md)
 - [Browse the full movie directory](./movies/)
 
 ## Diagram Guide

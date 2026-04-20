@@ -62,12 +62,13 @@ row:
 ---
 # Deutscher Doku-Einstieg
 
-Dieses Verzeichnis sammelt die deutschsprachigen Dokumente des Repositoriums. Aktuell gibt es Mathematikseiten, Filmdokumente, Codebeispiele, eine Papieranalyse, einen Mermaid-Leitfaden und einen SuperTag-Leitfaden.
+Dieses Verzeichnis sammelt die deutschsprachigen Dokumente des Repositoriums. Aktuell gibt es Mathematikseiten, Filmdokumente, einen Filmleitfaden, Codebeispiele, eine Papieranalyse, einen Mermaid-Leitfaden und einen SuperTag-Leitfaden.
 
 ## Verzeichnisueberblick
 
 - [Mathematik](./mathematik/)
 - [Filme](./filme/)
+- [Filmleitfaden](./Filmleitfaden.md)
 - [Code Beispiele](./Code%20Beispiele.md)
 - [Transformer-Papieranalyse](./Transformer-Papieranalyse.md)
 - [SuperTag Leitfaden](./SuperTag%20Leitfaden.md)
@@ -100,6 +101,7 @@ Dieses Verzeichnis sammelt die deutschsprachigen Dokumente des Repositoriums. Ak
 - [Citizen Kane](./filme/Citizen%20Kane.md)
 - [Das Fenster zum Hof](./filme/Das%20Fenster%20zum%20Hof.md)
 - [Psycho](./filme/Psycho.md)
+- [Filmleitfaden](./Filmleitfaden.md)
 - [Ganzes Filmverzeichnis](./filme/)
 
 ## Diagramme

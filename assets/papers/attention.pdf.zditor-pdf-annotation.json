@@ -1,0 +1,44 @@
+{
+  "_type": "zditor-pdf-annotation",
+  "version": 1,
+  "layers": [
+    {
+      "id": "default",
+      "name": "Default Layer",
+      "visible": true
+    }
+  ],
+  "strokes": [],
+  "highlights": [
+    {
+      "id": "fc184920-05e7-4424-84e6-e5be3d46f8df",
+      "pageIndex": 3,
+      "layerId": "default",
+      "rect": {
+        "x": 0.14978925408719343,
+        "y": 0.05552631578947369,
+        "w": 0.7107246253405993,
+        "h": 0.26282483552631575
+      },
+      "color": "#facc15",
+      "title": "attention",
+      "comment": "attention layer",
+      "thumbnail": "/Users/zz/github/zditor-docs/assets/papers/assets/2026-04-20/1776690488_a11b.png"
+    },
+    {
+      "id": "873c76c8-9921-4012-b91a-3bc6e5452330",
+      "pageIndex": 3,
+      "layerId": "default",
+      "rect": {
+        "x": 0.1739877809945504,
+        "y": 0.4565090460526316,
+        "w": 0.6531260643732969,
+        "h": 0.32763980263157894
+      },
+      "color": "#93c5fd",
+      "title": "scale dot",
+      "comment": "scaled dot-product attention",
+      "thumbnail": "/Users/zz/github/zditor-docs/assets/papers/assets/2026-04-20/1776690542_878e.png"
+    }
+  ]
+}

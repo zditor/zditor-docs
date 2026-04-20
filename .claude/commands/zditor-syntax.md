@@ -473,7 +473,55 @@ Zditor 支持脚注语法 [^1]，在学术写作中非常有用 [^2]。
 
 ---
 
-#### 17. Embed 内嵌网页
+#### 17. PDF Card PDF 注释卡片
+
+用于在正文中插入一个 PDF 卡片节点，并关联到某个 PDF 高亮批注，适合论文摘录、重点标注、阅读笔记。
+
+**语法：**
+
+```markdown
+[卡片标题](PDF路径|mode=pdf_card|highlight=高亮ID)
+```
+
+**参数说明：**
+
+|参数 |必填 |说明 |
+|---|---|---|
+|`[ ]` 中的文字 |推荐 |卡片标题，作为 PDF 卡片的显示名称；为空时通常回退为 PDF 文件名 |
+|`mode=pdf_card` |✅ |固定值 |
+|`highlight` |推荐 |PDF 高亮批注的 ID，用来定位对应的批注信息与缩略图 |
+
+正文里该节点本体会以内联 PDF 标签的形式显示，内容通常是 `卡片标题 · PDF文件名`。选中该节点后，编辑器会从同名注释文件 `原PDF路径.zditor-pdf-annotation.json` 中查找对应 `highlight`，并在工具栏及 More 浮层中显示页码、标题、说明、颜色，以及可用的缩略图。
+
+**示例：**
+
+```markdown
+[scale dot](/assets/papers/attention.pdf|mode=pdf_card|highlight=873c76c8-9921-4012-b91a-3bc6e5452330)
+
+[attention](./papers/attention.pdf|mode=pdf_card|highlight=fc184920-05e7-4424-84e6-e5be3d46f8df)
+```
+
+**注释文件示例：**
+
+```text
+assets/papers/attention.pdf.zditor-pdf-annotation.json
+```
+
+其中每个 highlight 通常包含这些信息：
+
+- `id`
+- `pageIndex`
+- `title`
+- `comment`
+- `color`
+- `thumbnail`
+
+如果 `highlight` 为空、写错，或注释文件不存在，PDF 卡片节点仍可保留，但不会显示对应的高亮详情，只会看到普通 PDF 节点或 “No highlight info” 状态。
+
+
+---
+
+#### 18. Embed 内嵌网页
 
 将网页以 iframe 形式嵌入文档。
 
@@ -1131,6 +1179,13 @@ tags:
 
 - `scale` 为纯数字（不加 `%`），范围建议 `25`~`100`
 - `align` 只能是 `left` / `center` / `right`
+
+**PDF Card：**
+
+- 必须使用 `mode=pdf_card`
+- 路径必须指向 `.pdf` 文件，而不是 `.zditor-pdf-annotation.json`
+- `highlight` 推荐填写目标批注的高亮 ID；不填时节点仍可存在，但不会关联到具体批注
+- 推荐写法：`[卡片标题](PDF路径|mode=pdf_card|highlight=高亮ID)`
 
 **Revision / Tip 颜色选择建议：**
 

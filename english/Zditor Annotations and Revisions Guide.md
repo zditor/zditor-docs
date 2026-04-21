@@ -83,15 +83,21 @@ They are useful for proofreading, collaborative editing, terminology notes, and 
 ## Minimal examples
 
 ```md
-[term](explanation goes here|mode=tip|style=teal)
+[term](explanation%20goes%20here|mode=tip|style=teal)
 
-[original text](why it should change|mode=revision|style=indigo|advice=replacement text)
+[original text](why%20it%20should%20change|mode=revision|style=indigo|advice=replacement%20text)
 ```
 
 Rendered examples:
 
-- [Zditor](an editor that extends Markdown with structured features|mode=tip|style=teal can attach explanations directly to inline text.
-- Please change [soon](too vague for a release document|mode=revision|style=red|advice=by April 30, 2026).
+- [Zditor](an%20editor%20that%20extends%20Markdown%20with%20structured%20features|mode=tip|style=teal) can attach explanations directly to inline text.
+- Please change [soon](too%20vague%20for%20a%20release%20document|mode=revision|style=red|advice=by%20April%2030,%202026).
+
+!!! tip Encode spaces as `%20` when writing raw Markdown
+    If you edit the Markdown source directly, spaces inside `tip` and `revision` parentheses should be written as `%20`.
+    This includes annotation text, file paths, URLs, and `advice` values.
+    Toolbar editing is the exception: in the editor UI you can type normal spaces, and they will be encoded automatically when the document is saved.
+    For example, raw Markdown can be written as `[term](explanation%20goes%20here|mode=tip|style=teal)`.
 
 ## Annotations with Tip
 
@@ -100,25 +106,25 @@ Rendered examples:
 ### Syntax
 
 ```md
-[text](annotation text|mode=tip|style=color)
+[text](annotation%20text|mode=tip|style=color)
 ```
 
 ### Rendered examples
 
-[vector database](useful for semantic retrieval, but not the same as a relational database|mode=tip|style=teal) is common in knowledge search systems.
+[vector database](useful%20for%20semantic%20retrieval,%20but%20not%20the%20same%20as%20a%20relational%20database|mode=tip|style=teal) is common in knowledge search systems.
 
-Finish the [permission model](the relationship between roles, resources, and actions|mode=tip|style=yellow) before opening team collaboration.
+Finish the [permission model](the%20relationship%20between%20roles,%20resources,%20and%20actions|mode=tip|style=yellow) before opening team collaboration.
 
-If an API term stays in English, add a note for [DTO](Data Transfer Object|mode=tip|style=indigo) the first time it appears.
+If an API term stays in English, add a note for [DTO](Data%20Transfer%20Object|mode=tip|style=indigo) the first time it appears.
 
 ### Source examples
 
 ```md
-[vector database](useful for semantic retrieval, but not the same as a relational database|mode=tip|style=teal) is common in knowledge search systems.
+[vector database](useful%20for%20semantic%20retrieval,%20but%20not%20the%20same%20as%20a%20relational%20database|mode=tip|style=teal) is common in knowledge search systems.
 
-Finish the [permission model](the relationship between roles, resources, and actions|mode=tip|style=yellow) before opening team collaboration.
+Finish the [permission model](the%20relationship%20between%20roles,%20resources,%20and%20actions|mode=tip|style=yellow) before opening team collaboration.
 
-If an API term stays in English, add a note for [DTO](Data Transfer Object|mode=tip|style=indigo) the first time it appears.
+If an API term stays in English, add a note for [DTO](Data%20Transfer%20Object|mode=tip|style=indigo) the first time it appears.
 ```
 
 ## Revisions with Revision
@@ -128,25 +134,25 @@ If an API term stays in English, add a note for [DTO](Data Transfer Object|mode=
 ### Syntax
 
 ```md
-[original text](why it should change|mode=revision|style=color|advice=replacement text)
+[original text](why%20it%20should%20change|mode=revision|style=color|advice=replacement%20text)
 ```
 
 ### Rendered examples
 
-The release is expected [soon](too vague for planning|mode=revision|style=red|advice=by April 30, 2026).
+The release is expected [soon](too%20vague%20for%20planning|mode=revision|style=red|advice=by%20April%2030,%202026).
 
-It is better to change [used](too casual for this document|mode=revision|style=indigo|advice=adopted) to a more formal verb.
+It is better to change [used](too%20casual%20for%20this%20document|mode=revision|style=indigo|advice=adopted) to a more formal verb.
 
-The document still contains [teh](spelling mistake|mode=revision|style=red|advice=the).
+The document still contains [teh](spelling%20mistake|mode=revision|style=red|advice=the).
 
 ### Source examples
 
 ```md
-The release is expected [soon](too vague for planning|mode=revision|style=red|advice=by April 30, 2026).
+The release is expected [soon](too%20vague%20for%20planning|mode=revision|style=red|advice=by%20April%2030,%202026).
 
-It is better to change [used](too casual for this document|mode=revision|style=indigo|advice=adopted) to a more formal verb.
+It is better to change [used](too%20casual%20for%20this%20document|mode=revision|style=indigo|advice=adopted) to a more formal verb.
 
-The document still contains [teh](spelling mistake|mode=revision|style=red|advice=the).
+The document still contains [teh](spelling%20mistake|mode=revision|style=red|advice=the).
 ```
 
 ## Using both in one paragraph
@@ -155,12 +161,12 @@ In real documents, annotations and revisions are often mixed. Some phrases need 
 
 ### Rendered example
 
-This version starts from an [MVP](Minimum Viable Product|mode=tip|style=teal) to validate the core flow, and the first pilot users are expected [next month](too broad for planning|mode=revision|style=red|advice=in May 2026). In the current copy, changing [click](desktop wording is better as choose or open|mode=revision|style=indigo|advice=choose) makes the interaction language more consistent.
+This version starts from an [MVP](Minimum%20Viable%20Product|mode=tip|style=teal) to validate the core flow, and the first pilot users are expected [next month](too%20broad%20for%20planning|mode=revision|style=red|advice=in%20May%202026). In the current copy, changing [click](desktop%20wording%20is%20better%20as%20choose%20or%20open|mode=revision|style=indigo|advice=choose) makes the interaction language more consistent.
 
 ### Source example
 
 ```md
-This version starts from an [MVP](Minimum Viable Product|mode=tip|style=teal) to validate the core flow, and the first pilot users are expected [next month](too broad for planning|mode=revision|style=red|advice=in May 2026). In the current copy, changing [click](desktop wording is better as choose or open|mode=revision|style=indigo|advice=choose) makes the interaction language more consistent.
+This version starts from an [MVP](Minimum%20Viable%20Product|mode=tip|style=teal) to validate the core flow, and the first pilot users are expected [next month](too%20broad%20for%20planning|mode=revision|style=red|advice=in%20May%202026). In the current copy, changing [click](desktop%20wording%20is%20better%20as%20choose%20or%20open|mode=revision|style=indigo|advice=choose) makes the interaction language more consistent.
 ```
 
 ## Choosing colors
@@ -177,8 +183,8 @@ The `zditor-syntax` reference suggests this practical mapping:
 
 Rendered examples:
 
-- [cache warmup](run it before launch to avoid cold-start spikes|mode=tip|style=yellow) can reduce latency for the first requests.
-- The phrase [is done](more specific wording is better|mode=revision|style=green|advice=has completed integration testing) can also use `green` for a positive revision.
+- [cache warmup](run%20it%20before%20launch%20to%20avoid%20cold-start%20spikes|mode=tip|style=yellow) can reduce latency for the first requests.
+- The phrase [is done](more%20specific%20wording%20is%20better|mode=revision|style=green|advice=has%20completed%20integration%20testing) can also use `green` for a positive revision.
 
 ## Good places to use them
 
@@ -200,19 +206,19 @@ Rendered examples:
 ### Annotation template
 
 ```md
-This sentence includes a [term](explain the meaning here|mode=tip|style=teal).
+This sentence includes a [term](explain%20the%20meaning%20here|mode=tip|style=teal).
 ```
 
 ### Revision template
 
 ```md
-Please change [the original phrase](explain why it should change|mode=revision|style=indigo|advice=the revised phrase).
+Please change [the original phrase](explain%20why%20it%20should%20change|mode=revision|style=indigo|advice=the%20revised%20phrase).
 ```
 
 ### Proofreading paragraph template
 
 ```md
-This version uses an [API Gateway](the unified entry for auth and routing|mode=tip|style=teal) and is expected [soon](too vague|mode=revision|style=red|advice=in May 2026) to open partner testing.
+This version uses an [API Gateway](the%20unified%20entry%20for%20auth%20and%20routing|mode=tip|style=teal) and is expected [soon](too%20vague|mode=revision|style=red|advice=in%20May%202026) to open partner testing.
 ```
 
 ## Recommended reading

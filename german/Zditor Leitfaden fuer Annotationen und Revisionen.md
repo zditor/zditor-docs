@@ -83,15 +83,21 @@ Das eignet sich fuer Korrekturen, kollaboratives Schreiben, Terminologie-Hinweis
 ## Minimale Beispiele
 
 ```md
-[Begriff](hier steht die Erklaerung|mode=tip|style=teal)
+[Begriff](hier%20steht%20die%20Erklaerung|mode=tip|style=teal)
 
-[Originaltext](warum er geaendert werden sollte|mode=revision|style=indigo|advice=Ersatztext)
+[Originaltext](warum%20er%20geaendert%20werden%20sollte|mode=revision|style=indigo|advice=Ersatztext)
 ```
 
 Direkte Beispiele:
 
-- [Zditor](ein Editor mit erweiterter Markdown-Syntax und strukturierten Funktionen|mode=tip|style=teal) kann Erklaerungen direkt an Inline-Text haengen.
-- Bitte ersetze [bald](zu ungenau fuer eine Release-Planung|mode=revision|style=red|advice=bis zum 30. April 2026).
+- [Zditor](ein%20Editor%20mit%20erweiterter%20Markdown-Syntax%20und%20strukturierten%20Funktionen|mode=tip|style=teal) kann Erklaerungen direkt an Inline-Text haengen.
+- Bitte ersetze [bald](zu%20ungenau%20fuer%20eine%20Release-Planung|mode=revision|style=red|advice=bis%20zum%2030.%20April%202026).
+
+!!! tip In handgeschriebenem Markdown Leerzeichen als `%20` schreiben
+    Wenn du den Markdown-Quelltext direkt bearbeitest, sollten Leerzeichen in `tip`- und `revision`-Klammern als `%20` geschrieben werden.
+    Das gilt fuer Annotationstext, Dateipfade, URLs und auch fuer Werte in `advice`.
+    Die Ausnahme ist die Bearbeitung ueber die Toolbar: Dort kannst du normale Leerzeichen eingeben, und beim Speichern werden sie automatisch als `%20` codiert.
+    Beispiel fuer Roh-Markdown: `[Begriff](hier%20steht%20die%20Erklaerung|mode=tip|style=teal)`.
 
 ## Annotationen mit Tip
 
@@ -105,20 +111,20 @@ Direkte Beispiele:
 
 ### Direkte Beispiele
 
-[Vektordatenbank](gut fuer semantische Suche, aber nicht dasselbe wie eine relationale Datenbank|mode=tip|style=teal) ist in Wissenssystemen haeufig.
+[Vektordatenbank](gut%20fuer%20semantische%20Suche,%20aber%20nicht%20dasselbe%20wie%20eine%20relationale%20Datenbank|mode=tip|style=teal) ist in Wissenssystemen haeufig.
 
-Das [Berechtigungsmodell](gemeint ist die Beziehung zwischen Rollen, Ressourcen und Aktionen|mode=tip|style=yellow) sollte vor der Teamfreigabe fertig sein.
+Das [Berechtigungsmodell](gemeint%20ist%20die%20Beziehung%20zwischen%20Rollen,%20Ressourcen%20und%20Aktionen|mode=tip|style=yellow) sollte vor der Teamfreigabe fertig sein.
 
-Wenn ein API-Begriff Englisch bleibt, erklaere [DTO](Data Transfer Object|mode=tip|style=indigo) beim ersten Auftreten.
+Wenn ein API-Begriff Englisch bleibt, erklaere [DTO](Data%20Transfer%20Object|mode=tip|style=indigo) beim ersten Auftreten.
 
 ### Beispielcode
 
 ```md
-[Vektordatenbank](gut fuer semantische Suche, aber nicht dasselbe wie eine relationale Datenbank|mode=tip|style=teal) ist in Wissenssystemen haeufig.
+[Vektordatenbank](gut%20fuer%20semantische%20Suche,%20aber%20nicht%20dasselbe%20wie%20eine%20relationale%20Datenbank|mode=tip|style=teal) ist in Wissenssystemen haeufig.
 
-Das [Berechtigungsmodell](gemeint ist die Beziehung zwischen Rollen, Ressourcen und Aktionen|mode=tip|style=yellow) sollte vor der Teamfreigabe fertig sein.
+Das [Berechtigungsmodell](gemeint%20ist%20die%20Beziehung%20zwischen%20Rollen,%20Ressourcen%20und%20Aktionen|mode=tip|style=yellow) sollte vor der Teamfreigabe fertig sein.
 
-Wenn ein API-Begriff Englisch bleibt, erklaere [DTO](Data Transfer Object|mode=tip|style=indigo) beim ersten Auftreten.
+Wenn ein API-Begriff Englisch bleibt, erklaere [DTO](Data%20Transfer%20Object|mode=tip|style=indigo) beim ersten Auftreten.
 ```
 
 ## Revisionen mit Revision
@@ -128,23 +134,23 @@ Wenn ein API-Begriff Englisch bleibt, erklaere [DTO](Data Transfer Object|mode=t
 ### Syntax
 
 ```md
-[Originaltext](warum er geaendert werden sollte|mode=revision|style=Farbe|advice=Ersatztext)
+[Originaltext](warum%20er%20geaendert%20werden%20sollte|mode=revision|style=Farbe|advice=Ersatztext)
 ```
 
 ### Direkte Beispiele
 
-Der Release wird [bald](zu ungenau fuer die Planung|mode=revision|style=red|advice=bis zum 30. April 2026) erwartet.
+Der Release wird [bald](zu%20ungenau%20fuer%20die%20Planung|mode=revision|style=red|advice=bis%20zum%2030.%20April%202026) erwartet.
 
-Hier sollte [genutzt](zu umgangssprachlich fuer dieses Dokument|mode=revision|style=indigo|advice=verwendet) durch ein formelleres Verb ersetzt werden.
+Hier sollte [genutzt](zu%20umgangssprachlich%20fuer%20dieses%20Dokument|mode=revision|style=indigo|advice=verwendet) durch ein formelleres Verb ersetzt werden.
 
 Im Dokument steht noch [teh](Tippfehler|mode=revision|style=red|advice=the).
 
 ### Beispielcode
 
 ```md
-Der Release wird [bald](zu ungenau fuer die Planung|mode=revision|style=red|advice=bis zum 30. April 2026) erwartet.
+Der Release wird [bald](zu%20ungenau%20fuer%20die%20Planung|mode=revision|style=red|advice=bis%20zum%2030.%20April%202026) erwartet.
 
-Hier sollte [genutzt](zu umgangssprachlich fuer dieses Dokument|mode=revision|style=indigo|advice=verwendet) durch ein formelleres Verb ersetzt werden.
+Hier sollte [genutzt](zu%20umgangssprachlich%20fuer%20dieses%20Dokument|mode=revision|style=indigo|advice=verwendet) durch ein formelleres Verb ersetzt werden.
 
 Im Dokument steht noch [teh](Tippfehler|mode=revision|style=red|advice=the).
 ```
@@ -155,12 +161,12 @@ In echten Dokumenten werden Annotationen und Revisionen oft gemischt. Manche Beg
 
 ### Direktes Beispiel
 
-Diese Version startet mit einem [MVP](Minimum Viable Product|mode=tip|style=teal), um den Kernablauf zu pruefen. Die ersten Pilotnutzer sollen [naechsten Monat](zu breit fuer einen Plan|mode=revision|style=red|advice=im Mai 2026) eingeladen werden. In der aktuellen Formulierung sollte [klicken](fuer Desktop-Texte ist waehlen oft passender|mode=revision|style=indigo|advice=waehlen) vereinheitlicht werden.
+Diese Version startet mit einem [MVP](Minimum%20Viable%20Product|mode=tip|style=teal), um den Kernablauf zu pruefen. Die ersten Pilotnutzer sollen [naechsten Monat](zu%20breit%20fuer%20einen%20Plan|mode=revision|style=red|advice=im%20Mai%202026) eingeladen werden. In der aktuellen Formulierung sollte [klicken](fuer%20Desktop-Texte%20ist%20waehlen%20oft%20passender|mode=revision|style=indigo|advice=waehlen) vereinheitlicht werden.
 
 ### Beispielcode
 
 ```md
-Diese Version startet mit einem [MVP](Minimum Viable Product|mode=tip|style=teal), um den Kernablauf zu pruefen. Die ersten Pilotnutzer sollen [naechsten Monat](zu breit fuer einen Plan|mode=revision|style=red|advice=im Mai 2026) eingeladen werden. In der aktuellen Formulierung sollte [klicken](fuer Desktop-Texte ist waehlen oft passender|mode=revision|style=indigo|advice=waehlen) vereinheitlicht werden.
+Diese Version startet mit einem [MVP](Minimum%20Viable%20Product|mode=tip|style=teal), um den Kernablauf zu pruefen. Die ersten Pilotnutzer sollen [naechsten Monat](zu%20breit%20fuer%20einen%20Plan|mode=revision|style=red|advice=im%20Mai%202026) eingeladen werden. In der aktuellen Formulierung sollte [klicken](fuer%20Desktop-Texte%20ist%20waehlen%20oft%20passender|mode=revision|style=indigo|advice=waehlen) vereinheitlicht werden.
 ```
 
 ## Farben sinnvoll waehlen
@@ -177,8 +183,8 @@ Die Referenz `zditor-syntax` empfiehlt in der Praxis diese Zuordnung:
 
 Direkte Beispiele:
 
-- [Cache-Warmup](vor dem Launch einmal ausfuehren, damit kein Cold Start bremst|mode=tip|style=yellow) kann die ersten Anfragen stabilisieren.
-- Die Formulierung [ist fertig](eine genauere Formulierung waere besser|mode=revision|style=green|advice=hat den Integrationstest abgeschlossen) kann ebenfalls `green` verwenden.
+- [Cache-Warmup](vor%20dem%20Launch%20einmal%20ausfuehren,%20damit%20kein%20Cold%20Start%20bremst|mode=tip|style=yellow) kann die ersten Anfragen stabilisieren.
+- Die Formulierung [ist fertig](eine%20genauere%20Formulierung%20waere%20besser|mode=revision|style=green|advice=hat%20den%20Integrationstest%20abgeschlossen) kann ebenfalls `green` verwenden.
 
 ## Wo sich das gut einsetzen laesst
 
@@ -200,19 +206,19 @@ Direkte Beispiele:
 ### Annotationsvorlage
 
 ```md
-Dieser Satz enthaelt einen [Begriff](hier steht die Erklaerung|mode=tip|style=teal).
+Dieser Satz enthaelt einen [Begriff](hier%20steht%20die%20Erklaerung|mode=tip|style=teal).
 ```
 
 ### Revisionsvorlage
 
 ```md
-Bitte ersetze [die alte Formulierung](hier steht der Grund|mode=revision|style=indigo|advice=die neue Formulierung).
+Bitte ersetze [die alte Formulierung](hier%20steht%20der%20Grund|mode=revision|style=indigo|advice=die%20neue%20Formulierung).
 ```
 
 ### Vorlage fuer einen Korrekturabsatz
 
 ```md
-Diese Version nutzt ein [API Gateway](der gemeinsame Einstieg fuer Authentifizierung und Routing|mode=tip|style=teal) und soll [bald](zu ungenau|mode=revision|style=red|advice=im Mai 2026) fuer Partnertests geoeffnet werden.
+Diese Version nutzt ein [API Gateway](der%20gemeinsame%20Einstieg%20fuer%20Authentifizierung%20und%20Routing|mode=tip|style=teal) und soll [bald](zu%20ungenau|mode=revision|style=red|advice=im%20Mai%202026) fuer Partnertests geoeffnet werden.
 ```
 
 ## Empfohlene Anschlusslektuere

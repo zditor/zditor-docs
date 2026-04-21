@@ -92,8 +92,14 @@ row:
 
 直接效果示例：
 
-- [Zditor](一个支持扩展 Markdown 语法的编辑器|mode=tip|style=teal) 可以把说明直接挂在词语上。
+- [Zditor](一个支持扩展%20Markdown%20语法的编辑器|mode=tip|style=teal) 可以把说明直接挂在词语上。
 - 请把 [上周左右](时间表达过于模糊|mode=revision|style=red|advice=2026年4月中旬) 改成更明确的时间。
+
+!!! tip 手写源码时把空格写成 `%20`
+    如果你直接编辑 Markdown 源码，`tip` 和 `revision` 的括号内容里一旦出现空格，就要写成 `%20`。
+    这包括说明文字、文件路径、URL，以及 `advice` 的值。
+    如果你是在工具栏里填写这些字段，可以直接输入普通空格；文档落盘时会自动转换成 `%20`。
+    例如手写源码时可写成 `[Zditor](一个支持扩展%20Markdown%20语法的编辑器|mode=tip|style=teal)`。
 
 ## 注释 Tip
 
@@ -111,7 +117,7 @@ row:
 
 建议先完成 [权限模型](这里指角色、资源、操作三者之间的授权规则|mode=tip|style=yellow) 再开放团队协作。
 
-如果接口名保留英文，最好在第一次出现时给出 [DTO](Data Transfer Object，数据传输对象|mode=tip|style=indigo) 说明。
+如果接口名保留英文，最好在第一次出现时给出 [DTO](Data%20Transfer%20Object，数据传输对象|mode=tip|style=indigo) 说明。
 
 ### 对应源码
 
@@ -120,7 +126,7 @@ row:
 
 建议先完成 [权限模型](这里指角色、资源、操作三者之间的授权规则|mode=tip|style=yellow) 再开放团队协作。
 
-如果接口名保留英文，最好在第一次出现时给出 [DTO](Data Transfer Object，数据传输对象|mode=tip|style=indigo) 说明。
+如果接口名保留英文，最好在第一次出现时给出 [DTO](Data%20Transfer%20Object，数据传输对象|mode=tip|style=indigo) 说明。
 ```
 
 ## 修订 Revision
@@ -157,12 +163,12 @@ row:
 
 ### 直接效果
 
-这个版本基于 [MVP](Minimum Viable Product，最小可行产品|mode=tip|style=teal) 先验证核心流程，预计 [下个月初](时间范围过宽|mode=revision|style=red|advice=2026年5月上旬) 开始邀请首批用户试用。当前文案里把 [点击](交互文案更适合用“选择”或“打开”描述|mode=revision|style=indigo|advice=选择) 写成统一动作词，会更适合桌面端场景。
+这个版本基于 [MVP](Minimum%20Viable%20Product，最小可行产品|mode=tip|style=teal) 先验证核心流程，预计 [下个月初](时间范围过宽|mode=revision|style=red|advice=2026年5月上旬) 开始邀请首批用户试用。当前文案里把 [点击](交互文案更适合用“选择”或“打开”描述|mode=revision|style=indigo|advice=选择) 写成统一动作词，会更适合桌面端场景。
 
 ### 对应源码
 
 ```md
-这个版本基于 [MVP](Minimum Viable Product，最小可行产品|mode=tip|style=teal) 先验证核心流程，预计 [下个月初](时间范围过宽|mode=revision|style=red|advice=2026年5月上旬) 开始邀请首批用户试用。当前文案里把 [点击](交互文案更适合用“选择”或“打开”描述|mode=revision|style=indigo|advice=选择) 写成统一动作词，会更适合桌面端场景。
+这个版本基于 [MVP](Minimum%20Viable%20Product，最小可行产品|mode=tip|style=teal) 先验证核心流程，预计 [下个月初](时间范围过宽|mode=revision|style=red|advice=2026年5月上旬) 开始邀请首批用户试用。当前文案里把 [点击](交互文案更适合用“选择”或“打开”描述|mode=revision|style=indigo|advice=选择) 写成统一动作词，会更适合桌面端场景。
 ```
 
 ## 颜色怎么选
@@ -222,3 +228,5 @@ row:
 - [代码示例](./代码示例.md)
 - [SuperTag使用指南](./SuperTag使用指南.md)
 - [Mermaid使用指南](./Mermaid使用指南.md)
+
+

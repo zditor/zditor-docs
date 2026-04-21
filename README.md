@@ -88,7 +88,7 @@ Your browser does not support the video tag.
 
 ## English Docs
 
-The English documentation lives in the `english/` directory. It currently includes mathematics guides, code examples, paper notes, movies, a SuperTag guide, and a Mermaid guide.
+The English documentation lives in the `english/` directory. It currently includes mathematics guides, code examples, paper notes, movies, a SuperTag guide, a Mermaid guide, and a guide for annotations and revisions.
 
 ### Directory Guide
 
@@ -97,6 +97,7 @@ The English documentation lives in the `english/` directory. It currently includ
 - [Transformer Paper Notes](english/Transformer%20Paper%20Notes.md)
 - [Movies](english/movies/)
 - [SuperTag Guide](english/SuperTag%20Guide.md)
+- [Zditor Annotations and Revisions Guide](english/Zditor%20Annotations%20and%20Revisions%20Guide.md)
 - [Mermaid Guide](english/Mermaid%20Guide.md)
 
 ### Mathematics Docs
@@ -123,6 +124,7 @@ The movie directory contains a structured movie database. Each movie is stored a
 - [Code Examples](english/Code%20Examples.md)
 - [Transformer Paper Notes](english/Transformer%20Paper%20Notes.md)
 - [SuperTag Guide](english/SuperTag%20Guide.md)
+- [Zditor Annotations and Revisions Guide](english/Zditor%20Annotations%20and%20Revisions%20Guide.md)
 - [Mermaid Guide](english/Mermaid%20Guide.md)
 
 ## Other Languages
@@ -132,4 +134,3 @@ Root README files in other languages:
 - [中文](README_zh.md)
 - [日本語](README_ja.md)
 - [Deutsch](README_de.md)
-

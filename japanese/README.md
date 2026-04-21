@@ -3,7 +3,7 @@ description:
   type: text
   description:
   label: Description
-  value: "日本語ドキュメント入口 · 数学 · 映画 · コード例 · SuperTag · Mermaid"
+  value: "日本語ドキュメント入口 · 数学 · 映画 · コード例 · SuperTag · Mermaid · 注釈修正"
 author:
   type: text
   description:
@@ -33,7 +33,7 @@ tags:
   type: text
   description:
   label: Tags
-  value: "日本語 · 索引 · ナビゲーション"
+  value: "日本語 · 索引 · ナビゲーション · 構文"
 title:
   type: text
   description:
@@ -48,7 +48,7 @@ updated:
   type: date
   description:
   label: Updated
-  value: "2026-04-11"
+  value: "2026-04-21"
 warm:
   type: checkbox
   description: warm
@@ -62,7 +62,7 @@ row:
 ---
 # 日本語ドキュメント入口
 
-このディレクトリには、リポジトリ内の日本語ドキュメントをまとめています。現在は数学ドキュメント、映画データ、鑑賞ガイド、コード例、論文解説、Mermaid ガイド、SuperTag ガイドが含まれています。
+このディレクトリには、リポジトリ内の日本語ドキュメントをまとめています。現在は数学ドキュメント、映画データ、鑑賞ガイド、コード例、論文解説、Mermaid ガイド、SuperTag ガイド、注釈と修正のガイドが含まれています。
 
 ## ディレクトリ案内
 
@@ -72,6 +72,7 @@ row:
 - [コード例](./コード例.md)
 - [Transformer論文解説](./Transformer論文解説.md)
 - [SuperTag利用ガイド](./SuperTag利用ガイド.md)
+- [Zditor注釈と修正ガイド](./Zditor注釈と修正ガイド.md)
 - [Mermaid利用ガイド](./Mermaid利用ガイド.md)
 
 ## 数学ドキュメント
@@ -95,6 +96,10 @@ row:
 
 - [SuperTag利用ガイド](./SuperTag利用ガイド.md)
 
+## 編集とレビュー
+
+- [Zditor注釈と修正ガイド](./Zditor注釈と修正ガイド.md)
+
 ## 映画ドキュメント
 
 - [ゴッドファーザー](./映画/ゴッドファーザー.md)
@@ -109,4 +114,4 @@ row:
 - [Mermaid利用ガイド](./Mermaid利用ガイド.md)
 
 !!! tip おすすめの読み順
-    初めてこのディレクトリを見る場合は、まず Mermaid 利用ガイドと SuperTag 利用ガイドを読み、その後に数学ページを 1 つか 2 つ開き、Transformer 論文解説を見てから、最後に映画ディレクトリで構造化ドキュメントのまとまった実例を見るのがおすすめです。
+    初めてこのディレクトリを見る場合は、まず Mermaid 利用ガイド、SuperTag 利用ガイド、Zditor注釈と修正ガイドを読み、その後に数学ページを 1 つか 2 つ開き、Transformer 論文解説を見てから、最後に映画ディレクトリで構造化ドキュメントのまとまった実例を見るのがおすすめです。

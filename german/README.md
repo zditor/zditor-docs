@@ -3,7 +3,7 @@ description:
   type: text
   description:
   label: Description
-  value: "Deutscher Doku-Einstieg · Mathematik · Filme · Codebeispiele · SuperTag · Mermaid"
+  value: "Deutscher Doku-Einstieg · Mathematik · Filme · Codebeispiele · SuperTag · Mermaid · Annotationen"
 author:
   type: text
   description:
@@ -33,7 +33,7 @@ tags:
   type: text
   description:
   label: Tags
-  value: "Deutsch · Index · Navigation"
+  value: "Deutsch · Index · Navigation · Syntax"
 title:
   type: text
   description:
@@ -48,7 +48,7 @@ updated:
   type: date
   description:
   label: Updated
-  value: "2026-04-11"
+  value: "2026-04-21"
 warm:
   type: checkbox
   description: warm
@@ -62,7 +62,7 @@ row:
 ---
 # Deutscher Doku-Einstieg
 
-Dieses Verzeichnis sammelt die deutschsprachigen Dokumente des Repositoriums. Aktuell gibt es Mathematikseiten, Filmdokumente, einen Filmleitfaden, Codebeispiele, eine Papieranalyse, einen Mermaid-Leitfaden und einen SuperTag-Leitfaden.
+Dieses Verzeichnis sammelt die deutschsprachigen Dokumente des Repositoriums. Aktuell gibt es Mathematikseiten, Filmdokumente, einen Filmleitfaden, Codebeispiele, eine Papieranalyse, einen Mermaid-Leitfaden, einen SuperTag-Leitfaden und einen Leitfaden fuer Annotationen und Revisionen.
 
 ## Verzeichnisueberblick
 
@@ -72,6 +72,7 @@ Dieses Verzeichnis sammelt die deutschsprachigen Dokumente des Repositoriums. Ak
 - [Code Beispiele](./Code%20Beispiele.md)
 - [Transformer-Papieranalyse](./Transformer-Papieranalyse.md)
 - [SuperTag Leitfaden](./SuperTag%20Leitfaden.md)
+- [Zditor Leitfaden fuer Annotationen und Revisionen](./Zditor%20Leitfaden%20fuer%20Annotationen%20und%20Revisionen.md)
 - [Mermaid Leitfaden](./Mermaid%20Leitfaden.md)
 
 ## Mathematik
@@ -95,6 +96,10 @@ Dieses Verzeichnis sammelt die deutschsprachigen Dokumente des Repositoriums. Ak
 
 - [SuperTag Leitfaden](./SuperTag%20Leitfaden.md)
 
+## Bearbeitung und Review
+
+- [Zditor Leitfaden fuer Annotationen und Revisionen](./Zditor%20Leitfaden%20fuer%20Annotationen%20und%20Revisionen.md)
+
 ## Filme
 
 - [Der Pate](./filme/Der%20Pate.md)
@@ -109,4 +114,4 @@ Dieses Verzeichnis sammelt die deutschsprachigen Dokumente des Repositoriums. Ak
 - [Mermaid Leitfaden](./Mermaid%20Leitfaden.md)
 
 !!! tip Empfohlener Einstieg
-    Wenn du dieses Verzeichnis zum ersten Mal oeffnest, beginne mit dem Mermaid-Leitfaden und dem SuperTag-Leitfaden. Danach lohnen sich ein oder zwei Mathematikseiten, die Transformer-Papieranalyse und anschliessend das Filmverzeichnis als zusammenhaengendes SuperTag-Beispiel.
+    Wenn du dieses Verzeichnis zum ersten Mal oeffnest, beginne mit dem Mermaid-Leitfaden, dem SuperTag-Leitfaden und dem Zditor-Leitfaden fuer Annotationen und Revisionen. Danach lohnen sich ein oder zwei Mathematikseiten, die Transformer-Papieranalyse und anschliessend das Filmverzeichnis als zusammenhaengendes SuperTag-Beispiel.

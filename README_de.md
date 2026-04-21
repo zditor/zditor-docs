@@ -72,7 +72,7 @@ Your browser does not support the video tag.
 
 ## Deutsche Dokumentation
 
-Die deutschsprachige Dokumentation befindet sich im Verzeichnis `german/`. Dort gibt es Mathematikseiten, Filmdokumente, Codebeispiele, eine Papieranalyse, einen SuperTag-Leitfaden und einen Mermaid-Leitfaden.
+Die deutschsprachige Dokumentation befindet sich im Verzeichnis `german/`. Dort gibt es Mathematikseiten, Filmdokumente, Codebeispiele, eine Papieranalyse, einen SuperTag-Leitfaden, einen Mermaid-Leitfaden und einen Leitfaden fuer Annotationen und Revisionen.
 
 ### Verzeichnisueberblick
 
@@ -81,6 +81,7 @@ Die deutschsprachige Dokumentation befindet sich im Verzeichnis `german/`. Dort 
 - [Code Beispiele](german/Code%20Beispiele.md)
 - [Transformer-Papieranalyse](german/Transformer-Papieranalyse.md)
 - [SuperTag Leitfaden](german/SuperTag%20Leitfaden.md)
+- [Zditor Leitfaden fuer Annotationen und Revisionen](german/Zditor%20Leitfaden%20fuer%20Annotationen%20und%20Revisionen.md)
 - [Mermaid Leitfaden](german/Mermaid%20Leitfaden.md)
 
 ### Mathematik
@@ -105,6 +106,7 @@ Die deutschsprachige Dokumentation befindet sich im Verzeichnis `german/`. Dort 
 - [Code Beispiele](german/Code%20Beispiele.md)
 - [Transformer-Papieranalyse](german/Transformer-Papieranalyse.md)
 - [SuperTag Leitfaden](german/SuperTag%20Leitfaden.md)
+- [Zditor Leitfaden fuer Annotationen und Revisionen](german/Zditor%20Leitfaden%20fuer%20Annotationen%20und%20Revisionen.md)
 - [Mermaid Leitfaden](german/Mermaid%20Leitfaden.md)
 
 ## Andere Sprachen

@@ -3,7 +3,7 @@ description:
   type: text
   description:
   label: Description
-  value: "中文文档入口 · 数学 · 电影 · SuperTag · Mermaid"
+  value: "中文文档入口 · 数学 · 电影 · SuperTag · Mermaid · 注释修订"
 author:
   type: text
   description:
@@ -33,7 +33,7 @@ tags:
   type: text
   description:
   label: Tags
-  value: "中文 · 索引 · 导航"
+  value: "中文 · 索引 · 导航 · 语法"
 title:
   type: text
   description:
@@ -48,7 +48,7 @@ updated:
   type: date
   description:
   label: Updated
-  value: "2026-04-11"
+  value: "2026-04-21"
 warm:
   type: checkbox
   description: warm
@@ -62,7 +62,7 @@ row:
 ---
 # 中文文档入口
 
-这个目录收纳仓库中的中文文档。目前主要分为数学文档、代码示例、论文解读、电影数据文档、SuperTag 指南，以及单独的 Mermaid 指南。
+这个目录收纳仓库中的中文文档。目前主要分为数学文档、代码示例、论文解读、电影数据文档，以及几份面向 Zditor 写作的语法指南，例如 SuperTag、Mermaid、注释与修订。
 
 ## 目录导航
 
@@ -72,6 +72,7 @@ row:
 - [电影](./电影/)
 - [观影指南](./观影指南.md)
 - [SuperTag使用指南](./SuperTag使用指南.md)
+- [Zditor注释与修订指南](./Zditor注释与修订指南.md)
 - [Mermaid使用指南](./Mermaid使用指南.md)
 
 ## 数学文档
@@ -97,6 +98,10 @@ row:
 
 - [SuperTag使用指南](./SuperTag使用指南.md)
 
+## 编辑与批注指南
+
+- [Zditor注释与修订指南](./Zditor注释与修订指南.md)
+
 ## 电影文档
 
 电影目录包含一组结构化电影文档，每部电影对应一个独立 Markdown 文件。
@@ -115,4 +120,4 @@ row:
 - [Mermaid使用指南](./Mermaid使用指南.md)
 
 !!! tip 使用建议
-    如果你是第一次浏览这个目录，建议先看 Mermaid 使用指南、SuperTag 使用指南、数学文档示例和 Transformer 论文解读，再进入电影目录查看更完整的结构化内容组织方式。
+    如果你是第一次浏览这个目录，建议先看 Mermaid 使用指南、SuperTag 使用指南、Zditor 注释与修订指南、数学文档示例和 Transformer 论文解读，再进入电影目录查看更完整的结构化内容组织方式。

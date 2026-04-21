@@ -88,7 +88,7 @@ style="width: 100%; ">
 
 ## 中文文档
 
-中文文档位于 `中文/` 目录，当前包含数学、电影、代码示例、论文解读、SuperTag 指南和 Mermaid 指南。
+中文文档位于 `中文/` 目录，当前包含数学、电影、代码示例、论文解读、SuperTag 指南、Mermaid 指南，以及一份注释与修订语法示例。
 
 ### 目录导航
 
@@ -97,6 +97,7 @@ style="width: 100%; ">
 - [Transformer论文解读](中文/Transformer论文解读.md)
 - [电影](中文/电影/)
 - [SuperTag 使用指南](中文/SuperTag使用指南.md)
+- [Zditor 注释与修订指南](中文/Zditor注释与修订指南.md)
 - [Mermaid 使用指南](中文/Mermaid使用指南.md)
 
 ### 数学文档
@@ -125,6 +126,7 @@ style="width: 100%; ">
 - [代码示例](中文/代码示例.md)
 - [Transformer论文解读](中文/Transformer论文解读.md)
 - [SuperTag 使用指南](中文/SuperTag使用指南.md)
+- [Zditor 注释与修订指南](中文/Zditor注释与修订指南.md)
 - [Mermaid 使用指南](中文/Mermaid使用指南.md)
 
 ## 其他语言
@@ -134,4 +136,3 @@ style="width: 100%; ">
 - [English](README.md)
 - [日本語](README_ja.md)
 - [Deutsch](README_de.md)
-

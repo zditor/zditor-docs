@@ -3,7 +3,7 @@ description:
   type: text
   description:
   label: Description
-  value: "English docs entry · mathematics · movies · SuperTag · Mermaid"
+  value: "English docs entry · mathematics · movies · SuperTag · Mermaid · annotations"
 author:
   type: text
   description:
@@ -33,7 +33,7 @@ tags:
   type: text
   description:
   label: Tags
-  value: "English · index · navigation"
+  value: "English · index · navigation · syntax"
 title:
   type: text
   description:
@@ -48,7 +48,7 @@ updated:
   type: date
   description:
   label: Updated
-  value: "2026-04-11"
+  value: "2026-04-21"
 warm:
   type: checkbox
   description: warm
@@ -62,7 +62,7 @@ row:
 ---
 # English Docs Entry
 
-This directory collects the English documentation in the repository. It currently includes mathematics guides, code examples, paper notes, Mermaid guidance, a SuperTag guide, a viewing guide, and the English movie database.
+This directory collects the English documentation in the repository. It currently includes mathematics guides, code examples, paper notes, Mermaid guidance, a SuperTag guide, a viewing guide, an annotation and revision guide, and the English movie database.
 
 ## Directory Guide
 
@@ -72,6 +72,7 @@ This directory collects the English documentation in the repository. It currentl
 - [Movies](./movies/)
 - [Viewing Guide](./Viewing%20Guide.md)
 - [SuperTag Guide](./SuperTag%20Guide.md)
+- [Zditor Annotations and Revisions Guide](./Zditor%20Annotations%20and%20Revisions%20Guide.md)
 - [Mermaid Guide](./Mermaid%20Guide.md)
 
 ## Mathematics Docs
@@ -95,6 +96,10 @@ This directory collects the English documentation in the repository. It currentl
 
 - [SuperTag Guide](./SuperTag%20Guide.md)
 
+## Editing and Review Guide
+
+- [Zditor Annotations and Revisions Guide](./Zditor%20Annotations%20and%20Revisions%20Guide.md)
+
 ## Movie Docs
 
 The movie directory contains a structured movie database. Each movie is stored as its own Markdown file with frontmatter fields and body content.
@@ -113,4 +118,4 @@ Example entries:
 - [Mermaid Guide](./Mermaid%20Guide.md)
 
 !!! tip Suggested reading order
-    If you are opening this directory for the first time, start with the Mermaid Guide, the SuperTag Guide, one or two mathematics pages, and the Transformer paper notes. Then open the movie directory to see a fuller structured-document example.
+    If you are opening this directory for the first time, start with the Mermaid Guide, the SuperTag Guide, the Zditor Annotations and Revisions Guide, one or two mathematics pages, and the Transformer paper notes. Then open the movie directory to see a fuller structured-document example.

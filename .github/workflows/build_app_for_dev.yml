@@ -148,8 +148,8 @@ jobs:
 
           RELEASE_BODY=""
 
-          # Check for both English and Chinese changelog files
-          for CHANGELOG_FILE in "CHANGELOG.md" "CHANGELOG.zh-CN.md"; do
+          # Check for English, Chinese, and German changelog files
+          for CHANGELOG_FILE in "CHANGELOG.md" "CHANGELOG.zh-CN.md" "CHANGELOG.de-DE.md"; do
             if [ -f "$CHANGELOG_FILE" ]; then
               echo "$CHANGELOG_FILE exists, parsing release notes..."
 
@@ -177,6 +177,8 @@ jobs:
                   RELEASE_BODY="${RELEASE_BODY}## English\n\n${VERSION_CONTENT}\n\n"
                 elif [ "$CHANGELOG_FILE" = "CHANGELOG.zh-CN.md" ]; then
                   RELEASE_BODY="${RELEASE_BODY}## 中文\n\n${VERSION_CONTENT}\n\n"
+                elif [ "$CHANGELOG_FILE" = "CHANGELOG.de-DE.md" ]; then
+                  RELEASE_BODY="${RELEASE_BODY}## Deutsch\n\n${VERSION_CONTENT}\n\n"
                 fi
 
                 echo "Raw release notes from $CHANGELOG_FILE:"

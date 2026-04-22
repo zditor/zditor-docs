@@ -1,0 +1,14 @@
+Nanobanana prompt:
+Create a 2K cartoon cover illustration for a Chinese article about the Transformer paper 'Attention Is All You Need', 16:9 landscape, playful but polished, clearly cartoon style, not realistic. Keep the top-left area mostly empty and calm for title overlay, with very few elements there. Put most details in the center-right and bottom-right.
+
+Scene:
+- A bright blue to cyan gradient background with soft clouds or abstract shapes.
+- A cute stylized Transformer world made of stacked encoder and decoder blocks, colorful arrows, glowing attention connections, token cards, and friendly diagram elements.
+- Add whimsical educational details: smiling or expressive little blocks, floating math symbols, sinusoidal positional encoding waves, multi-head attention beams connecting words.
+- The overall feeling should be smart, lively, friendly, and suitable for an educational cartoon book cover.
+
+Style and palette:
+- High-detail flat cartoon illustration with clean outlines and soft shadows.
+- Use bright cyan, blue, teal, orange, yellow, and white accents.
+- Crisp shapes, premium editorial cartoon aesthetic.
+- No embedded text, no watermark, no UI frame, no border.

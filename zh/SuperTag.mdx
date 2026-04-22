@@ -1,151 +1,134 @@
 ---
 title: "SuperTag 使用指南"
-description: "使用 SuperTag 在文档中创建结构化的数据引用，将文件组织为表格和数据库"
+description: "使用 SuperTag 组织结构化 Markdown 记录，并在文档中以内联标签方式引用。"
+icon: "hashtag"
 ---
 
-SuperTag 是 Zditor 的结构化数据功能，它将 Markdown 文件组织为类似数据库的表格结构。通过在文档中插入 SuperTag，你可以引用特定表格中的行（文件），并以可视化标签的形式展示。
+SuperTag 让 Zditor 可以把 Markdown 文件理解成结构化记录，并把这些记录作为标签节点插入到其他文档中。
 
 ## 功能概览
 
 <CardGroup cols={2}>
-  <Card title="数据库式管理" icon="database">
-    将文件按「表格」分类，每个文件作为表格中的一行
+  <Card title="结构化记录" icon="database">
+    frontmatter 负责元数据，正文仍然保持普通 Markdown 写作方式。
   </Card>
 
-  <Card title="快速插入" icon="hashtag">
-    输入 `#` 触发菜单，快速选择表格和行
+  <Card title="共享 class" icon="table">
+    多个文件只要共享同一个 `class`，就会被聚合成同一张逻辑表。
   </Card>
 
-  <Card title="彩色标签" icon="palette">
-    自动根据表格名称分配 8 种颜色，直观区分不同类别
+  <Card title="内联引用" icon="link">
+    用 `mode=supertag` 在文档里插入结构化记录引用。
   </Card>
 
-  <Card title="元数据联动" icon="link">
-    与 Frontmatter 的 `class` 字段联动，自动归类文件
+  <Card title="卡片布局字段" icon="table">
+    用 `col`、`row`、`cover`、`warm` 等字段控制展示方式。
   </Card>
 </CardGroup>
 
-## 基本概念
-
-在使用 SuperTag 之前，需要了解两个核心概念：
-
-- **表格（Table）**：一组具有相同结构的文件集合，通过 Frontmatter 中的 `class` 字段定义
-- **行（Row）**：属于某个表格的具体文件，其 Frontmatter 中的 `class` 值与表格名称匹配
-
-## 创建 SuperTag
+## 核心概念
 
 <AccordionGroup>
-  <Accordion title="通过 # 菜单插入" icon="hashtag" defaultOpen>
-    在编辑器中输入 `#`，会弹出 ObjectMenu 菜单：
+  <Accordion title="一条记录本质上仍然是 Markdown 文件" icon="file" defaultOpen>
+    SuperTag 记录本质上就是一篇带类型化 frontmatter 的 Markdown 文档。
 
-    1. 输入 `#` 后显示所有可用的表格列表
-    2. 选择一个表格，进入该表格的行列表
-    3. 选择一行，即可插入 SuperTag 节点
-
-    插入后的 SuperTag 显示为 `#表格名 · 文件名` 的彩色标签。
+    ```yaml
+    ---
+    title:
+      type: text
+      label: 片名
+      value: "教父"
+    director:
+      type: text
+      label: 导演
+      value: "弗朗西斯·福特·科波拉"
+    year:
+      type: number
+      label: 年份
+      value: 1972
+    class:
+      type: text
+      label: class
+      value: "ClassicMovie"
+    ---
+    ```
   </Accordion>
 
-  <Accordion title="创建新表格" icon="plus">
-    如果目标表格不存在，可以直接在菜单中创建：
+  <Accordion title="class 字段决定归组方式" icon="table">
+    只要多个文件的 `class` 值相同，Zditor 就会把它们理解成同一类结构化记录。
 
-    1. 输入 `#表格名`
-    2. 在菜单底部点击「+ 添加 "表格名"」
-    3. 系统会自动创建对应的表格定义文件
+    ```yaml
+    class:
+      type: text
+      label: class
+      value: "ClassicMovie"
+    ```
   </Accordion>
 
-  <Accordion title="创建新行" icon="file-circle-plus">
-    在表格的行列表中，可以直接添加新行：
+  <Accordion title="col 和 row 控制卡片布局" icon="table">
+    这些布局字段决定哪些元数据会出现在卡片主区域和辅助区域。
 
-    1. 选择表格后，在行列表底部点击「+ 添加行」
-    2. 系统会创建一个新文件，自动设置 `class` 字段
-    3. 新行会立即插入为 SuperTag
+    ```yaml
+    col:
+      type: array
+      label: Col
+      value: [year, title, director]
+    row:
+      type: array
+      label: Row
+      value: [genre, rank, score, watched]
+    ```
+
+    - `col` 适合纵向主信息区
+    - `row` 适合底部或辅助信息区
   </Accordion>
 </AccordionGroup>
 
-## Markdown 格式
+## 引用语法
 
-SuperTag 在 Markdown 中以链接形式存储，通过 `mode=supertag` 参数标识：
+使用带 `mode=supertag` 的普通 Markdown 链接：
 
 ```markdown
-[表格名](path/to/file.md|mode=supertag)
+[title](src|mode=supertag)
 ```
 
-编辑器会自动将其渲染为彩色标签 `#表格名 · 文件名`。
+<Note>
+  产品里公开的最小语法就是 `[title](src|mode=supertag)`。实际文档里，`src` 通常会换成目标文件路径。
+</Note>
 
-## 选中工具栏
+## 常见字段类型
 
-点击选中一个 SuperTag 后，会弹出浮动工具栏，显示：
+| 类型 | 常见用途 |
+| --- | --- |
+| `text` | 标题、作者、备注、国家 |
+| `number` | 年份、分数、排名 |
+| `date` | 截止日期、观看日期、创建日期 |
+| `checkbox` | 完成状态、暖色调、展示开关 |
+| `multiselect` | 类型、标签、分类 |
+| `array` | 主演列表、布局字段列表 |
+| `progress` | 评分或进度类数值 |
+| `asset` | 封面图和资源路径 |
 
-- **表格名** — 点击可跳转到表格视图
-- **文件名** — 点击可打开对应文件
-- **信息按钮** — 展开显示该文件的 Frontmatter 元数据字段，包括：
-  - 复选框字段显示 ✓/✗
-  - 进度字段显示进度条
-  - 选择字段显示彩色标签
-  - 日期、数字等字段以对应图标展示
+## 推荐工作流
 
-## 颜色系统
+<Steps>
+  <Step title="先复制一条已有记录">
+    从字段结构最接近的文件开始，而不是每次从零手写。
+  </Step>
 
-SuperTag 根据表格名称自动分配颜色，共 8 种配色方案：
+  <Step title="保留字段结构和 class">
+    维持相同的字段名、字段类型和 `class`，保证它还属于同一个集合。
+  </Step>
 
-| 编号 | 颜色 |
-|------|------|
-| 0 | Indigo（靛蓝） |
-| 1 | Rose（玫红） |
-| 2 | Emerald（翠绿） |
-| 3 | Amber（琥珀） |
-| 4 | Cyan（青色） |
-| 5 | Violet（紫罗兰） |
-| 6 | Pink（粉色） |
-| 7 | Teal（青绿） |
+  <Step title="替换具体值">
+    再修改标题、日期、封面和正文内容。
+  </Step>
 
-同一表格名称的 SuperTag 始终使用相同颜色，便于视觉区分。
+  <Step title="统一补齐共享字段">
+    如果整类记录都需要新增字段，后续再做一致性回填。
+  </Step>
+</Steps>
 
-## 与 Frontmatter 的关系
-
-SuperTag 的表格系统依赖 Frontmatter 中的特殊字段：
-
-**定义表格（Schema 文件）**：
-```yaml
----
-class:
-  type: text
-  value: "项目"
-field:
-  type: array
-  value: [名称, 状态, 优先级]
----
-```
-
-**创建行（数据文件）**：
-```yaml
----
-class:
-  type: text
-  value: "项目"
-名称:
-  type: text
-  value: "我的项目"
-状态:
-  type: select
-  value: "进行中"
----
-```
-
-所有 `class` 值为 "项目" 的文件会自动归入同一表格，可在表格视图中统一查看和管理。
-
-## 常见问题
-
-<AccordionGroup>
-  <Accordion title="SuperTag 的颜色可以自定义吗？">
-    目前颜色由表格名称自动分配，无法手动指定。如果需要不同颜色，可以调整表格名称。
-  </Accordion>
-
-  <Accordion title="如何查看某个表格的所有行？">
-    点击 SuperTag 浮动工具栏中的表格名称，即可跳转到该表格的数据视图，查看所有行。
-  </Accordion>
-
-  <Accordion title="删除 SuperTag 会删除对应文件吗？">
-    不会。删除 SuperTag 只是移除文档中的引用标签，对应的文件不受影响。
-  </Accordion>
-</AccordionGroup>
+<Tip>
+  SuperTag 最怕字段名频繁漂移。一个 class 一旦开始投入使用，就尽量保持字段稳定。
+</Tip>

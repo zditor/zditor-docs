@@ -315,26 +315,31 @@ Complete user object with all associated data.
 
 Wrap all images in frames:
 
+```mdx
 <Frame>
-<img src="/images/dashboard.png" alt="Main dashboard showing analytics overview" />
+  <img src="/path/dashboard.png" alt="Main dashboard showing analytics overview" />
 </Frame>
 
 <Frame caption="The analytics dashboard provides real-time insights">
-<img src="/images/analytics.png" alt="Analytics dashboard with charts" />
+  <img src="/path/analytics.png" alt="Analytics dashboard with charts" />
 </Frame>
+```
 
 #### Videos
 
 Use the HTML video element for self-hosted video content:
 
+```html
 <video
   controls
   className="w-full aspect-video rounded-xl"
   src="link-to-your-video.com"
 ></video>
+```
 
 Embed YouTube videos using iframe elements:
 
+```html
 <iframe
   className="w-full aspect-video rounded-xl"
   src="https://www.youtube.com/embed/4KzFe50RQkQ"
@@ -343,6 +348,7 @@ Embed YouTube videos using iframe elements:
   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
   allowFullScreen
 ></iframe>
+```
 
 #### Tooltips
 

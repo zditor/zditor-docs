@@ -1,431 +1,128 @@
 ---
 title: "Text Marks Guide"
-description: "Learn the inline formatting marks available in the Zditor Markdown editor."
+description: "Core inline formatting plus annotation and revision syntax in Zditor."
+icon: "highlighter"
 ---
 
-Text marks are one of the core capabilities of the Zditor Markdown editor. They control inline formatting such as emphasis, highlight, links, inline code, and review marks.
+Zditor supports standard inline formatting such as bold, italic, highlight, and inline code, and also adds richer review-style marks for annotations and revisions.
 
-## What are text marks?
+<Frame>
+  <img src="/images/case2_en.png" alt="Revision and extended syntax example in Zditor" style={{ borderRadius: '0.5rem' }} />
+</Frame>
 
-Marks are formatting properties applied to a range of inline text. Unlike block elements such as headings or paragraphs, marks can be attached to any span of text inside a paragraph. Zditor supports seven main mark types.
+## Overview
 
 <CardGroup cols={2}>
-  <Card title="WYSIWYG editing" icon="eye">
-    See the mark rendering while you type, without switching views.
+  <Card title="Basic formatting" icon="highlighter">
+    Use bold, italic, and highlight to add emphasis and structure to prose.
   </Card>
 
-  <Card title="Markdown compatible" icon="markdown">
-    Standard Markdown syntax remains the storage format for most marks.
+  <Card title="Inline code" icon="code">
+    Mark commands, identifiers, and short snippets with backticks.
   </Card>
 
-  <Card title="Keyboard shortcuts" icon="keyboard">
-    Every common mark has a keyboard shortcut for fast editing.
+  <Card title="Annotations" icon="lightbulb">
+    Use `mode=tip` to explain a term or phrase without changing the original text.
   </Card>
 
-  <Card title="Smart input rules" icon="wand-magic-sparkles">
-    Typing certain syntax triggers automatic conversion into marks.
+  <Card title="Revisions" icon="pen-to-square">
+    Use `mode=revision` to suggest a replacement that can later be accepted.
   </Card>
 </CardGroup>
 
-## Basic text marks
+## Core Inline Marks
 
-### Bold
-
-Use bold for important terms and key conclusions.
-
-<AccordionGroup>
-  <Accordion title="Markdown syntax" icon="code" defaultOpen>
-    Wrap text with double asterisks:
-
-    ```markdown
-    This is **bold text**.
-    ```
-  </Accordion>
-
-  <Accordion title="Shortcut" icon="keyboard">
-    - macOS: `Cmd + B`
-    - Windows/Linux: `Ctrl + B`
-  </Accordion>
-
-  <Accordion title="Auto-conversion" icon="sparkles">
-    Typing `**text**` and then pressing space or enter converts it into a bold mark.
-  </Accordion>
-</AccordionGroup>
+| Mark | Syntax | Typical use |
+| --- | --- | --- |
+| Bold | `**text**` | key conclusions and important terms |
+| Italic | `*text*` | mild emphasis, foreign words, special terms |
+| Highlight | `==text==` | important definitions and takeaways |
+| Inline code | `` `code` `` | commands, variables, identifiers |
+| Link | `[text](url)` | navigation and references |
 
 <Tip>
-  Use bold sparingly. If everything is emphasized, nothing is emphasized.
+  Keep formatting light. Text marks work best when they make structure clearer instead of competing for attention.
 </Tip>
 
-### Italic
-
-Italic is useful for mild emphasis, foreign words, or special terms.
+## Review Marks
 
 <AccordionGroup>
-  <Accordion title="Markdown syntax" icon="code" defaultOpen>
-    Wrap text with `_text_` or `*text*`.
+  <Accordion title="Annotations with mode=tip" icon="lightbulb" defaultOpen>
+    Use annotations when the original text is correct but needs more context.
+
+    ```md
+    [title](src|mode=tip)
+    ```
+
+    Expanded form:
+
+    ```md
+    [term](explanation%20goes%20here|mode=tip|style=teal)
+    ```
+
+    Typical use cases:
+
+    - explain technical terms
+    - add reading hints
+    - attach short context without rewriting the sentence
   </Accordion>
 
-  <Accordion title="Shortcut" icon="keyboard">
-    - macOS: `Cmd + I`
-    - Windows/Linux: `Ctrl + I`
+  <Accordion title="Revisions with mode=revision" icon="pen-to-square">
+    Use revisions when the current wording should be replaced.
+
+    ```md
+    [title](src|mode=revision)
+    ```
+
+    Expanded form:
+
+    ```md
+    [original text](why%20it%20should%20change|mode=revision|style=indigo|advice=replacement%20text)
+    ```
+
+    Typical use cases:
+
+    - fix typos
+    - tighten wording
+    - replace vague dates with specific ones
   </Accordion>
 
-  <Accordion title="Auto-conversion rules" icon="sparkles">
-    Italic conversion is intentionally stricter than bold so identifiers such as `snake_case` do not convert accidentally.
+  <Accordion title="When to encode spaces as %20" icon="code">
+    If you write the raw Markdown source directly, spaces inside `tip` and `revision` parentheses should be encoded as `%20`.
 
-    **Usually converts**
-    - `_123_`
-    - `(_one_`
-    - `[_one_`
+    That applies to:
 
-    **Usually does not convert**
-    - `__`
-    - `one_two`
-    - `ONE_TWO`
+    - annotation text
+    - file paths
+    - URLs
+    - `advice` values
   </Accordion>
 </AccordionGroup>
+
+## Suggested Color Meanings
+
+| Color | Typical use |
+| --- | --- |
+| `red` | errors, removals, vague dates, spelling problems |
+| `indigo` | wording improvements, tone cleanup, style alignment |
+| `teal` | neutral explanations and general suggestions |
+| `yellow` | warnings and extra attention |
+| `green` | positive confirmation or keep-as-is guidance |
+
+## Copy-Ready Templates
+
+### Annotation template
+
+```md
+This sentence includes a [term](explain%20the%20meaning%20here|mode=tip|style=teal).
+```
+
+### Revision template
+
+```md
+Please change [the original phrase](explain%20why%20it%20should%20change|mode=revision|style=indigo|advice=the%20revised%20phrase).
+```
 
 <Warning>
-  In technical writing, prefer `*asterisk*` syntax for italic if your content includes many underscore-based identifiers.
+  `revision` must include `advice`. Without it, the mark points out a problem but does not provide a replacement.
 </Warning>
-
-### Strikethrough
-
-Use strikethrough for removed text, completed items, or before-and-after changes.
-
-<AccordionGroup>
-  <Accordion title="Markdown syntax" icon="code" defaultOpen>
-    Wrap text with `~text~` or `~~text~~`.
-  </Accordion>
-
-  <Accordion title="Shortcut" icon="keyboard">
-    - macOS: `Cmd + Shift + X`
-    - Windows/Linux: `Ctrl + Shift + X`
-  </Accordion>
-
-  <Accordion title="Common uses" icon="lightbulb">
-    - Show removed content
-    - Mark completed items
-    - Show original pricing or replaced wording
-  </Accordion>
-</AccordionGroup>
-
-### Highlight
-
-Use highlight for definitions, takeaways, or reading notes that need extra visibility.
-
-<AccordionGroup>
-  <Accordion title="Markdown syntax" icon="code" defaultOpen>
-    Wrap text with `==text==`.
-  </Accordion>
-
-  <Accordion title="Shortcut" icon="keyboard">
-    - macOS: `Cmd + Shift + H`
-    - Windows/Linux: `Ctrl + Shift + H`
-  </Accordion>
-
-  <Accordion title="Styling" icon="palette">
-    Highlight uses a yellow background by default and can support custom color styling through editor configuration.
-  </Accordion>
-</AccordionGroup>
-
-## Functional marks
-
-### Inline code
-
-Inline code is for commands, variables, identifiers, short snippets, and file names.
-
-<AccordionGroup>
-  <Accordion title="Markdown syntax" icon="code" defaultOpen>
-    Wrap the content in backticks:
-
-    ```markdown
-    Run `npm install`.
-    Use the variable `userName`.
-    ```
-  </Accordion>
-
-  <Accordion title="Shortcut" icon="keyboard">
-    - macOS: `Cmd + E`
-    - Windows/Linux: `Ctrl + E`
-  </Accordion>
-
-  <Accordion title="Smart input" icon="wand-sparkles">
-    Typing `` `code` `` and pressing space converts it automatically. When the cursor is between matching backticks, typed or pasted content stays inside the inline code mark.
-  </Accordion>
-
-  <Accordion title="Exclusion rule" icon="ban">
-    Inline code is mutually exclusive with other marks. If you apply code formatting, Zditor removes other inline marks from that range so the text renders as plain code.
-  </Accordion>
-</AccordionGroup>
-
-<Note>
-  Inline code uses a monospace font, disables spell check, and preserves spaces and special characters.
-</Note>
-
-### Links
-
-Links connect to external URLs or workspace files.
-
-<AccordionGroup>
-  <Accordion title="Markdown syntax" icon="code" defaultOpen>
-    Use the standard `[text](url)` format:
-
-    ```markdown
-    [Zditor](https://zditor.com)
-    [Guide](./docs/guide.md)
-    [Example](https://example.com "Optional title")
-    ```
-  </Accordion>
-
-  <Accordion title="Auto-conversion" icon="sparkles">
-    Once a full link expression is typed, Zditor converts it into a clickable link mark.
-  </Accordion>
-
-  <Accordion title="Interaction" icon="hand-pointer">
-    In editing mode, clicking a link selects it for editing. In read-only or preview mode, clicking follows the link.
-  </Accordion>
-
-  <Accordion title="Link types" icon="link">
-    Zditor supports external URLs, relative paths, absolute paths, and optional link titles.
-  </Accordion>
-</AccordionGroup>
-
-<Warning>
-  External links add safe `rel` attributes automatically to reduce security risks.
-</Warning>
-
-<Tip>
-  Links are the foundation of the knowledge graph. See the [Knowledge Graph Guide](/en/knowledge-graph) for the graph-side behavior.
-</Tip>
-
-### Revision marks
-
-Revision marks help track changes, suggestions, and review comments inside a document.
-
-<AccordionGroup>
-  <Accordion title="Core properties" icon="pen-to-square" defaultOpen>
-    A revision mark can store:
-
-    - `style` for the visual color
-    - `mode` for the review mode
-    - `title` for a short label
-    - `advice` for an additional note
-
-    Example:
-
-    ```markdown
-    This is <span class="revision">reviewed text</span>.
-    ```
-  </Accordion>
-
-  <Accordion title="Shortcut" icon="keyboard">
-    - macOS: `Cmd + Shift + R`
-    - Windows/Linux: `Ctrl + Shift + R`
-  </Accordion>
-
-  <Accordion title="Interaction" icon="mouse-pointer">
-    Clicking a revision selects the full range and reveals its stored details. Context menu actions can include accepting, rejecting, or editing the revision metadata.
-  </Accordion>
-
-  <Accordion title="Common uses" icon="lightbulb">
-    Use revision marks for document review, collaborative writing, proofreading, and change tracking.
-  </Accordion>
-
-  <Accordion title="Color styles" icon="palette">
-    Common styles include `teal`, `red`, `green`, `yellow`, and `blue`.
-  </Accordion>
-</AccordionGroup>
-
-## Combining marks
-
-### Allowed combinations
-
-<AccordionGroup>
-  <Accordion title="Most marks can be combined" icon="layer-group" defaultOpen>
-    Common combinations include:
-
-    ```markdown
-    **_bold italic_**
-    **==bold highlight==**
-    [**bold link**](https://example.com)
-    ```
-  </Accordion>
-
-  <Accordion title="Code stays exclusive" icon="ban">
-    Inline code cannot be nested with other marks. For example:
-
-    ```markdown
-    `**not bold**`
-    **`code wins`**
-    ```
-  </Accordion>
-
-  <Accordion title="Nesting order matters" icon="arrows-down-to-line">
-    Marks can be nested, but opening and closing pairs must remain well-formed. Crossing delimiters produces broken Markdown.
-  </Accordion>
-</AccordionGroup>
-
-### Practical combinations
-
-<CardGroup cols={2}>
-  <Card title="Emphasis plus link" icon="link">
-    Use bold or italic around a link when you want the link to stand out without changing its target.
-  </Card>
-
-  <Card title="Highlight plus bold" icon="highlighter">
-    Combine highlight and bold for strong callouts such as definitions or conclusions.
-  </Card>
-
-  <Card title="Revision plus replacement" icon="pen-ruler">
-    Use strikethrough for the old text and a revision mark for the proposed replacement.
-  </Card>
-
-  <Card title="Multi-emphasis" icon="stars">
-    Combine several marks only when the readability payoff is clear.
-  </Card>
-</CardGroup>
-
-<Warning>
-  Avoid piling on too many marks. Two or three marks are usually enough for one text span.
-</Warning>
-
-## Shortcut reference
-
-### macOS
-
-| Mark | Shortcut | Action |
-| --- | --- | --- |
-| Bold | `Cmd + B` | Toggle bold |
-| Italic | `Cmd + I` | Toggle italic |
-| Strikethrough | `Cmd + Shift + X` | Toggle strikethrough |
-| Highlight | `Cmd + Shift + H` | Toggle highlight |
-| Inline code | `Cmd + E` | Toggle inline code |
-| Revision | `Cmd + Shift + R` | Insert revision mark |
-
-### Windows and Linux
-
-| Mark | Shortcut | Action |
-| --- | --- | --- |
-| Bold | `Ctrl + B` | Toggle bold |
-| Italic | `Ctrl + I` | Toggle italic |
-| Strikethrough | `Ctrl + Shift + X` | Toggle strikethrough |
-| Highlight | `Ctrl + Shift + H` | Toggle highlight |
-| Inline code | `Ctrl + E` | Toggle inline code |
-| Revision | `Ctrl + Shift + R` | Insert revision mark |
-
-<Tip>
-  These shortcuts act on the current selection. If no text is selected, they usually affect the text you type next.
-</Tip>
-
-## Input rule reference
-
-| Mark | Input syntax | Example |
-| --- | --- | --- |
-| Bold | `**text**` + space | `**important**` |
-| Italic | `_text_` + space | `_emphasis_` |
-| Italic | `*text*` + space | `*note*` |
-| Strikethrough | `~text~` + space | `~remove~` |
-| Highlight | `==text==` + space | `==focus==` |
-| Inline code | `` `text` `` + space | `` `code` `` |
-| Link | `[text](url)` + space | `[Docs](./docs.md)` |
-
-<Note>
-  Input rules usually trigger on space, and in some cases on enter. They can also be disabled in editor settings if needed.
-</Note>
-
-## Advanced tips
-
-<AccordionGroup>
-  <Accordion title="Apply marks to large selections" icon="layer-group">
-    Select multiple lines and apply a shortcut to add the mark across the whole selection.
-  </Accordion>
-
-  <Accordion title="Remove marks quickly" icon="eraser">
-    Reapply the same shortcut to remove a mark from the selected text, or edit the Markdown directly if you need precise control.
-  </Accordion>
-
-  <Accordion title="Use custom styles" icon="palette">
-    Highlights, links, and revision marks can all be styled further depending on your editor configuration or theme.
-  </Accordion>
-
-  <Accordion title="Keyboard-first editing" icon="keyboard">
-    Learn selection expansion, word navigation, and jump shortcuts so inline formatting does not require constant mouse use.
-  </Accordion>
-
-  <Accordion title="Rely on auto-pairing" icon="wand-magic">
-    The editor may auto-complete delimiters such as `**`, backticks, or brackets to reduce typing mistakes.
-  </Accordion>
-</AccordionGroup>
-
-## FAQ
-
-<AccordionGroup>
-  <Accordion title="Why does underscore not always convert to italic?" icon="question">
-    The conversion rule is strict to avoid false positives with names like `snake_case`. Use asterisks or apply italic through the shortcut when needed.
-  </Accordion>
-
-  <Accordion title="How do I show formatted text inside code?" icon="question">
-    You generally should not. Inline code renders as plain code text by design and ignores other marks.
-  </Accordion>
-
-  <Accordion title="Can links be wrapped in other marks?" icon="question">
-    Yes, except inside inline code. Bold links and italic links are both supported.
-  </Accordion>
-
-  <Accordion title="Can I span marks across multiple paragraphs?" icon="question">
-    Marks are inline constructs, so they normally stay within a paragraph. For larger structural emphasis, use block-level elements instead.
-  </Accordion>
-
-  <Accordion title="Are revision marks stored in Markdown?" icon="question">
-    Yes. Revision data is stored as HTML markup embedded in the Markdown content, so it can be exported and preserved.
-  </Accordion>
-
-  <Accordion title="Can I customize the shortcuts?" icon="question">
-    That depends on the app version and editor settings. Some bindings are configurable, while others are fixed.
-  </Accordion>
-</AccordionGroup>
-
-## Best practices
-
-<Steps>
-  <Step title="Keep formatting restrained">
-    Use marks to support meaning, not to overwhelm the text.
-  </Step>
-
-  <Step title="Define a consistent convention">
-    For example: bold for key terms, italic for foreign words, highlight for definitions, code for technical tokens, and revision marks for review feedback.
-  </Step>
-
-  <Step title="Use shortcuts heavily">
-    The keyboard workflow is much faster than manual symbol editing once the shortcuts become muscle memory.
-  </Step>
-
-  <Step title="Use auto-conversion where it helps">
-    Input rules speed up repetitive formatting, but disable rules that often misfire in your content.
-  </Step>
-
-  <Step title="Protect readability">
-    Test how your marks look under different themes and avoid flashy combinations that distract from the content.
-  </Step>
-</Steps>
-
-## Related resources
-
-<CardGroup cols={2}>
-  <Card title="Keyboard Shortcuts" icon="keyboard" href="/en/keyboard-shortcuts">
-    Review all editing shortcuts in one place.
-  </Card>
-
-  <Card title="Knowledge Graph" icon="diagram-project" href="/en/knowledge-graph">
-    See how links turn into visible edges in the graph.
-  </Card>
-
-  <Card title="Markdown Syntax" icon="markdown">
-    Use standard Markdown wherever possible for portability.
-  </Card>
-
-  <Card title="Editor Settings" icon="gear">
-    Adjust conversion rules and visual styles when needed.
-  </Card>
-</CardGroup>

@@ -1,143 +1,136 @@
 ---
 title: "SuperTag Guide"
-description: "Use SuperTag to insert structured references backed by Frontmatter tables."
+description: "Use SuperTag to organize Markdown files as structured records and reference them inline."
+icon: "hashtag"
 ---
 
-SuperTag is Zditor's structured data feature. It organizes Markdown files like database rows, then lets you insert references to those rows as colored tags inside documents.
+SuperTag lets Zditor treat Markdown files as structured records and render references to those records as tag-like nodes inside documents.
 
 ## Overview
 
 <CardGroup cols={2}>
-  <Card title="Database-style organization" icon="database">
-    Group files into tables and treat each file as one row in that table.
+  <Card title="Structured records" icon="database">
+    Store reusable metadata in frontmatter while keeping the body as normal Markdown.
   </Card>
 
-  <Card title="Fast insertion" icon="hashtag">
-    Type `#` to open the object menu and choose a table plus row.
+  <Card title="Shared class" icon="table">
+    Group many files into one logical table by giving them the same `class` value.
   </Card>
 
-  <Card title="Color-coded tags" icon="palette">
-    The tag color is derived automatically from the table name.
+  <Card title="Inline references" icon="link">
+    Insert a record into another document with `mode=supertag`.
   </Card>
 
-  <Card title="Metadata integration" icon="link">
-    SuperTag works with the Frontmatter `class` field to keep rows organized.
+  <Card title="Card layout fields" icon="table">
+    Use fields such as `col`, `row`, `cover`, and `warm` to shape visual presentation.
   </Card>
 </CardGroup>
 
-## Core concepts
-
-Before using SuperTag, understand two concepts:
-
-- **Table**: a collection of files that share the same structure, identified by the Frontmatter `class` field
-- **Row**: a specific file inside a table whose `class` value matches that table name
-
-## Create a SuperTag
+## Core Concepts
 
 <AccordionGroup>
-  <Accordion title="Insert from the # menu" icon="hashtag" defaultOpen>
-    Type `#` in the editor to open the object menu.
+  <Accordion title="A record is still a Markdown file" icon="file" defaultOpen>
+    A SuperTag record is a normal Markdown document with typed frontmatter.
 
-    1. The first list shows all available tables
-    2. Choose a table to open its row list
-    3. Choose a row to insert the SuperTag node
-
-    The inserted tag renders as `#Table Name · File Name`.
+    ```yaml
+    ---
+    title:
+      type: text
+      label: Title
+      value: "The Godfather"
+    director:
+      type: text
+      label: Director
+      value: "Francis Ford Coppola"
+    year:
+      type: number
+      label: Year
+      value: 1972
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    ---
+    ```
   </Accordion>
 
-  <Accordion title="Create a new table" icon="plus">
-    If the target table does not exist, type `#table-name` and choose the add action at the bottom of the menu. Zditor creates the matching schema file automatically.
+  <Accordion title="The class field groups records" icon="table">
+    Files that share the same `class` value belong to the same logical table.
+
+    ```yaml
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    ```
+
+    This is what lets Zditor aggregate many Markdown files into one structured collection.
   </Accordion>
 
-  <Accordion title="Create a new row" icon="file-circle-plus">
-    After selecting a table, use the add-row action at the bottom of the row list. Zditor creates a new file, fills in the `class` field, and inserts the new row as a SuperTag immediately.
+  <Accordion title="col and row shape card layout" icon="table">
+    Layout fields control which metadata is emphasized on document cards.
+
+    ```yaml
+    col:
+      type: array
+      label: Col
+      value: [year, title, director]
+    row:
+      type: array
+      label: Row
+      value: [genre, rank, score, watched]
+    ```
+
+    - `col` is for the main vertical information area
+    - `row` is for the supporting or bottom information band
   </Accordion>
 </AccordionGroup>
 
-## Markdown format
+## Reference Syntax
 
-SuperTag is stored as a Markdown link with a `mode=supertag` suffix:
+Use a normal Markdown link with `mode=supertag`:
 
 ```markdown
-[Table Name](path/to/file.md|mode=supertag)
+[title](src|mode=supertag)
 ```
 
-The editor renders it as a colored tag such as `#Table Name · File Name`.
+<Note>
+  The minimal product syntax is `[title](src|mode=supertag)`. In real documents, `src` is usually the target file path.
+</Note>
 
-## Selection toolbar
+## Common Field Types
 
-When you select a SuperTag, a floating toolbar appears with:
+| Type | Typical use |
+| --- | --- |
+| `text` | title, author, country, notes |
+| `number` | year, score, rank |
+| `date` | due dates, watch dates, created dates |
+| `checkbox` | done state, warm theme, featured state |
+| `multiselect` | genre, tags, categories |
+| `array` | cast lists, layout field lists |
+| `progress` | score-like or progress-like values |
+| `asset` | covers and resource paths |
 
-- The **table name**, which opens the table view
-- The **file name**, which opens the referenced file
-- An **info button**, which expands matching Frontmatter metadata
+## Recommended Workflow
 
-The metadata preview can show checkbox states, progress values, select badges, dates, and numbers with type-specific display styles.
+<Steps>
+  <Step title="Copy an existing record">
+    Start from a file that already has the schema you want.
+  </Step>
 
-## Color system
+  <Step title="Keep the field structure and class">
+    Reuse the same keys, types, and `class` value so the record stays in the same collection.
+  </Step>
 
-SuperTag assigns one of eight palette slots based on the table name:
+  <Step title="Replace concrete values">
+    Update the title, dates, cover, and body content to match the new record.
+  </Step>
 
-| Index | Color |
-|------|------|
-| 0 | Indigo |
-| 1 | Rose |
-| 2 | Emerald |
-| 3 | Amber |
-| 4 | Cyan |
-| 5 | Violet |
-| 6 | Pink |
-| 7 | Teal |
+  <Step title="Backfill new shared fields later">
+    If the whole class needs another field, add it consistently across the collection.
+  </Step>
+</Steps>
 
-The same table name always maps to the same color.
-
-## Relationship with Frontmatter
-
-The table system depends on Frontmatter special fields.
-
-**Schema file**
-
-```yaml
----
-class:
-  type: text
-  value: "Project"
-field:
-  type: array
-  value: [Name, Status, Priority]
----
-```
-
-**Data file**
-
-```yaml
----
-class:
-  type: text
-  value: "Project"
-Name:
-  type: text
-  value: "My Project"
-Status:
-  type: select
-  value: "In Progress"
----
-```
-
-All files whose `class` value is `Project` are grouped into the same table view automatically.
-
-## FAQ
-
-<AccordionGroup>
-  <Accordion title="Can I customize a SuperTag color?">
-    Not directly. Colors are assigned automatically from the table name. If you need a different color bucket, rename the table.
-  </Accordion>
-
-  <Accordion title="How do I see every row in a table?">
-    Click the table name from the SuperTag floating toolbar to jump into the table view.
-  </Accordion>
-
-  <Accordion title="Does deleting a SuperTag delete the referenced file?">
-    No. Removing a SuperTag only removes the reference from the current document.
-  </Accordion>
-</AccordionGroup>
+<Tip>
+  SuperTag works best when field names stay stable over time. Avoid casual renames once a class is already in use.
+</Tip>

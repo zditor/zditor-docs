@@ -38,14 +38,14 @@
         ]
       },
       {
-        "tab": "中文",
+        "tab": "Chinese",
         "groups": [
           {
-            "group": "快速开始",
+            "group": "Getting Started",
             "pages": ["zh/quickstart", "zh/快捷操作"]
           },
           {
-            "group": "核心功能",
+            "group": "Core Features",
             "pages": ["zh/文件树", "zh/知识图谱", "zh/文本标记", "zh/数学公式", "zh/脚注", "zh/PDF批注使用指南", "zh/SuperTag", "zh/Frontmatter", "zh/快捷键指南", "zh/Agent智能体使用指南", "zh/OpenClaw配置指南", "zh/MCP服务使用指南", "zh/配置与日志路径"]
           }
         ]
@@ -73,13 +73,13 @@
   "navbar": {
     "links": [
       {
-        "label": "反馈",
+        "label": "Feedback",
         "href": "https://github.com/zditor/zditor-docs/issues"
       }
     ],
     "primary": {
       "type": "button",
-      "label": "下载 Zditor",
+      "label": "Download Zditor",
       "href": "https://zditor.com"
     }
   },

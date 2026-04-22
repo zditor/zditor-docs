@@ -1,77 +1,56 @@
 ---
 title: "Introduction"
-description: "English entry point and feature overview for the Zditor documentation."
+description: "English entry point for the Zditor documentation."
+icon: "compass"
 ---
 
-Welcome to the English documentation for Zditor.
-
-The site now exposes a dedicated English route prefix under `/en/...`, so English and Chinese content can live in separate sidebar tabs without mixing routes or navigation state.
+Welcome to the English Zditor docs.
 
 <Info>
-  The English tab now covers the main product guides. Use the cards below to jump directly to the area you want to learn.
+  This site focuses on the product capabilities that are already mapped into the current docs: structured writing, extended Markdown syntax, formulas, file navigation, graph exploration, Agent workflows, MCP integration, and configuration paths.
 </Info>
 
-## Start here
+<Frame>
+  <img src="/images/home_en.png" alt="Zditor English home interface" style={{ borderRadius: '0.5rem' }} />
+</Frame>
+
+## Start Here
 
 <CardGroup cols={3}>
-  <Card title="Quickstart" icon="rocket" href="/en/quickstart">
-    Open the stable English landing page for the docs.
+  <Card title="SuperTag" icon="hashtag" href="/en/supertag">
+    Use Markdown files as structured records and insert them as tag-like references.
   </Card>
 
-  <Card title="Quick Actions" icon="bolt" href="/en/quick-actions">
-    Learn the fastest workflows for drag and drop, shortcuts, trigger menus, and toolbars.
-  </Card>
-
-  <Card title="Frontmatter" icon="table" href="/en/frontmatter">
-    Learn how Zditor edits structured metadata visually.
-  </Card>
-
-  <Card title="File Tree" icon="folder-tree" href="/en/file-tree">
-    Manage files, folders, filters, and workspaces efficiently.
-  </Card>
-
-  <Card title="Knowledge Graph" icon="diagram-project" href="/en/knowledge-graph">
-    Explore file relationships as an interactive graph.
-  </Card>
-</CardGroup>
-
-<CardGroup cols={2}>
   <Card title="Text Marks" icon="highlighter" href="/en/text-marks">
-    Review inline formatting, shortcuts, and input rules.
+    Review core inline formatting plus annotation and revision syntax.
   </Card>
 
   <Card title="Math Formulas" icon="square-root-variable" href="/en/math-formulas">
-    Insert and edit LaTeX formulas with live rendering.
+    Write inline and block formulas with LaTeX-style math syntax.
+  </Card>
+
+  <Card title="File Tree" icon="folder-tree" href="/en/file-tree">
+    Browse, rename, move, and organize workspace files and folders.
+  </Card>
+
+  <Card title="Knowledge Graph" icon="diagram-project" href="/en/knowledge-graph">
+    Explore file relationships as an interactive graph view.
+  </Card>
+
+  <Card title="Quick Actions" icon="bolt" href="/en/quick-actions">
+    Learn the highest-frequency workflows for drag and drop, shortcuts, menus, and toolbars.
   </Card>
 </CardGroup>
 
-## Core guides
+## AI And System Guides
 
 <CardGroup cols={3}>
-  <Card title="Footnotes" icon="list-ol" href="/en/footnotes">
-    Add numbered footnotes and edit them inline or at the bottom.
-  </Card>
-
-  <Card title="PDF Annotations" icon="file-text" href="/en/pdf-annotations">
-    Annotate PDFs with strokes, highlights, layers, and card references.
-  </Card>
-
-  <Card title="SuperTag" icon="hashtag" href="/en/supertag">
-    Create structured references backed by Frontmatter classes.
-  </Card>
-</CardGroup>
-
-<CardGroup cols={3}>
-  <Card title="Keyboard Shortcuts" icon="keyboard" href="/en/keyboard-shortcuts">
-    Review editor-wide shortcuts for formatting and navigation.
-  </Card>
-
   <Card title="Agent Guide" icon="robot" href="/en/agent-guide">
-    Configure ACP-compatible agents and run multi-step tasks.
+    Connect ACP-compatible agents and run multi-step workflows inside Zditor.
   </Card>
 
   <Card title="MCP Guide" icon="server" href="/en/mcp-guide">
-    Connect MCP services to extend Agent tool capability.
+    Extend agent capability by connecting MCP services and tools.
   </Card>
 
   <Card title="Config and Logs" icon="folder-open" href="/en/config-and-logs">
@@ -79,18 +58,6 @@ The site now exposes a dedicated English route prefix under `/en/...`, so Englis
   </Card>
 </CardGroup>
 
-## Language routing
-
-- English pages live under `/en/...`
-- Chinese pages live under `/zh/...`
-- The root page `/` is now a language entry page
-
-<CardGroup cols={2}>
-  <Card title="Chinese docs" icon="book-open-cover" href="/zh/quickstart">
-    Switch to the Chinese entry page at any time.
-  </Card>
-
-  <Card title="Download Zditor" icon="arrow-up-right-from-square" href="https://zditor.com">
-    Open the official Zditor website.
-  </Card>
-</CardGroup>
+<Note>
+  The broader Zditor content set also includes examples around diagrams, paper reading, and structured libraries. This Mintlify site currently centers on the product guides above.
+</Note>

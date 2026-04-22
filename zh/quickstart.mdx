@@ -1,34 +1,59 @@
 ---
 title: "简介"
-description: "Zditor 中文文档入口页。"
+description: "中文文档入口页。"
+icon: "compass"
 ---
 
 欢迎来到 Zditor 中文文档。
 
-这个页面是一个稳定的中文入口路径，方便和英文文档一起作为双语导航的落点使用。
-
 <Info>
-  更完整的中文内容仍然保留在现有侧边栏中，包括文件树、知识图谱、文本标记、数学公式、脚注、SuperTag、Frontmatter、快捷键、Agent 和 MCP 等主题。
+  这里优先整理的是当前站点已经映射好的产品能力：结构化写作、扩展 Markdown、数学公式、文件导航、知识图谱、Agent、MCP，以及系统配置路径。
 </Info>
 
-<CardGroup cols={2}>
+## 从这里开始
+
+<CardGroup cols={3}>
+  <Card title="SuperTag 使用指南" icon="hashtag" href="/zh/SuperTag">
+    把 Markdown 文件当作结构化记录来组织，并以标签节点方式插入文档。
+  </Card>
+
+  <Card title="文本标记" icon="highlighter" href="/zh/文本标记">
+    查看基础行内格式，以及注释和修订这两类评审语法。
+  </Card>
+
+  <Card title="数学公式" icon="square-root-variable" href="/zh/数学公式">
+    使用行内公式和块级公式编写数学表达式。
+  </Card>
+
+  <Card title="文件树" icon="folder-tree" href="/zh/文件树">
+    浏览、重命名、移动和整理工作区中的文件与文件夹。
+  </Card>
+
+  <Card title="知识图谱" icon="diagram-project" href="/zh/知识图谱">
+    用图谱视图理解文档之间的引用关系。
+  </Card>
+
   <Card title="快捷操作" icon="bolt" href="/zh/快捷操作">
-    查看拖拽、快捷键、快捷命令和工具栏等高频操作说明。
-  </Card>
-
-  <Card title="Frontmatter 使用指南" icon="table" href="/zh/Frontmatter">
-    打开 Frontmatter 中文指南。
-  </Card>
-
-  <Card title="官方网站" icon="arrow-up-right-from-square" href="https://zditor.com">
-    访问 Zditor 官网。
-  </Card>
-
-  <Card title="Github" icon="github" href="https://github.com/zditor/zditor-docs">
-    查看文档仓库。
-  </Card>
-
-  <Card title="English Docs" icon="language" href="/en/introduction">
-    切换到英文文档入口。
+    快速掌握拖拽、快捷键、命令菜单和上下文工具栏。
   </Card>
 </CardGroup>
+
+## AI 与系统相关
+
+<CardGroup cols={3}>
+  <Card title="Agent 智能体使用指南" icon="robot" href="/zh/Agent智能体使用指南">
+    在 Zditor 中接入 ACP Agent 并执行多步骤任务。
+  </Card>
+
+  <Card title="MCP 服务使用指南" icon="server" href="/zh/MCP服务使用指南">
+    通过 MCP 扩展 Agent 的工具能力。
+  </Card>
+
+  <Card title="配置与日志路径" icon="folder-open" href="/zh/配置与日志路径">
+    查看各系统下的配置文件和日志目录。
+  </Card>
+</CardGroup>
+
+<Note>
+  Zditor 还有图表、论文阅读和结构化资料库等更广的内容范围。当前这个 Mintlify 站点先聚焦在上面这些核心产品说明页。
+</Note>

@@ -6,6 +6,10 @@ icon: "robot"
 
 Zditor 通过兼容 Agent Client Protocol (ACP) 协议，与您电脑上的 CLI 工具（如 Claude Code、Gemini CLI,Open Code,Kimi Code）集成，提供强大的 AI 服务，包括文件操作、工具调用、多步骤任务执行等高级功能。
 
+<Frame>
+  <img src="/images/case4_zh.png" alt="Zditor 中文 Agent 中枢界面预览" style={{ borderRadius: '0.5rem' }} />
+</Frame>
+
 <Tip>
   如果你准备把 OpenClaw 接入 Zditor，可直接查看 [OpenClaw 配置指南](/zh/OpenClaw配置指南)。由于 OpenClaw 提供 `openclaw acp` 桥接命令，因此可以作为 ACP Agent 直接接入。
 </Tip>
@@ -16,7 +20,7 @@ Zditor 通过兼容 Agent Client Protocol (ACP) 协议，与您电脑上的 CLI 
   <video
     controls
     style={{ width: '100%', height: '500px', borderRadius: '0.5rem' }}
-    src="https://download.zditor.com/newweb/agent_config.mov"
+    src="https://download.zditor.com/zditor-com/agent_zh_small.mov"
   >
     您的浏览器不支持 video 标签。
   </video>
@@ -165,25 +169,6 @@ Zditor 需要填写 `claude-agent-acp` 的实际路径：
 | 终端操作 | ❌ 不支持 | 🚧 开发中 |
 | 划词功能 | ❌ 不支持 | ✅ 支持 |
 
-### 功能演示视频
-
-<Frame>
-  <video
-    controls
-    style={{ width: '100%', height: '500px', borderRadius: '0.5rem' }}
-    src="https://download.zditor.com/newweb/agent_ppt.mov"
-  >
-    您的浏览器不支持 video 标签。
-  </video>
-</Frame>
-
-本演示包含以下场景：
-
-1. 以一个 GitHub 上的 CUDA 相关仓库为示例，要求 Agent 学习源代码并生成中文 PPT
-2. 演示多窗口、多 Agent 同时运行的并行工作流
-3. 顶部标签页中的绿色圆圈用于表示对应 Agent 正在执行任务
-4. 演示让 Agent 加载其他历史会话信息作为当前任务上下文
-
 ### 使用场景
 
 **普通 AI 对话适用于：**
@@ -211,8 +196,6 @@ Zditor 需要填写 `claude-agent-acp` 的实际路径：
 2. 进入 **设置页面**
 3. 找到 **智能体配置** 部分
 4. 点击 **添加** 按钮
-
-![Agent配置界面](https://download.zditor.com/newweb/agent_config.png)
 
 ### 基本配置项
 
@@ -374,8 +357,6 @@ Zditor 需要填写 `claude-agent-acp` 的实际路径：
 3. 从 **Agent 选择器** 中选择您配置的 Agent
 4. 等待连接建立（状态显示为"已连接"）
 
-![模式选择](https://download.zditor.com/docs_assets/agent_select.png)
-
 ### 开始对话与执行
 
 Agent 连接成功后，您可以：
@@ -404,8 +385,6 @@ Agent 在执行任务时会显示详细的思考过程：
 - **💭 思考**：Agent 分析问题和制定计划
 - **🔧 工具调用**：Agent 调用具体工具执行操作
 - **📝 结果**：返回执行结果和总结
-
-![Agent思考过程](https://download.zditor.com/docs_assets/agent_think.png)
 
 ---
 

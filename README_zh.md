@@ -88,13 +88,14 @@ style="width: 100%; ">
 
 ## 中文文档
 
-中文文档位于 `中文/` 目录，当前包含数学、电影、代码示例、论文解读、SuperTag 指南、Mermaid 指南，以及一份注释与修订语法示例。
+中文文档位于 `中文/` 目录，当前包含数学、电影、代码示例、论文解读、一份带分段音频的 Zditor 复盘分享、SuperTag 指南、Mermaid 指南，以及一份注释与修订语法示例。
 
 ### 目录导航
 
 - [数学](中文/数学/)
 - [代码示例](中文/代码示例.md)
 - [Transformer论文解读](中文/Transformer论文解读.md)
+- [Zditor复盘分享](中文/Zditor复盘分享.md)
 - [电影](中文/电影/)
 - [SuperTag 使用指南](中文/SuperTag使用指南.md)
 - [Zditor 注释与修订指南](中文/Zditor注释与修订指南.md)
@@ -125,6 +126,7 @@ style="width: 100%; ">
 
 - [代码示例](中文/代码示例.md)
 - [Transformer论文解读](中文/Transformer论文解读.md)
+- [Zditor复盘分享](中文/Zditor复盘分享.md)
 - [SuperTag 使用指南](中文/SuperTag使用指南.md)
 - [Zditor 注释与修订指南](中文/Zditor注释与修订指南.md)
 - [Mermaid 使用指南](中文/Mermaid使用指南.md)

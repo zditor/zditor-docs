@@ -48,7 +48,7 @@ updated:
   type: date
   description:
   label: Updated
-  value: "2026-04-21"
+  value: "2026-04-23"
 warm:
   type: checkbox
   description: warm
@@ -62,13 +62,14 @@ row:
 ---
 # English Docs Entry
 
-This directory collects the English documentation in the repository. It currently includes mathematics guides, code examples, paper notes, Mermaid guidance, a SuperTag guide, a viewing guide, an annotation and revision guide, and the English movie database.
+This directory collects the English documentation in the repository. It currently includes mathematics guides, code examples, paper notes, a retrospective talk with section audio, Mermaid guidance, a SuperTag guide, a viewing guide, an annotation and revision guide, and the English movie database.
 
 ## Directory Guide
 
 - [Mathematics](./mathematics/)
 - [Code Examples](./Code%20Examples.md)
 - [Transformer Paper Notes](./Transformer%20Paper%20Notes.md)
+- [Zditor Retrospective Talk](./Zditor%20Retrospective%20Talk.md)
 - [Movies](./movies/)
 - [Viewing Guide](./Viewing%20Guide.md)
 - [SuperTag Guide](./SuperTag%20Guide.md)
@@ -91,6 +92,10 @@ This directory collects the English documentation in the repository. It currentl
 ## Paper Notes
 
 - [Attention Is All You Need Paper Notes](./Transformer%20Paper%20Notes.md)
+
+## Talks and Retrospectives
+
+- [Zditor Retrospective Talk](./Zditor%20Retrospective%20Talk.md)
 
 ## SuperTag Guide
 

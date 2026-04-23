@@ -48,7 +48,7 @@ updated:
   type: date
   description:
   label: Updated
-  value: "2026-04-21"
+  value: "2026-04-23"
 warm:
   type: checkbox
   description: warm
@@ -62,13 +62,14 @@ row:
 ---
 # 中文文档入口
 
-这个目录收纳仓库中的中文文档。目前主要分为数学文档、代码示例、论文解读、电影数据文档，以及几份面向 Zditor 写作的语法指南，例如 SuperTag、Mermaid、注释与修订。
+这个目录收纳仓库中的中文文档。目前主要分为数学文档、代码示例、论文解读、带分段音频的复盘分享、电影数据文档，以及几份面向 Zditor 写作的语法指南，例如 SuperTag、Mermaid、注释与修订。
 
 ## 目录导航
 
 - [数学](./数学/)
 - [代码示例](./代码示例.md)
 - [Transformer论文解读](./Transformer论文解读.md)
+- [Zditor复盘分享](./Zditor复盘分享.md)
 - [电影](./电影/)
 - [观影指南](./观影指南.md)
 - [SuperTag使用指南](./SuperTag使用指南.md)
@@ -93,6 +94,10 @@ row:
 ## 论文解读
 
 - [Attention Is All You Need 论文解读](./Transformer论文解读.md)
+
+## 复盘分享
+
+- [Zditor复盘分享](./Zditor复盘分享.md)
 
 ## SuperTag 指南
 

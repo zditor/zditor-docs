@@ -48,7 +48,7 @@ updated:
   type: date
   description:
   label: Updated
-  value: "2026-04-21"
+  value: "2026-04-23"
 warm:
   type: checkbox
   description: warm
@@ -74,6 +74,7 @@ row:
 - [SuperTag使用指南](./SuperTag使用指南.md)
 - [Zditor注释与修订指南](./Zditor注释与修订指南.md)
 - [Mermaid使用指南](./Mermaid使用指南.md)
+- [中文十万行压力测试](./十万行压力测试.md)
 
 ## 数学文档
 
@@ -118,6 +119,10 @@ row:
 ## 图表指南
 
 - [Mermaid使用指南](./Mermaid使用指南.md)
+
+## 压力测试
+
+- [中文十万行压力测试](./十万行压力测试.md)
 
 !!! tip 使用建议
     如果你是第一次浏览这个目录，建议先看 Mermaid 使用指南、SuperTag 使用指南、Zditor 注释与修订指南、数学文档示例和 Transformer 论文解读，再进入电影目录查看更完整的结构化内容组织方式。

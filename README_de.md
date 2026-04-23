@@ -51,10 +51,10 @@ Downloads gibt es auf der [Releases-Seite](https://github.com/zditor/zditor-docs
 
 ## Community
 
-- [WeChat Official Account](https://zditor.com/wechat)
-- [WeChat Group](https://zditor.com/wechat)
 - [Discord](https://discord.gg/juxMNxKs)
 - [YouTube](https://youtube.com/@SeeLeyWang)
+- [WeChat Official Account](https://zditor.com/wechat)
+- [WeChat Group](https://zditor.com/wechat)
 
 ## Skills
 

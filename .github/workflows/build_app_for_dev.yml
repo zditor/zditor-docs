@@ -11,8 +11,6 @@ on:
         required: false
 jobs:
   publish-tauri:
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     permissions:
       contents: write
     strategy:
@@ -22,51 +20,51 @@ jobs:
           - platform: "macos-latest" # for Arm based macs (M1 and above).
             args: "--target aarch64-apple-darwin"
             runtime: "wry"
-            tauriScript: "tauri"
-            releaseAssetNamePattern: ""
-            uploadUpdaterJson: true
+            tauriScript: "npm run tauri"
+            assetNamePattern: ""
+            includeUpdaterJson: true
           - platform: "macos-latest" # for Intel based macs.
             args: "--target x86_64-apple-darwin"
             runtime: "wry"
-            tauriScript: "tauri"
-            releaseAssetNamePattern: ""
-            uploadUpdaterJson: true
+            tauriScript: "npm run tauri"
+            assetNamePattern: ""
+            includeUpdaterJson: true
           - platform: "ubuntu-22.04" # for Tauri v1 you could replace this with ubuntu-20.04.
             args: ""
             runtime: "wry"
-            tauriScript: "tauri"
-            releaseAssetNamePattern: ""
-            uploadUpdaterJson: true
+            tauriScript: "npm run tauri"
+            assetNamePattern: ""
+            includeUpdaterJson: true
           - platform: "windows-latest"
             args: ""
             runtime: "wry"
-            tauriScript: "tauri"
-            releaseAssetNamePattern: ""
-            uploadUpdaterJson: true
+            tauriScript: "npm run tauri"
+            assetNamePattern: ""
+            includeUpdaterJson: true
           - platform: "macos-latest" # CEF runtime for Arm based macs.
             args: "--target aarch64-apple-darwin"
             runtime: "cef"
             tauriScript: "sh scripts/tauri-cef.sh"
-            releaseAssetNamePattern: "[name]_cef_[version]_[platform]_[arch]_[bundle][ext]"
-            uploadUpdaterJson: false
+            assetNamePattern: "[name]_cef_[version]_[platform]_[arch]_[bundle][ext]"
+            includeUpdaterJson: false
           - platform: "macos-latest" # CEF runtime for Intel based macs.
             args: "--target x86_64-apple-darwin"
             runtime: "cef"
             tauriScript: "sh scripts/tauri-cef.sh"
-            releaseAssetNamePattern: "[name]_cef_[version]_[platform]_[arch]_[bundle][ext]"
-            uploadUpdaterJson: false
+            assetNamePattern: "[name]_cef_[version]_[platform]_[arch]_[bundle][ext]"
+            includeUpdaterJson: false
           - platform: "ubuntu-22.04" # CEF runtime for Linux.
             args: ""
             runtime: "cef"
             tauriScript: "sh scripts/tauri-cef.sh"
-            releaseAssetNamePattern: "[name]_cef_[version]_[platform]_[arch]_[bundle][ext]"
-            uploadUpdaterJson: false
+            assetNamePattern: "[name]_cef_[version]_[platform]_[arch]_[bundle][ext]"
+            includeUpdaterJson: false
           - platform: "windows-latest" # CEF runtime for Windows x64.
             args: "--target x86_64-pc-windows-msvc"
             runtime: "cef"
             tauriScript: "sh scripts/tauri-cef.sh"
-            releaseAssetNamePattern: "[name]_cef_[version]_[platform]_[arch]_[bundle][ext]"
-            uploadUpdaterJson: false
+            assetNamePattern: "[name]_cef_[version]_[platform]_[arch]_[bundle][ext]"
+            includeUpdaterJson: false
     runs-on: ${{ matrix.platform }}
     steps:
       # Checkout 主仓库到 zditor，保证本地 file:../zditor-excalidraw 依赖可解析
@@ -288,6 +286,6 @@ jobs:
           releaseBody: ${{ steps.get_release_notes.outputs.release_body }}
           releaseDraft: true
           prerelease: false
-          uploadUpdaterJson: ${{ matrix.uploadUpdaterJson }}
-          releaseAssetNamePattern: ${{ matrix.releaseAssetNamePattern }}
+          includeUpdaterJson: ${{ matrix.includeUpdaterJson }}
+          assetNamePattern: ${{ matrix.assetNamePattern }}
           args: ${{ matrix.args }}

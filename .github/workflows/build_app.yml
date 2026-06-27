@@ -64,15 +64,9 @@ jobs:
     env:
       CARGO_HTTP_MULTIPLEXING: false
       CARGO_HTTP_TIMEOUT: 600
-      CARGO_NET_RETRY: 10
       CARGO_REGISTRIES_CRATES_IO_PROTOCOL: sparse
       GIT_HTTP_LOW_SPEED_LIMIT: 0
       GIT_HTTP_LOW_SPEED_TIME: 600
-      TAURI_CEF_RETRIES: 3
-      npm_config_fetch_retries: 5
-      npm_config_fetch_retry_factor: 2
-      npm_config_fetch_retry_mintimeout: 20000
-      npm_config_fetch_retry_maxtimeout: 120000
       npm_config_registry: https://registry.npmjs.org/
     steps:
       # Checkout 主仓库到 zditor，保证本地 file:../zditor-excalidraw 依赖可解析
@@ -115,7 +109,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: tauri-apps/tauri
-          ref: feat/cef
+          ref: ${{ vars.TAURI_CEF_REF || 'tauri-cef-v3.0.0-alpha.10' }}
           path: tauri
 
       - name: Patch Tauri CEF runtime
@@ -150,6 +144,26 @@ jobs:
           corepack enable
           corepack prepare yarn@1.22.22 --activate
 
+      - name: Disable CEF app build retries
+        if: matrix.runtime == 'cef'
+        working-directory: zditor
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+
+          const scriptPath = "scripts/tauri-cef.sh";
+          const retryCommand = 'retry_command "$tauri_cef_retries" npm run tauri:cef -- "$mode" --features cef "$@" -- --no-default-features';
+          const directCommand = 'npm run tauri:cef -- "$mode" --features cef "$@" -- --no-default-features';
+          const script = fs.readFileSync(scriptPath, "utf8");
+
+          if (script.includes(retryCommand)) {
+            fs.writeFileSync(scriptPath, script.replace(retryCommand, directCommand));
+          } else if (!script.includes(directCommand)) {
+            throw new Error("Could not find the CEF build command in scripts/tauri-cef.sh");
+          }
+          NODE
+
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -180,14 +194,7 @@ jobs:
         shell: bash
         run: |
           yarn config set network-timeout 600000
-          for attempt in 1 2 3; do
-            yarn install --frozen-lockfile && exit 0
-            status=$?
-            if [ "$attempt" -eq 3 ]; then
-              exit "$status"
-            fi
-            sleep $((attempt * 30))
-          done
+          yarn install --frozen-lockfile
 
       - name: build zditor-excalidraw packages
         working-directory: zditor-excalidraw
@@ -195,16 +202,7 @@ jobs:
 
       - name: install frontend dependencies
         working-directory: zditor
-        shell: bash
-        run: |
-          for attempt in 1 2 3; do
-            npm ci && exit 0
-            status=$?
-            if [ "$attempt" -eq 3 ]; then
-              exit "$status"
-            fi
-            sleep $((attempt * 30))
-          done
+        run: npm ci
 
       - name: build frontend
         working-directory: zditor
@@ -320,7 +318,6 @@ jobs:
           includeUpdaterJson: ${{ matrix.includeUpdaterJson }}
           assetNamePattern: ${{ matrix.assetNamePattern }}
           args: ${{ matrix.args }}
-          retryAttempts: 3
 
       # ====== 3. 非 macOS 平台开启 debug ======
       - uses: tauri-apps/tauri-action@v0
@@ -341,4 +338,3 @@ jobs:
           includeUpdaterJson: ${{ matrix.includeUpdaterJson }}
           assetNamePattern: ${{ matrix.assetNamePattern }}
           args: ${{ matrix.args }}
-          retryAttempts: 3

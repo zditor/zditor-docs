@@ -66,6 +66,19 @@ jobs:
             assetNamePattern: "[name]_cef_[version]_[platform]_[arch]_[bundle][ext]"
             includeUpdaterJson: false
     runs-on: ${{ matrix.platform }}
+    env:
+      CARGO_HTTP_MULTIPLEXING: false
+      CARGO_HTTP_TIMEOUT: 600
+      CARGO_NET_RETRY: 10
+      CARGO_REGISTRIES_CRATES_IO_PROTOCOL: sparse
+      GIT_HTTP_LOW_SPEED_LIMIT: 0
+      GIT_HTTP_LOW_SPEED_TIME: 600
+      TAURI_CEF_RETRIES: 3
+      npm_config_fetch_retries: 5
+      npm_config_fetch_retry_factor: 2
+      npm_config_fetch_retry_mintimeout: 20000
+      npm_config_fetch_retry_maxtimeout: 120000
+      npm_config_registry: https://registry.npmjs.org/
     steps:
       # Checkout 主仓库到 zditor，保证本地 file:../zditor-excalidraw 依赖可解析
       - name: Checkout zditor repository
@@ -166,7 +179,17 @@ jobs:
 
       - name: install zditor-excalidraw dependencies
         working-directory: zditor-excalidraw
-        run: yarn install --frozen-lockfile
+        shell: bash
+        run: |
+          yarn config set network-timeout 600000
+          for attempt in 1 2 3; do
+            yarn install --frozen-lockfile && exit 0
+            status=$?
+            if [ "$attempt" -eq 3 ]; then
+              exit "$status"
+            fi
+            sleep $((attempt * 30))
+          done
 
       - name: build zditor-excalidraw packages
         working-directory: zditor-excalidraw
@@ -174,7 +197,16 @@ jobs:
 
       - name: install frontend dependencies
         working-directory: zditor
-        run: npm install # change this to npm, pnpm or bun depending on which one you use.
+        shell: bash
+        run: |
+          for attempt in 1 2 3; do
+            npm ci && exit 0
+            status=$?
+            if [ "$attempt" -eq 3 ]; then
+              exit "$status"
+            fi
+            sleep $((attempt * 30))
+          done
 
       - name: build frontend
         working-directory: zditor
@@ -289,3 +321,4 @@ jobs:
           includeUpdaterJson: ${{ matrix.includeUpdaterJson }}
           assetNamePattern: ${{ matrix.assetNamePattern }}
           args: ${{ matrix.args }}
+          retryAttempts: 3

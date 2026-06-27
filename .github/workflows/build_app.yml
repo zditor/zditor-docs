@@ -67,7 +67,6 @@ jobs:
       CARGO_REGISTRIES_CRATES_IO_PROTOCOL: sparse
       GIT_HTTP_LOW_SPEED_LIMIT: 0
       GIT_HTTP_LOW_SPEED_TIME: 600
-      TAURI_CEF_RETRIES: 1
       npm_config_registry: https://registry.npmjs.org/
     steps:
       # Checkout 主仓库到 zditor，保证本地 file:../zditor-excalidraw 依赖可解析

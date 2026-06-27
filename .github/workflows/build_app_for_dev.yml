@@ -197,7 +197,10 @@ jobs:
 
       - name: install zditor-excalidraw dependencies
         working-directory: zditor-excalidraw
-        run: yarn install --frozen-lockfile
+        shell: bash
+        run: |
+          yarn config set network-timeout 600000
+          yarn install --frozen-lockfile
 
       - name: build zditor-excalidraw packages
         working-directory: zditor-excalidraw

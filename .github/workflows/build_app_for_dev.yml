@@ -21,12 +21,52 @@ jobs:
         include:
           - platform: "macos-latest" # for Arm based macs (M1 and above).
             args: "--target aarch64-apple-darwin"
+            runtime: "wry"
+            tauriScript: "tauri"
+            releaseAssetNamePattern: ""
+            uploadUpdaterJson: true
           - platform: "macos-latest" # for Intel based macs.
             args: "--target x86_64-apple-darwin"
+            runtime: "wry"
+            tauriScript: "tauri"
+            releaseAssetNamePattern: ""
+            uploadUpdaterJson: true
           - platform: "ubuntu-22.04" # for Tauri v1 you could replace this with ubuntu-20.04.
             args: ""
+            runtime: "wry"
+            tauriScript: "tauri"
+            releaseAssetNamePattern: ""
+            uploadUpdaterJson: true
           - platform: "windows-latest"
             args: ""
+            runtime: "wry"
+            tauriScript: "tauri"
+            releaseAssetNamePattern: ""
+            uploadUpdaterJson: true
+          - platform: "macos-latest" # CEF runtime for Arm based macs.
+            args: "--target aarch64-apple-darwin"
+            runtime: "cef"
+            tauriScript: "sh scripts/tauri-cef.sh"
+            releaseAssetNamePattern: "[name]_cef_[version]_[platform]_[arch]_[bundle][ext]"
+            uploadUpdaterJson: false
+          - platform: "macos-latest" # CEF runtime for Intel based macs.
+            args: "--target x86_64-apple-darwin"
+            runtime: "cef"
+            tauriScript: "sh scripts/tauri-cef.sh"
+            releaseAssetNamePattern: "[name]_cef_[version]_[platform]_[arch]_[bundle][ext]"
+            uploadUpdaterJson: false
+          - platform: "ubuntu-22.04" # CEF runtime for Linux.
+            args: ""
+            runtime: "cef"
+            tauriScript: "sh scripts/tauri-cef.sh"
+            releaseAssetNamePattern: "[name]_cef_[version]_[platform]_[arch]_[bundle][ext]"
+            uploadUpdaterJson: false
+          - platform: "windows-latest" # CEF runtime for Windows x64.
+            args: "--target x86_64-pc-windows-msvc"
+            runtime: "cef"
+            tauriScript: "sh scripts/tauri-cef.sh"
+            releaseAssetNamePattern: "[name]_cef_[version]_[platform]_[arch]_[bundle][ext]"
+            uploadUpdaterJson: false
     runs-on: ${{ matrix.platform }}
     steps:
       # Checkout 主仓库到 zditor，保证本地 file:../zditor-excalidraw 依赖可解析
@@ -64,6 +104,15 @@ jobs:
           ref: ${{ steps.resolve_excalidraw_ref.outputs.ref }}
           path: zditor-excalidraw
 
+      # CEF builds use path patches in zditor/src-tauri/Cargo.toml that expect
+      # the Tauri feat/cef checkout to be a sibling of the zditor directory.
+      - name: Checkout Tauri CEF runtime
+        uses: actions/checkout@v4
+        with:
+          repository: tauri-apps/tauri
+          ref: feat/cef
+          path: tauri
+
       # 导入 Apple 证书（仅限 macOS）
       - name: Import Certificate
         if: matrix.platform == 'macos-latest'
@@ -100,7 +149,9 @@ jobs:
       - name: Rust cache
         uses: Swatinem/rust-cache@v2
         with:
-          workspaces: './zditor/src-tauri'
+          workspaces: |
+            ./zditor/src-tauri
+            ./tauri
 
       - name: Cache apt packages (ubuntu only)
         if: matrix.platform == 'ubuntu-22.04'
@@ -231,9 +282,12 @@ jobs:
 
         with:
           projectPath: zditor
+          tauriScript: ${{ matrix.tauriScript }}
           tagName: zditor-v${{ github.event.inputs.tag }}
           releaseName: "Zditor v${{ github.event.inputs.tag }}"
           releaseBody: ${{ steps.get_release_notes.outputs.release_body }}
           releaseDraft: true
           prerelease: false
+          uploadUpdaterJson: ${{ matrix.uploadUpdaterJson }}
+          releaseAssetNamePattern: ${{ matrix.releaseAssetNamePattern }}
           args: ${{ matrix.args }}

@@ -118,6 +118,10 @@ jobs:
           ref: feat/cef
           path: tauri
 
+      - name: Patch Tauri CEF runtime
+        working-directory: tauri
+        run: git apply ../zditor/scripts/patches/tauri-cef-defer-macos-initial-show.patch
+
       # 导入 Apple 证书（仅限 macOS）
       - name: Import Certificate
         if: matrix.platform == 'macos-latest'

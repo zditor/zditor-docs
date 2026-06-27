@@ -150,6 +150,26 @@ jobs:
           corepack enable
           corepack prepare yarn@1.22.22 --activate
 
+      - name: Disable CEF app build retries
+        if: matrix.runtime == 'cef'
+        working-directory: zditor
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+
+          const scriptPath = "scripts/tauri-cef.sh";
+          const retryCommand = 'retry_command "$tauri_cef_retries" npm run tauri:cef -- "$mode" --features cef "$@" -- --no-default-features';
+          const directCommand = 'npm run tauri:cef -- "$mode" --features cef "$@" -- --no-default-features';
+          const script = fs.readFileSync(scriptPath, "utf8");
+
+          if (script.includes(retryCommand)) {
+            fs.writeFileSync(scriptPath, script.replace(retryCommand, directCommand));
+          } else if (!script.includes(directCommand)) {
+            throw new Error("Could not find the CEF build command in scripts/tauri-cef.sh");
+          }
+          NODE
+
       - name: install Rust stable
         uses: dtolnay/rust-toolchain@stable
         with:

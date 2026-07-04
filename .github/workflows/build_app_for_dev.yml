@@ -119,6 +119,10 @@ jobs:
           if [ -z "$TAURI_CEF_REPO" ]; then
             TAURI_CEF_REPO="zizdlp/tauri-cef"
           fi
+          TAURI_CEF_DEFAULT_REF="tauri-cef-v3.0.0-alpha.10"
+          if [ "$TAURI_CEF_REPO" = "zizdlp/tauri-cef" ]; then
+            TAURI_CEF_DEFAULT_REF="main"
+          fi
 
           TAURI_CEF_REF=""
           if [ -f "zditor/tauri-cef.ref" ]; then
@@ -129,8 +133,12 @@ jobs:
             TAURI_CEF_REF="${{ vars.TAURI_CEF_REF }}"
           fi
 
+          if [ "$TAURI_CEF_REPO" = "zizdlp/tauri-cef" ] && [ "$TAURI_CEF_REF" = "tauri-cef-v3.0.0-alpha.10" ]; then
+            TAURI_CEF_REF=""
+          fi
+
           if [ -z "$TAURI_CEF_REF" ]; then
-            TAURI_CEF_REF="tauri-cef-v3.0.0-alpha.10"
+            TAURI_CEF_REF="$TAURI_CEF_DEFAULT_REF"
           fi
 
           echo "Using Tauri CEF runtime: $TAURI_CEF_REPO@$TAURI_CEF_REF"

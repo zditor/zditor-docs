@@ -149,6 +149,7 @@ jobs:
 
       - name: Patch Tauri CEF runtime
         working-directory: tauri
+        shell: bash
         run: |
           PATCH="../zditor/scripts/patches/tauri-cef-defer-macos-initial-show.patch"
           if git apply --check "$PATCH"; then

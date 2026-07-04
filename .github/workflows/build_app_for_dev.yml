@@ -7,7 +7,7 @@ on:
         description: "version"
         required: true
       commit_id:
-        description: "zditor branch, tag, or commit ID (optional, defaults to tauri-cef-runtime)"
+        description: "zditor branch, tag, or commit ID (optional, defaults to main)"
         required: false
 jobs:
   publish-tauri:
@@ -80,7 +80,7 @@ jobs:
         with:
           repository: ${{ secrets.REPO }} # 替换为私有仓库的实际路径
           token: ${{ secrets.DEPLOY_TOKEN }} # 使用 GitHub 提供的 GITHUB_TOKEN 进行身份验证
-          ref: ${{ github.event.inputs.commit_id || vars.ZDITOR_REF || 'tauri-cef-runtime' }}
+          ref: ${{ github.event.inputs.commit_id || vars.ZDITOR_REF || 'main' }}
           path: zditor
 
       # 优先读取 zditor 仓库中的固定 ref，若缺失则回退到仓库变量 / 默认分支

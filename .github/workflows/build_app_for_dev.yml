@@ -111,16 +111,52 @@ jobs:
 
       # CEF builds use path patches in zditor/src-tauri/Cargo.toml that expect
       # the Tauri feat/cef checkout to be a sibling of the zditor directory.
+      - name: Resolve Tauri CEF runtime
+        id: resolve_tauri_cef
+        shell: bash
+        run: |
+          TAURI_CEF_REPO="${{ vars.TAURI_CEF_REPO }}"
+          if [ -z "$TAURI_CEF_REPO" ]; then
+            TAURI_CEF_REPO="zizdlp/tauri-cef"
+          fi
+
+          TAURI_CEF_REF=""
+          if [ -f "zditor/tauri-cef.ref" ]; then
+            TAURI_CEF_REF="$(tr -d '\r\n' < "zditor/tauri-cef.ref")"
+          fi
+
+          if [ -z "$TAURI_CEF_REF" ]; then
+            TAURI_CEF_REF="${{ vars.TAURI_CEF_REF }}"
+          fi
+
+          if [ -z "$TAURI_CEF_REF" ]; then
+            TAURI_CEF_REF="tauri-cef-v3.0.0-alpha.10"
+          fi
+
+          echo "Using Tauri CEF runtime: $TAURI_CEF_REPO@$TAURI_CEF_REF"
+          echo "repo=$TAURI_CEF_REPO" >> "$GITHUB_OUTPUT"
+          echo "ref=$TAURI_CEF_REF" >> "$GITHUB_OUTPUT"
+
       - name: Checkout Tauri CEF runtime
         uses: actions/checkout@v4
         with:
-          repository: tauri-apps/tauri
-          ref: ${{ vars.TAURI_CEF_REF || 'tauri-cef-v3.0.0-alpha.10' }}
+          repository: ${{ steps.resolve_tauri_cef.outputs.repo }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          ref: ${{ steps.resolve_tauri_cef.outputs.ref }}
           path: tauri
 
       - name: Patch Tauri CEF runtime
         working-directory: tauri
-        run: git apply ../zditor/scripts/patches/tauri-cef-defer-macos-initial-show.patch
+        run: |
+          PATCH="../zditor/scripts/patches/tauri-cef-defer-macos-initial-show.patch"
+          if git apply --check "$PATCH"; then
+            git apply "$PATCH"
+          elif git apply --reverse --check "$PATCH"; then
+            echo "Tauri CEF startup patch is already applied"
+          else
+            echo "::error::Tauri CEF startup patch is not applicable"
+            exit 1
+          fi
 
       # 导入 Apple 证书（仅限 macOS）
       - name: Import Certificate

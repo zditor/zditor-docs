@@ -59,25 +59,37 @@ Download from the [Releases page](https://github.com/zditor/zditor-docs/releases
 
 ## Skills
 
-This repository ships two installable Codex skills and matching Claude Code commands:
+This repository is an agent-installable skill collection. [`skills/manifest.json`](skills/manifest.json) is the machine-readable catalog, and [`AGENTS.md`](AGENTS.md) tells an agent how to clone and install compatible skills.
 
-- `zditor-syntax`: Helps agents learn and use Zditor's extended markdown syntax.
-- `import-excel`: Converts Excel documents into database tables supported by Zditor.
+| Skill | Codex | Zditor Native Agent | Purpose |
+|---|:---:|:---:|---|
+| `zditor-syntax` | Yes | Yes | Create and repair Zditor extended Markdown |
+| `import-excel` | Yes | Yes | Convert Excel workbooks into SuperTag projects |
+| `img-gen` | No | Yes | Generate images |
+| `music-gen` | No | Yes | Generate music |
+| `speech-gen` | No | Yes | Generate speech |
+| `video-gen` | No | Yes | Generate videos |
 
-Install them for Codex:
+You can give an agent only this instruction:
+
+> Install every skill compatible with your runtime from https://github.com/zditor/zditor-docs
+
+The agent can clone the repository, read the catalog, and run the installer. To install manually for Codex:
 
 ```bash
-git clone https://github.com/zditor/zditor-docs.git
+git clone --depth 1 https://github.com/zditor/zditor-docs.git
 cd zditor-docs
-./scripts/install-codex-skills.sh
+./scripts/install-skills.sh --target codex
 ```
 
-The installer copies both skills into `$CODEX_HOME/skills` when `CODEX_HOME` is set, or `~/.codex/skills` otherwise. Restart Codex after installation.
+To install into the Zditor App:
 
-For Claude Code, open this repository as the workspace and use the repo-local commands in `.claude/commands`:
+```bash
+git clone --depth 1 https://github.com/zditor/zditor-docs.git
+./zditor-docs/scripts/install-skills.sh --target zditor
+```
 
-- `/zditor-syntax`
-- `/import-excel`
+The installer detects the Zditor App's global skills directory; on macOS it is `~/Library/Application Support/com.zditor.ai/skills`. Use `ZDITOR_SKILLS_DIR` or `--dest <skills-directory>` only for a non-default location. Existing skill directories are left unchanged, preserving local configuration. New installs copy `.env.example` templates but never `.env` or API keys. Configure credentials locally only for the skills you use, then reload the app.
 
 #### Powerful Text Formatting
 

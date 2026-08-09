@@ -11,6 +11,21 @@ You are the syntax assistant for the Zditor editor. Zditor extends standard Mark
 
 ---
 
+## Table of Contents
+
+- [Block-Level Syntax](#1-block-level-syntax)
+- [Inline Syntax](#2-inline-syntax)
+- [Extended Image Parameters](#3-extended-image-parameters)
+- [Pipe-Parameter Link System](#4-pipe-parameter-link-system)
+- [Line Breaks Inside Tables](#5-line-breaks-inside-tables)
+- [SmartText Symbol Shortcuts](#6-smarttext-symbol-shortcuts)
+- [Frontmatter Syntax Rules](#7-frontmatter-syntax-rules)
+- [Supported Field Types](#supported-field-types-11-total)
+- [Reserved System Fields](#reserved-system-fields)
+- [Complete SuperTag Workflow](#complete-supertag-workflow)
+- [Frontmatter Generation Rules](#frontmatter-generation-rules)
+- [Working Modes](#your-working-modes)
+
 ## Syntax Quick Reference
 
 ### 1. Block-Level Syntax
@@ -88,7 +103,9 @@ Use admonition blocks to create styled notices, warnings, and information panels
 
 #### 3. Block Math
 
-**Syntax:**
+Both dollar and LaTeX bracket delimiters are supported.
+
+**Dollar syntax:**
 
 ```markdown
 $$
@@ -96,10 +113,19 @@ formula content in LaTeX
 $$
 ```
 
-Single-line math is also supported:
+**LaTeX bracket syntax:**
+
+```markdown
+\[
+formula content in LaTeX
+\]
+```
+
+Single-line forms are also supported:
 
 ```markdown
 $$ E = mc^2 $$
+\[ E = mc^2 \]
 ```
 
 **Example:**
@@ -112,7 +138,16 @@ $$
 $$
 \sum_{i=1}^{n} i = \frac{n(n+1)}{2}
 $$
+
+\[
+\mathbf{A}\mathbf{x} = \mathbf{b}
+\]
 ```
+
+- Put the opening delimiter at the start of the block line, after any allowed indentation.
+- Close `\[` only with `\]`; `$$` does not close a `\[` block.
+- Zditor preserves `\[...\]` when serializing a formula that used bracket delimiters.
+- LaTeX bracket delimiters are enabled by default and can be disabled in the math-delimiter plugin setting.
 
 ---
 
@@ -159,15 +194,22 @@ Content that starts with a block-level HTML tag is parsed as renderable HTML:
 
 #### 6. Inline Math
 
-**Syntax:** `$formula$`
+Both dollar and LaTeX parenthesis delimiters are supported.
+
+**Syntax:** `$formula$` or `\(formula\)`
 
 **Example:**
 
 ```markdown
 The mass-energy equation $E = mc^2$ is a foundational formula in physics.
 
-The area of a circle is $S = \pi r^2$.
+The area of a circle is \(S = \pi r^2\).
 ```
+
+- Close `\(` only with `\)`; an empty or unclosed `\(...\)` remains plain text.
+- Spaces immediately inside `\(` and `\)` are allowed, unlike the stricter `$...$` form.
+- Zditor preserves `\(...\)` when serializing a formula that used parenthesis delimiters.
+- LaTeX parenthesis delimiters are enabled by default and share the math-delimiter plugin setting with `\[...\]`.
 
 ---
 

@@ -9,7 +9,7 @@ Generate images according to the user's requirements. Preserve the requested sub
 
 ## Setup
 
-Place this directory at `.zditor/skills/img-gen` inside the target workspace so Zditor Native Agent can discover it. Before first use, create `.env` beside `SKILL.md` from the included template:
+Install this directory into the Zditor App's global skills directory so Zditor Native Agent can discover it. When installing from this repository, use `scripts/install-skills.sh --target zditor`. Before first use, create `.env` beside `SKILL.md` from the included template:
 
 ```sh
 cp .env.example .env
@@ -19,7 +19,7 @@ Open `.env` and set `API_KEY` to an OpenAI API key. Keep `IMAGE_API_URL` unchang
 
 ## Generate
 
-Call `http_request` once per image. Replace the prompt and change model options only when the user requests different values.
+Call `http_request` once per image. Replace the prompt and change model options only when the user requests different values. Copy the exact final prompt and model from `body.value` into `image_metadata`; Zditor uses this metadata to display and copy the prompt with the generated image.
 
 ```json
 {
@@ -47,6 +47,10 @@ Call `http_request` once per image. Replace the prompt and change model options 
   },
   "save_to_session": "auto",
   "base64_json_path": "/data/0/b64_json",
+  "image_metadata": {
+    "prompt": "<same final prompt as body.value.prompt>",
+    "model": "gpt-image-2"
+  },
   "timeout_ms": 300000,
   "max_response_bytes": 67108864,
   "display_saved_image": true

@@ -59,25 +59,37 @@ Zditor 是一个所见即所得的 Markdown 编辑器，支持标准 Markdown，
 
 ## 技能
 
-这个仓库内置了两个可安装的 Codex skill，并同时保留了 Claude Code command：
+这个仓库现在是一套可由 agent 自动安装的 skill 集合。[`skills/manifest.json`](skills/manifest.json) 是机器可读清单，[`AGENTS.md`](AGENTS.md) 则明确告诉 agent 如何 clone 仓库并安装兼容的 skill。
 
-- `zditor-syntax`：帮助 agent 学习和使用 Zditor 扩展 Markdown 语法。
-- `import-excel`：将 Excel 文档转换为 Zditor 支持的数据库表。
+| Skill | Codex | Zditor Native Agent | 用途 |
+|---|:---:|:---:|---|
+| `zditor-syntax` | 支持 | 支持 | 生成和修复 Zditor 扩展 Markdown |
+| `import-excel` | 支持 | 支持 | 把 Excel 转换为 SuperTag 项目 |
+| `img-gen` | 不支持 | 支持 | 生成图片 |
+| `music-gen` | 不支持 | 支持 | 生成音乐 |
+| `speech-gen` | 不支持 | 支持 | 生成语音 |
+| `video-gen` | 不支持 | 支持 | 生成视频 |
 
-给 Codex 安装：
+直接把下面这句话发给 agent 即可：
+
+> 安装 https://github.com/zditor/zditor-docs 中所有适用于你当前运行环境的 skills。
+
+agent 会 clone 仓库、读取清单并执行安装脚本。手动给 Codex 安装时运行：
 
 ```bash
-git clone https://github.com/zditor/zditor-docs.git
+git clone --depth 1 https://github.com/zditor/zditor-docs.git
 cd zditor-docs
-./scripts/install-codex-skills.sh
+./scripts/install-skills.sh --target codex
 ```
 
-安装脚本会优先复制到 `$CODEX_HOME/skills`；如果没有设置 `CODEX_HOME`，则复制到 `~/.codex/skills`。安装完成后重启 Codex。
+安装到 Zditor App 时运行：
 
-如果使用 Claude Code，直接把这个仓库作为工作区打开，然后使用 `.claude/commands` 里的仓库级命令：
+```bash
+git clone --depth 1 https://github.com/zditor/zditor-docs.git
+./zditor-docs/scripts/install-skills.sh --target zditor
+```
 
-- `/zditor-syntax`
-- `/import-excel`
+安装器会自动识别 Zditor App 的全局 skills 目录；macOS 上是 `~/Library/Application Support/com.zditor.ai/skills`。只有 App 使用非默认位置时才需要设置 `ZDITOR_SKILLS_DIR` 或传入 `--dest <skills目录>`。已经存在的 skill 目录会保持原样，因此本地配置不会被覆盖；新安装只复制 `.env.example` 模板，绝不会复制 `.env` 或 API key。仅为需要使用的 skill 在本地填写凭据，然后重新加载 App。
 
 #### 强大的文本格式化功能
 

@@ -58,10 +58,37 @@ Downloads gibt es auf der [Releases-Seite](https://github.com/zditor/zditor-docs
 
 ## Skills
 
-In `.claude/commands` stehen aktuell zwei Skills bereit:
+Dieses Repository ist eine von Agents installierbare Skill-Sammlung. `skills/manifest.json` enthaelt den maschinenlesbaren Katalog und `AGENTS.md` die Clone- und Installationsanweisungen.
 
-- `zditor-syntax`: Hilft Agents beim Erlernen und Verwenden der erweiterten Zditor-Markdown-Syntax.
-- `import-excel`: Konvertiert Excel-Dateien in von Zditor unterstuetzte Datenbanktabellen.
+| Skill | Codex | Zditor Native Agent | Zweck |
+|---|:---:|:---:|---|
+| `zditor-syntax` | Ja | Ja | Zditor-Markdown erstellen und reparieren |
+| `import-excel` | Ja | Ja | Excel-Dateien in SuperTag-Projekte konvertieren |
+| `img-gen` | Nein | Ja | Bilder generieren |
+| `music-gen` | Nein | Ja | Musik generieren |
+| `speech-gen` | Nein | Ja | Sprache generieren |
+| `video-gen` | Nein | Ja | Videos generieren |
+
+Diese eine Anweisung reicht fuer einen Agent:
+
+> Installiere alle mit deiner Laufzeit kompatiblen Skills aus https://github.com/zditor/zditor-docs
+
+Manuelle Installation fuer Codex:
+
+```bash
+git clone --depth 1 https://github.com/zditor/zditor-docs.git
+cd zditor-docs
+./scripts/install-skills.sh --target codex
+```
+
+Installation in die Zditor App:
+
+```bash
+git clone --depth 1 https://github.com/zditor/zditor-docs.git
+./zditor-docs/scripts/install-skills.sh --target zditor
+```
+
+Der Installer erkennt das globale Skill-Verzeichnis der Zditor App; unter macOS ist es `~/Library/Application Support/com.zditor.ai/skills`. Fuer einen abweichenden Pfad kann `ZDITOR_SKILLS_DIR` oder `--dest <skills-directory>` verwendet werden. Vorhandene Skill-Verzeichnisse und lokale Konfigurationen bleiben unveraendert. Neue Installationen kopieren `.env.example`, aber niemals `.env` oder API-Schluessel.
 
 #### Leistungsstarke Textformatierung
 

@@ -6,6 +6,21 @@ description: "Import data from an Excel workbook and generate a Zditor SuperTag 
 
 You are an Excel -> Zditor SuperTag conversion assistant. Your job is to turn an Excel workbook into a Zditor-compatible SuperTag project.
 
+## Table of Contents
+
+- [Parameter Parsing](#parameter-parsing)
+- [Step 1: Read the Excel File](#step-1-read-the-excel-file)
+- [Step 2: Infer Field Types](#step-2-infer-field-types)
+- [Step 3: Extract Options](#step-3-extract-options-for-select-and-multiselect)
+- [Step 4: Infer Row and Col Layouts](#step-4-infer-row-and-col-layouts)
+- [Step 5: Handle Cover and Warm](#step-5-handle-cover-and-warm)
+- [Step 6: Generate Markdown File Names](#step-6-generate-markdown-file-names)
+- [Step 7: Build Frontmatter](#step-7-build-frontmatter)
+- [Step 8: Write Files](#step-8-create-the-output-directory-and-write-files)
+- [Full Execution Flow](#full-execution-flow)
+- [Error Handling](#error-handling)
+- [Example Output](#example-output)
+
 ## Parameter Parsing
 
 User command format:

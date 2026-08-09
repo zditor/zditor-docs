@@ -58,10 +58,37 @@ Zditor は WYSIWYG の Markdown エディタです。標準 Markdown をサポ�
 
 ## スキル
 
-`.claude/commands` では次の 2 つのスキルが利用できます。
+このリポジトリは Agent がインストールできるスキル集です。`skills/manifest.json` が機械可読カタログ、`AGENTS.md` が clone とインストールの手順です。
 
-- `zditor-syntax`: Zditor 拡張 Markdown 構文の学習と利用を支援します。
-- `import-excel`: Excel 文書を Zditor 対応のデータベース表へ変換します。
+| Skill | Codex | Zditor Native Agent | 用途 |
+|---|:---:|:---:|---|
+| `zditor-syntax` | 対応 | 対応 | Zditor 拡張 Markdown の生成と修正 |
+| `import-excel` | 対応 | 対応 | Excel を SuperTag プロジェクトに変換 |
+| `img-gen` | 非対応 | 対応 | 画像生成 |
+| `music-gen` | 非対応 | 対応 | 音楽生成 |
+| `speech-gen` | 非対応 | 対応 | 音声生成 |
+| `video-gen` | 非対応 | 対応 | 動画生成 |
+
+Agent には次の一文だけで依頼できます。
+
+> https://github.com/zditor/zditor-docs から、現在のランタイムに対応するすべての skills をインストールしてください。
+
+Codex へ手動でインストールする場合：
+
+```bash
+git clone --depth 1 https://github.com/zditor/zditor-docs.git
+cd zditor-docs
+./scripts/install-skills.sh --target codex
+```
+
+Zditor App へインストールする場合：
+
+```bash
+git clone --depth 1 https://github.com/zditor/zditor-docs.git
+./zditor-docs/scripts/install-skills.sh --target zditor
+```
+
+インストーラーは Zditor App のグローバル skills ディレクトリを自動検出します。macOS では `~/Library/Application Support/com.zditor.ai/skills` です。標準以外の場所を使う場合だけ `ZDITOR_SKILLS_DIR` または `--dest <skills-directory>` を指定します。既存の skill ディレクトリとローカル設定は変更しません。新規インストールでは `.env.example` のみをコピーし、`.env` や API key はコピーしません。
 
 #### 強力なテキスト整形
 

@@ -34,7 +34,7 @@ cover:
   description: ''
   label: Cover Image
   type: asset
-  value: ../../assets/movies/covers/逍遥骑士.jpg
+  value: https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%80%8D%E9%81%A5%E9%AA%91%E5%A3%AB.jpg
 director:
   description: ''
   label: Director

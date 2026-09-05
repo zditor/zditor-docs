@@ -13,7 +13,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../assets/guides/mermaid-guide-cover-nanobanana.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/guides/mermaid-guide-cover-nanobanana.jpg"
 col:
   type: array
   description:
@@ -28,7 +28,7 @@ avatar:
   type: asset
   description:
   label: Avatar
-  value: "../assets/nanobanana-avatar.svg"
+  value: "https://docs-assets.zditor.com/v1/assets/nanobanana-avatar.svg"
 tags:
   type: text
   description:

@@ -18,7 +18,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/math/deep-learning-formulas-cover.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/math/deep-learning-formulas-cover.jpg"
 col:
   type: array
   description:
@@ -38,7 +38,7 @@ avatar:
   type: asset
   description:
   label: Avatar
-  value: "../../assets/nanobanana-avatar.svg"
+  value: "https://docs-assets.zditor.com/v1/assets/nanobanana-avatar.svg"
 row:
   type: array
   description:

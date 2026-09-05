@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/银翼杀手.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%93%B6%E7%BF%BC%E6%9D%80%E6%89%8B.jpg"
 col:
   type: array
   description:

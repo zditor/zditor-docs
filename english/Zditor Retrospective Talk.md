@@ -2,19 +2,19 @@
 
 ## 1. Introduction
 
-[en_01_introduction.mp3](../assets/audio/zditor/en/en_01_introduction.mp3|mode=audio)
+[en_01_introduction.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_01_introduction.mp3|mode=audio)
 
 Hey everyone. After working on zditor for so long, I want to do a full retrospective — covering the product's backstory, the pitfalls we hit with our tech choices, where things stand today, the roadmap ahead, and our thoughts on monetization.
 
 ## 2. Motivation
 
-[en_02_motivation.mp3](../assets/audio/zditor/en/en_02_motivation.mp3|mode=audio)
+[en_02_motivation.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_02_motivation.mp3|mode=audio)
 
 I used to take notes in Evernote, then tried pretty much every other platform out there. None of them really worked for me, and since migrating data was such a pain, I eventually just abandoned everything I'd stored on each platform. After that, I started keeping all my docs and notes in GitHub repos and editing locally with Typora or VSCode. Later, I needed to share some documents with others. After some research, I found that while many projects support syncing repos directly — like GitBook and Mintlify — they typically only offer either fully public or fully private options. More granular permissions are a paid feature. Some of my documents, like company-related ones, obviously can't be public, but some personal notes I'd be happy to share. So I built zbook: a multi-tenant markdown document platform where multiple users can view rendered markdown docs in a browser. zbook had no editing functionality, so I then built zditor — a local markdown editor.
 
 ## 3. Surveying Editor Software
 
-[en_03_editor_software.mp3](../assets/audio/zditor/en/en_03_editor_software.mp3|mode=audio)
+[en_03_editor_software.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_03_editor_software.mp3|mode=audio)
 
 After some research, note-taking editors fall into three categories: cloud-based (like Notion), local-database (like Affine), and local-file-based (like Typora, Obsidian, VSCode).
 
@@ -22,7 +22,7 @@ You can find plenty of complaints about cloud-based products — privacy, networ
 
 ## 4. Surveying Editor Frameworks
 
-[en_04_editor_framework.mp3](../assets/audio/zditor/en/en_04_editor_framework.mp3|mode=audio)
+[en_04_editor_framework.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_04_editor_framework.mp3|mode=audio)
 
 Digging into editor frameworks, there are many options. Popular ones include ProseMirror and its wrapper tiptap, which I genuinely love. But at the time, tiptap's markdown support was quite limited and performance was poor. I also needed custom plugins for my formatting requirements, so I decided to do what tiptap does — build my own editor on top of ProseMirror.
 
@@ -30,7 +30,7 @@ I assumed it wouldn't be too hard, given all the existing ProseMirror plugins, t
 
 ## 5. Use Cases
 
-[en_05_use_cases.mp3](../assets/audio/zditor/en/en_05_use_cases.mp3|mode=audio)
+[en_05_use_cases.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_05_use_cases.mp3|mode=audio)
 
 Let me walk through some of zditor's use cases. The original vision was something like Typora — focused on editing, WYSIWYG, with changes syncing to disk in real time. But over time I kept adding features and expanding the scope: document revision and annotation, a local NotebookLM, local Agent workflows, and more.
 
@@ -48,7 +48,7 @@ zditor connects to state-of-the-art Agents — direct integration with Claude Co
 
 ## 6. The Tauri Mistake
 
-[en_06_tauri_mistake.mp3](../assets/audio/zditor/en/en_06_tauri_mistake.mp3|mode=audio)
+[en_06_tauri_mistake.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_06_tauri_mistake.mp3|mode=audio)
 
 When choosing a framework early on, I compared Electron and Tauri. Tauri's selling points — smaller bundle size, Rust memory safety, faster startup — won me over.
 
@@ -65,7 +65,7 @@ Why not migrate to Electron? Tauri does have real advantages — fine-grained pe
 
 ## 7. Roadmap
 
-[en_07_roadmap.mp3](../assets/audio/zditor/en/en_07_roadmap.mp3|mode=audio)
+[en_07_roadmap.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_07_roadmap.mp3|mode=audio)
 
 On the near-term agenda: first, excalidraw canvas improvements — support for more markdown node types, so dragging an element from markdown to the canvas auto-creates the appropriate node type (audio, video, attachment, etc.). Then: a node toolbar for the canvas with AI capabilities similar to the markdown toolbar — converting nodes to a hand-drawn style, formatting, and so on. Also a lasso toolbar for batch operations on selected nodes. Finally, **AI-powered markdown-to-canvas mind map conversion** at the node level — the current implementation is still pretty rough.
 
@@ -73,13 +73,13 @@ Beyond the canvas, I'm planning a mobile app. Tauri supports mobile natively, so
 
 ## 8. Plugin System
 
-[en_08_plugins.mp3](../assets/audio/zditor/en/en_08_plugins.mp3|mode=audio)
+[en_08_plugins.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_08_plugins.mp3|mode=audio)
 
 If all of the above comes together, I might build a plugin system. Some say plugins are Obsidian's moat — I don't think it's that hard to replicate. 90% of Obsidian's plugins have very few users, and in the AI era, most of those could be rebuilt in a couple of hours. The small number of high-quality, heavily-used plugins can become official features. In the AI era, the real ecosystem barrier is those few, genuinely high-quality plugins.
 
 ## 9. Commercialization
 
-[en_09_commercialization.mp3](../assets/audio/zditor/en/en_09_commercialization.mp3|mode=audio)
+[en_09_commercialization.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_09_commercialization.mp3|mode=audio)
 
 Software is fundamentally about scale — marginal cost approaches zero, so the upfront investment only makes sense if you grow the user base. The flip side: if your target audience is inherently small, don't over-invest; if your space has too many alternatives and you're not clearly the best, you can't grow the user base and you'll never recoup costs.
 
@@ -91,6 +91,6 @@ My commercialization philosophy for zditor: **phased evolution, respecting early
 
 ## 10. Closing Thoughts
 
-[en_10_closing.mp3](../assets/audio/zditor/en/en_10_closing.mp3|mode=audio)
+[en_10_closing.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_10_closing.mp3|mode=audio)
 
 The goal is simply to make it as good as possible. The UI still doesn't meet my own standards, but fine-tuning it takes enormous effort — going from 50 to 80 is easy; going from 80 to 100 is very hard. My honest view: within 1–2 years, zditor could realistically meet the needs of 50–80% of Obsidian's target users, which is a user base in the millions. Technically, surpassing Obsidian isn't that hard — commercially, we may not get the chance to find out. Over the years I've built a lot of projects: on-device AI models, Bluetooth chat apps, zbook — every one of them cost real effort, and every one of them failed. I don't know if this one will go further. Whatever happens, thank you for your support.

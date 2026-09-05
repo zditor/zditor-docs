@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/不可饶恕.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E4%B8%8D%E5%8F%AF%E9%A5%B6%E6%81%95.jpg"
 col:
   type: array
   description:

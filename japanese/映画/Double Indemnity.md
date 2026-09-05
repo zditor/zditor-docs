@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/双重赔偿.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%8F%8C%E9%87%8D%E8%B5%94%E5%81%BF.jpg"
 col:
   type: array
   description:

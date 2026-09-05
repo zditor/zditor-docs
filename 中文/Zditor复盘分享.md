@@ -2,19 +2,19 @@
 
 ## 一、开篇
 
-[zh_01_kaipian.mp3](../assets/audio/zditor/zh/zh_01_kaipian.mp3|mode=audio)
+[zh_01_kaipian.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_01_kaipian.mp3|mode=audio)
 
 大家好，做zditor这么久了， 这期想跟大家做一次复盘——聊聊产品的来龙去脉、技术选型上踩过的坑、当前进度与路线图，以及商业化方面的思考。
 
 ## 二、动机
 
-[zh_02_dongji.mp3](../assets/audio/zditor/zh/zh_02_dongji.mp3|mode=audio)
+[zh_02_dongji.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_02_dongji.mp3|mode=audio)
 
 我最早的时候做笔记文档啥的用的印象笔记，然后其他平台也都用过，后来发现不好用，由于数据迁移困难，最后数据都烂在各平台不要了。后来写文档做笔记啥的都建立一个github的仓库，然后本地用typora或者vscode编辑。再后来，我自己需要分享一些文档给别人，调研发现虽然有很多项目支持直接同步仓库，比如gitbook，mintlify,但是这些项目通常要么只能公开，要么只能私有，更细粒度的权限是付费功能。我的文档比如公司相关的显然不能公开，有些笔记自己写的可以分享给别人看。所以我就做了一个项目zbook，一个多租户的markdown文档平台，支持多用户在网页查看渲染好的markdown文档。zbook没有文档编辑功能，然后我就做了zditor，一个本地的markdown编辑器。
 
 ## 三、调研编辑器软件
 
-[zh_03_diaoyan_ruanjian.mp3](../assets/audio/zditor/zh/zh_03_diaoyan_ruanjian.mp3|mode=audio)
+[zh_03_diaoyan_ruanjian.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_03_diaoyan_ruanjian.mp3|mode=audio)
 
 经过一番调研，可以将笔记编辑器软件分成三类，一类是云端的，比如notion，一类是本地数据库的，比如affine，另一类是本地基于文件的，比如typora，obsidian，vscode。
 
@@ -22,7 +22,7 @@
 
 ## 四、调研编辑器本身
 
-[zh_04_diaoyan_bensheng.mp3](../assets/audio/zditor/zh/zh_04_diaoyan_bensheng.mp3|mode=audio)
+[zh_04_diaoyan_bensheng.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_04_diaoyan_bensheng.mp3|mode=audio)
 
 再次调研编辑器工具本身，有很多框架，流行的，比如prosemirror，比如基于prosemirror封装的tiptap，我真的很喜欢tiptap，但是当年tiptap对markdown的支持比较有限，性能拉垮，也为了更好的满足自己的格式需要做定制的插件，所以决定类似tiptap，在prosemirror上封装自己的编辑器。
 
@@ -30,7 +30,7 @@
 
 ## 五、使用场景
 
-[zh_05_shiyong_changjing.mp3](../assets/audio/zditor/zh/zh_05_shiyong_changjing.mp3|mode=audio)
+[zh_05_shiyong_changjing.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_05_shiyong_changjing.mp3|mode=audio)
 
 下面讲下zditor的一些使用场景。本来是想做一个类似typora的产品，聚焦编辑器相关功能，所见即所得，用户在软件中编辑，更改实时同步落盘到文件。不过后面逐渐追加功能，扩展使用场景，比如文档的修订和注释，本地notebooklm，本地Agent等场景。
 
@@ -48,7 +48,7 @@ zditor 接入先进 Agent——直连 claude code、gemini cli、codex、opencla
 
 ## 六、踩过的坑：Tauri 选型
 
-[zh_06_tauri_keng.mp3](../assets/audio/zditor/zh/zh_06_tauri_keng.mp3|mode=audio)
+[zh_06_tauri_keng.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_06_tauri_keng.mp3|mode=audio)
 
 最开始技术选型时，我对比了 electron 和 tauri，被 tauri 的几个卖点打动——包体积小、rust 内存安全、启动快——就选了 tauri。
 
@@ -65,7 +65,7 @@ zditor 接入先进 Agent——直连 claude code、gemini cli、codex、opencla
 
 ## 七、路线图
 
-[zh_07_luxiantu.mp3](../assets/audio/zditor/zh/zh_07_luxiantu.mp3|mode=audio)
+[zh_07_luxiantu.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_07_luxiantu.mp3|mode=audio)
 
 接下来想做的事，首先是excalidraw画布，支持更多的markdown节点类型：希望从 markdown 拖一个元素到画布时自动创建对应类型节点（比如音频、视频、附件等）。然后要支持画布的节点工具栏，要像 markdown 工具栏一样把 AI 能力扩展进来——节点转手绘风格、格式化等。然后支持套索工具栏：选中部分节点后做批量操作最后要支持利用ai实现**markdown到画布思维导图转换**：希望节点对节点级别的转换，目前的实现还比较简陋。
 
@@ -73,13 +73,13 @@ zditor 接入先进 Agent——直连 claude code、gemini cli、codex、opencla
 
 ## 八、插件化
 
-[zh_08_chajiianhua.mp3](../assets/audio/zditor/zh/zh_08_chajiianhua.mp3|mode=audio)
+[zh_08_chajiianhua.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_08_chajiianhua.mp3|mode=audio)
 
 如果上面都做好了，后续可能会做插件化。有人说插件是 obsidian 的护城河，但在我看来这件事并不难做。obsidian的90% 的插件其实没多少人用，此外在AI 时代这 90% 的插件交给 AI 写两小时内应该都能搞定。少量高质量插件可以做成官方的。AI 时代生态真正的壁垒，是那些少量、高质量的插件。
 
 ## 九、商业化
 
-[zh_09_shangyelhua.mp3](../assets/audio/zditor/zh/zh_09_shangyelhua.mp3|mode=audio)
+[zh_09_shangyelhua.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_09_shangyelhua.mp3|mode=audio)
 
 软件的本质是规模化——边际成本趋近于零，只有用户量级起来，前期投入才有意义。反过来说：目标用户群本身很小就没必要投入过多资源；所在领域平替很多，不做到最优秀就无法扩大用户群，回本无从谈起。
 
@@ -91,6 +91,6 @@ zditor 接入先进 Agent——直连 claude code、gemini cli、codex、opencla
 
 ## 十、总结
 
-[zh_10_zongjie.mp3](../assets/audio/zditor/zh/zh_10_zongjie.mp3|mode=audio)
+[zh_10_zongjie.mp3](https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_10_zongjie.mp3|mode=audio)
 
 总的想法是尽可能做到最好，比如会将UI做的更好，现在的ui完全不满足我的要求，但是仔细调整需要的精力太多了，从50分到80分很容易，而从80分到100分是很难的。从我的角度来看，可以在1-2年内满足50%-80%的obsidian的目标用户的需求，这样目标用户的规模也有百万级了。从技术上讲超越obsidian不是啥难事，但是商业上讲可能走不到那一天。过去这些年做了好多个项目，从开始的做的端侧AI模型，到蓝牙聊天，再到zbook，虽然每一个都花了很多心力，最后都失败了。不知道这次能否走的更远了，无论最后结果会如何，还是感谢大家的支持。

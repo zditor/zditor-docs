@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/斯巴达克斯.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%96%AF%E5%B7%B4%E8%BE%BE%E5%85%8B%E6%96%AF.jpg"
 col:
   type: array
   description:

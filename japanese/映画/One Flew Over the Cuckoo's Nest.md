@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/飞越疯人院.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%A3%9E%E8%B6%8A%E7%96%AF%E4%BA%BA%E9%99%A2.jpg"
 col:
   type: array
   description:

@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/辛德勒的名单.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E8%BE%9B%E5%BE%B7%E5%8B%92%E7%9A%84%E5%90%8D%E5%8D%95.jpg"
 col:
   type: array
   description:

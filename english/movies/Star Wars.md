@@ -34,7 +34,7 @@ cover:
   description: ''
   label: Cover Image
   type: asset
-  value: ../../assets/movies/covers/星球大战.jpg
+  value: https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%98%9F%E7%90%83%E5%A4%A7%E6%88%98.jpg
 director:
   description: ''
   label: Director

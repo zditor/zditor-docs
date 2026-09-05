@@ -6,9 +6,14 @@ Media from the original Git LFS snapshot is hosted in the dedicated
 buckets serve separate workloads.
 
 `assets/r2-manifest.json` records each original path, object key, public URL,
-content type, size and SHA-256 hash. It includes the PDF annotation sidecar so
-PDF cards can request highlight metadata and thumbnails alongside the PDF.
-Media URLs preserve Zditor options such as `|mode=audio` and `|highlight=...`.
+content type, size and SHA-256 hash. It includes the PDF annotation sidecar and
+its thumbnails. Audio and video URLs preserve Zditor playback options.
+
+Zditor's current PDF card toolbar resolves highlights through its local file
+index. The four Transformer articles therefore display each remote excerpt as
+a PDF page link plus its annotation thumbnail. The original annotation JSON
+and highlight IDs remain available alongside the PDF for compatible clients.
+The skill reference retains local PDF card syntax examples.
 
 ## Migration and recovery
 

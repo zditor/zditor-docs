@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/外星人ET.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%A4%96%E6%98%9F%E4%BA%BAET.jpg"
 col:
   type: array
   description:

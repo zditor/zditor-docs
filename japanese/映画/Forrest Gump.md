@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/阿甘正传.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%98%BF%E7%94%98%E6%AD%A3%E4%BC%A0.jpg"
 col:
   type: array
   description:

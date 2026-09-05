@@ -34,7 +34,7 @@ cover:
   description: ''
   label: Cover Image
   type: asset
-  value: ../../assets/movies/covers/日出.jpg
+  value: https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%97%A5%E5%87%BA.jpg
 director:
   description: ''
   label: Director

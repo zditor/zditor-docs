@@ -38,7 +38,7 @@ cover:
   type: asset
   description: 
   label: Cover Image
-  value: "../../assets/math/math-formulas-cover.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/math/math-formulas-cover.jpg"
 author:
   type: text
   description: 
@@ -48,7 +48,7 @@ avatar:
   type: asset
   description: 
   label: Avatar
-  value: "../../assets/nanobanana-avatar.svg"
+  value: "https://docs-assets.zditor.com/v1/assets/nanobanana-avatar.svg"
 description:
   type: text
   description: 

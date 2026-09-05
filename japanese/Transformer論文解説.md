@@ -13,7 +13,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../assets/papers/transformer-paper-cover-nanobanana.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/papers/transformer-paper-cover-nanobanana.jpg"
 col:
   type: array
   description:
@@ -28,7 +28,7 @@ avatar:
   type: asset
   description:
   label: Avatar
-  value: "../assets/nanobanana-avatar.svg"
+  value: "https://docs-assets.zditor.com/v1/assets/nanobanana-avatar.svg"
 tags:
   type: text
   description:
@@ -70,7 +70,7 @@ row:
 - 掲載: NeurIPS 2017
 - 著者: Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin
 - arXiv: <https://arxiv.org/abs/1706.03762>
-- ローカル PDF アセット: [attention.pdf](../assets/papers/attention.pdf)
+- PDF: [attention.pdf](https://docs-assets.zditor.com/v1/assets/papers/attention.pdf)
 
 ## 中核アイデア
 
@@ -95,7 +95,7 @@ Transformer 以前の系列モデリングは、LSTM や GRU などの再帰ネ�
 
 Encoder と Decoder の各サブレイヤーには residual connection と LayerNorm が入り、ResNet と Layer Normalization の設計知見を受け継いでいます [^1][^11]。さらに入力埋め込み、出力埋め込み、softmax 前の線形層で重みを共有しており、出力埋め込み共有の流れとも整合しています [^30]。
 
-![Transformer architecture](../assets/papers/transformer-paper-cover-nanobanana.jpg)
+![Transformer architecture](https://docs-assets.zditor.com/v1/assets/papers/transformer-paper-cover-nanobanana.jpg)
 
 ## 主要メカニズム
 
@@ -107,11 +107,13 @@ $$
 
 このスケーリングは、内積が大きくなりすぎて softmax が極端に鋭くなるのを防ぐためのものです。論文では、これを従来の additive attention とも比較しています [^2]。
 
-原論文のあの定番の図と直接見比べたい場合は、まず次の PDF 注釈カードを見ると分かりやすいです。scaled dot-product attention を説明している原論文中の該当箇所をそのまま囲っているので、数式や図と並べて読むのに向いています。
+原論文の定番の図と直接見比べたい場合は、次の論文リンクと注釈のスクリーンショットを参照してください。scaled dot-product attention を説明している原論文中の該当箇所を囲っているので、数式や図と並べて読むのに向いています。
 
-[論文](/assets/papers/attention.pdf|mode=pdf_card|highlight=873c76c8-9921-4012-b91a-3bc6e5452330)
+[論文](https://docs-assets.zditor.com/v1/assets/papers/attention.pdf#page=4)
 
-![Scaled Dot-Product Attention](../assets/papers/scaled-dot-product-attention.jpg)
+![論文](https://docs-assets.zditor.com/v1/assets/papers/assets/2026-04-20/1776690542_878e.png)
+
+![Scaled Dot-Product Attention](https://docs-assets.zditor.com/v1/assets/papers/scaled-dot-product-attention.jpg)
 
 ### Multi-Head Attention
 
@@ -121,7 +123,7 @@ $$
 \text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h)W^O
 $$
 
-![Multi-Head Attention](../assets/papers/multi-head-attention.jpg)
+![Multi-Head Attention](https://docs-assets.zditor.com/v1/assets/papers/multi-head-attention.jpg)
 
 ### Positional Encoding
 
@@ -135,7 +137,7 @@ $$
 PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right)
 $$
 
-![Positional Encoding](../assets/papers/positional-encoding.jpg)
+![Positional Encoding](https://docs-assets.zditor.com/v1/assets/papers/positional-encoding.jpg)
 
 著者らは learned positional embeddings も試しており、畳み込み系列モデルで使われる学習可能な位置表現と近い結果を報告しています。そのうえで、より長い系列へ外挿しやすい sinusoidal encoding を採用しました [^9]。
 
@@ -143,7 +145,7 @@ $$
 
 各トークン位置は同じ 2 層の Feed-Forward Network を独立に通過します。
 
-![Encoder layer detail](../assets/papers/encoder-layer.jpg)
+![Encoder layer detail](https://docs-assets.zditor.com/v1/assets/papers/encoder-layer.jpg)
 
 ## 最小 PyTorch 例
 

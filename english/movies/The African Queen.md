@@ -34,7 +34,7 @@ cover:
   description: ''
   label: Cover Image
   type: asset
-  value: ../../assets/movies/covers/非洲女王.jpg
+  value: https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%9D%9E%E6%B4%B2%E5%A5%B3%E7%8E%8B.jpg
 director:
   description: ''
   label: Director

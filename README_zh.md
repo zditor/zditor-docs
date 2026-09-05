@@ -2,7 +2,7 @@
 
 <h1 style="border-bottom: none">
 <b><a href="https://zditor.com">
-<img alt="zditor_logo" src="assets/logo.svg" style="width: 80%">
+<img alt="zditor_logo" src="https://docs-assets.zditor.com/v1/assets/logo.svg" style="width: 80%">
 </a></b><br />
 原生Agent、轻量、高性能、写画一体
 <br>
@@ -33,7 +33,7 @@
 <p align="center">这个仓库是 Zditor 的 Markdown 文档仓库，切换到 <code>docs</code> 分支可以查看富文本文档。</p>
 
 <p align="center">
-<img alt="home" src="assets/home_zh.png">
+<img alt="home" src="https://docs-assets.zditor.com/v1/assets/home_zh.png">
 </p>
 
 ## 目录

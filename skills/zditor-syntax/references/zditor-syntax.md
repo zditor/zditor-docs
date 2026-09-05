@@ -520,7 +520,7 @@ Inside the body, the node is rendered as an inline PDF tag such as `Card Title Â
 **Example:**
 
 ```markdown
-[scale dot](/assets/papers/attention.pdf|mode=pdf_card|highlight=873c76c8-9921-4012-b91a-3bc6e5452330)
+[scale dot](./papers/attention.pdf|mode=pdf_card|highlight=873c76c8-9921-4012-b91a-3bc6e5452330)
 
 [attention](./papers/attention.pdf|mode=pdf_card|highlight=fc184920-05e7-4424-84e6-e5be3d46f8df)
 ```
@@ -528,7 +528,7 @@ Inside the body, the node is rendered as an inline PDF tag such as `Card Title Â
 **Annotation file example:**
 
 ```text
-assets/papers/attention.pdf.zditor-pdf-annotation.json
+papers/attention.pdf.zditor-pdf-annotation.json
 ```
 
 Each highlight entry usually contains:

@@ -1,6 +1,6 @@
 # 视频
 
-[bailian-presentation.mp4](bailian-presentation.mp4|mode=video)
+[bailian-presentation.mp4](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/bailian-presentation.mp4|mode=video)
 
 # 从"记住你"到个体化 AI
 
@@ -10,11 +10,11 @@
 
 ## 第 1 页
 
-![第1页](ppt_images/0001-title.jpg)
+![第1页](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0001-title.jpg)
 
 ### 音频
 
-[page_01.mp3](audio_pages/page_01.mp3|mode=audio)
+[page_01.mp3](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_01.mp3|mode=audio)
 
 ### 页上文字
 
@@ -27,11 +27,11 @@
 
 ## 第 2 页
 
-![第2页](ppt_images/0002-memory.jpg)
+![第2页](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0002-memory.jpg)
 
 ### 音频
 
-[page_02.mp3](audio_pages/page_02.mp3|mode=audio)
+[page_02.mp3](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_02.mp3|mode=audio)
 
 ### 页上文字
 
@@ -45,11 +45,11 @@
 
 ## 第 3 页
 
-![第3页](ppt_images/0003-distributed.jpg)
+![第3页](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0003-distributed.jpg)
 
 ### 音频
 
-[page_03.mp3](audio_pages/page_03.mp3|mode=audio)
+[page_03.mp3](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_03.mp3|mode=audio)
 
 ### 页上文字
 
@@ -63,11 +63,11 @@
 
 ## 第 4 页
 
-![第4页](ppt_images/0004-narrative.jpg)
+![第4页](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0004-narrative.jpg)
 
 ### 音频
 
-[page_04.mp3](audio_pages/page_04.mp3|mode=audio)
+[page_04.mp3](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_04.mp3|mode=audio)
 
 ### 页上文字
 
@@ -81,11 +81,11 @@
 
 ## 第 5 页
 
-![第5页](ppt_images/0005-scale.jpg)
+![第5页](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0005-scale.jpg)
 
 ### 音频
 
-[page_05.mp3](audio_pages/page_05.mp3|mode=audio)
+[page_05.mp3](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_05.mp3|mode=audio)
 
 ### 页上文字
 
@@ -99,11 +99,11 @@
 
 ## 第 6 页
 
-![第6页](ppt_images/0006-godview.jpg)
+![第6页](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0006-godview.jpg)
 
 ### 音频
 
-[page_06.mp3](audio_pages/page_06.mp3|mode=audio)
+[page_06.mp3](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_06.mp3|mode=audio)
 
 ### 页上文字
 
@@ -117,11 +117,11 @@
 
 ## 第 7 页
 
-![第7页](ppt_images/0007-retrieval.jpg)
+![第7页](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0007-retrieval.jpg)
 
 ### 音频
 
-[page_07.mp3](audio_pages/page_07.mp3|mode=audio)
+[page_07.mp3](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_07.mp3|mode=audio)
 
 ### 页上文字
 
@@ -135,11 +135,11 @@
 
 ## 第 8 页
 
-![第8页](ppt_images/0008-personal.jpg)
+![第8页](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0008-personal.jpg)
 
 ### 音频
 
-[page_08.mp3](audio_pages/page_08.mp3|mode=audio)
+[page_08.mp3](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_08.mp3|mode=audio)
 
 ### 页上文字
 
@@ -153,11 +153,11 @@
 
 ## 第 9 页
 
-![第9页](ppt_images/0009-tension.jpg)
+![第9页](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0009-tension.jpg)
 
 ### 音频
 
-[page_09.mp3](audio_pages/page_09.mp3|mode=audio)
+[page_09.mp3](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_09.mp3|mode=audio)
 
 ### 页上文字
 
@@ -171,11 +171,11 @@
 
 ## 第 10 页
 
-![第10页](ppt_images/0010-conclusion.jpg)
+![第10页](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0010-conclusion.jpg)
 
 ### 音频
 
-[page_10.mp3](audio_pages/page_10.mp3|mode=audio)
+[page_10.mp3](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_10.mp3|mode=audio)
 
 ### 页上文字
 
@@ -189,11 +189,11 @@
 
 ## 第 11 页
 
-![第11页](ppt_images/0011-ending.jpg)
+![第11页](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0011-ending.jpg)
 
 ### 音频
 
-[page_11.mp3](audio_pages/page_11.mp3|mode=audio)
+[page_11.mp3](https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_11.mp3|mode=audio)
 
 ### 页上文字
 

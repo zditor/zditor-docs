@@ -33,7 +33,7 @@ avatar:
   type: asset
   description: 
   label: Avatar
-  value: "../assets/nanobanana-avatar.svg"
+  value: "https://docs-assets.zditor.com/v1/assets/nanobanana-avatar.svg"
 col:
   type: array
   description: 
@@ -48,7 +48,7 @@ cover:
   type: asset
   description: 
   label: Cover Image
-  value: "../assets/papers/transformer-paper-cover-nanobanana.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/papers/transformer-paper-cover-nanobanana.jpg"
 description:
   type: text
   description: 
@@ -70,7 +70,7 @@ row:
 - 会议：NeurIPS 2017
 - 作者：Ashish Vaswani、Noam Shazeer、Niki Parmar、Jakob Uszkoreit、Llion Jones、Aidan N. Gomez、Lukasz Kaiser、Illia Polosukhin
 - arXiv：<https://arxiv.org/abs/1706.03762>
-- 本地 PDF 资源：[attention.pdf](../assets/papers/attention.pdf)
+- PDF 资源：[attention.pdf](https://docs-assets.zditor.com/v1/assets/papers/attention.pdf)
 
 ## 核心思想
 
@@ -95,7 +95,7 @@ row:
 
 编码器和解码器的每个子层都带有残差连接与 LayerNorm，这一点分别继承了 ResNet 与 Layer Normalization 的设计经验 [^1][^11]。论文还共享了输入嵌入、输出嵌入和 softmax 前线性层的权重矩阵，这与输出嵌入共享的做法一致 [^30]。
 
-![Transformer 架构图](../assets/papers/transformer-paper-cover-nanobanana.jpg)
+![Transformer 架构图](https://docs-assets.zditor.com/v1/assets/papers/transformer-paper-cover-nanobanana.jpg)
 
 ## 关键机制
 
@@ -107,13 +107,15 @@ $$
 
 这里的缩放项用于避免点积数值过大，让 softmax 过早进入非常尖锐的区域。论文也把它与更早的 additive attention 工作做了对照说明 [^2]。
 
-如果想直接对照原论文里的那张经典示意图，可以先看下面这张 PDF 批注卡。它圈出的正是论文中解释 scaled dot-product attention 的关键区域，适合和公式、示意图一起对照阅读。
+如果想直接对照原论文里的那张经典示意图，可以先看下面的论文链接和批注截图。截图圈出的正是论文中解释 scaled dot-product attention 的关键区域，适合和公式、示意图一起对照阅读。
 
-[论文](/assets/papers/attention.pdf|mode=pdf_card|highlight=873c76c8-9921-4012-b91a-3bc6e5452330)
+[论文](https://docs-assets.zditor.com/v1/assets/papers/attention.pdf#page=4)
+
+![论文](https://docs-assets.zditor.com/v1/assets/papers/assets/2026-04-20/1776690542_878e.png)
 
 下面这张整理后的示意图则更适合快速看清这一机制的输入、打分、softmax 和加权求和过程。
 
-![Scaled Dot-Product Attention](../assets/papers/scaled-dot-product-attention.jpg)
+![Scaled Dot-Product Attention](https://docs-assets.zditor.com/v1/assets/papers/scaled-dot-product-attention.jpg)
 
 ### Multi-Head Attention
 
@@ -123,7 +125,7 @@ $$
 \text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h)W^O
 $$
 
-![Multi-Head Attention](../assets/papers/multi-head-attention.jpg)
+![Multi-Head Attention](https://docs-assets.zditor.com/v1/assets/papers/multi-head-attention.jpg)
 
 ### Positional Encoding
 
@@ -137,7 +139,7 @@ $$
 PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right)
 $$
 
-![Positional Encoding](../assets/papers/positional-encoding.jpg)
+![Positional Encoding](https://docs-assets.zditor.com/v1/assets/papers/positional-encoding.jpg)
 
 作者也实验了 learned positional embeddings，并指出结果与卷积式序列模型中使用的可学习位置表示相近，因此最终保留了更容易外推到长序列的正弦位置编码 [^9]。
 
@@ -145,7 +147,7 @@ $$
 
 每个位置都会独立经过同一个两层前馈网络，这让模型在注意力之后还能完成非线性变换。
 
-![Encoder Layer 细节](../assets/papers/encoder-layer.jpg)
+![Encoder Layer 细节](https://docs-assets.zditor.com/v1/assets/papers/encoder-layer.jpg)
 
 ## 最小 PyTorch 示例
 

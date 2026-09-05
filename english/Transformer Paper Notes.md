@@ -13,7 +13,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../assets/papers/transformer-paper-cover-nanobanana.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/papers/transformer-paper-cover-nanobanana.jpg"
 col:
   type: array
   description:
@@ -28,7 +28,7 @@ avatar:
   type: asset
   description:
   label: Avatar
-  value: "../assets/nanobanana-avatar.svg"
+  value: "https://docs-assets.zditor.com/v1/assets/nanobanana-avatar.svg"
 tags:
   type: text
   description:
@@ -70,7 +70,7 @@ This page is a concise reading note for the 2017 Transformer paper, one of the m
 - Venue: NeurIPS 2017
 - Authors: Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N. Gomez, Lukasz Kaiser, Illia Polosukhin
 - arXiv: <https://arxiv.org/abs/1706.03762>
-- Local PDF asset: [attention.pdf](../assets/papers/attention.pdf)
+- PDF asset: [attention.pdf](https://docs-assets.zditor.com/v1/assets/papers/attention.pdf)
 
 ## Core Idea
 
@@ -95,7 +95,7 @@ Before the Transformer, sequence modeling was dominated by recurrent networks su
 
 Each encoder and decoder sublayer uses residual connections and LayerNorm, inheriting ideas from ResNet and Layer Normalization [^1][^11]. The paper also shares the weight matrix across the input embedding, output embedding, and pre-softmax linear layer, following prior work on output-embedding weight tying [^30].
 
-![Transformer architecture](../assets/papers/transformer-paper-cover-nanobanana.jpg)
+![Transformer architecture](https://docs-assets.zditor.com/v1/assets/papers/transformer-paper-cover-nanobanana.jpg)
 
 ## Key Mechanisms
 
@@ -108,11 +108,13 @@ $$
 The scaling term keeps large dot products from pushing softmax into extremely sharp regions.
 The paper also contrasts it with earlier additive attention [^2].
 
-If you want to compare this directly with the classic figure in the original paper, start with the PDF annotation card below. It highlights the exact region where the paper explains scaled dot-product attention, which makes it easier to read side by side with the formula and the diagram.
+To compare this directly with the classic figure in the original paper, use the paper link and annotation screenshot below. The screenshot highlights the exact region where the paper explains scaled dot-product attention, making it easier to read alongside the formula and diagram.
 
-[Paper](/assets/papers/attention.pdf|mode=pdf_card|highlight=873c76c8-9921-4012-b91a-3bc6e5452330)
+[Paper](https://docs-assets.zditor.com/v1/assets/papers/attention.pdf#page=4)
 
-![Scaled Dot-Product Attention](../assets/papers/scaled-dot-product-attention.jpg)
+![Paper](https://docs-assets.zditor.com/v1/assets/papers/assets/2026-04-20/1776690542_878e.png)
+
+![Scaled Dot-Product Attention](https://docs-assets.zditor.com/v1/assets/papers/scaled-dot-product-attention.jpg)
 
 ### Multi-Head Attention
 
@@ -122,7 +124,7 @@ $$
 \text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h)W^O
 $$
 
-![Multi-Head Attention](../assets/papers/multi-head-attention.jpg)
+![Multi-Head Attention](https://docs-assets.zditor.com/v1/assets/papers/multi-head-attention.jpg)
 
 ### Positional Encoding
 
@@ -136,7 +138,7 @@ $$
 PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right)
 $$
 
-![Positional Encoding](../assets/papers/positional-encoding.jpg)
+![Positional Encoding](https://docs-assets.zditor.com/v1/assets/papers/positional-encoding.jpg)
 
 The authors also tested learned positional embeddings and reported similar results to the learnable position representations used in convolutional sequence models, so they kept sinusoidal encodings because they extrapolate more naturally to longer sequences [^9].
 
@@ -144,7 +146,7 @@ The authors also tested learned positional embeddings and reported similar resul
 
 Each token position passes through the same two-layer feed-forward network independently.
 
-![Encoder layer detail](../assets/papers/encoder-layer.jpg)
+![Encoder layer detail](https://docs-assets.zditor.com/v1/assets/papers/encoder-layer.jpg)
 
 ## Minimal PyTorch Example
 

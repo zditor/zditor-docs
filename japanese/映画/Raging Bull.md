@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/愤怒的公牛.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%84%A4%E6%80%92%E7%9A%84%E5%85%AC%E7%89%9B.jpg"
 col:
   type: array
   description:

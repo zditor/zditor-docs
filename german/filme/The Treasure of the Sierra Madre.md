@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/塞拉山的宝藏.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%A1%9E%E6%8B%89%E5%B1%B1%E7%9A%84%E5%AE%9D%E8%97%8F.jpg"
 col:
   type: array
   description:

@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/为所应为.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E4%B8%BA%E6%89%80%E5%BA%94%E4%B8%BA.jpg"
 col:
   type: array
   description:

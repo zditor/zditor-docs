@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/拯救大兵瑞恩.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%8B%AF%E6%95%91%E5%A4%A7%E5%85%B5%E7%91%9E%E6%81%A9.jpg"
 col:
   type: array
   description:

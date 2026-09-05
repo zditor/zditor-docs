@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/电视台风云.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%94%B5%E8%A7%86%E5%8F%B0%E9%A3%8E%E4%BA%91.jpg"
 col:
   type: array
   description:

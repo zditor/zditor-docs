@@ -34,7 +34,7 @@ cover:
   description: ''
   label: Cover Image
   type: asset
-  value: ../../assets/movies/covers/美国风情画.jpg
+  value: https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%BE%8E%E5%9B%BD%E9%A3%8E%E6%83%85%E7%94%BB.jpg
 director:
   description: ''
   label: Director

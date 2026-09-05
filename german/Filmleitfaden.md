@@ -13,7 +13,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../assets/movies/covers/教父.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%95%99%E7%88%B6.jpg"
 col:
   type: array
   description:
@@ -28,7 +28,7 @@ avatar:
   type: asset
   description:
   label: Avatar
-  value: "../assets/nanobanana-avatar.svg"
+  value: "https://docs-assets.zditor.com/v1/assets/nanobanana-avatar.svg"
 tags:
   type: text
   description:

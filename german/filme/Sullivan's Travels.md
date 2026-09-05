@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/苏利文的旅行.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E8%8B%8F%E5%88%A9%E6%96%87%E7%9A%84%E6%97%85%E8%A1%8C.jpg"
 col:
   type: array
   description:

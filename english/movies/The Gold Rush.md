@@ -34,7 +34,7 @@ cover:
   description: ''
   label: Cover Image
   type: asset
-  value: ../../assets/movies/covers/淘金记.jpg
+  value: https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%B7%98%E9%87%91%E8%AE%B0.jpg
 director:
   description: ''
   label: Director

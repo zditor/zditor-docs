@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/黄金时代.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%BB%84%E9%87%91%E6%97%B6%E4%BB%A3.jpg"
 col:
   type: array
   description:

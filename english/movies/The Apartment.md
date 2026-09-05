@@ -34,7 +34,7 @@ cover:
   description: ''
   label: Cover Image
   type: asset
-  value: ../../assets/movies/covers/公寓春光.jpg
+  value: https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%85%AC%E5%AF%93%E6%98%A5%E5%85%89.jpg
 director:
   description: ''
   label: Director

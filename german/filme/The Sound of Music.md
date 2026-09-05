@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/音乐之声.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%9F%B3%E4%B9%90%E4%B9%8B%E5%A3%B0.jpg"
 col:
   type: array
   description:

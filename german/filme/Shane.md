@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/原野奇侠.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%8E%9F%E9%87%8E%E5%A5%87%E4%BE%A0.jpg"
 col:
   type: array
   description:

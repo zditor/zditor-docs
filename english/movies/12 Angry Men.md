@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/十二怒汉.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%8D%81%E4%BA%8C%E6%80%92%E6%B1%89.jpg"
 col:
   type: array
   description:

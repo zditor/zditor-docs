@@ -34,7 +34,7 @@ cover:
   description: ''
   label: Cover Image
   type: asset
-  value: ../../assets/movies/covers/热情如火.jpg
+  value: https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%83%AD%E6%83%85%E5%A6%82%E7%81%AB.jpg
 director:
   description: ''
   label: Director

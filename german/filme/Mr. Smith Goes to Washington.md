@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/史密斯先生到华盛顿.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%8F%B2%E5%AF%86%E6%96%AF%E5%85%88%E7%94%9F%E5%88%B0%E5%8D%8E%E7%9B%9B%E9%A1%BF.jpg"
 col:
   type: array
   description:

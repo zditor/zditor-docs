@@ -23,7 +23,7 @@
       "color": "#facc15",
       "title": "attention",
       "comment": "attention layer",
-      "thumbnail": "/Users/zz/github/zditor-docs/assets/papers/assets/2026-04-20/1776690488_a11b.png"
+      "thumbnail": "https://docs-assets.zditor.com/v1/assets/papers/assets/2026-04-20/1776690488_a11b.png"
     },
     {
       "id": "873c76c8-9921-4012-b91a-3bc6e5452330",
@@ -38,7 +38,7 @@
       "color": "#93c5fd",
       "title": "scale dot",
       "comment": "scaled dot-product attention",
-      "thumbnail": "/Users/zz/github/zditor-docs/assets/papers/assets/2026-04-20/1776690542_878e.png"
+      "thumbnail": "https://docs-assets.zditor.com/v1/assets/papers/assets/2026-04-20/1776690542_878e.png"
     }
   ]
 }

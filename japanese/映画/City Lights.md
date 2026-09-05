@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/城市之光.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%9F%8E%E5%B8%82%E4%B9%8B%E5%85%89.jpg"
 col:
   type: array
   description:

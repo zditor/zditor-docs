@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/洛奇.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%B4%9B%E5%A5%87.jpg"
 col:
   type: array
   description:

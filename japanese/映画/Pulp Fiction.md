@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/低俗小说.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E4%BD%8E%E4%BF%97%E5%B0%8F%E8%AF%B4.jpg"
 col:
   type: array
   description:

@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/乱世佳人.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E4%B9%B1%E4%B8%96%E4%BD%B3%E4%BA%BA.jpg"
 col:
   type: array
   description:

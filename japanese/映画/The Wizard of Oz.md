@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/绿野仙踪.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%BB%BF%E9%87%8E%E4%BB%99%E8%B8%AA.jpg"
 col:
   type: array
   description:

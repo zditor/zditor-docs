@@ -8,7 +8,7 @@ cover:
   type: asset
   description: 
   label: Cover Image
-  value: "../../assets/movies/covers/西北偏北.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E8%A5%BF%E5%8C%97%E5%81%8F%E5%8C%97.jpg"
 country:
   type: text
   description: 

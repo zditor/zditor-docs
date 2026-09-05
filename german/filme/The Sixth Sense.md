@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/第六感.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%AC%AC%E5%85%AD%E6%84%9F.jpg"
 col:
   type: array
   description:

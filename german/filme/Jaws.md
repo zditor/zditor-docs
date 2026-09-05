@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/大白鲨.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%A4%A7%E7%99%BD%E9%B2%A8.jpg"
 col:
   type: array
   description:

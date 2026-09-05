@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/费城故事.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E8%B4%B9%E5%9F%8E%E6%95%85%E4%BA%8B.jpg"
 col:
   type: array
   description:

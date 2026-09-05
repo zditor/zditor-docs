@@ -18,7 +18,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/math/chemistry-formulas-cover.svg"
+  value: "https://docs-assets.zditor.com/v1/assets/math/chemistry-formulas-cover.svg"
 col:
   type: array
   description:
@@ -38,7 +38,7 @@ avatar:
   type: asset
   description:
   label: Avatar
-  value: "../../assets/nanobanana-avatar.svg"
+  value: "https://docs-assets.zditor.com/v1/assets/nanobanana-avatar.svg"
 row:
   type: array
   description:

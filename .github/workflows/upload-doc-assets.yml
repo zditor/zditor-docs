@@ -2,12 +2,6 @@ name: Upload documentation assets to R2
 
 on:
   workflow_dispatch:
-  push:
-    branches: [migrate/lfs-to-r2]
-    paths:
-      - .github/workflows/upload-doc-assets.yml
-      - scripts/r2-assets.mjs
-      - assets/r2-manifest.json
 
 permissions:
   contents: read

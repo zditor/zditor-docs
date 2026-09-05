@@ -34,7 +34,7 @@ cover:
   description: ''
   label: Cover Image
   type: asset
-  value: ../../assets/movies/covers/玩具总动员.jpg
+  value: https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%8E%A9%E5%85%B7%E6%80%BB%E5%8A%A8%E5%91%98.jpg
 director:
   description: ''
   label: Director

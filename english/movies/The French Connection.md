@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/法国贩毒网.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%B3%95%E5%9B%BD%E8%B4%A9%E6%AF%92%E7%BD%91.jpg"
 col:
   type: array
   description:

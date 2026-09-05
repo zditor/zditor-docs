@@ -34,7 +34,7 @@ cover:
   description: ''
   label: Cover Image
   type: asset
-  value: ../../assets/movies/covers/鸭羹.jpg
+  value: https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%B8%AD%E7%BE%B9.jpg
 director:
   description: ''
   label: Director

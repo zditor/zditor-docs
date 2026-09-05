@@ -6,6 +6,7 @@ import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { parseArgs, promisify } from 'node:util';
 import { pathToFileURL } from 'node:url';
+import { setTimeout as delay } from 'node:timers/promises';
 
 const execFile = promisify(execFileCallback);
 const manifestPath = 'assets/r2-manifest.json';
@@ -62,6 +63,17 @@ export function rewriteJSON(value, filename, assets, sourceRoot) {
     return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, rewriteJSON(v, filename, assets, sourceRoot)]));
   }
   return value;
+}
+
+export function rewritePDFCards(text, pdfURL, highlights) {
+  const pattern = new RegExp('\\[([^\\]\\n]+)\\]\\(' + escapeRegExp(pdfURL) + '\\|([^\\)\\n]+)\\)', 'g');
+  return text.replace(pattern, (original, label, options) => {
+    const params = new URLSearchParams(options.replaceAll('|', '&'));
+    if (params.get('mode') !== 'pdf_card') return original;
+    const highlight = highlights.find(h => h.id === params.get('highlight'));
+    if (!highlight?.thumbnail) throw new Error(`Missing PDF card thumbnail: ${label}`);
+    return `[${label}](${pdfURL}#page=${highlight.pageIndex + 1})\n\n![${label}](${highlight.thumbnail})`;
+  });
 }
 
 export async function payload(asset, manifest, sourceRoot) {
@@ -138,11 +150,30 @@ async function forEachAsset(assets, fn) {
 }
 
 export async function verifyAsset(asset) {
-  const response = await fetch(asset.url, { signal: AbortSignal.timeout(120000) });
-  if (!response.ok) throw new Error(`Public URL returned HTTP ${response.status}: ${asset.path}`);
-  const type = response.headers.get('content-type')?.split(';')[0];
-  if (type !== asset.content_type) throw new Error(`Unexpected Content-Type ${type}: ${asset.path}`);
-  checkBytes(Buffer.from(await response.arrayBuffer()), asset);
+  for (let attempt = 0; attempt < 3; attempt++) {
+    let response;
+    let data;
+    try {
+      response = await fetch(asset.url, { signal: AbortSignal.timeout(120000) });
+      if (response.ok) data = Buffer.from(await response.arrayBuffer());
+    } catch (error) {
+      if (attempt === 2) throw new Error(`Download failed: ${asset.path} (${error.cause?.code || error.message})`);
+      await delay(1000 * (attempt + 1));
+      continue;
+    }
+    if (!response.ok) {
+      await response.body?.cancel();
+      if (attempt < 2 && (response.status === 429 || response.status >= 500)) {
+        await delay(1000 * (attempt + 1));
+        continue;
+      }
+      throw new Error(`Public URL returned HTTP ${response.status}: ${asset.path}`);
+    }
+    const type = response.headers.get('content-type')?.split(';')[0];
+    if (type !== asset.content_type) throw new Error(`Unexpected Content-Type ${type}: ${asset.path}`);
+    checkBytes(data, asset);
+    return;
+  }
 }
 
 async function upload(manifest, sourceRoot) {
@@ -186,11 +217,19 @@ async function upload(manifest, sourceRoot) {
 async function migrationChanges(manifest) {
   const tracked = (await git('ls-files', '-z')).split('\0').filter(Boolean);
   const changes = [];
+  const annotations = [];
+  for (const asset of manifest.assets.filter(a => a.path.endsWith('.zditor-pdf-annotation.json'))) {
+    const data = JSON.parse(await payload(asset, manifest, process.cwd()));
+    annotations.push({ pdfURL: asset.url.replace(/\.zditor-pdf-annotation\.json$/, ''), highlights: data.highlights });
+  }
   for (const filename of tracked.filter(f => f.endsWith('.md') || f.endsWith('.zditor-pdf-annotation.json'))) {
     const original = await readFile(filename, 'utf8');
-    const content = filename.endsWith('.json')
+    let content = filename.endsWith('.json')
       ? json(rewriteJSON(JSON.parse(original), filename, manifest.assets, process.cwd()))
       : rewriteReferences(original, filename, manifest.assets, process.cwd());
+    if (filename.endsWith('.md') && !filename.startsWith('skills/')) {
+      for (const { pdfURL, highlights } of annotations) content = rewritePDFCards(content, pdfURL, highlights);
+    }
     if (content !== original) changes.push({ filename, content });
   }
   return changes;

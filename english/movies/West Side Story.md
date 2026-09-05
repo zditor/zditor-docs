@@ -34,7 +34,7 @@ cover:
   description: ''
   label: Cover Image
   type: asset
-  value: ../../assets/movies/covers/西区故事.jpg
+  value: https://docs-assets.zditor.com/v1/assets/movies/covers/%E8%A5%BF%E5%8C%BA%E6%95%85%E4%BA%8B.jpg
 director:
   description: ''
   label: Director

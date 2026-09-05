@@ -34,7 +34,7 @@ cover:
   description: ''
   label: Cover Image
   type: asset
-  value: ../../assets/movies/covers/歌剧院之夜.jpg
+  value: https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%AD%8C%E5%89%A7%E9%99%A2%E4%B9%8B%E5%A4%9C.jpg
 director:
   description: ''
   label: Director

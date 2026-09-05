@@ -34,7 +34,7 @@ cover:
   description: ''
   label: Cover Image
   type: asset
-  value: ../../assets/movies/covers/窈窕淑男.jpg
+  value: https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%AA%88%E7%AA%95%E6%B7%91%E7%94%B7.jpg
 director:
   description: ''
   label: Director

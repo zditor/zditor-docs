@@ -2,7 +2,7 @@
 
 <h1 style="border-bottom: none">
 <b><a href="https://zditor.com">
-<img alt="zditor_logo" src="assets/logo.svg" style="width: 80%">
+<img alt="zditor_logo" src="https://docs-assets.zditor.com/v1/assets/logo.svg" style="width: 80%">
 </a></b><br />
 ネイティブAgent、軽量、高性能、書くことと描くことをひとつに
 <br>
@@ -32,7 +32,7 @@
 <p align="center">このリポジトリは Zditor の Markdown ドキュメント集です。<code>docs</code> ブランチに切り替えるとリッチテキスト版を確認できます。</p>
 
 <p align="center">
-<img alt="home" src="assets/home_en.png">
+<img alt="home" src="https://docs-assets.zditor.com/v1/assets/home_en.png">
 </p>
 
 ## 目次

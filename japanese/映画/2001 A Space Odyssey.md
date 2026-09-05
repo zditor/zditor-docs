@@ -74,7 +74,7 @@ cover:
   type: asset
   description:
   label: Cover Image
-  value: "../../assets/movies/covers/2001太空漫游.jpg"
+  value: "https://docs-assets.zditor.com/v1/assets/movies/covers/2001%E5%A4%AA%E7%A9%BA%E6%BC%AB%E6%B8%B8.jpg"
 col:
   type: array
   description:

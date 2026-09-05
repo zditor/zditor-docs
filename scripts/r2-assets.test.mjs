@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { createServer } from 'node:http';
 import test from 'node:test';
-import { publicURL, rewriteReferences, rewriteJSON, verifyAsset } from './r2-assets.mjs';
+import { publicURL, rewriteReferences, rewriteJSON, rewritePDFCards, verifyAsset } from './r2-assets.mjs';
 
 const assets = [
   { path: 'assets/cover.jpg', url: 'https://cdn.example.com/docs/assets/cover.jpg' },
@@ -46,10 +46,22 @@ test('annotation rewriting preserves metadata and fixes old machine-specific pat
   assert.equal(input.highlights[0].thumbnail, '/old/machine/repo/assets/cover.jpg');
 });
 
+test('remote PDF excerpts retain a page link and visible annotation thumbnail', () => {
+  const pdfURL = assets[1].url;
+  const highlights = [{ id: 'abc', pageIndex: 3, thumbnail: assets[0].url }];
+  assert.equal(rewritePDFCards(`[Paper](${pdfURL}|mode=pdf_card|highlight=abc)`, pdfURL, highlights),
+    `[Paper](${pdfURL}#page=4)\n\n![Paper](${assets[0].url})`);
+  assert.equal(rewritePDFCards(`[Paper](${pdfURL}|mode=attachment)`, pdfURL, highlights),
+    `[Paper](${pdfURL}|mode=attachment)`);
+  assert.throws(() => rewritePDFCards(`[Paper](${pdfURL}|mode=pdf_card|highlight=missing)`, pdfURL, highlights), /thumbnail/);
+});
+
 test('public verification detects missing, corrupted and incorrectly served objects', async () => {
   const body = Buffer.from('test asset');
+  let retryRequests = 0;
   const server = createServer((req, res) => {
-    res.writeHead(req.url === '/missing' ? 404 : 200, {
+    const retry = req.url === '/retry' && retryRequests++ === 0;
+    res.writeHead(req.url === '/missing' ? 404 : retry ? 503 : 200, {
       'content-type': req.url === '/html' ? 'text/html' : 'image/jpeg',
     });
     res.end(req.url === '/corrupt' ? 'bad' : body);
@@ -60,6 +72,8 @@ test('public verification detects missing, corrupted and incorrectly served obje
   const base = `http://127.0.0.1:${server.address().port}`;
   try {
     await verifyAsset({ ...asset, url: base + '/ok' });
+    await verifyAsset({ ...asset, url: base + '/retry' });
+    assert.equal(retryRequests, 2);
     await assert.rejects(verifyAsset({ ...asset, url: base + '/missing' }), /HTTP 404/);
     await assert.rejects(verifyAsset({ ...asset, url: base + '/corrupt' }), /SHA-256 mismatch/);
     await assert.rejects(verifyAsset({ ...asset, url: base + '/html' }), /Content-Type/);

@@ -34,7 +34,7 @@ cover:
   description: ''
   label: Cover Image
   type: asset
-  value: ../../assets/movies/covers/雨中曲.jpg
+  value: https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%9B%A8%E4%B8%AD%E6%9B%B2.jpg
 director:
   description: ''
   label: Director

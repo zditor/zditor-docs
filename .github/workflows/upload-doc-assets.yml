@@ -1,0 +1,59 @@
+name: Upload documentation assets to R2
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [migrate/lfs-to-r2]
+    paths:
+      - .github/workflows/upload-doc-assets.yml
+      - scripts/r2-assets.mjs
+      - assets/r2-manifest.json
+
+permissions:
+  contents: read
+
+concurrency:
+  group: upload-doc-assets
+  cancel-in-progress: false
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: false
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Test migration tools
+        run: node --test scripts/r2-assets.test.mjs
+      - name: Read original asset snapshot
+        id: source
+        run: |
+          node --input-type=module <<'JS'
+          import { readFileSync, appendFileSync } from 'node:fs';
+          const manifest = JSON.parse(readFileSync('assets/r2-manifest.json', 'utf8'));
+          if (!/^[a-f0-9]{40}$/.test(manifest.source_ref)) throw new Error('Invalid source commit');
+          appendFileSync(process.env.GITHUB_OUTPUT, `ref=${manifest.source_ref}\n`);
+          JS
+      - name: Download original LFS assets
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.source.outputs.ref }}
+          path: .r2-migration/source
+          lfs: true
+          persist-credentials: false
+      - name: Upload manifest assets
+        env:
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          R2_BUCKET_NAME: zditor-docs-assets
+        run: node scripts/r2-assets.mjs upload --source-root .r2-migration/source
+      - name: Verify public downloads
+        run: node scripts/r2-assets.mjs verify

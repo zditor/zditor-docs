@@ -1,0 +1,1493 @@
+{
+  "version": 1,
+  "source_ref": "81b2a0e9c5379ccbe78ae9975d73634f96481e64",
+  "public_base_url": "https://docs-assets.zditor.com",
+  "key_prefix": "v1",
+  "assets": [
+    {
+      "path": "assets/audio/zditor/en/en_01_introduction.mp3",
+      "key": "v1/assets/audio/zditor/en/en_01_introduction.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_01_introduction.mp3",
+      "size": 215988,
+      "sha256": "12fea13f48d8d084ab0e79c163807fea1c7380e5616bc9a73a33eaeba8c44a0e",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/en/en_02_motivation.mp3",
+      "key": "v1/assets/audio/zditor/en/en_02_motivation.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_02_motivation.mp3",
+      "size": 843252,
+      "sha256": "eaf4a96867b9b349176276828edace7210b5b2dd0d59f9f8a707eeb06d9392b0",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/en/en_03_editor_software.mp3",
+      "key": "v1/assets/audio/zditor/en/en_03_editor_software.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_03_editor_software.mp3",
+      "size": 546036,
+      "sha256": "f39489c2d3ed3ac11f1592ac9bcff42e0aafc8239530e1e8eb79acc6a80ab4ba",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/en/en_04_editor_framework.mp3",
+      "key": "v1/assets/audio/zditor/en/en_04_editor_framework.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_04_editor_framework.mp3",
+      "size": 684852,
+      "sha256": "10276c97e2e985618e5c456809b058625549f81f3996c6fa46df193cbdddbb76",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/en/en_05_use_cases.mp3",
+      "key": "v1/assets/audio/zditor/en/en_05_use_cases.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_05_use_cases.mp3",
+      "size": 1219956,
+      "sha256": "35f54a242d3c2ebf8d617101d147effee5415b36af07c6bc885104b6ba7a1c38",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/en/en_06_tauri_mistake.mp3",
+      "key": "v1/assets/audio/zditor/en/en_06_tauri_mistake.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_06_tauri_mistake.mp3",
+      "size": 2100660,
+      "sha256": "f8d1078c4ba89ca5b84283b5c6315de9c56633b67c0177d292ff5a0deab8c187",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/en/en_07_roadmap.mp3",
+      "key": "v1/assets/audio/zditor/en/en_07_roadmap.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_07_roadmap.mp3",
+      "size": 875508,
+      "sha256": "e95d59001d162821cdc0b856bcb6fff01163f9a43b0acbf3d780817c2bdeff5b",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/en/en_08_plugins.mp3",
+      "key": "v1/assets/audio/zditor/en/en_08_plugins.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_08_plugins.mp3",
+      "size": 414708,
+      "sha256": "7ab34affea4522ffa02669dc51a2172aa7676080010803cc3f2021477f0a6c36",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/en/en_09_commercialization.mp3",
+      "key": "v1/assets/audio/zditor/en/en_09_commercialization.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_09_commercialization.mp3",
+      "size": 1899636,
+      "sha256": "1b0bbdc84956b9fbe37f2fe9a0bf70e2055bf712fa56453afb7a267ce02f96fc",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/en/en_10_closing.mp3",
+      "key": "v1/assets/audio/zditor/en/en_10_closing.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/en/en_10_closing.mp3",
+      "size": 631860,
+      "sha256": "42a599460c350fdc912f01ad60ac9fa9b0a896b8b41fdf0976bc92e64771ed13",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/zh/zh_01_kaipian.mp3",
+      "key": "v1/assets/audio/zditor/zh/zh_01_kaipian.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_01_kaipian.mp3",
+      "size": 235572,
+      "sha256": "3db0ceac917c3efbf231bfdb312839908ae1f981c726743767f6fa902d304817",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/zh/zh_02_dongji.mp3",
+      "key": "v1/assets/audio/zditor/zh/zh_02_dongji.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_02_dongji.mp3",
+      "size": 937140,
+      "sha256": "dada78b3c06e6d1fdf2e3a1ce9b0542888a82bfcc4fa2d73cb0741bdc8278d42",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/zh/zh_03_diaoyan_ruanjian.mp3",
+      "key": "v1/assets/audio/zditor/zh/zh_03_diaoyan_ruanjian.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_03_diaoyan_ruanjian.mp3",
+      "size": 678516,
+      "sha256": "481e598dee056bf25d1b7d3c5bfe6adc7dcc8fb43d513e9fdf23b99528e47b6d",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/zh/zh_04_diaoyan_bensheng.mp3",
+      "key": "v1/assets/audio/zditor/zh/zh_04_diaoyan_bensheng.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_04_diaoyan_bensheng.mp3",
+      "size": 771828,
+      "sha256": "ea594417419b0c247bdf9c8836ee759fde51b5a3f6257b0c1ecd21a331fb684f",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/zh/zh_05_shiyong_changjing.mp3",
+      "key": "v1/assets/audio/zditor/zh/zh_05_shiyong_changjing.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_05_shiyong_changjing.mp3",
+      "size": 1426740,
+      "sha256": "6e798eac07c32c9a8caf25e1c2b3ce295cb0be90530b0a3ead894d2c2f465302",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/zh/zh_06_tauri_keng.mp3",
+      "key": "v1/assets/audio/zditor/zh/zh_06_tauri_keng.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_06_tauri_keng.mp3",
+      "size": 2127156,
+      "sha256": "804361730070095e0feb8afb25f71cfc87f50fd3915a809dcaaabacef3cfe2e8",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/zh/zh_07_luxiantu.mp3",
+      "key": "v1/assets/audio/zditor/zh/zh_07_luxiantu.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_07_luxiantu.mp3",
+      "size": 1004532,
+      "sha256": "a9ff4ef5206b771b884f148153a4ea3adbbd90dcda8a86ddc9bc2105554d32a7",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/zh/zh_08_chajiianhua.mp3",
+      "key": "v1/assets/audio/zditor/zh/zh_08_chajiianhua.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_08_chajiianhua.mp3",
+      "size": 479796,
+      "sha256": "ff72d8d564b70e7566d4b8f997e44c8b2771c062923b466cc79b940fc50c4a23",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/zh/zh_09_shangyelhua.mp3",
+      "key": "v1/assets/audio/zditor/zh/zh_09_shangyelhua.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_09_shangyelhua.mp3",
+      "size": 2138100,
+      "sha256": "629650bb6ecec4bd2357505c3f84f07194deed4031806b23986af4195a97191c",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/audio/zditor/zh/zh_10_zongjie.mp3",
+      "key": "v1/assets/audio/zditor/zh/zh_10_zongjie.mp3",
+      "url": "https://docs-assets.zditor.com/v1/assets/audio/zditor/zh/zh_10_zongjie.mp3",
+      "size": 798324,
+      "sha256": "e98d2eb27a83b2243ce5748ec977d89c89c9c2ef62642b03971a60dfebeb1a88",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/guides/code-examples-cover-nanobanana.jpg",
+      "key": "v1/assets/guides/code-examples-cover-nanobanana.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/guides/code-examples-cover-nanobanana.jpg",
+      "size": 487090,
+      "sha256": "765ef3fc2a765800c7bd4b306a4997614d491c856717568a2ddbfccf058a8581",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/guides/mermaid-guide-cover-nanobanana.jpg",
+      "key": "v1/assets/guides/mermaid-guide-cover-nanobanana.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/guides/mermaid-guide-cover-nanobanana.jpg",
+      "size": 2557759,
+      "sha256": "ea2d1c2ff7848a8d3d390a77820ca829e4055db1498afd07b612a9e70eb4011c",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/guides/mermaid-guide-cover.svg",
+      "key": "v1/assets/guides/mermaid-guide-cover.svg",
+      "url": "https://docs-assets.zditor.com/v1/assets/guides/mermaid-guide-cover.svg",
+      "size": 10920,
+      "sha256": "6153e3b123efdb1f15923073431c7fa804244d5f432bfcbce7e5ee81dfdfa912",
+      "content_type": "image/svg+xml",
+      "lfs": true
+    },
+    {
+      "path": "assets/home_en.png",
+      "key": "v1/assets/home_en.png",
+      "url": "https://docs-assets.zditor.com/v1/assets/home_en.png",
+      "size": 3278014,
+      "sha256": "94b2b917361fe5965c9750a3c74a8f0a4fbf754325ab10c2fe84414b35d3ddf3",
+      "content_type": "image/png",
+      "lfs": true
+    },
+    {
+      "path": "assets/home_zh.png",
+      "key": "v1/assets/home_zh.png",
+      "url": "https://docs-assets.zditor.com/v1/assets/home_zh.png",
+      "size": 3316183,
+      "sha256": "9df235e394943d9a6771da98c21bb4eb0eb1047cf49dda52fef0477a0ab7923b",
+      "content_type": "image/png",
+      "lfs": true
+    },
+    {
+      "path": "assets/logo.svg",
+      "key": "v1/assets/logo.svg",
+      "url": "https://docs-assets.zditor.com/v1/assets/logo.svg",
+      "size": 25781,
+      "sha256": "1c08098905975a78390d28e17751a317e09c5c190a3b2138f13892c41c33ef1b",
+      "content_type": "image/svg+xml",
+      "lfs": true
+    },
+    {
+      "path": "assets/math/chemistry-formulas-cover.svg",
+      "key": "v1/assets/math/chemistry-formulas-cover.svg",
+      "url": "https://docs-assets.zditor.com/v1/assets/math/chemistry-formulas-cover.svg",
+      "size": 8166,
+      "sha256": "b7a42afcf8e97f9df0156c7a074a2e437cc83ca25b36cedf599eb0d4afb639a9",
+      "content_type": "image/svg+xml",
+      "lfs": true
+    },
+    {
+      "path": "assets/math/deep-learning-formulas-cover.jpg",
+      "key": "v1/assets/math/deep-learning-formulas-cover.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/math/deep-learning-formulas-cover.jpg",
+      "size": 566272,
+      "sha256": "34a44aabff727277f568dfd3ad62870b5ce32402bf97c63077799a1c4cad20a6",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/math/math-formulas-cover.jpg",
+      "key": "v1/assets/math/math-formulas-cover.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/math/math-formulas-cover.jpg",
+      "size": 699035,
+      "sha256": "0af6063987d6fcae124e5ab2b4f36a2685fd462259ac1b141280196bd4653075",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/math/physics-author-avatar.jpg",
+      "key": "v1/assets/math/physics-author-avatar.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/math/physics-author-avatar.jpg",
+      "size": 328451,
+      "sha256": "5b0dab82e42955f7c876f290807bd3c171800beebe3c7af92213b182407a20d5",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/math/physics-formulas-cover.jpg",
+      "key": "v1/assets/math/physics-formulas-cover.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/math/physics-formulas-cover.jpg",
+      "size": 513352,
+      "sha256": "800b3711cedab806f10e7626376c6f0e3514cb083f10f5dc80e549687c0b57e1",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/2001太空漫游.jpg",
+      "key": "v1/assets/movies/covers/2001太空漫游.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/2001%E5%A4%AA%E7%A9%BA%E6%BC%AB%E6%B8%B8.jpg",
+      "size": 153703,
+      "sha256": "da5bc585ef1863a1bd5c288b26edfe8b705fc32f8b29e4c63958a0a870300b42",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/一夜风流.jpg",
+      "key": "v1/assets/movies/covers/一夜风流.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E4%B8%80%E5%A4%9C%E9%A3%8E%E6%B5%81.jpg",
+      "size": 197760,
+      "sha256": "51e328c03063111e73c5cafddffac5fa927de5726c2c05dfdac66da45cd16db5",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/不可饶恕.jpg",
+      "key": "v1/assets/movies/covers/不可饶恕.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E4%B8%8D%E5%8F%AF%E9%A5%B6%E6%81%95.jpg",
+      "size": 210156,
+      "sha256": "35e99880b177ade770a4ce31bde7e1044f4ad2d5a15ad151eaf0aad9d58a8822",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/为所应为.jpg",
+      "key": "v1/assets/movies/covers/为所应为.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E4%B8%BA%E6%89%80%E5%BA%94%E4%B8%BA.jpg",
+      "size": 419247,
+      "sha256": "c218216cad2b8299e5624305780be94992864a9612bed906021722ac53cd980a",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/乱世佳人.jpg",
+      "key": "v1/assets/movies/covers/乱世佳人.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E4%B9%B1%E4%B8%96%E4%BD%B3%E4%BA%BA.jpg",
+      "size": 358057,
+      "sha256": "460b1b44bb4aceec3441b021896a558f8a905453671962bdaaac33625fb3c82f",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/低俗小说.jpg",
+      "key": "v1/assets/movies/covers/低俗小说.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E4%BD%8E%E4%BF%97%E5%B0%8F%E8%AF%B4.jpg",
+      "size": 229272,
+      "sha256": "f9113a1b38aeb694a6ce969f55a4badb83d9edb90cd14d84622c3aa2c9773dc4",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/党同伐异.jpg",
+      "key": "v1/assets/movies/covers/党同伐异.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%85%9A%E5%90%8C%E4%BC%90%E5%BC%82.jpg",
+      "size": 360408,
+      "sha256": "833272c0610fd4532dc9473b2226f0a8b7d79effca8412e3a2819e946d8892e8",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/公寓春光.jpg",
+      "key": "v1/assets/movies/covers/公寓春光.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%85%AC%E5%AF%93%E6%98%A5%E5%85%89.jpg",
+      "size": 258113,
+      "sha256": "b0c6a96ea320862c06ae5ef46ac2b6e93170360af350201ba06c49cbb4b21bdf",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/公民凯恩.jpg",
+      "key": "v1/assets/movies/covers/公民凯恩.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%85%AC%E6%B0%91%E5%87%AF%E6%81%A9.jpg",
+      "size": 717015,
+      "sha256": "0c0bb64c7aecd96f25f2b66c7f8f9388184f9a52392f54fef502f44ced42e44b",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/出租车司机.jpg",
+      "key": "v1/assets/movies/covers/出租车司机.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%87%BA%E7%A7%9F%E8%BD%A6%E5%8F%B8%E6%9C%BA.jpg",
+      "size": 310863,
+      "sha256": "48c1f9da9c2da5e837fab7bcd16ad081aeb64c17232e2d97dfa5782edfd200aa",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/十二怒汉.jpg",
+      "key": "v1/assets/movies/covers/十二怒汉.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%8D%81%E4%BA%8C%E6%80%92%E6%B1%89.jpg",
+      "size": 206414,
+      "sha256": "fe85b87d1b3c22475bd393c5fa1968d538fb201ba941c591562e6a8e03385da9",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/午夜牛郎.jpg",
+      "key": "v1/assets/movies/covers/午夜牛郎.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%8D%88%E5%A4%9C%E7%89%9B%E9%83%8E.jpg",
+      "size": 283349,
+      "sha256": "d0c073f14faca4e1b644e4958868e86b063e6dc677c6d1923813246de88e8ec4",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/卡萨布兰卡.jpg",
+      "key": "v1/assets/movies/covers/卡萨布兰卡.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%8D%A1%E8%90%A8%E5%B8%83%E5%85%B0%E5%8D%A1.jpg",
+      "size": 156999,
+      "sha256": "7a3a5e507be3157ef697990ce74e5e38900df501977f05bc32217f7a2bd41f41",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/原野奇侠.jpg",
+      "key": "v1/assets/movies/covers/原野奇侠.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%8E%9F%E9%87%8E%E5%A5%87%E4%BE%A0.jpg",
+      "size": 332656,
+      "sha256": "c6f1c0489c244b36ec9bf09b05f1727e11bbf5f3a4b9e0f35de40dbb223e9d7f",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/双重赔偿.jpg",
+      "key": "v1/assets/movies/covers/双重赔偿.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%8F%8C%E9%87%8D%E8%B5%94%E5%81%BF.jpg",
+      "size": 132713,
+      "sha256": "115af8b79da858855d5717938ce10e399c1cdc97fab10ffada933beee8d142a9",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/发条橙.jpg",
+      "key": "v1/assets/movies/covers/发条橙.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%8F%91%E6%9D%A1%E6%A9%99.jpg",
+      "size": 239002,
+      "sha256": "4f8a813b8fdc0c8c92e52aa5c7f49b43dcd74fc68df3bc09682b2c559d2faed8",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/史密斯先生到华盛顿.jpg",
+      "key": "v1/assets/movies/covers/史密斯先生到华盛顿.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%8F%B2%E5%AF%86%E6%96%AF%E5%85%88%E7%94%9F%E5%88%B0%E5%8D%8E%E7%9B%9B%E9%A1%BF.jpg",
+      "size": 165498,
+      "sha256": "6105b7eb15dd2d2635d41e9af9df283cdb5887df5a9b715f9030382962532eef",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/后窗.jpg",
+      "key": "v1/assets/movies/covers/后窗.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%90%8E%E7%AA%97.jpg",
+      "size": 114369,
+      "sha256": "dce38c214707522ddaddf3d7a3ed41159a044e5a9fd3edd8d508d75223dea24d",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/唐人街.jpg",
+      "key": "v1/assets/movies/covers/唐人街.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%94%90%E4%BA%BA%E8%A1%97.jpg",
+      "size": 267050,
+      "sha256": "8c8fe23d2cafd7090db36c990ecf1c701b18f8d65646232488d4625a13354fd8",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/城市之光.jpg",
+      "key": "v1/assets/movies/covers/城市之光.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%9F%8E%E5%B8%82%E4%B9%8B%E5%85%89.jpg",
+      "size": 208734,
+      "sha256": "450ee436ceb570d23bc0bedbcb5e11a6a8b043576abd6abfa0afa076af43b52b",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/塞拉山的宝藏.jpg",
+      "key": "v1/assets/movies/covers/塞拉山的宝藏.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%A1%9E%E6%8B%89%E5%B1%B1%E7%9A%84%E5%AE%9D%E8%97%8F.jpg",
+      "size": 327366,
+      "sha256": "4874d84a7340c53b7c20e9971d2e729d79d3e989c4e0993d27b675fc86ecdeb5",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/外星人ET.jpg",
+      "key": "v1/assets/movies/covers/外星人ET.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%A4%96%E6%98%9F%E4%BA%BAET.jpg",
+      "size": 194582,
+      "sha256": "de7f0d51cded6efc4629f15e491d85fdd929f93a70cfb33c6b590689071c27a8",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/大白鲨.jpg",
+      "key": "v1/assets/movies/covers/大白鲨.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%A4%A7%E7%99%BD%E9%B2%A8.jpg",
+      "size": 209626,
+      "sha256": "1ff870b08c6dc93d32901de062ae433d37b4d19d8f20ad31666e1fc6877cc806",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/夺宝奇兵.jpg",
+      "key": "v1/assets/movies/covers/夺宝奇兵.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%A4%BA%E5%AE%9D%E5%A5%87%E5%85%B5.jpg",
+      "size": 292230,
+      "sha256": "a905fc9dbfab861c8b50929e75da15bda696c5752bb8f8ecaae56c34694c12a9",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/奇爱博士.jpg",
+      "key": "v1/assets/movies/covers/奇爱博士.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%A5%87%E7%88%B1%E5%8D%9A%E5%A3%AB.jpg",
+      "size": 216823,
+      "sha256": "2132e1f2e3291ce3a4357346885a24598f7ca247fc343c895823aed9892b8bc6",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/好家伙.jpg",
+      "key": "v1/assets/movies/covers/好家伙.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%A5%BD%E5%AE%B6%E4%BC%99.jpg",
+      "size": 197525,
+      "sha256": "2cdc8d616d4e6d5d8277ebb733ac5e4ee3a51adb14425b27f38212479615098e",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/安妮·霍尔.jpg",
+      "key": "v1/assets/movies/covers/安妮·霍尔.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%AE%89%E5%A6%AE%C2%B7%E9%9C%8D%E5%B0%94.jpg",
+      "size": 248002,
+      "sha256": "5fd8d99731965fc6a7e774f99bd06c95719c32b8e3ce58cd498e98696e92c21d",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/宾虚.jpg",
+      "key": "v1/assets/movies/covers/宾虚.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%AE%BE%E8%99%9A.jpg",
+      "size": 336842,
+      "sha256": "5d83f363cdbd8fd62cd5e76caf1005a60b2fb935249d8430b25c3fc4ba690325",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/将军号.jpg",
+      "key": "v1/assets/movies/covers/将军号.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%B0%86%E5%86%9B%E5%8F%B7.jpg",
+      "size": 202024,
+      "sha256": "61765d775d578efd2c4ef15289604662ce8e5bc9cb08e7fa85d49e8d496c10f8",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/彗星美人.jpg",
+      "key": "v1/assets/movies/covers/彗星美人.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E5%BD%97%E6%98%9F%E7%BE%8E%E4%BA%BA.jpg",
+      "size": 115005,
+      "sha256": "84edff5ee39893510cfc8f4ccc3b266fe611fd5bc46c5bb73eabc081e5adec63",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/总统班底.jpg",
+      "key": "v1/assets/movies/covers/总统班底.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%80%BB%E7%BB%9F%E7%8F%AD%E5%BA%95.jpg",
+      "size": 273698,
+      "sha256": "c0f465f4daf24dd23cf12b65de2a1c3cb8f2e33765a7fa20ab45597220c42dfb",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/惊魂记.jpg",
+      "key": "v1/assets/movies/covers/惊魂记.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%83%8A%E9%AD%82%E8%AE%B0.jpg",
+      "size": 191700,
+      "sha256": "20c416ea668bd53b9f9795e284cebe47d91fd3929c98ec2aef63fac53f1a68c8",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/愤怒的公牛.jpg",
+      "key": "v1/assets/movies/covers/愤怒的公牛.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%84%A4%E6%80%92%E7%9A%84%E5%85%AC%E7%89%9B.jpg",
+      "size": 181558,
+      "sha256": "2c561b49922a21b5bcb2deb93ce56dfe7cbfbf71bda20298f1f4617f8bde0035",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/愤怒的葡萄.jpg",
+      "key": "v1/assets/movies/covers/愤怒的葡萄.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%84%A4%E6%80%92%E7%9A%84%E8%91%A1%E8%90%84.jpg",
+      "size": 257158,
+      "sha256": "714fa807f54ff4748032ce7fa1747ca90282f57ff82d584b746fc3858473c043",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/拯救大兵瑞恩.jpg",
+      "key": "v1/assets/movies/covers/拯救大兵瑞恩.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%8B%AF%E6%95%91%E5%A4%A7%E5%85%B5%E7%91%9E%E6%81%A9.jpg",
+      "size": 301083,
+      "sha256": "64a35bb7cb7b1dd884ef36992f2ab37fd62087b6019160dcb6416caa5ea43241",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/指环王：护戒使者.jpg",
+      "key": "v1/assets/movies/covers/指环王：护戒使者.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%8C%87%E7%8E%AF%E7%8E%8B%EF%BC%9A%E6%8A%A4%E6%88%92%E4%BD%BF%E8%80%85.jpg",
+      "size": 405502,
+      "sha256": "1548a0073923be530b8f01114434563290899dd57d3f0f5603f382e2154f8b27",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/搜索者.jpg",
+      "key": "v1/assets/movies/covers/搜索者.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%90%9C%E7%B4%A2%E8%80%85.jpg",
+      "size": 152570,
+      "sha256": "9ba4f5e1295cf7a89ccda3096b0705a20a81a0413f539b16e178c508e5589a9f",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/摩登时代.jpg",
+      "key": "v1/assets/movies/covers/摩登时代.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%91%A9%E7%99%BB%E6%97%B6%E4%BB%A3.jpg",
+      "size": 249987,
+      "sha256": "47668945e5933d9067f44feb90390dbf6ae746613db39b98efea6090694771f4",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/教父.jpg",
+      "key": "v1/assets/movies/covers/教父.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%95%99%E7%88%B6.jpg",
+      "size": 787199,
+      "sha256": "fc0565327b01becd3da0bea5f8c06d8a5d2e281cfdd9c249b4aa0548dc4d1d06",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/教父2.jpg",
+      "key": "v1/assets/movies/covers/教父2.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%95%99%E7%88%B62.jpg",
+      "size": 211407,
+      "sha256": "daa8f0879e0322e97fc9412c029a8aeec72037dc5dc8fc847e1e9f4e8886779d",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/斯巴达克斯.jpg",
+      "key": "v1/assets/movies/covers/斯巴达克斯.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%96%AF%E5%B7%B4%E8%BE%BE%E5%85%8B%E6%96%AF.jpg",
+      "size": 448671,
+      "sha256": "5d52aceec6538f9964b07caed52e0a29d9ee591443314d181fb5c1a7efc985f8",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/日出.jpg",
+      "key": "v1/assets/movies/covers/日出.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%97%A5%E5%87%BA.jpg",
+      "size": 195538,
+      "sha256": "3d146be95775e25432d2b89161eb74b86b9328eee99013928efbb9f3aef8a6bb",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/日落大道.jpg",
+      "key": "v1/assets/movies/covers/日落大道.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%97%A5%E8%90%BD%E5%A4%A7%E9%81%93.jpg",
+      "size": 201136,
+      "sha256": "4e840c95561e47c7b3bfda06d21891c054a17f62b170c53b7a4ef83479a2d426",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/日落黄沙.jpg",
+      "key": "v1/assets/movies/covers/日落黄沙.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%97%A5%E8%90%BD%E9%BB%84%E6%B2%99.jpg",
+      "size": 289601,
+      "sha256": "5f4894ed34ad11d803ee5c7a38088d9368edc9d672ab6e64b407747fce3027bd",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/星球大战.jpg",
+      "key": "v1/assets/movies/covers/星球大战.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%98%9F%E7%90%83%E5%A4%A7%E6%88%98.jpg",
+      "size": 283947,
+      "sha256": "2d824c082ff9e24941cc2843614be9611a1d351b8a4733f3b8d388f81fd4628f",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/最后的电影院.jpg",
+      "key": "v1/assets/movies/covers/最后的电影院.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%9C%80%E5%90%8E%E7%9A%84%E7%94%B5%E5%BD%B1%E9%99%A2.jpg",
+      "size": 297005,
+      "sha256": "70bf8e86537a97d0460c949b9ad08d441f13be0aae26b31da0c8d4086900b388",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/杀死一只知更鸟.jpg",
+      "key": "v1/assets/movies/covers/杀死一只知更鸟.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%9D%80%E6%AD%BB%E4%B8%80%E5%8F%AA%E7%9F%A5%E6%9B%B4%E9%B8%9F.jpg",
+      "size": 183717,
+      "sha256": "ee02d1ab49309e2e76034a4ccd38b3c6e9a3e5ea3b2a5f9583207c9cc08cadd8",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/桂河大桥.jpg",
+      "key": "v1/assets/movies/covers/桂河大桥.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%A1%82%E6%B2%B3%E5%A4%A7%E6%A1%A5.jpg",
+      "size": 434296,
+      "sha256": "5962f1a95bfc03a6da92bdb3a0650bdc1483e29220ba2d76e531741d5352841e",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/欲望号街车.jpg",
+      "key": "v1/assets/movies/covers/欲望号街车.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%AC%B2%E6%9C%9B%E5%8F%B7%E8%A1%97%E8%BD%A6.jpg",
+      "size": 154421,
+      "sha256": "a519d0eaf90d8188300eb17a6755d1a730522987b0d035600f2fcaa3a2dacc5b",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/歌剧院之夜.jpg",
+      "key": "v1/assets/movies/covers/歌剧院之夜.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%AD%8C%E5%89%A7%E9%99%A2%E4%B9%8B%E5%A4%9C.jpg",
+      "size": 237759,
+      "sha256": "e9741a4f05bdd3088b767eed6828a1f85f9c51b0efab40ae1f260c0a6aecca60",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/歌厅.jpg",
+      "key": "v1/assets/movies/covers/歌厅.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%AD%8C%E5%8E%85.jpg",
+      "size": 161190,
+      "sha256": "ba405fedaadec648ca334b9e107c237d2759c02cc32d9337115c50fde5fd794b",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/正午.jpg",
+      "key": "v1/assets/movies/covers/正午.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%AD%A3%E5%8D%88.jpg",
+      "size": 274209,
+      "sha256": "967f4a7dcb023c36440f45dbe63a51771f63ed6c07018f213a0d4a60d19283b9",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/毕业生.jpg",
+      "key": "v1/assets/movies/covers/毕业生.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%AF%95%E4%B8%9A%E7%94%9F.jpg",
+      "size": 280984,
+      "sha256": "8873463491c66970726d83a37384e71588d3d92689cf9e0c4d9dfbc178eb337b",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/沉默的羔羊.jpg",
+      "key": "v1/assets/movies/covers/沉默的羔羊.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%B2%89%E9%BB%98%E7%9A%84%E7%BE%94%E7%BE%8A.jpg",
+      "size": 191462,
+      "sha256": "16407d1e18a108c81acf168f6921b410635f35c4bc137a711745adb7d7a2426d",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/法国贩毒网.jpg",
+      "key": "v1/assets/movies/covers/法国贩毒网.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%B3%95%E5%9B%BD%E8%B4%A9%E6%AF%92%E7%BD%91.jpg",
+      "size": 280290,
+      "sha256": "58cb3cff0821844267ffaf2ce3d24435d6e114a24f8475b0ed9b3b83639bff94",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/泰坦尼克号.jpg",
+      "key": "v1/assets/movies/covers/泰坦尼克号.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%B3%B0%E5%9D%A6%E5%B0%BC%E5%85%8B%E5%8F%B7.jpg",
+      "size": 214289,
+      "sha256": "c1e1e2b3cd8a62baa7626719b42af7513239430c94e64046c2dc4d40efa34873",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/洛奇.jpg",
+      "key": "v1/assets/movies/covers/洛奇.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%B4%9B%E5%A5%87.jpg",
+      "size": 239789,
+      "sha256": "518cf16ae97e83a602e514664c3ecfdb93cb858c51d3a5ce14f6453efa24c983",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/淘金记.jpg",
+      "key": "v1/assets/movies/covers/淘金记.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E6%B7%98%E9%87%91%E8%AE%B0.jpg",
+      "size": 185477,
+      "sha256": "cbb50b74fa4f17ad6f27ed6665ac7073ef63e867e94a79a8b64683f14cd1c000",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/灵欲春宵.jpg",
+      "key": "v1/assets/movies/covers/灵欲春宵.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%81%B5%E6%AC%B2%E6%98%A5%E5%AE%B5.jpg",
+      "size": 172687,
+      "sha256": "504304445064978406b998ac52fd120b9a3710df3c928c43b1bfe0f969ef67d4",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/炎热的夜晚.jpg",
+      "key": "v1/assets/movies/covers/炎热的夜晚.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%82%8E%E7%83%AD%E7%9A%84%E5%A4%9C%E6%99%9A.jpg",
+      "size": 196837,
+      "sha256": "a2df16ecddafc71bd3fd7200013bcb7dbb92436d42e29bfff2ef7ee357afd90c",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/热情如火.jpg",
+      "key": "v1/assets/movies/covers/热情如火.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%83%AD%E6%83%85%E5%A6%82%E7%81%AB.jpg",
+      "size": 208568,
+      "sha256": "5d7823dbd0ad31de58671987bb9a59c8da76a69d5272244d5dba663dc84c3517",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/猎鹿人.jpg",
+      "key": "v1/assets/movies/covers/猎鹿人.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%8C%8E%E9%B9%BF%E4%BA%BA.jpg",
+      "size": 259991,
+      "sha256": "f12c00f200c618007a8e8bb463aaaa877217ae40c9004b4773ac4d3b811d6fea",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/玩具总动员.jpg",
+      "key": "v1/assets/movies/covers/玩具总动员.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%8E%A9%E5%85%B7%E6%80%BB%E5%8A%A8%E5%91%98.jpg",
+      "size": 221518,
+      "sha256": "be1e6a48ecfdec5a789fe0268b4271007959c32bedcaa8408e7c712fa37f197c",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/现代启示录.jpg",
+      "key": "v1/assets/movies/covers/现代启示录.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%8E%B0%E4%BB%A3%E5%90%AF%E7%A4%BA%E5%BD%95.jpg",
+      "size": 249708,
+      "sha256": "9b9061efef69769c3f72c1ed76cf5885faded47cb72f41af4b800eb86b622d45",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/电视台风云.jpg",
+      "key": "v1/assets/movies/covers/电视台风云.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%94%B5%E8%A7%86%E5%8F%B0%E9%A3%8E%E4%BA%91.jpg",
+      "size": 199769,
+      "sha256": "36b01a1122fac9b53d252b9a3dda68ff079e3cfe6e7e349c8a339cb6beef011b",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/白雪公主和七个小矮人.jpg",
+      "key": "v1/assets/movies/covers/白雪公主和七个小矮人.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%99%BD%E9%9B%AA%E5%85%AC%E4%B8%BB%E5%92%8C%E4%B8%83%E4%B8%AA%E5%B0%8F%E7%9F%AE%E4%BA%BA.jpg",
+      "size": 307992,
+      "sha256": "9cc0d41fbb7294a12c1ad77b0daaba7f4df3aa8a1e8d1c8dc71a6ccf9228d1f6",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/码头风云.jpg",
+      "key": "v1/assets/movies/covers/码头风云.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%A0%81%E5%A4%B4%E9%A3%8E%E4%BA%91.jpg",
+      "size": 172097,
+      "sha256": "93a350045dfdcb52c69a1501ca7b3a6e57700608eb054e3702bd8474860db11e",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/窈窕淑男.jpg",
+      "key": "v1/assets/movies/covers/窈窕淑男.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%AA%88%E7%AA%95%E6%B7%91%E7%94%B7.jpg",
+      "size": 293341,
+      "sha256": "459cfa4b5a7f95b64a24e9104d10f34782a51ac14dacd539ffe3be42de84fb5c",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/第六感.jpg",
+      "key": "v1/assets/movies/covers/第六感.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%AC%AC%E5%85%AD%E6%84%9F.jpg",
+      "size": 111228,
+      "sha256": "bd264284c868bc5e8e1fda78be32b0ccd64af88316e13d3801cf01ea742212e6",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/纳什维尔.jpg",
+      "key": "v1/assets/movies/covers/纳什维尔.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%BA%B3%E4%BB%80%E7%BB%B4%E5%B0%94.jpg",
+      "size": 399183,
+      "sha256": "62ab28f51b27af3d7af75bf20d9a6e687a028ea905c02176178c241662b956d2",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/绿野仙踪.jpg",
+      "key": "v1/assets/movies/covers/绿野仙踪.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%BB%BF%E9%87%8E%E4%BB%99%E8%B8%AA.jpg",
+      "size": 429445,
+      "sha256": "9e74cdfe67bfed6cdbe749768cdc69a747729ff76e32b4f2b94517c42d7c9580",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/美国风情画.jpg",
+      "key": "v1/assets/movies/covers/美国风情画.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%BE%8E%E5%9B%BD%E9%A3%8E%E6%83%85%E7%94%BB.jpg",
+      "size": 254933,
+      "sha256": "92c479dc224f370221c3aab36ab3310d7b6b6798ac6a1bf5f6fad0d8885f7822",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/美好人生.jpg",
+      "key": "v1/assets/movies/covers/美好人生.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E7%BE%8E%E5%A5%BD%E4%BA%BA%E7%94%9F.jpg",
+      "size": 244427,
+      "sha256": "ed5aa76374581da13e8c0479ec1c62ffa773b27fc138ca12a20399a347436bcb",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/肖申克的救赎.jpg",
+      "key": "v1/assets/movies/covers/肖申克的救赎.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E8%82%96%E7%94%B3%E5%85%8B%E7%9A%84%E6%95%91%E8%B5%8E.jpg",
+      "size": 799781,
+      "sha256": "7287f6ba2f94b604991b0a8ae608c720407bd52e7eaacc7ba6619252898e664f",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/育婴奇谭.jpg",
+      "key": "v1/assets/movies/covers/育婴奇谭.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E8%82%B2%E5%A9%B4%E5%A5%87%E8%B0%AD.jpg",
+      "size": 248450,
+      "sha256": "a32c0c2ad584160a573ed5d93daff8560076819cf88c3ca445c1927d6077cb53",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/胡志美人.jpg",
+      "key": "v1/assets/movies/covers/胡志美人.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E8%83%A1%E5%BF%97%E7%BE%8E%E4%BA%BA.jpg",
+      "size": 253464,
+      "sha256": "a273a3359f0e68fba8b4d1fde2122e77a5e53be933356ac4a74d0f1d80d9c485",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/苏利文的旅行.jpg",
+      "key": "v1/assets/movies/covers/苏利文的旅行.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E8%8B%8F%E5%88%A9%E6%96%87%E7%9A%84%E6%97%85%E8%A1%8C.jpg",
+      "size": 178329,
+      "sha256": "8aec893373642cd8f1370737452e7ab908fd1de9e0265f4c65a16651423674e9",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/苏菲的选择.jpg",
+      "key": "v1/assets/movies/covers/苏菲的选择.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E8%8B%8F%E8%8F%B2%E7%9A%84%E9%80%89%E6%8B%A9.jpg",
+      "size": 162778,
+      "sha256": "d69994c6f08df60221092d4e3896defb0049b35f0783dfa3747af5fcf7abaebb",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/虎豹小霸王.jpg",
+      "key": "v1/assets/movies/covers/虎豹小霸王.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E8%99%8E%E8%B1%B9%E5%B0%8F%E9%9C%B8%E7%8E%8B.jpg",
+      "size": 286805,
+      "sha256": "3a144eb4ec63674e71011cf7473f3a03cc2c34517aada67e94ff0c5acedb0bff",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/西北偏北.jpg",
+      "key": "v1/assets/movies/covers/西北偏北.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E8%A5%BF%E5%8C%97%E5%81%8F%E5%8C%97.jpg",
+      "size": 201126,
+      "sha256": "4084d8f25e49c952b06a592d03289bf41452ca7fd1abf860fdfbf8d7ffb102ab",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/西区故事.jpg",
+      "key": "v1/assets/movies/covers/西区故事.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E8%A5%BF%E5%8C%BA%E6%95%85%E4%BA%8B.jpg",
+      "size": 333438,
+      "sha256": "cb086c2b9b0f22321f375f9ce3465321bb6352951de45445f89414667f53ee74",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/费城故事.jpg",
+      "key": "v1/assets/movies/covers/费城故事.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E8%B4%B9%E5%9F%8E%E6%95%85%E4%BA%8B.jpg",
+      "size": 254779,
+      "sha256": "7deec860e2f0960412a8cfb96b3292768c1d94ef459b74f0e0c8508a4add7dee",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/辛德勒的名单.jpg",
+      "key": "v1/assets/movies/covers/辛德勒的名单.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E8%BE%9B%E5%BE%B7%E5%8B%92%E7%9A%84%E5%90%8D%E5%8D%95.jpg",
+      "size": 220551,
+      "sha256": "9e2ca857670c1f8d80a542dc90bdbd3bde93ee9285003ad47a4d2a62f2a06b62",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/迷魂记.jpg",
+      "key": "v1/assets/movies/covers/迷魂记.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E8%BF%B7%E9%AD%82%E8%AE%B0.jpg",
+      "size": 212614,
+      "sha256": "20a8d5ba996db5e4892caa578772fb96c3e1955b118c40448a5590bfb88ffc46",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/逍遥骑士.jpg",
+      "key": "v1/assets/movies/covers/逍遥骑士.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%80%8D%E9%81%A5%E9%AA%91%E5%A3%AB.jpg",
+      "size": 256882,
+      "sha256": "ed9dc89096f124e88125362f25920fd1f99c09725a72ab83b8330640d95d836e",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/邦妮和克莱德.jpg",
+      "key": "v1/assets/movies/covers/邦妮和克莱德.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%82%A6%E5%A6%AE%E5%92%8C%E5%85%8B%E8%8E%B1%E5%BE%B7.jpg",
+      "size": 243390,
+      "sha256": "d1c0ba3a311fb39e977dbb8c905379bcb892228ecd21331a7474d4c957e97696",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/野战排.jpg",
+      "key": "v1/assets/movies/covers/野战排.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%87%8E%E6%88%98%E6%8E%92.jpg",
+      "size": 260163,
+      "sha256": "ce007008397cd16c7955b3b524046fc2fcbcbf68a759f8dc2c00034118c81f56",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/金刚.jpg",
+      "key": "v1/assets/movies/covers/金刚.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%87%91%E5%88%9A.jpg",
+      "size": 140952,
+      "sha256": "c7433eac589c3d4cc2276fd1b62718afbff3d95882216aab0a8a952777fdc044",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/银翼杀手.jpg",
+      "key": "v1/assets/movies/covers/银翼杀手.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%93%B6%E7%BF%BC%E6%9D%80%E6%89%8B.jpg",
+      "size": 271834,
+      "sha256": "fe534047f6ef77b953a68594544f989bd310ddcda063c175a1cc46bbdc7efaa3",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/阿拉伯的劳伦斯.jpg",
+      "key": "v1/assets/movies/covers/阿拉伯的劳伦斯.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%98%BF%E6%8B%89%E4%BC%AF%E7%9A%84%E5%8A%B3%E4%BC%A6%E6%96%AF.jpg",
+      "size": 146388,
+      "sha256": "5d4bf151f00b998a5d039f2fef9c2fab17ee078c16615fda48aaf6dd2f36f25a",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/阿甘正传.jpg",
+      "key": "v1/assets/movies/covers/阿甘正传.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%98%BF%E7%94%98%E6%AD%A3%E4%BC%A0.jpg",
+      "size": 208361,
+      "sha256": "cbb61139e562369964e5792d662f6cdbb9f2aff558772245f39a5469f7cc109c",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/陆军野战医院.jpg",
+      "key": "v1/assets/movies/covers/陆军野战医院.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%99%86%E5%86%9B%E9%87%8E%E6%88%98%E5%8C%BB%E9%99%A2.jpg",
+      "size": 211125,
+      "sha256": "745fa01d3012ef706526fb5f0b19a5f0081701cc734d550d060b20992449a8c7",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/随风起舞.jpg",
+      "key": "v1/assets/movies/covers/随风起舞.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%9A%8F%E9%A3%8E%E8%B5%B7%E8%88%9E.jpg",
+      "size": 223954,
+      "sha256": "ab724765041ba1f5ebf1b558b574a0b71858c97c37088713c5807c99bec8950c",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/雨中曲.jpg",
+      "key": "v1/assets/movies/covers/雨中曲.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%9B%A8%E4%B8%AD%E6%9B%B2.jpg",
+      "size": 309598,
+      "sha256": "ff52f45c58ca07377dfcb908b466ae4f47f661e6e0cbfcbe6416089df76f4450",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/非洲女王.jpg",
+      "key": "v1/assets/movies/covers/非洲女王.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%9D%9E%E6%B4%B2%E5%A5%B3%E7%8E%8B.jpg",
+      "size": 347539,
+      "sha256": "09df0cfca9f564425ea16c7e81f31d982778031fe8671c867a5feb777131724f",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/音乐之声.jpg",
+      "key": "v1/assets/movies/covers/音乐之声.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%9F%B3%E4%B9%90%E4%B9%8B%E5%A3%B0.jpg",
+      "size": 318826,
+      "sha256": "b1c3abd97eee1b39f741de1d2af55a8659377cdc28ccf6c8502683d8a2043165",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/飞越疯人院.jpg",
+      "key": "v1/assets/movies/covers/飞越疯人院.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%A3%9E%E8%B6%8A%E7%96%AF%E4%BA%BA%E9%99%A2.jpg",
+      "size": 262058,
+      "sha256": "8a6a9167746720b7ffcb6d0c12cd12ee39b90dd7be332b8334db8464eb789334",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/马耳他之鹰.jpg",
+      "key": "v1/assets/movies/covers/马耳他之鹰.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%A9%AC%E8%80%B3%E4%BB%96%E4%B9%8B%E9%B9%B0.jpg",
+      "size": 170277,
+      "sha256": "6b433186e97c239a5503ea8c21a0aa953d17b5a9ab9986e0ea5f839fce3e1977",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/鸭羹.jpg",
+      "key": "v1/assets/movies/covers/鸭羹.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%B8%AD%E7%BE%B9.jpg",
+      "size": 193469,
+      "sha256": "53c51c1aa2a339bfb29ff560f898b92f5f159a1d23abdeda355761c25cd57267",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/movies/covers/黄金时代.jpg",
+      "key": "v1/assets/movies/covers/黄金时代.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/movies/covers/%E9%BB%84%E9%87%91%E6%97%B6%E4%BB%A3.jpg",
+      "size": 205967,
+      "sha256": "feb80a0e50d6b5ffc8c3c534587910279d035ebc37f5ad94f8bb85aa1f4cf9b1",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/nanobanana-avatar.svg",
+      "key": "v1/assets/nanobanana-avatar.svg",
+      "url": "https://docs-assets.zditor.com/v1/assets/nanobanana-avatar.svg",
+      "size": 3531,
+      "sha256": "17f826c3f4691a3758a685411e78bbc6eb9175eadbdd3b375befa2932cf97003",
+      "content_type": "image/svg+xml",
+      "lfs": true
+    },
+    {
+      "path": "assets/papers/assets/2026-04-20/1776690488_a11b.png",
+      "key": "v1/assets/papers/assets/2026-04-20/1776690488_a11b.png",
+      "url": "https://docs-assets.zditor.com/v1/assets/papers/assets/2026-04-20/1776690488_a11b.png",
+      "size": 72149,
+      "sha256": "7fd2e6b9392e56bd7fbabbdd8e9baf209702d0d1715744e0ef6639f5329969bc",
+      "content_type": "image/png",
+      "lfs": true
+    },
+    {
+      "path": "assets/papers/assets/2026-04-20/1776690542_878e.png",
+      "key": "v1/assets/papers/assets/2026-04-20/1776690542_878e.png",
+      "url": "https://docs-assets.zditor.com/v1/assets/papers/assets/2026-04-20/1776690542_878e.png",
+      "size": 169280,
+      "sha256": "11b41aa88ce6aaf0cf41aae3851362eaa83049c1ef4953e1c32c511e6cd2299b",
+      "content_type": "image/png",
+      "lfs": true
+    },
+    {
+      "path": "assets/papers/attention.pdf",
+      "key": "v1/assets/papers/attention.pdf",
+      "url": "https://docs-assets.zditor.com/v1/assets/papers/attention.pdf",
+      "size": 2215244,
+      "sha256": "bdfaa68d8984f0dc02beaca527b76f207d99b666d31d1da728ee0728182df697",
+      "content_type": "application/pdf",
+      "lfs": true
+    },
+    {
+      "path": "assets/papers/encoder-layer.jpg",
+      "key": "v1/assets/papers/encoder-layer.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/papers/encoder-layer.jpg",
+      "size": 5454701,
+      "sha256": "a099afd6e2a0dd4bc64bf928d6f75e45281a649210cb7c7081dd620528a42f46",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/papers/multi-head-attention.jpg",
+      "key": "v1/assets/papers/multi-head-attention.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/papers/multi-head-attention.jpg",
+      "size": 6648060,
+      "sha256": "925abad8be3cc13c3e88a3d9fb98d995a1bcb6aabd4ca697cb88031646691d66",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/papers/positional-encoding.jpg",
+      "key": "v1/assets/papers/positional-encoding.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/papers/positional-encoding.jpg",
+      "size": 6713691,
+      "sha256": "e077eb8821ae8d9e7d5566badb83ad7caeaea4dddd08fe1bbcc450cb6482a947",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/papers/scaled-dot-product-attention.jpg",
+      "key": "v1/assets/papers/scaled-dot-product-attention.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/papers/scaled-dot-product-attention.jpg",
+      "size": 7564241,
+      "sha256": "b557a509b52266f7614981bf573d4c88cc1002c4c196133ecdb926fb08da81f6",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/papers/transformer-cartoon.jpg",
+      "key": "v1/assets/papers/transformer-cartoon.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/papers/transformer-cartoon.jpg",
+      "size": 6585202,
+      "sha256": "74ad8fa2b509313a7d90d0b820cb5c5fdf72a7c95693152b429c0170714d5533",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/papers/transformer-paper-cover-nanobanana.jpg",
+      "key": "v1/assets/papers/transformer-paper-cover-nanobanana.jpg",
+      "url": "https://docs-assets.zditor.com/v1/assets/papers/transformer-paper-cover-nanobanana.jpg",
+      "size": 2816587,
+      "sha256": "9c09e8eba723b3772a8f784b71dff86d138bb07f0a57ce8931eb85e25d08a696",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/audio_pages/page_01.mp3",
+      "key": "v1/examples/llm_model_critique_talk/audio_pages/page_01.mp3",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_01.mp3",
+      "size": 602788,
+      "sha256": "3ec15e7419851ef2857bfe125afcac4ca46c511b29029889f405b2d8c6919f1b",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/audio_pages/page_02.mp3",
+      "key": "v1/examples/llm_model_critique_talk/audio_pages/page_02.mp3",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_02.mp3",
+      "size": 622850,
+      "sha256": "f9d11c183262ef70db53f00a0236cf187192fee9d39b35941c132fa5908d6fdf",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/audio_pages/page_03.mp3",
+      "key": "v1/examples/llm_model_critique_talk/audio_pages/page_03.mp3",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_03.mp3",
+      "size": 592757,
+      "sha256": "b0561134a32e9ea542f3dc088bed5198cb78a15169d9ef3b603d2f306e678a8a",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/audio_pages/page_04.mp3",
+      "key": "v1/examples/llm_model_critique_talk/audio_pages/page_04.mp3",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_04.mp3",
+      "size": 967666,
+      "sha256": "46acf6460ad3a56ef5f3ce1118968476aa0a13858a4ae6cd076e20f218b4f41a",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/audio_pages/page_05.mp3",
+      "key": "v1/examples/llm_model_critique_talk/audio_pages/page_05.mp3",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_05.mp3",
+      "size": 519614,
+      "sha256": "9c10d819093dba1ea6d9355b573088ba02cdec995827f8dbc75f6810a1d6a3ef",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/audio_pages/page_06.mp3",
+      "key": "v1/examples/llm_model_critique_talk/audio_pages/page_06.mp3",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_06.mp3",
+      "size": 634971,
+      "sha256": "9f30ff7f80b2f922afa76b3c9e1525e6b51090e9eef233cba91eabf9df2a8a9b",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/audio_pages/page_07.mp3",
+      "key": "v1/examples/llm_model_critique_talk/audio_pages/page_07.mp3",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_07.mp3",
+      "size": 555976,
+      "sha256": "01350c109b74f3fdf6818006e64844c83be763d6102163a23f491e5cf04caee0",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/audio_pages/page_08.mp3",
+      "key": "v1/examples/llm_model_critique_talk/audio_pages/page_08.mp3",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_08.mp3",
+      "size": 544691,
+      "sha256": "e85ac505792437295d4a51b3d371dde6a51cb932ed3849771ff75be479f50a84",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/audio_pages/page_09.mp3",
+      "key": "v1/examples/llm_model_critique_talk/audio_pages/page_09.mp3",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_09.mp3",
+      "size": 662974,
+      "sha256": "0790893f3438da65346bf156f4aa0118f90347d926d920b7decb8d9b0539e0cb",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/audio_pages/page_10.mp3",
+      "key": "v1/examples/llm_model_critique_talk/audio_pages/page_10.mp3",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_10.mp3",
+      "size": 677184,
+      "sha256": "c646f28f215d59aeaf7d098dc4ca41c5171cb34cfe7f3f95367de0fc88b6a267",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/audio_pages/page_11.mp3",
+      "key": "v1/examples/llm_model_critique_talk/audio_pages/page_11.mp3",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/audio_pages/page_11.mp3",
+      "size": 615744,
+      "sha256": "01df7ec9b47d3c8f7ff73fa6d785b9897bac7ba7d29b9140a7de7c25b2a10f24",
+      "content_type": "audio/mpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/bailian-presentation.mp4",
+      "key": "v1/examples/llm_model_critique_talk/bailian-presentation.mp4",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/bailian-presentation.mp4",
+      "size": 32265848,
+      "sha256": "1742cbef5b1c2530c030e7165ea3f66fdf517f373212265737f45241216e1e6b",
+      "content_type": "video/mp4",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/ppt_images/0001-title.jpg",
+      "key": "v1/examples/llm_model_critique_talk/ppt_images/0001-title.jpg",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0001-title.jpg",
+      "size": 498986,
+      "sha256": "faa98a7c4d1186961723bb38f140e13b02b0e15b386b6276f866653bc1bd07fa",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/ppt_images/0002-memory.jpg",
+      "key": "v1/examples/llm_model_critique_talk/ppt_images/0002-memory.jpg",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0002-memory.jpg",
+      "size": 424417,
+      "sha256": "32e9eefc5aa79921263efe3fabd7db6a3eeedbd67182d4a18b6d10b28e545762",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/ppt_images/0003-distributed.jpg",
+      "key": "v1/examples/llm_model_critique_talk/ppt_images/0003-distributed.jpg",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0003-distributed.jpg",
+      "size": 499402,
+      "sha256": "ec27ecd2ab6627daa3cce9887e5791e25b7eef1e2a2c2afcb50194551e13cb2e",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/ppt_images/0004-narrative.jpg",
+      "key": "v1/examples/llm_model_critique_talk/ppt_images/0004-narrative.jpg",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0004-narrative.jpg",
+      "size": 471682,
+      "sha256": "aef9f09d56421a8d559782e138efaa64ee676262ef35d7d65979667b2c330687",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/ppt_images/0005-scale.jpg",
+      "key": "v1/examples/llm_model_critique_talk/ppt_images/0005-scale.jpg",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0005-scale.jpg",
+      "size": 594030,
+      "sha256": "09b228d9bcb21cb178e22fafae220893de1241cc670afbf24ac66848fa2e13cc",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/ppt_images/0006-godview.jpg",
+      "key": "v1/examples/llm_model_critique_talk/ppt_images/0006-godview.jpg",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0006-godview.jpg",
+      "size": 600141,
+      "sha256": "9136f8e66e24c00803aa9324b4cd5e684a6263c95b6d8c19fe6a55257677c46f",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/ppt_images/0007-retrieval.jpg",
+      "key": "v1/examples/llm_model_critique_talk/ppt_images/0007-retrieval.jpg",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0007-retrieval.jpg",
+      "size": 478523,
+      "sha256": "a00fc37e818ace9c0eab42373ffafa2cceebfb0430f17c9a61b94bb04ced887d",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/ppt_images/0008-personal.jpg",
+      "key": "v1/examples/llm_model_critique_talk/ppt_images/0008-personal.jpg",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0008-personal.jpg",
+      "size": 515190,
+      "sha256": "a7705fb9b20b534197939849911d576cdba776a451ae6dda5539a6cd4140355d",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/ppt_images/0009-tension.jpg",
+      "key": "v1/examples/llm_model_critique_talk/ppt_images/0009-tension.jpg",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0009-tension.jpg",
+      "size": 461218,
+      "sha256": "40ac96ac84d334741b41e3bccd28f491474dfb85abd0baf4bd1172361180346f",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/ppt_images/0010-conclusion.jpg",
+      "key": "v1/examples/llm_model_critique_talk/ppt_images/0010-conclusion.jpg",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0010-conclusion.jpg",
+      "size": 499408,
+      "sha256": "87179ca12e2e1358ed9b72a4bcffa4c878d4ccbb1b637db1a7923b55856908ce",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "examples/llm_model_critique_talk/ppt_images/0011-ending.jpg",
+      "key": "v1/examples/llm_model_critique_talk/ppt_images/0011-ending.jpg",
+      "url": "https://docs-assets.zditor.com/v1/examples/llm_model_critique_talk/ppt_images/0011-ending.jpg",
+      "size": 472473,
+      "sha256": "14f51ca8629ba210fcb0ff6d639f0b5448ac3f0bcae4976c73690c0480917b5b",
+      "content_type": "image/jpeg",
+      "lfs": true
+    },
+    {
+      "path": "assets/papers/attention.pdf.zditor-pdf-annotation.json",
+      "key": "v1/assets/papers/attention.pdf.zditor-pdf-annotation.json",
+      "url": "https://docs-assets.zditor.com/v1/assets/papers/attention.pdf.zditor-pdf-annotation.json",
+      "content_type": "application/json",
+      "lfs": false,
+      "size": 1154,
+      "sha256": "8da59f28a5779923653f39d37aa50fa9e0b4af65217f9fb320f138bde5520c1a"
+    }
+  ]
+}

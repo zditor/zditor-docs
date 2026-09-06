@@ -1,0 +1,14 @@
+Nanobanan prompt:
+Create a 2K document cover illustration for a Mermaid guide, 16:9 landscape, polished cartoon style, crisp clean outlines, playful editorial illustration, not photorealistic. Keep the top-left area notably empty and calm because text will be overlaid there later; very few elements in the top-left quadrant, strong safe area. Concentrate most visual detail from center-right to bottom-right.
+
+Scene:
+- A bright sky-blue to mint gradient background with a few soft rounded clouds.
+- In the right half, build a lively cluster of Mermaid-related diagram elements: flowchart boxes and arrows, sequence lanes, Gantt bars, ER nodes, mindmap branches, state diagram circles, class diagram brackets, and tiny code snippets like graph LR, flowchart TD, sequenceDiagram.
+- Add a cute cartoon mascot or student near the bottom-right sitting on a green hill or floating diagram card, interacting with the diagram symbols.
+
+Style and palette:
+- High-detail flat cartoon illustration with subtle depth and soft shadows.
+- Friendly and educational.
+- Pastel blue/cyan/green palette with warm orange accents.
+- Readable shapes, professional but whimsical.
+- No embedded title text, no watermark, no border, no UI frame.

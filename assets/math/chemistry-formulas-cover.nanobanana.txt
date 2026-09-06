@@ -1,0 +1,21 @@
+Nanobanana prompt:
+Create a 2K document cover illustration for a chemistry formulas guide, 16:9 landscape, polished cartoon style, crisp clean outlines, playful editorial illustration, not photorealistic. Follow the same composition strategy as a strong Mermaid-style Zditor cover.
+
+Overlay-safe layout requirements:
+- Keep the top-left area notably empty and calm because large title text and subtitle will be overlaid there later.
+- Very few elements in the top-left quadrant; strong safe area.
+- Concentrate most visual detail from center-right to bottom-right.
+- Bottom metadata overlay does not need special empty space because Zditor already uses a frosted-glass background there.
+
+Scene:
+- Bright sky-blue to mint to warm-cream gradient background with a few soft rounded clouds or atmospheric shapes.
+- In the right half, build a lively cluster of chemistry-related elements: molecule nodes and bonds, beakers or lab cards, circular badges, reaction arrows, crystal or flask shapes, and abstract chemistry motifs.
+- Add a cute cartoon chemistry mascot or student near the bottom-right standing on a green hill or floating chemistry card, interacting with the chemistry symbols.
+- The whole composition should feel like one coherent chemistry playground, not isolated icons.
+
+Style:
+- Friendly, educational, polished cartoon illustration.
+- High-detail flat cartoon illustration with subtle depth and soft shadows.
+- Readable shapes, professional but whimsical.
+- No embedded title text, no formulas, no letters, no labels, no watermark, no border, no UI chrome.
+- Prioritize readability of the overlaid title in the top-left.

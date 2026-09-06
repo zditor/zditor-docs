@@ -1,0 +1,4 @@
+interface:
+  display_name: "Zditor Syntax"
+  short_description: "Create and repair Zditor extended Markdown"
+  default_prompt: "Use $zditor-syntax to create valid Zditor extended Markdown for this request."

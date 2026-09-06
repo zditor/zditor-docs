@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "install": {
+    "script": "scripts/install-skills.sh",
+    "destination_policy": {
+      "codex": "$CODEX_HOME/skills or ~/.codex/skills",
+      "zditor": "$ZDITOR_SKILLS_DIR or the platform-specific Zditor App data directory"
+    },
+    "targets": [
+      "codex",
+      "zditor"
+    ]
+  },
+  "skills": [
+    {
+      "name": "zditor-syntax",
+      "path": "skills/zditor-syntax",
+      "description": "Learn, generate, and repair Zditor extended Markdown syntax.",
+      "targets": [
+        "codex",
+        "zditor"
+      ]
+    },
+    {
+      "name": "import-excel",
+      "path": "skills/import-excel",
+      "description": "Convert Excel workbooks into Zditor SuperTag Markdown projects.",
+      "targets": [
+        "codex",
+        "zditor"
+      ]
+    },
+    {
+      "name": "img-gen",
+      "path": "skills/img-gen",
+      "description": "Generate images through Zditor Native Agent and the OpenAI Image API.",
+      "targets": [
+        "zditor"
+      ],
+      "setup": {
+        "env_example": ".env.example",
+        "required_env": [
+          "API_KEY"
+        ]
+      }
+    },
+    {
+      "name": "music-gen",
+      "path": "skills/music-gen",
+      "description": "Generate songs, instrumentals, and covers with MiniMax Music.",
+      "targets": [
+        "zditor"
+      ],
+      "setup": {
+        "env_example": ".env.example",
+        "required_env": [
+          "MINIMAX_API_KEY"
+        ]
+      }
+    },
+    {
+      "name": "speech-gen",
+      "path": "skills/speech-gen",
+      "description": "Generate spoken audio and narration with MiniMax Speech.",
+      "targets": [
+        "zditor"
+      ],
+      "setup": {
+        "env_example": ".env.example",
+        "required_env": [
+          "MINIMAX_API_KEY"
+        ]
+      }
+    },
+    {
+      "name": "video-gen",
+      "path": "skills/video-gen",
+      "description": "Generate and download text-to-video clips with MiniMax Video.",
+      "targets": [
+        "zditor"
+      ],
+      "setup": {
+        "env_example": ".env.example",
+        "required_env": [
+          "MINIMAX_API_KEY"
+        ]
+      }
+    }
+  ]
+}

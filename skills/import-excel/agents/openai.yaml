@@ -1,0 +1,4 @@
+interface:
+  display_name: "Import Excel to Zditor"
+  short_description: "Convert Excel workbooks into Zditor SuperTag projects"
+  default_prompt: "Use $import-excel to convert this workbook into a Zditor SuperTag project."

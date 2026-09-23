@@ -21,10 +21,35 @@ Excalidraw 检出为同级的 `../tauri` 与 `../zditor-excalidraw`。这个布�
 `src-tauri/Cargo.toml` 以 `../../tauri` 引用 Tauri，前端以 `file:../zditor-excalidraw` 引用
 Excalidraw。
 
-成功结果在 Actions summary 中包含 TestFlight 构建链接；IPA、dSYM、带 SHA-256 的
-`release.json`、Apple 处理结果 `testflight.json` 保存为 artifact，保留 14 天。处理等待最多 45
-分钟，Apple 返回 INVALID/FAILED 或构建过期等状态会使流程失败。若构建已经处理完成、仅待出口合规，
-流程记录“已上传，待合规”，不会将其标记为可测试或关联测试组。
+上传由 `npm run testflight -- release` 一次完成：构建并签名后先调用 Apple
+`altool --validate-app`，再调用 `altool --upload-app` 直接推送到 App Store Connect，随后轮询构建
+处理状态，最后写入测试说明并关联内部测试组。处理等待最多 45 分钟，Apple 返回 INVALID/FAILED 或
+构建过期等状态会使流程失败。若构建已经处理完成、仅待出口合规，流程记录“已上传，待合规”，不会将其
+标记为可测试或关联测试组。
+
+成功结果在 Actions summary 中包含 TestFlight 构建链接。
+
+## 凭据与产物可见性
+
+zditor-docs 是公开仓库，因此只提交工作流本身：仓库里没有任何证书、描述文件或 API 密钥，全部通过
+GitHub **Settings → Secrets and variables → Actions** 读取，日志中的 secret 值会被掩码，脚本也不会
+把私钥内容写进日志或产物。当前流程甚至不保存分发证书：它使用 App Store Connect API 密钥让 Xcode
+自动签名，脚本在调用 Xcode 前会从子进程环境中删除 `APP_STORE_CONNECT_PRIVATE_KEY_BASE64` 和
+`DEPLOY_TOKEN`，避免构建日志打印出密钥。
+
+artifact 只保留两个 JSON 结果，不上传 IPA 和 dSYM：签名的 IPA 内嵌分发描述文件，dSYM 含构建符号，
+都不适合放在公开仓库的 artifact 中。需要二进制时在应用仓库本机执行 `release`/`build`，或从私有应用
+仓库的运行中获取。
+
+| 产物 | 内容 | 是否上传 |
+| --- | --- | --- |
+| `release.json` | `version`、`buildNumber`、`bundleId`、`teamId`、加密声明、内部测试组 ID、测试说明、IPA 的 SHA-256 | 是 |
+| `testflight.json` | App Store Connect 的应用 ID、构建 ID、处理状态、内部测试状态、构建链接 | 是 |
+| `zditor.ipa` | 已签名的 App Store 构建 | 否 |
+| `dSYMs/**` | 构建符号 | 否 |
+
+两个 JSON 仍包含内部测试组 ID 与测试说明；若这些也不应公开，可把 artifact 步骤整体删除，仅保留脚本
+输出与 Actions summary 中的链接。
 
 ## 一次性配置
 
@@ -43,20 +68,16 @@ Excalidraw。
 | Variable | `TESTFLIGHT_INTERNAL_GROUP_IDS` | 可选，逗号分隔的内部测试组 ID |
 
 [Tauri 自动签名](https://v2.tauri.app/distribute/sign/ios/)要求团队 API 密钥具备 Admin 权限，
-供 Xcode 创建签名证书和描述文件。已有密钥通常不能再次下载；不要提交 `.p8`、证书或依赖仓库密钥到
-Git。可以通过 stdin 设置密钥，避免将私钥内容打印到终端：
+供 Xcode 创建签名证书和描述文件。已有密钥通常不能再次下载。私钥只放在本机安全位置或 GitHub
+Secret，不要提交到任何仓库；通过 stdin 设置可以避免打印到终端：
 
 ```sh
 base64 < /secure/path/AuthKey_KEYID.p8 | gh secret set APP_STORE_CONNECT_PRIVATE_KEY_BASE64 --repo zditor/zditor-docs
 ```
 
-## 产物可见性
-
-zditor-docs 是公开仓库：运行日志与 artifact 对所有人可见，secret 值在日志中会被掩码。artifact 目前
-包含签名的 IPA、dSYM、`release.json`（含 Bundle ID、Team ID、版本、构建号、SHA-256）和
-`testflight.json`（含 App Store Connect 应用与构建标识）。若未发布的构建不应公开下载，把
-`.github/workflows/testflight.yml` 中 artifact 步骤的 `zditor.ipa` 与 `dSYMs/**` 两行删除，仅保留
-两个 JSON 结果，或在需要下载时临时改用本机流程。
+如果希望密钥只用于上传、不能改动证书，需要把 iOS 构建改为手动签名，改为预置 Apple Distribution
+证书与 App Store 描述文件（可用 `APPLE_CERTIFICATE`、`APPLE_CERTIFICATE_PASSWORD` secret 存放），
+这样密钥角色可降到 App Manager。代价是证书需要按年更换、描述文件会过期，需人工维护。
 
 ## 本机执行
 
@@ -103,8 +124,8 @@ python3 -m unittest discover -s scripts/testflight -p 'test_*.py'
 ```
 
 IPA 校验会检查实际 Bundle ID、版本、构建号、iPhoneOS 平台、权限说明、加密声明和 App Store 描述
-文件。上传还会调用 Apple `altool --validate-app`。本地单元测试使用模拟的 Apple 响应；实际签名/上传
-仍需有效账号和密钥。
+文件。本地上传前的单元测试使用模拟的 Apple 响应；实际签名/上传仍需有效账号和密钥，且应用必须已经在
+App Store Connect 中存在。
 
 - **重复构建号**：换用更高的构建号；已上传的版本用 `status` / `distribute` 继续。
 - **Apple 处理超时或上传连接中断**：先使用原版本号和构建号运行 `status`，确认是否已经收到，勿立即重复上传。

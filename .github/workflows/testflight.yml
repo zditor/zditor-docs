@@ -163,11 +163,11 @@ jobs:
             zditor/src-tauri/tauri-plugin-tailscale/ios/Frameworks
           key: ${{ steps.native-cache.outputs.cache-primary-key }}
 
-      # Artifacts of a public repository can be downloaded by anyone, and a
-      # signed IPA is not meant for public distribution. Remove the ipa and
-      # dSYMs entries below to keep an unreleased build limited to release.json
-      # and testflight.json.
-      - name: Save IPA, symbols and release result
+      # A signed IPA embeds the distribution provisioning profile, and dSYMs
+      # carry build symbols, so neither belongs in a public repository's
+      # artifacts. Only the two JSON results are kept; build a local IPA when
+      # the binary itself is needed.
+      - name: Save TestFlight release result
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -175,7 +175,5 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
           path: |
-            zditor/build/testflight/**/zditor.ipa
             zditor/build/testflight/**/release.json
             zditor/build/testflight/**/testflight.json
-            zditor/build/testflight/**/dSYMs/**

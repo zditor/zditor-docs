@@ -1,0 +1,197 @@
+name: Publish TestFlight
+
+# Publishes an iOS build of the private application repository to App Store
+# Connect. The application repository is checked out into `zditor/`, because
+# its Cargo.toml and package.json reference the Tauri and Excalidraw checkouts
+# as sibling directories.
+#
+# Secrets: REPO, DEPLOY_TOKEN, APPLE_TEAM_ID, APPLE_API_KEY (key ID),
+# APPLE_API_ISSUER (issuer ID), APPLE_API_KEY_P8 (PEM contents of the .p8).
+# The three Apple credentials are already used by build_app.yml, so this
+# workflow reuses them instead of storing a second App Store Connect key.
+# Variables: IOS_BUNDLE_ID, IOS_USES_NON_EXEMPT_ENCRYPTION,
+# TESTFLIGHT_INTERNAL_GROUP_IDS (optional).
+# See docs/ios-testflight.md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Application branch, tag or commit containing the iOS release scripts
+        required: true
+        default: "main"
+        type: string
+      version:
+        description: iOS marketing version (e.g. 1.9.0)
+        required: true
+        default: "1.9.0"
+        type: string
+      build_number:
+        description: Optional Apple build number; otherwise derived from run and attempt
+        type: string
+      what_to_test:
+        description: TestFlight testing notes (zh-Hans)
+        type: string
+      internal_group_ids:
+        description: Optional comma-separated internal beta group IDs
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: testflight-ios
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: macos-26
+    timeout-minutes: 120
+    defaults:
+      run:
+        shell: bash
+        working-directory: zditor
+    env:
+      RELEASE_VERSION: ${{ inputs.version }}
+      BUILD_NUMBER: ${{ inputs.build_number }}
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      IOS_BUNDLE_ID: ${{ vars.IOS_BUNDLE_ID || 'com.zditor.ai' }}
+      IOS_USES_NON_EXEMPT_ENCRYPTION: ${{ vars.IOS_USES_NON_EXEMPT_ENCRYPTION }}
+      TESTFLIGHT_WHAT_TO_TEST: ${{ inputs.what_to_test }}
+      TESTFLIGHT_INTERNAL_GROUP_IDS: ${{ inputs.internal_group_ids || vars.TESTFLIGHT_INTERNAL_GROUP_IDS }}
+      APP_STORE_CONNECT_KEY_ID: ${{ secrets.APPLE_API_KEY }}
+      APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APPLE_API_ISSUER }}
+      DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+
+    steps:
+      - name: Checkout zditor repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.REPO }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          ref: ${{ inputs.source_ref }}
+          path: zditor
+          persist-credentials: false
+
+      # The release script reads the key from a file when APPLE_API_KEY_PATH is
+      # set, then copies it into a private temporary directory for Xcode. The
+      # runner is ephemeral, and the file is removed again at the end of the job.
+      - name: Write App Store Connect API key
+        env:
+          APPLE_API_KEY_P8: ${{ secrets.APPLE_API_KEY_P8 }}
+        run: |
+          umask 077
+          key_path="$RUNNER_TEMP/AuthKey_testflight.p8"
+          printf '%s\n' "$APPLE_API_KEY_P8" > "$key_path"
+          test -s "$key_path" || { echo 'APPLE_API_KEY_P8 is empty'; exit 1; }
+          echo "APPLE_API_KEY_PATH=$key_path" >> "$GITHUB_ENV"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: zditor/package-lock.json
+
+      - name: Check Apple access and release configuration before building
+        run: |
+          test -n "$DEPLOY_TOKEN" || { echo 'Set DEPLOY_TOKEN with read access to the application repository and its dependencies'; exit 1; }
+          node scripts/testflight.mjs preflight
+
+      - name: Read pinned dependency revisions
+        id: dependencies
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const dependencies = JSON.parse(fs.readFileSync('scripts/testflight/dependencies.json', 'utf8'));
+          for (const [name, dependency] of Object.entries(dependencies)) {
+            if (!/^[a-f0-9]{40}$/.test(dependency.revision) || !/^[\w-]+\/[\w.-]+$/.test(dependency.repository)) throw new Error('Invalid dependency pin');
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `${name}_repository=${dependency.repository}\n${name}_revision=${dependency.revision}\n`);
+          }
+          JS
+
+      - name: Checkout Tauri dependency
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.dependencies.outputs.tauri_repository }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          ref: ${{ steps.dependencies.outputs.tauri_revision }}
+          path: tauri
+          persist-credentials: false
+
+      - name: Checkout zditor-excalidraw dependency
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.dependencies.outputs.excalidraw_repository }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          ref: ${{ steps.dependencies.outputs.excalidraw_revision }}
+          path: zditor-excalidraw
+          persist-credentials: false
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@1.97.0
+        with:
+          targets: aarch64-apple-ios
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.25.5"
+          cache: false
+
+      - name: Check Xcode and build Excalidraw packages
+        run: |
+          xcodebuild -version
+          test "$(xcrun --sdk iphoneos --show-sdk-version | cut -d. -f1)" -ge 26
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+          yarn --cwd ../zditor-excalidraw install --frozen-lockfile
+          yarn --cwd ../zditor-excalidraw build:packages
+          npm ci
+
+      - name: Test release orchestration
+        run: |
+          node --test scripts/testflight/*.test.mjs
+          python3 -m unittest discover -s scripts/testflight -p 'test_*.py'
+
+      - name: Restore native build dependencies
+        id: native-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            zditor/src-tauri/target
+            zditor/src-tauri/tauri-plugin-tailscale/ios/Frameworks
+          key: testflight-${{ runner.os }}-${{ runner.arch }}-${{ steps.dependencies.outputs.tauri_revision }}-${{ hashFiles('zditor/src-tauri/Cargo.lock', 'zditor/scripts/build-tailscale-ios.sh', 'zditor/scripts/libtailscale-ios.patch', 'zditor/patches/tauri-*.patch') }}
+
+      - name: Build, sign, validate, upload and wait for TestFlight
+        run: npm run testflight -- release
+
+      - name: Save native dependencies even if signing or upload fails
+        if: always() && steps.native-cache.outputs.cache-primary-key != '' && steps.native-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            zditor/src-tauri/target
+            zditor/src-tauri/tauri-plugin-tailscale/ios/Frameworks
+          key: ${{ steps.native-cache.outputs.cache-primary-key }}
+
+      # A signed IPA embeds the distribution provisioning profile, and dSYMs
+      # carry build symbols, so neither belongs in a public repository's
+      # artifacts. Only the two JSON results are kept; build a local IPA when
+      # the binary itself is needed.
+      - name: Save TestFlight release result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: testflight-ios-${{ github.run_number }}-${{ github.run_attempt }}
+          if-no-files-found: ignore
+          retention-days: 14
+          path: |
+            zditor/build/testflight/**/release.json
+            zditor/build/testflight/**/testflight.json
+
+      - name: Remove the decoded API key copy
+        if: always()
+        run: rm -f "$RUNNER_TEMP/AuthKey_testflight.p8"

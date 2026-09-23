@@ -1,0 +1,117 @@
+# iOS TestFlight 发布
+
+`.github/workflows/testflight.yml` 把私有应用仓库的 iOS 构建发布到 App Store Connect 的
+TestFlight。工作流在 zditor-docs 中触发，源码来自应用仓库：配置预检 → 前端/原生依赖构建 →
+App Store 签名归档 → IPA 内容校验 → Apple 上传校验 → 上传 → 等待处理 → 测试说明及内部测试组分发。
+不会提交 App Store 正式审核或自动邀请测试员。
+
+## 运行方式
+
+在 **Actions → Publish TestFlight → Run workflow** 输入：
+
+- `source_ref`：应用仓库中包含完整 iOS 实现及发布脚本的分支、标签或提交，默认 `main`。
+- `version`：三段正式版本号，例如 `1.9.0`。
+- `build_number`：可留空，自动将 run number/attempt 编码为 Apple 允许的三段构建号。首次手动覆盖后，后续构建号需要继续递增。
+- `what_to_test`：可选，简体中文测试说明。
+- `internal_group_ids`：可选，覆盖仓库变量。只接受当前应用的内部组。
+
+工作流使用 macOS 26 / Xcode 26 SDK、Node 22、Rust 1.97.0、Go 1.25.5。应用仓库被检出到
+`zditor/`，并按应用仓库中 `scripts/testflight/dependencies.json` 固定的提交，把 Tauri 与
+Excalidraw 检出为同级的 `../tauri` 与 `../zditor-excalidraw`。这个布局是必需的：应用仓库的
+`src-tauri/Cargo.toml` 以 `../../tauri` 引用 Tauri，前端以 `file:../zditor-excalidraw` 引用
+Excalidraw。
+
+成功结果在 Actions summary 中包含 TestFlight 构建链接；IPA、dSYM、带 SHA-256 的
+`release.json`、Apple 处理结果 `testflight.json` 保存为 artifact，保留 14 天。处理等待最多 45
+分钟，Apple 返回 INVALID/FAILED 或构建过期等状态会使流程失败。若构建已经处理完成、仅待出口合规，
+流程记录“已上传，待合规”，不会将其标记为可测试或关联测试组。
+
+## 一次性配置
+
+在 zditor-docs 的 **Settings → Secrets and variables → Actions** 添加：
+
+| 类型 | 名称 | 用途 |
+| --- | --- | --- |
+| Secret | `REPO` | 私有应用仓库，格式 `owner/name`。与 `build_app.yml` 共用 |
+| Secret | `DEPLOY_TOKEN` | 检出应用仓库、Tauri 与 Excalidraw 的只读令牌。与 `build_app.yml` 共用 |
+| Secret | `APPLE_TEAM_ID` | Developer Team ID |
+| Secret | `APP_STORE_CONNECT_KEY_ID` | 团队 API 密钥 ID |
+| Secret | `APP_STORE_CONNECT_ISSUER_ID` | API Issuer ID |
+| Secret | `APP_STORE_CONNECT_PRIVATE_KEY_BASE64` | 下载的 `.p8` 文件 Base64 内容 |
+| Variable | `IOS_BUNDLE_ID` | 默认 `com.zditor.ai` |
+| Variable | `IOS_USES_NON_EXEMPT_ENCRYPTION` | 可留空或填 `pending`：上传后在 App Store Connect 回答加密问卷；已有结论时填 `true` 或 `false` |
+| Variable | `TESTFLIGHT_INTERNAL_GROUP_IDS` | 可选，逗号分隔的内部测试组 ID |
+
+[Tauri 自动签名](https://v2.tauri.app/distribute/sign/ios/)要求团队 API 密钥具备 Admin 权限，
+供 Xcode 创建签名证书和描述文件。已有密钥通常不能再次下载；不要提交 `.p8`、证书或依赖仓库密钥到
+Git。可以通过 stdin 设置密钥，避免将私钥内容打印到终端：
+
+```sh
+base64 < /secure/path/AuthKey_KEYID.p8 | gh secret set APP_STORE_CONNECT_PRIVATE_KEY_BASE64 --repo zditor/zditor-docs
+```
+
+## 产物可见性
+
+zditor-docs 是公开仓库：运行日志与 artifact 对所有人可见，secret 值在日志中会被掩码。artifact 目前
+包含签名的 IPA、dSYM、`release.json`（含 Bundle ID、Team ID、版本、构建号、SHA-256）和
+`testflight.json`（含 App Store Connect 应用与构建标识）。若未发布的构建不应公开下载，把
+`.github/workflows/testflight.yml` 中 artifact 步骤的 `zditor.ipa` 与 `dSYMs/**` 两行删除，仅保留
+两个 JSON 结果，或在需要下载时临时改用本机流程。
+
+## 本机执行
+
+在应用仓库中准备固定版本的两个相邻仓库、Node/Rust/Go、Xcode 26+；安装依赖后设置环境变量。私钥文件
+应仅本人可读。
+
+```sh
+export RELEASE_VERSION=1.9.0
+export BUILD_NUMBER=1.1.1
+export APPLE_TEAM_ID=YOUR_TEAM_ID
+export APP_STORE_CONNECT_KEY_ID=YOUR_KEY_ID
+export APP_STORE_CONNECT_ISSUER_ID=YOUR_ISSUER_ID
+export APPLE_API_KEY_PATH=/secure/path/AuthKey_YOUR_KEY_ID.p8
+# 可留空，上传后回答 Apple 加密问卷；已有结论时设为 true 或 false
+# 可选：TESTFLIGHT_INTERNAL_GROUP_IDS、TESTFLIGHT_WHAT_TO_TEST
+npm run testflight -- plan
+npm run testflight -- preflight
+npm run testflight -- release
+```
+
+| 命令 | 行为 |
+| --- | --- |
+| `plan` | 本地校验参数，打印计划（加密结论未定显示 null），不访问 Apple |
+| `preflight` | 核实应用、内部组、重复构建号和 API 访问 |
+| `build` | 仅签名打包并校验 IPA，不上传 |
+| `release` | 完整构建和上传流程 |
+| `publish` | 校验已有 IPA/manifest/SHA-256 后上传，不重建 |
+| `status` | 仅读取已上传构建状态，不修改测试说明或组 |
+| `distribute` | 为已处理的构建补充测试说明、关联内部组，不重新上传 |
+
+产物目录为 `build/testflight/<version>-<build_number>/`。构建号通过 `bundle.iOS.bundleVersion`
+设置，避免 Tauri 的 `--build-number` 追加出第四段。临时签名配置和解码私钥会清除；原来的 debug 归档
+和生成的 Xcode 配置会恢复。不要同时运行本机 debug 和 TestFlight 构建。
+
+发布脚本与单元测试都位于应用仓库，因此本机命令仍在那里执行。工作流只负责检出与编排。
+
+## 校验与恢复
+
+在应用仓库中运行：
+
+```sh
+npm run test:testflight
+python3 -m unittest discover -s scripts/testflight -p 'test_*.py'
+```
+
+IPA 校验会检查实际 Bundle ID、版本、构建号、iPhoneOS 平台、权限说明、加密声明和 App Store 描述
+文件。上传还会调用 Apple `altool --validate-app`。本地单元测试使用模拟的 Apple 响应；实际签名/上传
+仍需有效账号和密钥。
+
+- **重复构建号**：换用更高的构建号；已上传的版本用 `status` / `distribute` 继续。
+- **Apple 处理超时或上传连接中断**：先使用原版本号和构建号运行 `status`，确认是否已经收到，勿立即重复上传。
+- **缺少合规信息**：构建可以先上传并由 Apple 处理。在 App Store Connect 的 TestFlight 构建旁点击“管理”回答加密问卷；若 Apple 要求文稿，再提供对应文稿。完成后运行 `distribute`，不必重新上传。同一构建恢复操作应保留原 manifest 中的加密设置。
+- **无签名描述文件/无权限**：核对 Team ID、Bundle ID 与 API 密钥角色；确认 Developer Program 协议有效。
+- **恢复归档失败**：旧归档保留在对应产物目录的 `previous-native-build`，失败构建保存在 `failed-native-build-*`；检查错误后再手动恢复，不要删除这些备份。
+- **外部测试**：本工作流不自动提交 Beta App Review；需要在 App Store Connect 完成测试信息、审核和外部组设置。应用仓库中的 TestFlight 外部审核工作流仍留在原处，并需要在那里配置相同的 App Store Connect 密钥。
+
+参考：[Tauri App Store 上传](https://v2.tauri.app/distribute/app-store/)、[Apple TestFlight](https://developer.apple.com/testflight/)、
+[Provide export compliance information for beta builds](https://developer.apple.com/help/app-store-connect/test-a-beta-version/provide-export-compliance-information-for-beta-builds/)。

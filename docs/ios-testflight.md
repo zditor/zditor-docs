@@ -48,31 +48,32 @@ artifact 只保留两个 JSON 结果，不上传 IPA 和 dSYM：签名的 IPA �
 | `zditor.ipa` | 已签名的 App Store 构建 | 否 |
 | `dSYMs/**` | 构建符号 | 否 |
 
-两个 JSON 仍包含内部测试组 ID 与测试说明；若这些也不应公开，可把 artifact 步骤整体删除，仅保留脚本
-输出与 Actions summary 中的链接。
-
 ## 一次性配置
 
-在 zditor-docs 的 **Settings → Secrets and variables → Actions** 添加：
+工作流只需要 zditor-docs 中已经存在、并与 `build_app.yml` 共用的凭据，不需要额外新建 API 密钥：
 
 | 类型 | 名称 | 用途 |
 | --- | --- | --- |
 | Secret | `REPO` | 私有应用仓库，格式 `owner/name`。与 `build_app.yml` 共用 |
 | Secret | `DEPLOY_TOKEN` | 检出应用仓库、Tauri 与 Excalidraw 的只读令牌。与 `build_app.yml` 共用 |
 | Secret | `APPLE_TEAM_ID` | Developer Team ID |
-| Secret | `APP_STORE_CONNECT_KEY_ID` | 团队 API 密钥 ID |
-| Secret | `APP_STORE_CONNECT_ISSUER_ID` | API Issuer ID |
-| Secret | `APP_STORE_CONNECT_PRIVATE_KEY_BASE64` | 下载的 `.p8` 文件 Base64 内容 |
+| Secret | `APPLE_API_KEY` | App Store Connect API 密钥 ID（10 位大写字母数字） |
+| Secret | `APPLE_API_ISSUER` | API Issuer ID（UUID 形式） |
+| Secret | `APPLE_API_KEY_P8` | `.p8` 私钥的 PEM 内容 |
 | Variable | `IOS_BUNDLE_ID` | 默认 `com.zditor.ai` |
 | Variable | `IOS_USES_NON_EXEMPT_ENCRYPTION` | 可留空或填 `pending`：上传后在 App Store Connect 回答加密问卷；已有结论时填 `true` 或 `false` |
 | Variable | `TESTFLIGHT_INTERNAL_GROUP_IDS` | 可选，逗号分隔的内部测试组 ID |
 
+工作流把 `APPLE_API_KEY`、`APPLE_API_ISSUER` 传给发布脚本的 `APP_STORE_CONNECT_KEY_ID`、
+`APP_STORE_CONNECT_ISSUER_ID`，并把 `APPLE_API_KEY_P8` 写入 runner 临时目录后通过
+`APPLE_API_KEY_PATH` 交给脚本；脚本会再复制到自己的私有临时目录供 Xcode 使用，任务结束前删除。
+
 [Tauri 自动签名](https://v2.tauri.app/distribute/sign/ios/)要求团队 API 密钥具备 Admin 权限，
-供 Xcode 创建签名证书和描述文件。已有密钥通常不能再次下载。私钥只放在本机安全位置或 GitHub
-Secret，不要提交到任何仓库；通过 stdin 设置可以避免打印到终端：
+供 Xcode 创建签名证书和描述文件。已有密钥通常不能再次下载，所以复用现有密钥比新建一把更省事。私钥
+只放在本机安全位置或 GitHub Secret，不要提交到任何仓库；通过 stdin 设置可以避免打印到终端：
 
 ```sh
-base64 < /secure/path/AuthKey_KEYID.p8 | gh secret set APP_STORE_CONNECT_PRIVATE_KEY_BASE64 --repo zditor/zditor-docs
+gh secret set APPLE_API_KEY_P8 --repo zditor/zditor-docs < /secure/path/AuthKey_KEYID.p8
 ```
 
 如果希望密钥只用于上传、不能改动证书，需要把 iOS 构建改为手动签名，改为预置 Apple Distribution
@@ -97,6 +98,8 @@ npm run testflight -- plan
 npm run testflight -- preflight
 npm run testflight -- release
 ```
+
+## 动作对照
 
 | 命令 | 行为 |
 | --- | --- |

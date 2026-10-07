@@ -1,0 +1,270 @@
+name: Build Android
+run-name: Android ${{ inputs.android_target }} / ${{ inputs.build_mode }} / ${{ inputs.source_ref || vars.ZDITOR_REF || 'main' }}
+
+# Builds the private application as an Actions artifact; does not publish a
+# GitHub Release or upload to Google Play. See docs/android-build.md.
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: "Application branch, tag or commit (empty: ZDITOR_REF or main)"
+        type: string
+        required: false
+      android_target:
+        description: Android architecture
+        type: choice
+        required: true
+        default: aarch64
+        options:
+          - aarch64
+          - armv7
+          - i686
+          - x86_64
+      build_mode:
+        description: "release: unsigned APK/AAB; debug: APK installable for testing"
+        type: choice
+        required: true
+        default: release
+        options:
+          - release
+          - debug
+
+permissions:
+  contents: read
+
+concurrency:
+  group: android-${{ inputs.source_ref || vars.ZDITOR_REF || 'main' }}-${{ inputs.android_target }}-${{ inputs.build_mode }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 180
+    defaults:
+      run:
+        shell: bash
+    env:
+      ANDROID_TARGET: ${{ inputs.android_target }}
+      BUILD_MODE: ${{ inputs.build_mode }}
+      ANDROID_NDK_VERSION: 27.2.12479018
+      CARGO_BUILD_JOBS: 2
+      CARGO_HTTP_MULTIPLEXING: false
+      CARGO_HTTP_TIMEOUT: 600
+      CARGO_REGISTRIES_CRATES_IO_PROTOCOL: sparse
+      NODE_OPTIONS: --max-old-space-size=4096
+      npm_config_registry: https://registry.npmjs.org/
+
+    steps:
+      - name: Check checkout credentials
+        env:
+          APP_REPOSITORY: ${{ secrets.REPO }}
+          EXCALIDRAW_REPOSITORY: ${{ secrets.EXCALIDRAW_REPO }}
+          CHECKOUT_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: |
+          test -n "$APP_REPOSITORY" || { echo 'Set the existing REPO secret'; exit 1; }
+          test -n "$EXCALIDRAW_REPOSITORY" || { echo 'Set the existing EXCALIDRAW_REPO secret'; exit 1; }
+          test -n "$CHECKOUT_TOKEN" || { echo 'Set DEPLOY_TOKEN with read access to all three source repositories'; exit 1; }
+
+      # Cargo and file: npm dependencies require these three sibling checkouts.
+      - name: Checkout zditor repository
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ secrets.REPO }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          ref: ${{ inputs.source_ref || vars.ZDITOR_REF || 'main' }}
+          path: zditor
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: zditor/package-lock.json
+
+      - name: Resolve source version and dependency refs
+        id: source
+        env:
+          EXCALIDRAW_REF: ${{ vars.EXCALIDRAW_REF }}
+          TAURI_CEF_REPO: ${{ vars.TAURI_CEF_REPO }}
+          TAURI_CEF_REF: ${{ vars.TAURI_CEF_REF }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import { execFileSync } from 'node:child_process';
+          const targets = {
+            aarch64: 'aarch64-linux-android', armv7: 'armv7-linux-androideabi',
+            i686: 'i686-linux-android', x86_64: 'x86_64-linux-android',
+          };
+          if (!Object.hasOwn(targets, process.env.ANDROID_TARGET)) throw new Error('Unsupported Android target');
+          if (!['release', 'debug'].includes(process.env.BUILD_MODE)) throw new Error('Unsupported build mode');
+          const pkg = JSON.parse(fs.readFileSync('zditor/package.json', 'utf8'));
+          const config = JSON.parse(fs.readFileSync('zditor/src-tauri/tauri.conf.json', 'utf8'));
+          if (!pkg.scripts?.['android:build'] || !fs.existsSync('zditor/src-tauri/gen/android/app/build.gradle.kts')) {
+            throw new Error('Choose a source_ref containing the Android project and android:build script');
+          }
+          const version = config.version;
+          if (typeof version !== 'string' || !/^\d+\.\d+\.\d+(?:-[\w.-]+)?(?:\+[\w.-]+)?$/.test(version) || version !== pkg.version) {
+            throw new Error('Expected matching application versions in package.json and tauri.conf.json');
+          }
+          const pin = (file) => fs.existsSync(file) ? fs.readFileSync(file, 'utf8').trim() : '';
+          const tauriRepo = process.env.TAURI_CEF_REPO || 'zizdlp/tauri-cef';
+          if (!/^[\w.-]+\/[\w.-]+$/.test(tauriRepo)) throw new Error('Invalid TAURI_CEF_REPO');
+          let tauriRef = pin('zditor/tauri-cef.ref') || process.env.TAURI_CEF_REF || '';
+          // Match the desktop workflow's fallback for its legacy CEF tag.
+          if (tauriRepo === 'zizdlp/tauri-cef' && tauriRef === 'tauri-cef-v3.0.0-alpha.10') tauriRef = '';
+          tauriRef ||= tauriRepo === 'zizdlp/tauri-cef' ? 'main' : 'tauri-cef-v3.0.0-alpha.10';
+          const excalidrawRef = pin('zditor/zditor-excalidraw.ref') || process.env.EXCALIDRAW_REF || '';
+          const commit = execFileSync('git', ['-C', 'zditor', 'rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
+          const outputs = {
+            version, commit, short_commit: commit.slice(0, 12),
+            rust_target: targets[process.env.ANDROID_TARGET],
+            tauri_repository: tauriRepo, tauri_ref: tauriRef, excalidraw_ref: excalidrawRef,
+          };
+          for (const [key, value] of Object.entries(outputs)) {
+            if (/[\r\n\0]/.test(value)) throw new Error(`Invalid multiline ${key}`);
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `${key}=${value}\n`);
+          }
+          JS
+
+      - name: Checkout Tauri dependency
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ steps.source.outputs.tauri_repository }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          ref: ${{ steps.source.outputs.tauri_ref }}
+          path: tauri
+          persist-credentials: false
+
+      - name: Checkout Excalidraw dependency
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ secrets.EXCALIDRAW_REPO }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          ref: ${{ steps.source.outputs.excalidraw_ref }}
+          path: zditor-excalidraw
+          persist-credentials: false
+
+      - name: Set up JDK 17 and Gradle dependency cache
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: gradle
+          cache-dependency-path: |
+            zditor/src-tauri/gen/android/**/*.gradle*
+            zditor/src-tauri/gen/android/gradle/wrapper/gradle-wrapper.properties
+            zditor/tauri-cef.ref
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4
+        with:
+          packages: platform-tools platforms;android-36 build-tools;36.0.0 ndk;27.2.12479018
+          log-accepted-android-sdk-licenses: false
+
+      - name: Configure NDK and host build tools
+        run: |
+          test -n "$ANDROID_HOME"
+          ndk_path="$ANDROID_HOME/ndk/$ANDROID_NDK_VERSION"
+          test -x "$ndk_path/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib"
+          echo "NDK_HOME=$ndk_path" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_HOME=$ndk_path" >> "$GITHUB_ENV"
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends build-essential cmake pkg-config perl
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ steps.source.outputs.rust_target }}
+
+      - name: Cache Rust dependencies
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            zditor/src-tauri -> target
+            tauri -> target
+          key: android-${{ inputs.android_target }}-${{ inputs.build_mode }}-ndk-27.2.12479018
+
+      - name: Build Excalidraw packages
+        working-directory: zditor-excalidraw
+        run: |
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+          yarn config set network-timeout 600000
+          yarn install --frozen-lockfile
+          yarn build:packages
+
+      - name: Install application frontend dependencies
+        working-directory: zditor
+        run: npm ci
+
+      # Use the app wrapper for its NDK ranlib setup. The existing Android
+      # project contains native UI fixes: do not regenerate it with android init.
+      # Tauri runs beforeBuildCommand once to build the frontend.
+      - name: Build APK and AAB
+        working-directory: zditor
+        run: |
+          args=(--ci --target "$ANDROID_TARGET" --apk --aab --features wry)
+          if [ "$BUILD_MODE" = debug ]; then args+=(--debug); fi
+          npm run android:build -- "${args[@]}" -- --locked --no-default-features
+
+      - name: Collect Android artifacts and checksums
+        env:
+          APP_VERSION: ${{ steps.source.outputs.version }}
+          APP_COMMIT: ${{ steps.source.outputs.commit }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import { createHash } from 'node:crypto';
+          import { execFileSync } from 'node:child_process';
+          const output = 'android-artifacts';
+          const gradleOutput = 'zditor/src-tauri/gen/android/app/build/outputs';
+          const files = [];
+          const collect = (directory, extension) => fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+            const file = path.join(directory, entry.name);
+            return entry.isDirectory() ? collect(file, extension) : entry.isFile() && file.endsWith(extension) ? [file] : [];
+          });
+          for (const [directory, extension] of [['apk', '.apk'], ['bundle', '.aab']]) {
+            const root = path.join(gradleOutput, directory);
+            const bundles = collect(root, extension).sort();
+            if (!bundles.length) throw new Error(`No ${extension} output found`);
+            for (const file of bundles) {
+              const relative = path.join(directory, path.relative(root, file));
+              const destination = path.join(output, relative);
+              fs.mkdirSync(path.dirname(destination), { recursive: true });
+              fs.copyFileSync(file, destination);
+              files.push(relative);
+            }
+          }
+          const revision = directory => execFileSync('git', ['-C', directory, 'rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
+          const info = {
+            version: process.env.APP_VERSION, sourceCommit: process.env.APP_COMMIT,
+            androidTarget: process.env.ANDROID_TARGET, buildMode: process.env.BUILD_MODE,
+            ndkVersion: process.env.ANDROID_NDK_VERSION,
+            dependencyCommits: { tauri: revision('tauri'), excalidraw: revision('zditor-excalidraw') },
+            files,
+          };
+          fs.writeFileSync(path.join(output, 'build-info.json'), JSON.stringify(info, null, 2) + '\n');
+          const checksums = [];
+          for (const file of [...files, 'build-info.json']) {
+            const hash = createHash('sha256');
+            for await (const chunk of fs.createReadStream(path.join(output, file))) hash.update(chunk);
+            checksums.push(`${hash.digest('hex')}  ${file}`);
+          }
+          fs.writeFileSync(path.join(output, 'SHA256SUMS'), checksums.join('\n') + '\n');
+          const signing = process.env.BUILD_MODE === 'debug'
+            ? 'Debug APK uses the Android debug key for installation/testing.'
+            : 'Release APK/AAB are unsigned with the current source configuration; sign before installation/distribution.';
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
+            `### Android ${info.version}\n\n- Target: ${info.androidTarget}\n- Mode: ${info.buildMode}\n- Source commit: ${info.sourceCommit}\n- ${signing}\n- Download APK/AAB and SHA256SUMS from this run\u2019s artifacts (14 days).\n`);
+          JS
+
+      - name: Upload APK and AAB artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: zditor-android-${{ steps.source.outputs.version }}-${{ inputs.android_target }}-${{ inputs.build_mode }}-${{ steps.source.outputs.short_commit }}
+          path: android-artifacts/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14

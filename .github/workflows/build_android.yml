@@ -1,5 +1,5 @@
 name: Build Android
-run-name: Android ${{ inputs.android_target }} / ${{ inputs.build_mode }} / ${{ inputs.source_ref || vars.ZDITOR_REF || 'main' }}
+run-name: Android ${{ inputs.version || 'source version' }} / ${{ inputs.android_target }} / ${{ inputs.build_mode }} / ${{ inputs.source_ref || vars.ZDITOR_REF || 'main' }}
 
 # Builds the private application as an Actions artifact; does not publish a
 # GitHub Release or upload to Google Play. See docs/android-build.md.
@@ -8,6 +8,10 @@ on:
     inputs:
       source_ref:
         description: "Application branch, tag or commit (empty: ZDITOR_REF or main)"
+        type: string
+        required: false
+      version:
+        description: "Optional Android version (e.g. 1.9.9; empty: use source version)"
         type: string
         required: false
       android_target:
@@ -33,7 +37,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: android-${{ inputs.source_ref || vars.ZDITOR_REF || 'main' }}-${{ inputs.android_target }}-${{ inputs.build_mode }}
+  group: android-${{ inputs.source_ref || vars.ZDITOR_REF || 'main' }}-${{ inputs.version || 'source' }}-${{ inputs.android_target }}-${{ inputs.build_mode }}
   cancel-in-progress: false
 
 jobs:
@@ -85,6 +89,7 @@ jobs:
       - name: Resolve source version and dependency refs
         id: source
         env:
+          APP_VERSION_OVERRIDE: ${{ inputs.version }}
           EXCALIDRAW_REF: ${{ vars.EXCALIDRAW_REF }}
           TAURI_CEF_REPO: ${{ vars.TAURI_CEF_REPO }}
           TAURI_CEF_REF: ${{ vars.TAURI_CEF_REF }}
@@ -103,9 +108,31 @@ jobs:
           if (!pkg.scripts?.['android:build'] || !fs.existsSync('zditor/src-tauri/gen/android/app/build.gradle.kts')) {
             throw new Error('Choose a source_ref containing the Android project and android:build script');
           }
-          const version = config.version;
-          if (typeof version !== 'string' || !/^\d+\.\d+\.\d+(?:-[\w.-]+)?(?:\+[\w.-]+)?$/.test(version) || version !== pkg.version) {
+          const sourceVersion = config.version;
+          if (typeof sourceVersion !== 'string' || !/^\d+\.\d+\.\d+(?:-[\w.-]+)?(?:\+[\w.-]+)?$/.test(sourceVersion) || sourceVersion !== pkg.version) {
             throw new Error('Expected matching application versions in package.json and tauri.conf.json');
+          }
+          const requestedVersion = process.env.APP_VERSION_OVERRIDE?.trim() || '';
+          let version = sourceVersion;
+          if (requestedVersion) {
+            if (!/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(requestedVersion)) {
+              throw new Error('Android version must be a stable major.minor.patch version such as 1.9.9');
+            }
+            const [, majorText, minorText, patchText] = requestedVersion.match(/^(\d+)\.(\d+)\.(\d+)$/);
+            const [major, minor, patch] = [majorText, minorText, patchText].map(Number);
+            const versionCode = major * 1000000 + minor * 1000 + patch;
+            if (minor > 999 || patch > 999 || !Number.isSafeInteger(versionCode) || versionCode < 1 || versionCode > 2100000000) {
+              throw new Error('Android version must produce a version code between 1 and 2100000000 (minor and patch must be at most 999)');
+            }
+            version = requestedVersion;
+            pkg.version = version;
+            config.version = version;
+            const lock = JSON.parse(fs.readFileSync('zditor/package-lock.json', 'utf8'));
+            lock.version = version;
+            if (lock.packages?.['']) lock.packages[''].version = version;
+            fs.writeFileSync('zditor/package.json', `${JSON.stringify(pkg, null, 2)}\n`);
+            fs.writeFileSync('zditor/package-lock.json', `${JSON.stringify(lock, null, 2)}\n`);
+            fs.writeFileSync('zditor/src-tauri/tauri.conf.json', `${JSON.stringify(config, null, 2)}\n`);
           }
           const pin = (file) => fs.existsSync(file) ? fs.readFileSync(file, 'utf8').trim() : '';
           const tauriRepo = process.env.TAURI_CEF_REPO || 'zizdlp/tauri-cef';
@@ -238,8 +265,16 @@ jobs:
             }
           }
           const revision = directory => execFileSync('git', ['-C', directory, 'rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
+          const tauriProperties = fs.readFileSync('zditor/src-tauri/gen/android/app/tauri.properties', 'utf8');
+          const property = name => tauriProperties.match(new RegExp(`^${name}=(.+)$`, 'm'))?.[1];
+          const androidVersionName = property('tauri.android.versionName');
+          const androidVersionCode = Number(property('tauri.android.versionCode'));
+          if (androidVersionName !== process.env.APP_VERSION || !Number.isInteger(androidVersionCode) || androidVersionCode < 1 || androidVersionCode > 2100000000) {
+            throw new Error('Built Android version does not match the requested app version');
+          }
           const info = {
             version: process.env.APP_VERSION, sourceCommit: process.env.APP_COMMIT,
+            androidVersionName, androidVersionCode,
             androidTarget: process.env.ANDROID_TARGET, buildMode: process.env.BUILD_MODE,
             ndkVersion: process.env.ANDROID_NDK_VERSION,
             dependencyCommits: { tauri: revision('tauri'), excalidraw: revision('zditor-excalidraw') },
@@ -257,7 +292,7 @@ jobs:
             ? 'Debug APK uses the Android debug key for installation/testing.'
             : 'Release APK/AAB are unsigned with the current source configuration; sign before installation/distribution.';
           fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
-            `### Android ${info.version}\n\n- Target: ${info.androidTarget}\n- Mode: ${info.buildMode}\n- Source commit: ${info.sourceCommit}\n- ${signing}\n- Download APK/AAB and SHA256SUMS from this run\u2019s artifacts (14 days).\n`);
+            `### Android ${info.version}\n\n- Version code: ${info.androidVersionCode}\n- Target: ${info.androidTarget}\n- Mode: ${info.buildMode}\n- Source commit: ${info.sourceCommit}\n- ${signing}\n- Download APK/AAB and SHA256SUMS from this run\u2019s artifacts (14 days).\n`);
           JS
 
       - name: Upload APK and AAB artifacts

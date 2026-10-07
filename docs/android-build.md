@@ -10,6 +10,7 @@
 | 输入 | 说明 |
 | --- | --- |
 | `source_ref` | 应用仓库的分支、标签或提交 SHA。留空使用变量 `ZDITOR_REF`，未配置时使用 `main`；构建最新 Android 源码可填 `1003-exc` |
+| `version` | 可选的 Android 版本号，格式为 `主版本.次版本.修订号`，例如 `1.9.9`。填写后只覆盖本次检出的 `package.json`、锁文件和 `tauri.conf.json`，并据此生成 Android `versionName`/`versionCode`；留空沿用源码版本 |
 | `android_target` | 选择 `aarch64`（默认）、`armv7`、`i686` 或 `x86_64` |
 | `build_mode` | `release`（默认）或 `debug`，两者均生成 APK 和 AAB；安装测试请选择 `debug` |
 
@@ -17,8 +18,10 @@
 每次只构建所选的一个 ABI。产物路径或文件名中的 `universal` 是未按 ABI 拆包的 Gradle variant 名称，
 不代表包含所有架构；例如 `aarch64` 产物只包含 ARM64。
 
-所选源码必须包含 `android:build` 脚本及已有 Android 项目。版本号读取应用的 `src-tauri/tauri.conf.json`，
-并检查它与应用 `package.json` 的版本一致，不使用 zditor-docs 的版本覆盖。
+所选源码必须包含 `android:build` 脚本及已有 Android 项目。若填写 `version`，工作流会先检查源码中的
+`src-tauri/tauri.conf.json` 与 `package.json` 版本一致，再将两处版本临时改为输入值；未填写时沿用源码版本。
+Tauri 会用该版本生成 Android `versionName`，并按 `主版本 × 1,000,000 + 次版本 × 1,000 + 修订号`
+生成 `versionCode`。次版本和修订号须不大于 999，生成的 `versionCode` 须在 Android 允许范围内。
 
 当前应用 Gradle 没有 release `signingConfig`，因此 release APK/AAB **未签名**，不能直接安装或发布。
 `debug` 使用 Android 自动生成的 debug key 签名，适合安装测试；正式分发需要另行配置 release 签名。
@@ -41,7 +44,7 @@ build-info.json
 SHA256SUMS
 ```
 
-`build-info.json` 记录应用版本、完整提交、目标、模式、NDK 版本及两项依赖的实际提交。
+`build-info.json` 记录应用版本、Android `versionName`/`versionCode`、完整提交、目标、模式、NDK 版本及两项依赖的实际提交。
 `SHA256SUMS` 覆盖所有 APK、AAB 和 `build-info.json`，路径相对于解压根目录；在该目录可运行
 `sha256sum -c SHA256SUMS` 核对。
 

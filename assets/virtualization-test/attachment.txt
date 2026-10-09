@@ -1,0 +1,7 @@
+Zditor local attachment fixture
+
+This text file is used by 全节点虚拟化测试.md.
+It contains no external links or executable content.
+
+Checks: opening, downloading, selecting, and recycling attachment nodes.
+0123456789012345678901234567890123456789

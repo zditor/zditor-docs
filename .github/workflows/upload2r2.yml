@@ -37,6 +37,14 @@ jobs:
           aws configure set aws_secret_access_key "$R2_SECRET_ACCESS_KEY"
           aws configure set default.region auto
           aws configure set default.output json
+          aws configure set default.retry_mode standard
+          aws configure set default.max_attempts 5
+
+          # Release installers are below 1 GiB. Upload them with a single PUT to
+          # avoid R2 CompleteMultipartUpload/InvalidPart failures. Keep multipart
+          # available for larger future assets, using a predictable transfer client.
+          aws configure set default.s3.preferred_transfer_client classic
+          aws configure set default.s3.multipart_threshold 1GB
 
       - name: Download files from GitHub Release
         env:
@@ -111,10 +119,23 @@ jobs:
           for FILE in *; do
             if [ -f "$FILE" ] && [ "$FILE" != "latest.json" ]; then
               echo "Uploading $FILE to R2 version directory..."
-              aws s3 cp \
-                --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" \
-                "${FILE}" \
-                "s3://${R2_BUCKET_NAME}/zditor-v${{ steps.extract_version.outputs.version }}/${FILE}"
+              # Restart the entire transfer after a terminal S3 error, including
+              # InvalidPart, which the CLI's request-level retries do not recover.
+              for ATTEMPT in 1 2 3; do
+                if aws s3 cp \
+                  --endpoint-url "https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com" \
+                  --no-progress \
+                  "${FILE}" \
+                  "s3://${R2_BUCKET_NAME}/zditor-v${{ steps.extract_version.outputs.version }}/${FILE}"; then
+                  break
+                fi
+                if [ "$ATTEMPT" -eq 3 ]; then
+                  echo "::error::Failed to upload $FILE after $ATTEMPT attempts; latest.json will not be published."
+                  exit 1
+                fi
+                echo "Retrying $FILE after failed attempt $ATTEMPT..."
+                sleep "$((ATTEMPT * 5))"
+              done
             fi
           done
 

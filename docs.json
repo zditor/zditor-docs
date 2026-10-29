@@ -73,6 +73,7 @@
             "group": "入门",
             "pages": [
               "zh/introduction",
+              "zh/quickstart",
               "zh/quick-actions"
             ]
           },
@@ -538,10 +539,6 @@
     {
       "source": "/zh/%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%97%A5%E5%BF%97%E8%B7%AF%E5%BE%84",
       "destination": "/zh/config-and-logs"
-    },
-    {
-      "source": "/zh/quickstart",
-      "destination": "/zh/introduction"
     },
     {
       "source": "/en/openclaw-guide",

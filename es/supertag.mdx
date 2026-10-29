@@ -1,0 +1,181 @@
+---
+title: "Guía de SuperTag"
+description: "Usa SuperTag para organizar archivos Markdown como registros estructurados y hacer referencia a ellos dentro del texto."
+icon: "hashtag"
+---
+
+SuperTag permite a Zditor tratar archivos Markdown como registros estructurados y mostrar las referencias a esos registros como etiquetas dentro de los documentos.
+
+## Descripción general
+
+<CardGroup cols={2}>
+  <Card title="Registros estructurados" icon="database">
+    Guarda metadatos reutilizables en el frontmatter y mantén el cuerpo como Markdown normal.
+  </Card>
+
+  <Card title="Clase compartida" icon="table">
+    Agrupa muchos archivos en una tabla lógica dándoles el mismo valor de `class`.
+  </Card>
+
+  <Card title="Referencias en línea" icon="link">
+    Inserta un registro en otro documento con `mode=supertag`.
+  </Card>
+
+  <Card title="Campos de diseño de tarjetas" icon="table">
+    Usa campos como `col`, `row`, `cover` y `warm` para dar forma al encabezado del documento y a las tarjetas de los registros.
+  </Card>
+</CardGroup>
+
+## Conceptos básicos
+
+<AccordionGroup>
+  <Accordion title="Un registro sigue siendo un archivo Markdown" icon="file" defaultOpen>
+    Un registro de SuperTag es un documento Markdown normal con frontmatter tipado.
+
+    ```yaml
+    ---
+    title:
+      type: text
+      label: Title
+      value: "The Godfather"
+    director:
+      type: text
+      label: Director
+      value: "Francis Ford Coppola"
+    year:
+      type: number
+      label: Year
+      value: 1972
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    ---
+    ```
+  </Accordion>
+
+  <Accordion title="El campo class agrupa los registros" icon="table">
+    Los archivos que comparten el mismo valor de `class` pertenecen a la misma tabla lógica. `class` debe ser un campo de texto.
+
+    ```yaml
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    ```
+
+    Esto es lo que permite a Zditor reunir muchos archivos Markdown en una colección estructurada. La barra lateral **Calendar** muestra tus clases en su pestaña **Objects**.
+  </Accordion>
+
+  <Accordion title="Un archivo de estructura define los campos" icon="list-check">
+    Un archivo con la misma `class` y una lista `field` actúa como archivo de estructura de la clase. `field` indica los campos que debe tener cada registro, y el archivo de estructura contiene esos campos con sus tipos y etiquetas.
+
+    ```yaml
+    ---
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    field:
+      type: array
+      label: field
+      value: [title, director, year]
+    title:
+      type: text
+      label: Title
+      value: ""
+    director:
+      type: text
+      label: Director
+      value: ""
+    year:
+      type: number
+      label: Year
+      value: 0
+    ---
+    ```
+
+    Los registros que creas desde el menú `#` empiezan con estos campos, copiados del archivo de estructura. El archivo de estructura también define las columnas de la tabla de la clase, y en el grafo de conocimiento cada registro enlaza con él.
+  </Accordion>
+
+  <Accordion title="col y row definen el diseño de las tarjetas" icon="table">
+    Los campos de diseño controlan qué metadatos se destacan en el encabezado del documento y en las tarjetas de los registros de la vista **Gallery** de la clase.
+
+    ```yaml
+    col:
+      type: array
+      label: Col
+      value: [year, title, director]
+    row:
+      type: array
+      label: Row
+      value: [genre, rank, score, watched]
+    ```
+
+    - `col` indica hasta tres campos para el área del título: una línea pequeña encima, el título y una descripción debajo
+    - `row` indica los campos que se muestran debajo, en la fila de información
+  </Accordion>
+</AccordionGroup>
+
+## Sintaxis de las referencias
+
+Usa un enlace Markdown normal con `mode=supertag`:
+
+```markdown
+[ClassicMovieEnglish](/movies/The%20Godfather.md|mode=supertag)
+```
+
+- El texto entre corchetes es la clase del registro.
+- La ruta apunta al archivo del registro. Una ruta que empieza por `/` parte de la raíz del espacio de trabajo; cualquier otra ruta parte de la carpeta del documento actual. Los espacios de la ruta se escriben como `%20`.
+
+En el editor, la referencia aparece como una etiqueta de color, por ejemplo `#ClassicMovieEnglish · The Godfather`. El color depende del nombre de la clase.
+
+<Note>
+  Pocas veces necesitarás escribir esta sintaxis. Escribe `#` en un documento para abrir el menú de objetos, que muestra tus clases; elige una clase y después un registro para insertar una referencia. **Create Row** crea un registro nuevo de la clase en la carpeta del documento actual, con el nombre del texto que escribas, y lo inserta. **Create Table** inicia una clase nueva, que existe en cuanto creas su primera fila. Si el menú no aparece, comprueba que **Object menu (#)** está activado en **Settings → Editor → Markdown Editor**.
+</Note>
+
+Haz clic en una referencia para seleccionarla. La barra de herramientas que aparece muestra:
+
+- El nombre de la clase, que abre todos los registros de la clase en una pestaña con las vistas **Table**, **Gallery** y **Gantt**
+- El nombre del registro, que abre el archivo del registro
+- Un botón de actualizar, que actualiza el índice de tus notas en Zditor
+- **Info**, que muestra los campos del registro
+
+## Tipos de campo habituales
+
+| Tipo | En el editor | Uso habitual |
+| --- | --- | --- |
+| `text` | Text | título, autor, país, notas |
+| `number` | Number | año, puntuación, posición |
+| `date` | Date | fechas límite, fechas de visionado, fechas de creación |
+| `checkbox` | Toggle | completado o no, tono cálido, destacado o no |
+| `multiselect` | Multi-select | género, etiquetas, categorías |
+| `array` | List | listas de reparto, listas de campos de diseño |
+| `progress` | Progress | valores de 0 a 100, como puntuaciones o grado de avance |
+| `asset` | Image | portadas y otras imágenes |
+
+Consulta la [guía de Frontmatter](/es/frontmatter) para ver todos los tipos de campo y cómo editar los campos.
+
+## Flujo de trabajo recomendado
+
+<Steps>
+  <Step title="Copia un registro existente">
+    Parte de un archivo que ya tenga la estructura que quieres, o crea el registro desde el menú `#` con **Create Row**.
+  </Step>
+
+  <Step title="Conserva la estructura de campos y la clase">
+    Reutiliza las mismas claves, los mismos tipos y el mismo valor de `class` para que el registro siga en la misma colección.
+  </Step>
+
+  <Step title="Sustituye los valores concretos">
+    Actualiza el título, las fechas, la portada y el cuerpo para que correspondan al nuevo registro.
+  </Step>
+
+  <Step title="Completa más tarde los nuevos campos compartidos">
+    Si toda la clase necesita otro campo, añádelo de forma coherente en toda la colección y en la lista `field` del archivo de estructura.
+  </Step>
+</Steps>
+
+<Tip>
+  SuperTag funciona mejor cuando los nombres de los campos se mantienen estables. Evita cambiarlos a la ligera cuando una clase ya está en uso.
+</Tip>

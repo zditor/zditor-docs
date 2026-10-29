@@ -1,0 +1,93 @@
+---
+title: "設定とログの保存場所"
+description: "macOS、Windows、Linux で Zditor の設定フォルダーとログフォルダーを見つけます。"
+icon: "folder-open"
+---
+
+このページでは、Zditor が各 OS で使う設定とログの既定のパスを紹介します。設定を移行したいとき、トラブルシューティングのためにログを集めたいとき、目的のフォルダーをすばやく開きたいときに役立ちます。
+
+<Warning>
+  これらは既定のパスです。Linux では、環境変数 `XDG_DATA_HOME` が設定されている場合はそれに従います。
+</Warning>
+
+## 既定のパス
+
+Zditor は、設定やその他のアプリデータを、アプリ ID の `com.zditor.ai` という名前の 1 つのフォルダーに保存し、ログファイルは別のフォルダーに書き込みます。
+
+| システム | 設定のパス | ログのパス |
+| :--- | :--- | :--- |
+| macOS | `~/Library/Application Support/com.zditor.ai` | `~/Library/Logs/com.zditor.ai` |
+| Windows | `%APPDATA%\com.zditor.ai` | `%LOCALAPPDATA%\com.zditor.ai\logs` |
+| Linux | `~/.local/share/com.zditor.ai` | `~/.local/share/com.zditor.ai/logs` |
+
+設定フォルダーには、設定、エージェントのモデル設定、すべてのワークスペース向けに追加したスキル、エージェントとの会話、保存した接続の詳細（パスワード、キー、トークンを含む）が保存されます。
+
+現在のログは `zditor.log` です。ファイルが大きくなると、Zditor は新しいログを作成し、古いファイルの名前を `zditor_` に日時を付けたものに変更します。こうした古いログファイルは、30 日を過ぎると Zditor が削除します。
+
+<Tip>
+  現在のログをすばやく開くには、メニューバー（macOS）またはシステムトレイ（Windows と Linux）の Zditor アイコンをクリックし、**Open log file** を選びます。
+</Tip>
+
+## フォルダーをすばやく開く方法
+
+<Tabs>
+<Tab title="mac/linux">
+  ```bash
+  # macOS config directory
+  open ~/Library/Application\ Support/com.zditor.ai
+
+  # macOS log directory
+  open ~/Library/Logs/com.zditor.ai
+
+  # Linux config directory
+  xdg-open ~/.local/share/com.zditor.ai
+
+  # Linux log directory
+  xdg-open ~/.local/share/com.zditor.ai/logs
+  ```
+</Tab>
+
+<Tab title="windows">
+  ```powershell
+  # Config directory
+  explorer "$env:APPDATA\com.zditor.ai"
+
+  # Log directory
+  explorer "$env:LOCALAPPDATA\com.zditor.ai\logs"
+  ```
+</Tab>
+</Tabs>
+
+## バックアップのヒント
+
+1. 書き込みの競合を避けるため、設定フォルダーをコピーする前に Zditor を完全に終了してください。ウィンドウを閉じても、Zditor がバックグラウンドで動き続けている場合があります。メニューバーまたはトレイのアイコンから **Quit zditor** を選んでください。
+2. ログは主にトラブルシューティング用です。通常、長期間にわたってすべてをバックアップする必要はありません。
+3. アップグレードや再インストールの前に、設定フォルダーをバックアップしてください。
+4. 設定フォルダーには保存した接続の認証情報が含まれるため、そのコピーは他人に見せないでください。問題を報告するときは、設定フォルダーではなくログファイルを送ってください。
+
+<Tip>
+  Zditor のアプリデータが使っている容量を確認したり、キャッシュを消去したりするには、デスクトップアプリで **Settings → Personal → Storage & data** を開きます。
+</Tip>
+
+## よくある質問
+
+### フォルダーが見つからない
+
+- Zditor を一度起動してください。フォルダーは初回の起動時に作成されます。
+- Windows では、`%APPDATA%` または `%LOCALAPPDATA%` をエクスプローラーのアドレスバーに直接貼り付けます。
+- macOS では、`~/Library` フォルダーは Finder で非表示になっています。Finder で `Cmd + Shift + G` を押し、`~/Library/Logs/com.zditor.ai` のようにパスを入力します。
+
+### 自分のパソコンでの実際のパスを確認したい
+
+Linux では、`XDG_DATA_HOME` を設定している場合、パスはそれに従います。まずターミナルで値を表示します。
+
+```bash
+# Linux
+echo $XDG_DATA_HOME
+```
+
+何も表示されなければ、Zditor は `~/.local/share` を使います。macOS と Windows では、これらのパスを変える環境変数はないため、表のパスを使ってください。
+
+### Linux の ~/.config にもフォルダーがあるのはなぜですか？
+
+Zditor は、ウィンドウのサイズと位置を `~/.config/com.zditor.ai`（`XDG_CONFIG_HOME` を設定している場合はその下）に保存します。それ以外はすべて `~/.local/share/com.zditor.ai` にあります。

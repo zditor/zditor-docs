@@ -1,0 +1,246 @@
+---
+title: "Guia de fórmulas matemáticas"
+description: "Escreva fórmulas inline e em bloco no Zditor, com uma referência compacta de fórmulas comuns."
+icon: "square-root-variable"
+---
+
+O Zditor aceita fórmulas inline e em bloco, para que você possa colocar fórmulas curtas no meio do texto ou dar a expressões maiores um bloco próprio.
+
+## Demonstração em vídeo
+
+<Frame>
+  <video
+    controls
+    style={{ width: '100%', height: '500px', borderRadius: '0.5rem' }}
+    src="https://download.zditor.com/zditor-com/math_en_small.mov"
+  >
+    Seu navegador não é compatível com a tag de vídeo.
+  </video>
+</Frame>
+
+## Visão geral
+
+<CardGroup cols={2}>
+  <Card title="Fórmulas inline" icon="code">
+    Use `$...$` para expressões curtas que ficam dentro de uma frase.
+  </Card>
+
+  <Card title="Fórmulas em bloco" icon="square-root-variable">
+    Use `$$...$$` para fórmulas maiores, matrizes e deduções em várias linhas.
+  </Card>
+
+  <Card title="Sintaxe no estilo LaTeX" icon="code">
+    Escreva fórmulas com os comandos matemáticos do LaTeX que você já conhece.
+  </Card>
+
+  <Card title="Referência rápida" icon="list">
+    Tenha à mão as fórmulas mais comuns de cálculo, álgebra, probabilidade e otimização.
+  </Card>
+</CardGroup>
+
+## Tipos de fórmula
+
+<AccordionGroup>
+  <Accordion title="Fórmulas inline" icon="code" defaultOpen>
+    Use fórmulas inline quando a expressão deve ficar dentro de uma frase.
+
+    ```markdown
+    Einstein's equation is $E=mc^2$.
+    ```
+  </Accordion>
+
+  <Accordion title="Fórmulas em bloco" icon="square-root-variable">
+    Use fórmulas em bloco para expressões maiores que merecem um bloco próprio.
+
+    ```latex
+    $$
+    \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+    $$
+    ```
+
+    A fórmula também pode ficar na mesma linha dos delimitadores, como em `$$E=mc^2$$`.
+  </Accordion>
+
+  <Accordion title="Delimitadores de colchetes do LaTeX" icon="code">
+    O Zditor também lê `\(...\)` como fórmula inline e `\[...\]` como fórmula em bloco:
+
+    ```latex
+    The area is \(\pi r^2\).
+
+    \[
+    a^2 + b^2 = c^2
+    \]
+    ```
+
+    Isso exige **Bracket math delimiters**, em **Settings → Integrations → Plugins**. As fórmulas em si exigem **Math formulas**, no mesmo lugar. Os dois vêm ativados por padrão, e uma mudança vale depois que você reabre o editor de Markdown.
+  </Accordion>
+
+  <Accordion title="Inserir e editar fórmulas no editor" icon="pen-to-square">
+    - Digite `$E=mc^2$` no texto formatado: a fórmula se forma quando você digita o `$` de fechamento.
+    - Em uma linha vazia, digite `$$` seguido de um espaço para iniciar uma fórmula em bloco.
+    - Pressione `Mod-Shift-E` para uma fórmula inline ou `Mod-Shift-D` para uma fórmula em bloco. O menu `/` também tem **Math display (LaTeX)** no grupo **Code Block**.
+    - Clique em uma fórmula inline para editar o código dela. Clique em uma fórmula em bloco para selecioná-la e depois pressione `Enter` ou escolha **Edit formula** na barra de ferramentas dela.
+    - A barra de ferramentas da fórmula oferece **Convert to block formula**, **Convert to inline formula**, **Convert to text** ou **Convert to paragraph**. Durante a edição, `Mod-M` alterna entre inline e em bloco.
+
+    As teclas que funcionam dentro de uma fórmula estão em [Atalhos de teclado](/pt/keyboard-shortcuts#edição-de-fórmulas).
+  </Accordion>
+
+  <Accordion title="Cifrões no texto comum" icon="lightbulb">
+    Quando o Zditor lê Markdown, um `$` de abertura não pode ser seguido de espaço, e um `$` de fechamento não pode vir depois de um espaço nem logo antes de um dígito. Assim, preços como `$5 and $10` continuam como texto simples. Escreva `\$` para um cifrão literal.
+
+    Se uma fórmula se formar sem querer enquanto você digita, pressione `Backspace` logo em seguida para desfazer a conversão.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Mantenha as fórmulas inline compactas. Se a expressão tiver frações grandes, matrizes ou várias etapas alinhadas, passe para uma fórmula em bloco.
+</Tip>
+
+## Noções de cálculo
+
+### Limites
+
+$$
+\lim_{x \to 0}\frac{\sin x}{x} = 1
+$$
+
+$$
+\lim_{x \to 0}\frac{e^x - 1}{x} = 1
+$$
+
+$$
+\lim_{x \to 0}\frac{\ln(1+x)}{x} = 1
+$$
+
+$$
+\lim_{x \to \infty}\left(1+\frac{1}{x}\right)^x = e
+$$
+
+### Derivadas
+
+$$
+f'(x) = \lim_{h \to 0}\frac{f(x+h)-f(x)}{h}
+$$
+
+| Função | Derivada |
+| --- | --- |
+| $c$ | $0$ |
+| $x^n$ | $nx^{n-1}$ |
+| $e^x$ | $e^x$ |
+| $\ln x$ | $\frac{1}{x}$ |
+| $\sin x$ | $\cos x$ |
+| $\cos x$ | $-\sin x$ |
+
+$$
+\frac{d}{dx}[f(x)g(x)] = f'(x)g(x) + f(x)g'(x)
+$$
+
+$$
+\frac{d}{dx}f(g(x)) = f'(g(x))g'(x)
+$$
+
+### Integrais
+
+$$
+\int f(x)\,dx = F(x) + C
+$$
+
+| Função | Integral |
+| --- | --- |
+| $x^n$ | $\frac{x^{n+1}}{n+1}+C,\; n \ne -1$ |
+| $\frac{1}{x}$ | $\ln\lvert x\rvert+C$ |
+| $e^x$ | $e^x+C$ |
+| $\sin x$ | $-\cos x + C$ |
+| $\cos x$ | $\sin x + C$ |
+
+$$
+\int u\,dv = uv - \int v\,du
+$$
+
+$$
+\int f(g(x))g'(x)\,dx = \int f(u)\,du
+$$
+
+## Álgebra linear
+
+### Vetores e produtos internos
+
+$$
+\|\mathbf{x}\|_2 = \sqrt{\sum_{i=1}^{n}x_i^2}
+$$
+
+$$
+\mathbf{x}^T\mathbf{y} = \sum_{i=1}^{n}x_i y_i
+$$
+
+$$
+\cos\theta = \frac{\mathbf{x}^T\mathbf{y}}{\|\mathbf{x}\|_2\|\mathbf{y}\|_2}
+$$
+
+### Matrizes
+
+$$
+c_{ij} = \sum_{k=1}^{n} a_{ik}b_{kj}
+$$
+
+$$
+\mathbf{A} =
+\begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}
+$$
+
+$$
+\det(\mathbf{A}) = ad - bc
+$$
+
+$$
+\mathbf{A}^{-1} = \frac{1}{ad-bc}
+\begin{bmatrix}
+d & -b \\
+-c & a
+\end{bmatrix}
+$$
+
+### Autovalores
+
+$$
+\mathbf{A}\mathbf{v} = \lambda \mathbf{v}
+$$
+
+$$
+\det(\mathbf{A} - \lambda \mathbf{I}) = 0
+$$
+
+## Probabilidade e estatística
+
+$$
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}
+$$
+
+$$
+P(A \mid B) = \frac{P(B \mid A)P(A)}{P(B)}
+$$
+
+$$
+\mathbb{E}[X] = \sum_x xP(X=x)
+$$
+
+$$
+\mathrm{Var}(X) = \mathbb{E}[(X-\mu)^2]
+$$
+
+$$
+f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+$$
+
+## Otimização
+
+$$
+\theta_{t+1} = \theta_t - \eta \nabla J(\theta_t)
+$$
+
+$$
+f(x) \approx f(x_0) + f'(x_0)(x-x_0) + \frac{1}{2}f''(x_0)(x-x_0)^2
+$$

@@ -1,0 +1,181 @@
+---
+title: "Guide SuperTag"
+description: "Utilisez SuperTag pour organiser vos fichiers Markdown comme des enregistrements structurés et y faire référence dans le texte."
+icon: "hashtag"
+---
+
+SuperTag permet à Zditor de traiter des fichiers Markdown comme des enregistrements structurés et d’afficher les références à ces enregistrements sous forme de pastilles, à la manière d’étiquettes, dans vos documents.
+
+## Vue d’ensemble
+
+<CardGroup cols={2}>
+  <Card title="Enregistrements structurés" icon="database">
+    Stockez des métadonnées réutilisables dans le frontmatter, tout en gardant le corps du texte en Markdown ordinaire.
+  </Card>
+
+  <Card title="Classe partagée" icon="table">
+    Regroupez de nombreux fichiers dans une même table logique en leur donnant la même valeur `class`.
+  </Card>
+
+  <Card title="Références dans le texte" icon="link">
+    Insérez un enregistrement dans un autre document avec `mode=supertag`.
+  </Card>
+
+  <Card title="Champs de mise en page des cartes" icon="table">
+    Utilisez des champs comme `col`, `row`, `cover` et `warm` pour façonner l’en-tête du document et les cartes des enregistrements.
+  </Card>
+</CardGroup>
+
+## Concepts clés
+
+<AccordionGroup>
+  <Accordion title="Un enregistrement reste un fichier Markdown" icon="file" defaultOpen>
+    Un enregistrement SuperTag est un document Markdown ordinaire doté d’un frontmatter typé.
+
+    ```yaml
+    ---
+    title:
+      type: text
+      label: Title
+      value: "The Godfather"
+    director:
+      type: text
+      label: Director
+      value: "Francis Ford Coppola"
+    year:
+      type: number
+      label: Year
+      value: 1972
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    ---
+    ```
+  </Accordion>
+
+  <Accordion title="Le champ class regroupe les enregistrements" icon="table">
+    Les fichiers qui partagent la même valeur `class` appartiennent à la même table logique. `class` doit être un champ texte.
+
+    ```yaml
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    ```
+
+    C’est ce qui permet à Zditor de rassembler de nombreux fichiers Markdown en une seule collection structurée. La barre latérale **Calendar** liste vos classes dans son onglet **Objects**.
+  </Accordion>
+
+  <Accordion title="Un fichier de schéma définit les champs" icon="list-check">
+    Un fichier qui a la même `class` et une liste `field` sert de fichier de schéma à la classe. `field` nomme les champs que chaque enregistrement doit avoir, et le fichier de schéma contient ces champs avec leurs types et leurs libellés.
+
+    ```yaml
+    ---
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    field:
+      type: array
+      label: field
+      value: [title, director, year]
+    title:
+      type: text
+      label: Title
+      value: ""
+    director:
+      type: text
+      label: Director
+      value: ""
+    year:
+      type: number
+      label: Year
+      value: 0
+    ---
+    ```
+
+    Les enregistrements que vous créez depuis le menu `#` démarrent avec ces champs, copiés depuis le fichier de schéma. Le fichier de schéma définit aussi les colonnes de la table de la classe, et dans le graphe de connaissances, chaque enregistrement est relié à lui.
+  </Accordion>
+
+  <Accordion title="col et row façonnent la mise en page des cartes" icon="table">
+    Les champs de mise en page déterminent quelles métadonnées sont mises en avant dans l’en-tête du document et sur les cartes des enregistrements dans la vue **Gallery** de la classe.
+
+    ```yaml
+    col:
+      type: array
+      label: Col
+      value: [year, title, director]
+    row:
+      type: array
+      label: Row
+      value: [genre, rank, score, watched]
+    ```
+
+    - `col` nomme jusqu’à trois champs pour la zone de titre : une petite ligne au-dessus, le titre, et une description en dessous
+    - `row` nomme les champs affichés dans la ligne d’informations en dessous
+  </Accordion>
+</AccordionGroup>
+
+## Syntaxe des références
+
+Utilisez un lien Markdown ordinaire avec `mode=supertag` :
+
+```markdown
+[ClassicMovieEnglish](/movies/The%20Godfather.md|mode=supertag)
+```
+
+- Le texte entre crochets est la classe de l’enregistrement.
+- Le chemin pointe vers le fichier de l’enregistrement. Un chemin qui commence par `/` part de la racine de l’espace de travail ; tout autre chemin part du dossier du document actuel. Les espaces du chemin s’écrivent `%20`.
+
+Dans l’éditeur, la référence apparaît sous forme de pastille colorée, comme `#ClassicMovieEnglish · The Godfather`. La couleur dépend du nom de la classe.
+
+<Note>
+  Vous aurez rarement besoin de taper cette syntaxe. Tapez `#` dans un document pour ouvrir le menu des objets, qui liste vos classes ; choisissez une classe, puis un enregistrement, pour insérer une référence. **Create Row** crée un nouvel enregistrement de la classe dans le dossier du document actuel, nommé d’après le texte que vous saisissez, et l’insère. **Create Table** commence une nouvelle classe, qui existe dès que vous créez sa première ligne. Si le menu n’apparaît pas, vérifiez que **Object menu (#)** est activé dans **Settings → Editor → Markdown Editor**.
+</Note>
+
+Cliquez sur une référence pour la sélectionner. La barre d’outils qui apparaît affiche :
+
+- Le nom de la classe, qui ouvre tous les enregistrements de la classe dans un onglet, avec les vues **Table**, **Gallery** et **Gantt**
+- Le nom de l’enregistrement, qui ouvre le fichier de l’enregistrement
+- Un bouton d’actualisation, qui met à jour l’index de vos notes dans Zditor
+- **Info**, qui affiche les champs de l’enregistrement
+
+## Types de champs courants
+
+| Type | Dans l’éditeur | Usage typique |
+| --- | --- | --- |
+| `text` | Text | titre, auteur, pays, notes |
+| `number` | Number | année, score, classement |
+| `date` | Date | échéances, dates de visionnage, dates de création |
+| `checkbox` | Toggle | état terminé, thème chaud, mise en avant |
+| `multiselect` | Multi-select | genre, étiquettes, catégories |
+| `array` | List | listes d’acteurs, listes de champs de mise en page |
+| `progress` | Progress | valeurs de 0 à 100, comme des scores ou un taux d’achèvement |
+| `asset` | Image | couvertures et autres images |
+
+Consultez le [guide du Frontmatter](/fr/frontmatter) pour découvrir tous les types de champs et la façon de modifier les champs.
+
+## Méthode recommandée
+
+<Steps>
+  <Step title="Copier un enregistrement existant">
+    Partez d’un fichier qui a déjà le schéma voulu, ou créez l’enregistrement depuis le menu `#` avec **Create Row**.
+  </Step>
+
+  <Step title="Conserver la structure des champs et la classe">
+    Réutilisez les mêmes clés, les mêmes types et la même valeur `class` pour que l’enregistrement reste dans la même collection.
+  </Step>
+
+  <Step title="Remplacer les valeurs concrètes">
+    Mettez à jour le titre, les dates, la couverture et le contenu du corps pour qu’ils correspondent au nouvel enregistrement.
+  </Step>
+
+  <Step title="Compléter plus tard les nouveaux champs partagés">
+    Si toute la classe a besoin d’un champ supplémentaire, ajoutez-le de façon cohérente dans toute la collection, ainsi qu’à la liste `field` du fichier de schéma.
+  </Step>
+</Steps>
+
+<Tip>
+  SuperTag fonctionne au mieux lorsque les noms de champs restent stables dans le temps. Évitez de les renommer à la légère une fois qu’une classe est utilisée.
+</Tip>

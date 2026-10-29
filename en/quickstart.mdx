@@ -1,43 +1,78 @@
 ---
 title: "Quickstart"
-description: "Stable English landing route for the Zditor documentation."
+description: "Install Zditor, choose where your files live, and start writing."
 icon: "rocket"
 ---
 
-Welcome to the English Zditor documentation.
+This page takes you from the download to your first note in a few minutes. You don't need an account to write; sign in only for Zditor AI and membership features.
 
-This page exists as a stable English entry path so the English and Chinese tabs can share the same bilingual navigation structure.
+<Steps>
+  <Step title="Install Zditor">
+    Download the version for your system from the [download page](https://zditor.com/download).
 
-<Info>
-  The English tab now includes the same core product topics as the Chinese tab: file tree, knowledge graph, text marks, math formulas, footnotes, SuperTag, Frontmatter, shortcuts, Agent, MCP, and configuration paths.
-</Info>
+    <Tabs>
+      <Tab title="macOS">
+        Choose **Apple silicon** for Macs with an M-series chip and **Intel** for older Macs. Open the `.dmg` disk image, drag Zditor into your Applications folder, and open it from there.
+      </Tab>
 
-## Recommended links
+      <Tab title="Windows">
+        Run the `.exe` setup program. The `.msi` package is meant for managed installs.
+      </Tab>
 
-<CardGroup cols={2}>
-  <Card title="Introduction" icon="compass" href="/en/introduction">
-    Open the English feature overview page.
+      <Tab title="Linux">
+        Make the AppImage executable with `chmod +x` and run it, or install the `.deb` or `.rpm` package with your package manager.
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="Go through the setup">
+    The first time Zditor opens, a short setup walks you through four steps:
+
+    - **Welcome**: click **Set up Zditor**.
+    - **Interface**: choose a comfortable **Interface size**.
+    - **Workspace**: choose where your work lives, as described in the next step.
+    - **Agent**: connect the AI service the built-in agent uses, or click **Skip and finish** to do it later.
+
+    You can change all of this later. To see the setup again, click **Restart tour** in **Settings → Personal → General**.
+  </Step>
+
+  <Step title="Choose a workspace">
+    A workspace is the folder Zditor works in. Its files appear in the sidebar, and Zditor keeps them in their original format.
+
+    - **Local folder**: click **Choose folder** and pick a folder on your computer.
+    - **S3**, **WebDAV**, or **SSH**: enter the connection details to work on files stored elsewhere.
+
+    Later, the workspace menu at the top of the **Files** panel switches between workspaces, and an empty Agent tab offers **Open Workspace** and **New Workspace**. Remote connections, including Git repositories, are managed in **Settings → Integrations → Connections**. See [the file tree guide](/en/file-tree) for more.
+  </Step>
+
+  <Step title="Write your first note">
+    Click **New File** at the top of the file tree, type a name, and press `Enter`. New files end in `.md` unless you change the default.
+
+    Then start typing. Markdown turns into formatting as you type: `## ` at the start of a line makes a heading, for example. Type `/` at the start of a line for the command menu, `@` to link another file, and `:` for emoji. Zditor saves your changes to the file automatically.
+  </Step>
+
+  <Step title="Connect the agent (optional)">
+    The built-in agent needs an AI service. Open **Settings → AI → Agents** and set **AI service** to one of:
+
+    - **Zditor**: sign in to your Zditor account. This needs Pro or free AI tokens on your account.
+    - **Custom provider**: choose the **API protocol** (OpenAI Responses or Claude Messages), enter the **Base URL** and **API key**, click **Fetch models**, enable a model, and click **Save**.
+
+    Then click **+** in the tab bar to open an Agent tab and send a message. See the [Agent Guide](/en/agent-guide) for the details.
+  </Step>
+</Steps>
+
+## Next steps
+
+<CardGroup cols={3}>
+  <Card title="Quick actions" icon="bolt" href="/en/quick-actions">
+    Drag and drop, trigger menus, toolbars and the first shortcuts to learn.
   </Card>
 
-  <Card title="Agent guide" icon="robot" href="/en/agent-guide">
-    Configure ACP-compatible agents and learn the workflow.
+  <Card title="File tree" icon="folder-tree" href="/en/file-tree">
+    Organize your files and switch between workspaces.
   </Card>
 
-  <Card title="MCP guide" icon="server" href="/en/mcp-guide">
-    Connect extra tools for Agent tasks.
-  </Card>
-
-  <Card title="Frontmatter guide" icon="table" href="/en/frontmatter">
-    Open the English Frontmatter guide.
-  </Card>
-</CardGroup>
-
-<CardGroup cols={2}>
-  <Card title="Chinese quickstart" icon="language" href="/zh/quickstart">
-    Switch to the Chinese documentation entry.
-  </Card>
-
-  <Card title="Official website" icon="arrow-up-right-from-square" href="https://zditor.com">
-    Visit the Zditor website.
+  <Card title="Agent" icon="robot" href="/en/agent-guide">
+    Set up the agent and decide what it may do.
   </Card>
 </CardGroup>

@@ -4,7 +4,7 @@ description: "Use SuperTag to organize Markdown files as structured records and 
 icon: "hashtag"
 ---
 
-SuperTag lets Zditor treat Markdown files as structured records and render references to those records as tag-like nodes inside documents.
+SuperTag lets Zditor treat Markdown files as structured records and render references to those records as tag-like chips inside documents.
 
 ## Overview
 
@@ -22,7 +22,7 @@ SuperTag lets Zditor treat Markdown files as structured records and render refer
   </Card>
 
   <Card title="Card layout fields" icon="table">
-    Use fields such as `col`, `row`, `cover`, and `warm` to shape visual presentation.
+    Use fields such as `col`, `row`, `cover`, and `warm` to shape the document header and the record cards.
   </Card>
 </CardGroup>
 
@@ -55,7 +55,7 @@ SuperTag lets Zditor treat Markdown files as structured records and render refer
   </Accordion>
 
   <Accordion title="The class field groups records" icon="table">
-    Files that share the same `class` value belong to the same logical table.
+    Files that share the same `class` value belong to the same logical table. `class` must be a text field.
 
     ```yaml
     class:
@@ -64,11 +64,42 @@ SuperTag lets Zditor treat Markdown files as structured records and render refer
       value: "ClassicMovieEnglish"
     ```
 
-    This is what lets Zditor aggregate many Markdown files into one structured collection.
+    This is what lets Zditor aggregate many Markdown files into one structured collection. The **Calendar** sidebar lists your classes on its **Objects** tab.
+  </Accordion>
+
+  <Accordion title="A schema file defines the fields" icon="list-check">
+    A file with the same `class` and a `field` list acts as the class's schema file. `field` names the fields every record should have, and the schema file contains those fields with their types and labels.
+
+    ```yaml
+    ---
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    field:
+      type: array
+      label: field
+      value: [title, director, year]
+    title:
+      type: text
+      label: Title
+      value: ""
+    director:
+      type: text
+      label: Director
+      value: ""
+    year:
+      type: number
+      label: Year
+      value: 0
+    ---
+    ```
+
+    Records you create from the `#` menu start with these fields, copied from the schema file. The schema file also defines the columns of the class's table, and in the knowledge graph every record links to it.
   </Accordion>
 
   <Accordion title="col and row shape card layout" icon="table">
-    Layout fields control which metadata is emphasized on document cards.
+    Layout fields control which metadata is emphasized in the document header, and on the record cards in the class's **Gallery** view.
 
     ```yaml
     col:
@@ -81,8 +112,8 @@ SuperTag lets Zditor treat Markdown files as structured records and render refer
       value: [genre, rank, score, watched]
     ```
 
-    - `col` is for the main vertical information area
-    - `row` is for the supporting or bottom information band
+    - `col` names up to three fields for the title area: a small line above, the title, and a description below
+    - `row` names the fields shown in the information row underneath
   </Accordion>
 </AccordionGroup>
 
@@ -91,31 +122,45 @@ SuperTag lets Zditor treat Markdown files as structured records and render refer
 Use a normal Markdown link with `mode=supertag`:
 
 ```markdown
-[title](src|mode=supertag)
+[ClassicMovieEnglish](/movies/The%20Godfather.md|mode=supertag)
 ```
 
+- The text in brackets is the record's class.
+- The path points to the record file. A path starting with `/` starts at the workspace root; any other path starts at the folder of the current document. Spaces in the path are written as `%20`.
+
+In the editor, the reference appears as a colored chip such as `#ClassicMovieEnglish · The Godfather`. The color depends on the class name.
+
 <Note>
-  The minimal product syntax is `[title](src|mode=supertag)`. In real documents, `src` is usually the target file path.
+  You rarely need to type this syntax. Type `#` in a document to open the object menu, which lists your classes; choose a class, then a record, to insert a reference. **Create Row** creates a new record of the class in the current document's folder, named after the text you enter, and inserts it. **Create Table** starts a new class, which exists once you create its first row. If the menu does not appear, check that **Object menu (#)** is on in **Settings → Editor → Markdown Editor**.
 </Note>
+
+Click a reference to select it. The toolbar that appears shows:
+
+- The class name, which opens all records of the class in a tab with **Table**, **Gallery**, and **Gantt** views
+- The record name, which opens the record file
+- A refresh button, which updates Zditor's index of your notes
+- **Info**, which shows the record's fields
 
 ## Common Field Types
 
-| Type | Typical use |
-| --- | --- |
-| `text` | title, author, country, notes |
-| `number` | year, score, rank |
-| `date` | due dates, watch dates, created dates |
-| `checkbox` | done state, warm theme, featured state |
-| `multiselect` | genre, tags, categories |
-| `array` | cast lists, layout field lists |
-| `progress` | score-like or progress-like values |
-| `asset` | covers and resource paths |
+| Type | In the editor | Typical use |
+| --- | --- | --- |
+| `text` | Text | title, author, country, notes |
+| `number` | Number | year, score, rank |
+| `date` | Date | due dates, watch dates, created dates |
+| `checkbox` | Toggle | done state, warm theme, featured state |
+| `multiselect` | Multi-select | genre, tags, categories |
+| `array` | List | cast lists, layout field lists |
+| `progress` | Progress | values from 0 to 100, such as scores or completion |
+| `asset` | Image | covers and other images |
+
+See the [Frontmatter guide](/en/frontmatter) for every field type and how to edit fields.
 
 ## Recommended Workflow
 
 <Steps>
   <Step title="Copy an existing record">
-    Start from a file that already has the schema you want.
+    Start from a file that already has the schema you want, or create the record from the `#` menu with **Create Row**.
   </Step>
 
   <Step title="Keep the field structure and class">
@@ -127,7 +172,7 @@ Use a normal Markdown link with `mode=supertag`:
   </Step>
 
   <Step title="Backfill new shared fields later">
-    If the whole class needs another field, add it consistently across the collection.
+    If the whole class needs another field, add it consistently across the collection, and to the schema file's `field` list.
   </Step>
 </Steps>
 

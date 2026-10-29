@@ -1,0 +1,148 @@
+---
+title: "テキストマークガイド"
+description: "Zditor の基本的なインライン書式と、注釈・修正のための構文。"
+icon: "highlighter"
+---
+
+Zditor では、太字、斜体、ハイライト、インラインコードなどの標準的なインライン書式に加えて、注釈や修正のための、より表現力のある校閲用マークも使えます。
+
+<Frame>
+  <img src="/images/case2_en.png" alt="Zditor での修正マークと拡張構文の例" style={{ borderRadius: '0.5rem' }} />
+</Frame>
+
+## 概要
+
+<CardGroup cols={2}>
+  <Card title="基本の書式" icon="highlighter">
+    太字、斜体、ハイライトで、文章に強調と構造を加えます。
+  </Card>
+
+  <Card title="インラインコード" icon="code">
+    コマンド、識別子、短いコード片をバッククォートで囲みます。
+  </Card>
+
+  <Card title="注釈" icon="lightbulb">
+    `mode=tip` を使うと、元のテキストを変えずに用語や語句を説明できます。
+  </Card>
+
+  <Card title="修正" icon="pen-to-square">
+    `mode=revision` を使うと、後で承認できる置き換え案を提案できます。
+  </Card>
+</CardGroup>
+
+## 基本のインラインマーク
+
+| マーク | 構文 | 主な用途 |
+| --- | --- | --- |
+| 太字 | `**text**` | 重要な結論や用語 |
+| 斜体 | `*text*` | 軽い強調、外国語、特別な用語 |
+| 取り消し線 | `~~text~~` | 削除した表現や古くなった表現 |
+| ハイライト | `==text==` | 重要な定義や要点 |
+| インラインコード | `` `code` `` | コマンド、変数、識別子 |
+| リンク | `[text](url)` | 移動や参照 |
+
+これらのマークは、テキストを選択すると表示される書式ツールバーや、[キーボードショートカット](/ja/keyboard-shortcuts)のページにあるショートカットでも適用できます。
+
+<Tip>
+  書式は控えめにしましょう。テキストマークは、互いに目立とうとするのではなく、構造をわかりやすくするときに最も効果を発揮します。
+</Tip>
+
+## 校閲マーク
+
+<AccordionGroup>
+  <Accordion title="mode=tip による注釈" icon="lightbulb" defaultOpen>
+    元のテキストは正しいものの、補足の説明が必要なときに注釈を使います。
+
+    ```md
+    [text](explanation|mode=tip)
+    ```
+
+    拡張形式：
+
+    ```md
+    [term](explanation%20goes%20here|mode=tip|style=teal)
+    ```
+
+    主な用途：
+
+    - 専門用語を説明する
+    - 読むときのヒントを加える
+    - 文を書き換えずに短い補足を付ける
+  </Accordion>
+
+  <Accordion title="mode=revision による修正" icon="pen-to-square">
+    今の表現を置き換えるべきときに修正を使います。
+
+    ```md
+    [original text](reason|mode=revision|advice=replacement)
+    ```
+
+    拡張形式：
+
+    ```md
+    [original text](why%20it%20should%20change|mode=revision|style=indigo|advice=replacement%20text)
+    ```
+
+    主な用途：
+
+    - 誤字を直す
+    - 表現を引き締める
+    - あいまいな日付を具体的な日付に置き換える
+  </Accordion>
+
+  <Accordion title="エディターでのマークの作成と確認" icon="mouse-pointer">
+    - **マークの作成**：テキストを選択し、書式ツールバーの **Revision** をクリックして色を選びます。`Mod-R` を押すと青緑色のマークが付きます。新しいマークは、説明も提案テキストもない修正マークです。
+    - **マークを開く**：マークの付いたテキストをクリックします。ツールバーに **Description**（注釈の場合は **Tip Content**）が表示され、修正の場合は **Suggested Text** も表示されます。
+    - **編集**：**Revision Type** で色を変えたり、説明や提案テキストを編集したりして、**Save Changes** をクリックします。
+    - **Tip / Revision の切り替え**：モードを変更します。修正を注釈に切り替えると、提案テキストは消去されます。
+    - **Accept Revision**：マークの付いたテキストを提案テキストに置き換えます。注釈には承認の操作はありません。
+    - **Delete**：テキストは残したまま、マークを削除します。
+
+    ドキュメントにマークがある場合は、タイトルバーの **Remove All Revisions** で、テキストを残したまま注釈マークと修正マークをすべて一度に削除できます。注釈は波線の下線で、修正はドキュメントのテーマの下線で表示されます。
+  </Accordion>
+
+  <Accordion title="スペースを %20 にエンコードする場合" icon="code">
+    Markdown のソースを直接書く場合は、`tip` と `revision` の丸かっこ内のスペースを `%20` にエンコードする必要があります。普通のスペースがあるとリンクがそこで終わり、ソースがそのまま通常のテキストとして表示されてしまいます。
+
+    対象となるのは次の部分です。
+
+    - 説明
+    - `advice` の値
+
+    ドキュメントを保存するときは、Zditor がこのエンコードを自動で行います。これらの値に含まれる `|`、`(`、`)` も、それぞれ `%7C`、`%28`、`%29` にエンコードされます。
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  注釈マークと修正マークを使うには、**Settings → Integrations → Plugins** の **Track changes** プラグインが必要です。このプラグインは既定でオンです。設定の変更は、Markdown エディターを開き直すと反映されます。
+</Note>
+
+## 色の使い分けの目安
+
+`style` には、`red`、`indigo`、`teal`、`yellow`、`green` の 5 色を指定できます。`style` のないマークは teal になります。以下の意味は慣例にすぎず、Zditor はどの色も同じように扱います。
+
+| 色 | 主な用途 |
+| --- | --- |
+| `red` | 誤り、削除、あいまいな日付、表記の誤り |
+| `indigo` | 表現の改善、トーンの調整、文体の統一 |
+| `teal` | 中立的な説明や一般的な提案 |
+| `yellow` | 警告や特に注意が必要な箇所 |
+| `green` | 肯定的な確認や、そのままでよいという指示 |
+
+## コピーして使えるテンプレート
+
+### 注釈のテンプレート
+
+```md
+This sentence includes a [term](explain%20the%20meaning%20here|mode=tip|style=teal).
+```
+
+### 修正のテンプレート
+
+```md
+Please change [the original phrase](explain%20why%20it%20should%20change|mode=revision|style=indigo|advice=the%20revised%20phrase).
+```
+
+<Warning>
+  `revision` で置き換え案を示すには、`advice` の値が必要です。値がないと、**Accept Revision** でマークの付いたテキストが削除されます。`advice` を空にするのは、削除を提案する場合だけにしてください。
+</Warning>

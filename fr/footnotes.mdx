@@ -1,0 +1,153 @@
+---
+title: "Guide des notes de bas de page"
+description: "Ajoutez des notes de bas de page numérotées à vos documents Markdown sans interrompre le fil de la lecture."
+icon: "list-ol"
+---
+
+Zditor prend en charge la syntaxe standard des notes de bas de page Markdown : vous pouvez ajouter des références, des remarques et des précisions sans interrompre le texte principal.
+
+## Vue d’ensemble
+
+<CardGroup cols={2}>
+  <Card title="Syntaxe standard" icon="hashtag">
+    Utilisez les appels de note Markdown standard, comme `[^1]`.
+  </Card>
+
+  <Card title="Récapitulatif en fin de document" icon="list-ol">
+    Toutes les notes de bas de page sont rassemblées automatiquement à la fin du document.
+  </Card>
+
+  <Card title="Éditeur flottant" icon="pen-to-square">
+    Cliquez sur un appel de note pour consulter ou modifier rapidement le contenu correspondant.
+  </Card>
+
+  <Card title="Mises à jour synchronisées" icon="arrows-rotate">
+    Les appels répétés qui portent la même étiquette partagent toujours le même contenu.
+  </Card>
+</CardGroup>
+
+## Créer des notes de bas de page
+
+<AccordionGroup>
+  <Accordion title="Syntaxe Markdown" icon="code" defaultOpen>
+    Insérez un appel de note, par exemple :
+
+    ```markdown
+    This paragraph has a footnote[^1], and it can have another one[^2].
+    ```
+
+    Dès que vous saisissez `[^1]`, Zditor le convertit en numéro de note en exposant.
+  </Accordion>
+
+  <Accordion title="Règles de conversion automatique" icon="sparkles">
+    Les notes de bas de page se convertissent automatiquement lorsque vous tapez `[^` + un nombre + `]`.
+
+    **Remarques**
+    - La saisie ne convertit que les étiquettes numériques, comme `[^1]` et `[^2]`
+    - Une même étiquette renvoie toujours au même contenu de note
+    - Si l’étiquette est déjà utilisée dans le document, le nouvel appel partage le texte existant
+  </Accordion>
+</AccordionGroup>
+
+## Modifier le contenu d’une note
+
+Une nouvelle note de bas de page commence avec un contenu vide, sauf si son étiquette est déjà utilisée. Vous pouvez modifier le contenu de deux façons.
+
+### Depuis la barre d’outils flottante
+
+<Steps>
+  <Step title="Sélectionner un appel">
+    Cliquez sur un numéro de note dans le document.
+  </Step>
+  <Step title="Ouvrir l’éditeur">
+    La barre d’outils flottante affiche l’étiquette, comme `[^1]`, et le contenu actuel, ou **No corresponding footnote** lorsqu’il est vide. Cliquez sur **Edit**.
+  </Step>
+  <Step title="Enregistrer ou annuler">
+    Appuyez sur `Enter` ou cliquez sur **Save** pour conserver le nouveau contenu, ou cliquez sur **Cancel**.
+  </Step>
+</Steps>
+
+Cliquer sur l’étiquette dans la barre d’outils mène à l’entrée correspondante de la liste en bas du document.
+
+### Depuis la liste en bas du document
+
+<Steps>
+  <Step title="Faire défiler jusqu’en bas">
+    Lorsqu’un document contient des notes de bas de page, Zditor affiche une liste des notes sous le corps du texte.
+  </Step>
+  <Step title="Cliquer sur le contenu">
+    Cliquez sur le texte d’une entrée pour le modifier sur place.
+  </Step>
+  <Step title="Enregistrer les modifications">
+    Appuyez sur `Enter` ou cliquez ailleurs pour enregistrer.
+  </Step>
+</Steps>
+
+<Tip>
+  Modifier une note de bas de page met à jour tous les appels qui utilisent la même étiquette.
+</Tip>
+
+## Affichage
+
+### Appels dans le texte
+
+Les notes de bas de page apparaissent sous forme d’appels en exposant dans le corps du texte. Survoler un appel affiche le contenu actuel de la note dans une infobulle.
+
+### Liste en bas du document
+
+Le bas du document affiche une liste ordonnée de toutes les notes distinctes :
+
+- Chaque entrée affiche l’étiquette et le contenu ; le gras, l’italique, le code en ligne et le texte des liens y apparaissent mis en forme
+- Les étiquettes répétées sont dédoublonnées automatiquement
+- Les étiquettes numériques sont triées dans l’ordre numérique
+- Cliquer sur l’étiquette d’une entrée mène au premier appel portant cette étiquette
+
+### Dans le fichier Markdown
+
+Lorsque Zditor enregistre le document, il écrit le contenu de chaque note une seule fois, sous forme de définition standard à la fin du fichier :
+
+```markdown
+This paragraph has a footnote[^1].
+
+[^1]: The footnote content.
+```
+
+Dans la source Markdown, un appel ne devient une note de bas de page que si le fichier contient une définition correspondante. Lorsque vous tapez `[^1]` en texte enrichi, Zditor ajoute la définition pour vous à l’enregistrement.
+
+## Exemple
+
+```markdown
+Quantum computing uses quantum mechanics for information processing[^1],
+and in some problems it can outperform classical systems[^2].
+
+Common hardware approaches include superconducting qubits[^1] and trapped ions.
+
+[^1]: An introduction to quantum hardware.
+[^2]: The advantage depends on the problem.
+```
+
+Dans cet exemple :
+
+- `[^1]` apparaît deux fois et partage un seul contenu de note
+- `[^2]` reste indépendant
+- La liste en bas du document contient deux entrées, `1` et `2`
+
+## Questions fréquentes
+
+<AccordionGroup>
+  <Accordion title="Les notes de bas de page peuvent-elles utiliser des étiquettes textuelles ?">
+    La saisie dans l’éditeur ne convertit que les étiquettes numériques comme `[^1]`. Une étiquette textuelle comme `[^source]` fonctionne quand même si le fichier la définit avec une ligne comme `[^source]: …`, ce qui est souvent le cas des notes de bas de page venant d’autres éditeurs Markdown.
+  </Accordion>
+
+  <Accordion title="Comment supprimer une note de bas de page ?">
+    Sélectionnez l’appel de note et appuyez sur `Delete` ou `Backspace`. Une fois tous les appels de la même étiquette supprimés, l’entrée disparaît automatiquement de la liste en bas du document, et Zditor n’écrit plus sa définition à l’enregistrement.
+  </Accordion>
+
+  <Accordion title="Que se passe-t-il si deux appels de même étiquette affichent des contenus différents ?">
+    Zditor les garde synchronisés. Modifier n’importe quelle occurrence met à jour tous les appels qui partagent cette étiquette.
+  </Accordion>
+
+  <Accordion title="Comment les notes de bas de page se comportent-elles en mode lecture seule ?">
+    Les appels, leurs infobulles et la liste en bas du document s’affichent toujours, et cliquer sur une étiquette de la liste mène toujours à son appel, mais la modification est désactivée.
+  </Accordion>
+</AccordionGroup>

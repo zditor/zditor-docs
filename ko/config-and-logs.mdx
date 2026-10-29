@@ -1,0 +1,93 @@
+---
+title: "설정과 로그 경로"
+description: "macOS, Windows, Linux에서 Zditor의 설정 디렉터리와 로그 디렉터리를 찾으세요."
+icon: "folder-open"
+---
+
+이 페이지에서는 운영 체제별로 Zditor가 사용하는 기본 설정 경로와 로그 경로를 안내합니다. 설정을 옮기거나, 문제 해결을 위해 로그를 모으거나, 알맞은 폴더를 빠르게 열고 싶을 때 참고하세요.
+
+<Warning>
+  아래는 기본 경로입니다. Linux에서는 `XDG_DATA_HOME` 환경 변수가 설정되어 있으면 그 값을 따릅니다.
+</Warning>
+
+## 기본 경로
+
+Zditor는 설정과 기타 앱 데이터를 앱 식별자 `com.zditor.ai`의 이름을 딴 폴더 하나에 보관하고, 로그 파일은 별도의 폴더에 기록합니다.
+
+| 시스템 | 설정 경로 | 로그 경로 |
+| :--- | :--- | :--- |
+| macOS | `~/Library/Application Support/com.zditor.ai` | `~/Library/Logs/com.zditor.ai` |
+| Windows | `%APPDATA%\com.zditor.ai` | `%LOCALAPPDATA%\com.zditor.ai\logs` |
+| Linux | `~/.local/share/com.zditor.ai` | `~/.local/share/com.zditor.ai/logs` |
+
+설정 폴더에는 설정, 에이전트의 모델 구성, 모든 작업 공간용으로 추가한 스킬, 에이전트 대화, 그리고 비밀번호, 키, 토큰을 포함한 저장된 연결의 세부 정보가 들어 있습니다.
+
+현재 로그 파일은 `zditor.log`입니다. 파일이 커지면 Zditor는 새 로그를 시작하고, 이전 파일의 이름을 `zditor_` 뒤에 날짜와 시간을 붙인 형태로 바꿉니다. 이러한 이전 로그 파일은 30일이 지나면 Zditor가 삭제합니다.
+
+<Tip>
+  현재 로그를 빠르게 열려면 메뉴 막대(macOS) 또는 시스템 트레이(Windows와 Linux)의 Zditor 아이콘을 클릭하고 **Open log file**을 선택하세요.
+</Tip>
+
+## 디렉터리 빠르게 열기
+
+<Tabs>
+<Tab title="mac/linux">
+  ```bash
+  # macOS config directory
+  open ~/Library/Application\ Support/com.zditor.ai
+
+  # macOS log directory
+  open ~/Library/Logs/com.zditor.ai
+
+  # Linux config directory
+  xdg-open ~/.local/share/com.zditor.ai
+
+  # Linux log directory
+  xdg-open ~/.local/share/com.zditor.ai/logs
+  ```
+</Tab>
+
+<Tab title="windows">
+  ```powershell
+  # Config directory
+  explorer "$env:APPDATA\com.zditor.ai"
+
+  # Log directory
+  explorer "$env:LOCALAPPDATA\com.zditor.ai\logs"
+  ```
+</Tab>
+</Tabs>
+
+## 백업 권장 사항
+
+1. 파일 쓰기 충돌을 피하려면 설정 디렉터리를 복사하기 전에 Zditor를 완전히 종료하세요. 창을 닫아도 Zditor가 백그라운드에서 계속 실행될 수 있으니, 메뉴 막대나 트레이 아이콘에서 **Quit zditor**를 선택하세요.
+2. 로그는 주로 문제 해결용이므로 대개 장기간 전체 백업할 필요는 없습니다.
+3. 업그레이드하거나 다시 설치하기 전에 설정 디렉터리를 백업하세요.
+4. 설정 디렉터리에는 저장된 연결의 자격 증명이 들어 있으므로 사본을 외부에 공유하지 마세요. 문제를 신고할 때는 설정 디렉터리가 아니라 로그 파일을 보내세요.
+
+<Tip>
+  Zditor 앱 데이터가 차지하는 공간을 확인하고 캐시를 지우려면 데스크톱 앱에서 **Settings → Personal → Storage & data**를 여세요.
+</Tip>
+
+## 자주 묻는 질문
+
+### 디렉터리를 찾을 수 없는 경우
+
+- Zditor를 한 번 실행하세요. 디렉터리는 처음 실행할 때 만들어집니다
+- Windows에서는 파일 탐색기의 주소 표시줄에 `%APPDATA%` 또는 `%LOCALAPPDATA%`를 바로 붙여 넣으세요
+- macOS의 Finder에서는 `~/Library` 폴더가 숨겨져 있습니다. Finder에서 `Cmd + Shift + G`를 누르고 `~/Library/Logs/com.zditor.ai` 같은 경로를 입력하세요
+
+### 내 컴퓨터의 실제 경로 확인
+
+Linux에서는 `XDG_DATA_HOME`을 설정했다면 경로가 그 값을 따릅니다. 먼저 터미널에서 값을 출력해 보세요.
+
+```bash
+# Linux
+echo $XDG_DATA_HOME
+```
+
+출력이 비어 있으면 Zditor는 `~/.local/share`를 사용합니다. macOS와 Windows에서는 이 경로를 바꾸는 환경 변수가 없으므로 표에 나온 경로를 사용하세요.
+
+### Linux에서 ~/.config에도 폴더가 있는 이유
+
+Zditor는 창 크기와 위치를 `~/.config/com.zditor.ai`(`XDG_CONFIG_HOME`을 설정했다면 그 아래)에 저장합니다. 나머지는 모두 `~/.local/share/com.zditor.ai`에 있습니다.

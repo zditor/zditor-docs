@@ -1,0 +1,153 @@
+---
+title: "脚注使用指南"
+description: "在 Markdown 文档中添加编号脚注，不打断正文的阅读。"
+icon: "list-ol"
+---
+
+Zditor 支持标准 Markdown 脚注语法，让你可以添加引用来源、注释和补充说明，而不打断正文的阅读。
+
+## 功能概览
+
+<CardGroup cols={2}>
+  <Card title="标准语法" icon="hashtag">
+    使用 `[^1]` 这样的标准 Markdown 脚注引用。
+  </Card>
+
+  <Card title="底部汇总" icon="list-ol">
+    所有脚注自动汇总在文档末尾。
+  </Card>
+
+  <Card title="悬浮编辑" icon="pen-to-square">
+    点击脚注引用，快速查看或编辑对应内容。
+  </Card>
+
+  <Card title="同步更新" icon="arrows-rotate">
+    标签相同的多处引用始终共享同一内容。
+  </Card>
+</CardGroup>
+
+## 创建脚注
+
+<AccordionGroup>
+  <Accordion title="Markdown 语法" icon="code" defaultOpen>
+    在正文中插入脚注引用，例如：
+
+    ```markdown
+    This paragraph has a footnote[^1], and it can have another one[^2].
+    ```
+
+    输入 `[^1]` 后，Zditor 会把它转换为上标形式的脚注编号。
+  </Accordion>
+
+  <Accordion title="自动转换规则" icon="sparkles">
+    输入 `[^` + 数字 + `]` 时，脚注会自动转换。
+
+    **注意**
+    - 输入时只会转换数字标签，例如 `[^1]` 和 `[^2]`
+    - 相同标签始终指向同一脚注内容
+    - 如果文档中已经用过这个标签，新引用会共享它已有的内容
+  </Accordion>
+</AccordionGroup>
+
+## 编辑脚注内容
+
+新建的脚注默认内容为空，除非它的标签已经在使用中。你可以通过两种方式编辑脚注内容。
+
+### 通过浮动工具栏编辑
+
+<Steps>
+  <Step title="选中脚注引用">
+    点击正文中的脚注编号。
+  </Step>
+  <Step title="打开编辑框">
+    浮动工具栏会显示标签（如 `[^1]`）和当前内容，内容为空时显示 **无对应脚注**。点击 **编辑**。
+  </Step>
+  <Step title="保存或取消">
+    按 `Enter` 或点击 **保存** 保留新内容，或者点击 **取消**。
+  </Step>
+</Steps>
+
+点击工具栏中的标签，会跳转到底部列表中对应的条目。
+
+### 通过文档底部编辑
+
+<Steps>
+  <Step title="滚动到文档底部">
+    文档中有脚注时，Zditor 会在正文下方显示脚注列表。
+  </Step>
+  <Step title="点击脚注内容">
+    点击某条脚注的文字，直接在原位编辑。
+  </Step>
+  <Step title="保存修改">
+    按 `Enter` 或点击其他区域即可保存。
+  </Step>
+</Steps>
+
+<Tip>
+  编辑任意一处脚注，所有使用相同标签的引用都会同步更新。
+</Tip>
+
+## 脚注的显示
+
+### 正文中的引用
+
+脚注在正文中以上标形式显示。鼠标悬停在脚注引用上时，会通过提示框显示当前的脚注内容。
+
+### 文档底部列表
+
+文档底部会以有序列表显示所有不重复的脚注：
+
+- 每条脚注显示标签和内容；内容中的粗体、斜体、行内代码和链接文字会按格式显示
+- 重复的标签会自动去重
+- 数字标签按数值大小排列
+- 点击条目的标签，会跳转到使用该标签的第一处引用
+
+### Markdown 文件中的脚注
+
+Zditor 保存文档时，会把每条脚注的内容以标准定义的形式写在文件末尾，每条只写一次：
+
+```markdown
+This paragraph has a footnote[^1].
+
+[^1]: The footnote content.
+```
+
+在 Markdown 源码中，只有文件里存在对应的定义时，引用才会成为脚注。在富文本中输入 `[^1]` 时，Zditor 会在保存时自动补上定义。
+
+## 使用示例
+
+```markdown
+Quantum computing uses quantum mechanics for information processing[^1],
+and in some problems it can outperform classical systems[^2].
+
+Common hardware approaches include superconducting qubits[^1] and trapped ions.
+
+[^1]: An introduction to quantum hardware.
+[^2]: The advantage depends on the problem.
+```
+
+上面的示例中：
+
+- `[^1]` 出现了两次，它们共享同一脚注内容
+- `[^2]` 是独立的脚注
+- 文档底部的列表包含两条脚注：`1` 和 `2`
+
+## 常见问题
+
+<AccordionGroup>
+  <Accordion title="脚注标签可以使用文字吗？">
+    在编辑器中输入时，只有 `[^1]` 这样的数字标签会被转换。不过，如果文件中用 `[^source]: …` 这样的行定义了 `[^source]` 这类文字标签，它同样可以正常使用；从其他 Markdown 编辑器带来的脚注常常就是这种形式。
+  </Accordion>
+
+  <Accordion title="如何删除脚注？">
+    选中正文中的脚注引用，按 `Delete` 或 `Backspace` 键即可删除。删除所有相同标签的引用后，底部对应的条目会自动消失，Zditor 保存时也不会再写入它的定义。
+  </Accordion>
+
+  <Accordion title="多个相同标签的脚注内容不一致怎么办？">
+    Zditor 会自动同步它们。编辑其中任意一处，所有共享该标签的引用都会更新。
+  </Accordion>
+
+  <Accordion title="脚注在只读模式下如何显示？">
+    脚注引用、悬停提示和底部列表都会正常显示，点击列表中的标签仍可跳转到对应引用，但无法编辑。
+  </Accordion>
+</AccordionGroup>

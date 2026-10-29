@@ -1,0 +1,226 @@
+---
+title: "Frontmatter 使用指南"
+description: "在 Zditor 中使用 YAML Frontmatter 为 Markdown 文档添加结构化元数据。"
+icon: "table"
+---
+
+Frontmatter 是文档顶部的 YAML 元数据区域。在 Zditor 中，你可以在可视化表格（即 **文档属性** 对话框）中编辑它，无需手动管理每个字段。Zditor 还会把这些属性显示为文档上方的头部。
+
+## 功能概览
+
+<CardGroup cols={2}>
+  <Card title="可视化编辑" icon="table">
+    在表格中编辑字段，无需手写 YAML。
+  </Card>
+
+  <Card title="11 种字段类型" icon="list-check">
+    支持文本、数字、日期、复选框、进度、单选等类型。
+  </Card>
+
+  <Card title="封面图片" icon="image">
+    为文档头部设置封面图片，并在暖色调和冷色调之间切换。
+  </Card>
+
+  <Card title="数据库联动" icon="database">
+    通过 `class` 字段，把 Frontmatter 字段与 SuperTag 表格系统联动起来。
+  </Card>
+</CardGroup>
+
+## 基本语法
+
+Frontmatter 位于文档最顶部，使用 `---` 分隔符包裹 YAML 内容：
+
+```yaml
+---
+title: "My document"
+date: 2024-01-15
+tags: [product, notes]
+draft: true
+---
+
+Document content starts here...
+```
+
+## 支持的格式
+
+<AccordionGroup>
+  <Accordion title="简写格式" icon="bolt" defaultOpen>
+    直接写键值对，由编辑器自动推断字段类型。
+
+    ```yaml
+    ---
+    title: "Document title"
+    count: 42
+    done: true
+    tags: [tag-1, tag-2]
+    ---
+    ```
+
+    **自动推断规则**
+    - `[a, b]` 这样的列表推断为 `array`
+    - `true` 和 `false` 推断为 `checkbox`
+    - 数字推断为 `number`
+    - `2024-01-15` 这样的日期仍为 `text`；如需日期字段，请使用完整格式并写明 `type: date`
+    - 其他字符串推断为 `text`
+    - 没有值的键会被忽略
+  </Accordion>
+
+  <Accordion title="完整格式" icon="sliders">
+    显式定义字段的类型、标签、描述和值；`select` 和 `multiselect` 字段还可以定义选项。
+
+    ```yaml
+    ---
+    status:
+      type: select
+      label: "Status"
+      description: "Current document status"
+      value: "In Progress"
+      options: [Todo, In Progress, Done]
+    priority:
+      type: number
+      label: "Priority"
+      value: 3
+    ---
+    ```
+
+    完整格式的字段必须使用下面列出的某种类型。没有 `type` 或 `type` 无法识别的嵌套条目会被 Zditor 忽略。
+  </Accordion>
+</AccordionGroup>
+
+## 字段类型
+
+| 类型 | 编辑器中显示为 | 说明 | 值示例 |
+|------|------|------|--------|
+| `text` | 文本 | 文本字符串 | `"Hello"` |
+| `number` | 数字 | 数值 | `42` |
+| `checkbox` | 开关 | 布尔值 | `true` / `false` |
+| `date` | 日期 | 日期 | `2024-01-15` |
+| `datetime` | 日期时间 | 日期和时间 | `2024-01-15T10:30` |
+| `time` | 时间 | 时间 | `10:30` |
+| `array` | 列表 | 字符串数组 | `[tag-1, tag-2]` |
+| `select` | 单选 | 从 `options` 中选择一项 | `"Option A"` |
+| `multiselect` | 多选 | 从 `options` 中选择多项 | `[Option A, Option B]` |
+| `progress` | 进度 | 0 到 100 的进度 | `75` |
+| `asset` | 图片 | 图片路径或 URL | `"cover.png"` |
+
+## 可视化编辑
+
+Zditor 提供表格式的 Frontmatter 编辑器，不必每次修改都手写 YAML。在富文本或分栏视图下，点击 Markdown 文档标题栏中的 **编辑属性**（标签图标）即可打开它。文档必须处于可编辑状态。
+
+### 属性表格
+
+**文档属性** 的 **属性** 标签页以表格形式列出字段，包含以下几列：
+
+- **属性**：字段的显示名称；如果与字段名不同，下方还会显示字段名
+- **类型**：字段的种类
+- **值**：当前值，使用与类型相应的控件编辑
+
+每行末尾的齿轮按钮会打开字段设置：
+
+- **字段名**：字段的名称；点击 **更新字段名** 可以重命名
+- **显示名称**：编辑器中显示的标签
+- **字段说明**：补充说明
+- **可选值**：`select` 和 `multiselect` 的选项
+- **删除属性**：移除该字段
+
+在表格上方，你可以搜索属性、点击 **导出 CSV**，或者点击 **布局字段**，把默认隐藏的头部设置 `row`、`col`、`warm`、`warmDark` 和 `display` 也显示出来。
+
+如果你修改了字段类型，而它的值无法转换，Zditor 会询问你是 **保留原值**，还是 **重置值并切换类型**。
+
+只有点击 **应用** 或按 `Cmd + Enter`（Windows 和 Linux 上为 `Ctrl + Enter`）后，修改才会保存。**取消** 会放弃这些修改。
+
+### 添加字段
+
+<AccordionGroup>
+  <Accordion title="添加自定义字段" icon="plus" defaultOpen>
+    点击 **添加属性**，输入 **字段名**，选择 **类型**，还可以选填 **显示名称** 和 **字段说明**。然后点击面板中的 **添加属性**。
+  </Accordion>
+
+  <Accordion title="添加预定义字段" icon="ellipsis">
+    在同一个面板中选择一个 **预设属性**，即可填入常用字段的字段名和类型。文档中已有的预设不会再出现在列表中。
+
+    **文本**
+    - 标题、主题、描述、作者
+
+    **图片**
+    - 头像、背景图片、`coverDark`
+
+    **日期**
+    - 创建日期、更新日期
+
+    **列表**
+    - 标签
+    - 信息行（`row`）和标题区（`col`）
+
+    **开关**
+    - 收藏、模板
+    - 显示属性摘要（`display`）、暖色调（`warm`）、`warmDark`
+  </Accordion>
+</AccordionGroup>
+
+### 头部布局
+
+**头部布局** 标签页决定属性如何显示在文档上方：
+
+- **背景图片**：头部后面的图片。不设置时，头部使用简洁的文字布局。
+- **标题区**：显示为 **主题**、**标题** 和 **描述** 的属性，保存在 `col` 中。
+- **信息行**：按你设定的顺序显示在标题下方一行中的属性。拖动或使用箭头按钮可以调整顺序，用 **添加到信息行…** 可以添加更多属性。它们保存在 `row` 中。
+- **显示属性摘要** 和 **暖色调** 两个开关，分别保存在 `display` 和 `warm` 中。
+
+在你设置之前，标题区显示 `subject`、`title` 和 `description`，信息行显示有值的 `avatar`、`author`、`updated`、`created` 和 `tags`。此外，最多四个其他有值的属性会作为摘要显示在头部下方。
+
+## 封面图片
+
+通过 `cover` 字段可以为文档设置封面图片。
+
+<Steps>
+  <Step title="添加 cover 字段">
+    打开 **文档属性**，进入 **头部布局**，点击 **背景图片** 下的 **选择图片**。也可以直接在输入框中填写路径或 URL。Zditor 会把它保存在类型为 `asset` 的 `cover` 字段中。
+  </Step>
+  <Step title="选择图片">
+    图片选择器有三个标签页：**上传** 用于添加电脑上的图片，**图库** 用于搜索工作区中的图片，**链接** 用于粘贴图片 URL 后点击 **应用**。
+  </Step>
+  <Step title="调整主题">
+    把鼠标悬停在封面上会显示它的工具栏，点击 **切换色调** 可以在暖色调和冷色调之间切换。暖色调使用深色文字，适合浅色图片；冷色调使用白色文字，适合深色图片。同一工具栏中还有 **修改封面**、**编辑属性**、**复制元信息**、**刷新** 和 **删除元信息**。
+  </Step>
+</Steps>
+
+<Tip>
+  如果想在深色模式下使用另一张封面，请添加 `coverDark` 预设。它的色调保存在 `warmDark` 中。
+</Tip>
+
+## 特殊字段
+
+| 字段 | 说明 |
+|------|------|
+| `class` | SuperTag 使用的分类或表格名称；必须是文本字段 |
+| `field` | 在 SuperTag 的 Schema 文件中，表示该 class 的记录所具有的字段列表 |
+| `row` | 头部信息行中显示的字段 |
+| `col` | 头部标题区中显示的字段，最多三个 |
+| `cover` | 封面图片的路径或 URL |
+| `coverDark` | 深色模式下使用的封面图片 |
+| `warm` | 封面色调，`true` 为暖色调，`false` 为冷色调 |
+| `warmDark` | `coverDark` 的色调 |
+| `display` | 设为 `false` 时隐藏头部下方的属性摘要 |
+| `template` | 设为 `true` 时，文档会列在 `/` 菜单的 **Templates** 分组和 **日历** 侧边栏的 **模板** 标签页中。在 `/` 菜单中选择模板，会用它的副本替换当前文档 |
+| `favorites` | 设为 `true` 时，文档会列在 **日历** 侧边栏的 **收藏** 标签页中。注意字段名是复数：预设属性 **收藏** 添加的是 `favorite`，这个标签页不会读取它 |
+
+## 常见问题
+
+<AccordionGroup>
+  <Accordion title="Frontmatter 会显示在文档正文中吗？">
+    在富文本视图中不会：Zditor 会隐藏 YAML 区块，改为在文档上方以头部的形式显示这些属性。源码视图会显示原始 YAML，你也可以在那里直接编辑。
+  </Accordion>
+
+  <Accordion title="如何导出 Frontmatter 数据？">
+    在 **文档属性** 中点击 **导出 CSV**，即可把当前文档的属性保存为 CSV 文件，其中包含 Property、Type、Value、Label、Description 和 Options 几列。
+  </Accordion>
+
+  <Accordion title="简写格式和完整格式可以混用吗？">
+    可以。Zditor 能在同一文档中读取两种格式，并自动推断简写字段的类型。当你在 **文档属性** 中或通过封面工具栏应用修改时，Zditor 会用完整格式重写整个区块，无法读取的条目（例如没有值的键）会被移除。
+  </Accordion>
+
+  <Accordion title="如何删除所有 Frontmatter？">
+    在源码视图中删除开头和结尾两行 `---` 之间的 YAML 区块。如果文档有封面图片，也可以点击封面工具栏中的 **删除元信息**。
+  </Accordion>
+</AccordionGroup>

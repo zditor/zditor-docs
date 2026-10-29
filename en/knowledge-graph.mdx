@@ -4,23 +4,13 @@ description: "Visualize file relationships with an interactive force-directed gr
 icon: "diagram-project"
 ---
 
-The knowledge graph is one of Zditor's standout features. It turns files and their links into an interactive force-directed graph so you can understand structure, references, and dependency patterns visually.
-
-## Video demo
-
-<Frame>
-  <video
-    controls
-    style={{ width: '100%', height: '500px', borderRadius: '0.5rem' }}
-    src="https://download.zditor.com/zditor-com/graph_en_small.mov"
-  >
-    Your browser does not support the video tag.
-  </video>
-</Frame>
+The knowledge graph is one of Zditor's standout features. It turns the files in your workspace and the links between them into an interactive force-directed graph, so you can see structure, references, and clusters at a glance.
 
 ## Overview
 
-Each file becomes a node, and each parsed link becomes a directed edge. A physics-based layout engine places nodes automatically so the graph remains readable while you pan, zoom, and inspect relationships.
+Open the graph with the **Graph** button in the navigation rail on the left. It opens in a tab and shows the current workspace.
+
+Each Markdown (`.md`) file becomes a node, and so does every file those notes link to. Each link becomes a directed relation from the file that contains it to the file it points to. The layout places nodes automatically and keeps the graph readable while you pan, zoom, and inspect relationships. Larger dots are files with more connections.
 
 ### Why use the knowledge graph?
 
@@ -34,31 +24,34 @@ Each file becomes a node, and each parsed link becomes a directed edge. A physic
   </Card>
 
   <Card title="Project insight" icon="chart-network">
-    Spot hidden clusters, hubs, and isolated files quickly.
+    Spot clusters of related notes, hub files, and isolated files quickly.
   </Card>
 
   <Card title="Smart layout" icon="atom">
-    Force simulation distributes nodes automatically for a balanced view.
+    The layout spreads nodes out automatically and settles on its own.
   </Card>
 </CardGroup>
 
 ## How links are parsed
 
-The knowledge graph is built by parsing Markdown links inside files.
+The graph is built from the links inside the Markdown files of your workspace.
 
 ### Markdown link syntax
 
-Zditor recognizes standard Markdown links:
+Zditor recognizes standard Markdown links and images:
 
 ```markdown
 [Link Text](file/path.md)
+![Alt text](images/diagram.png)
 ```
+
+Links that Zditor writes for embedded content, such as audio, video, PDF cards, canvases, and SuperTag references (`[text](path|mode=...)`), count as well.
 
 <AccordionGroup>
   <Accordion title="Link parts" icon="link" defaultOpen>
     **Link text**
     - The content inside `[]`
-    - Used as the edge label in the graph
+    - Used as the relation label in the graph
     - Describes the meaning of the relationship
 
     **Link path**
@@ -67,21 +60,25 @@ Zditor recognizes standard Markdown links:
     - Determines the target node
   </Accordion>
 
-  <Accordion title="How links map to graph edges" icon="diagram-project">
-    Each Markdown link becomes a directed edge:
+  <Accordion title="How links map to relations" icon="diagram-project">
+    Each link becomes a directed relation:
 
     - The file that contains the link is the **source**
     - The linked file is the **target**
-    - The arrow points from source to target
-    - The link text can be shown as the edge label
+    - The relation points from source to target
+    - The link text is shown as the relation label
   </Accordion>
 
-  <Accordion title="Arrow meaning" icon="arrow-right">
-    - `A -> B` means file A links to file B
-    - `A <- B` means file B links to file A
-    - `A <-> B` means the two files link to each other
+  <Accordion title="Seeing the direction" icon="arrow-right">
+    Select a file or a relation to see which way links point. With **Show directional flow** turned on, small dots move along the selected relations from source to target.
 
-    This helps you spot hub files, heavily referenced resources, and close bidirectional relationships.
+    The details panel of a file lists its outgoing links under **References** and its incoming links under **Referenced by**. This helps you spot hub files, heavily referenced resources, and files that link to each other.
+  </Accordion>
+
+  <Accordion title="Relation types" icon="tags">
+    Relations are grouped by the kind of link: **Images**, **Audio**, **Videos**, **PDF Card**, **Attachment**, **Embed**, **Excalidraw**, **Supertag**, **Data Table**, and **Other** for plain links. Some types are drawn with dashed or dotted lines.
+
+    SuperTag records also get a **Data Table** relation to their class's schema file, labeled with the class name.
   </Accordion>
 </AccordionGroup>
 
@@ -89,29 +86,35 @@ Zditor recognizes standard Markdown links:
 
 <AccordionGroup>
   <Accordion title="Multiple links in the same direction" icon="arrows-turn-right">
-    If file A links to file B several times with different labels, the graph renders those edges with different curvatures so they remain visible instead of collapsing into one line.
+    If file A links to file B several times with different link text, the graph draws each relation as its own curve so they remain visible instead of collapsing into one line. The same link repeated with the same text in one file counts once.
   </Accordion>
 
-  <Accordion title="Bidirectional links" icon="arrows-left-right">
-    When A links to B and B links back to A, the graph uses different curvature values so the forward and reverse arrows do not overlap.
+  <Accordion title="Links in both directions" icon="arrows-left-right">
+    When A links to B and B links back to A, the two relations are drawn on separate curves so they do not overlap. A link from a file to itself is drawn as a loop.
   </Accordion>
 </AccordionGroup>
 
 ### Parsing rules and limits
 
 <Warning>
-  Current parsing limits:
+  Current parsing rules:
 
-  - Only standard Markdown links `[text](path)` are parsed
-  - Wiki links like `[[page]]` are not supported yet
-  - Image syntax `![alt](image.png)` is not treated as an edge
-  - HTML `<a>` tags are ignored
-  - Relative paths are resolved from the current file's directory
+  - Only files ending in `.md` are scanned for links. Other files, including `.mdx` and `.markdown` files, appear only when a note links to them
+  - Standard links `[text](path)` and images `![alt](path)` are parsed
+  - Web links starting with `http://` or `https://` are ignored
+  - Wiki links like `[[page]]`, reference-style links, and HTML tags such as `<a>` are not parsed
+  - A path starting with `/` is resolved from the workspace root; other paths are resolved from the folder of the file that contains the link
+  - A `#heading` part at the end of a path is ignored, so links to a heading count as links to the file
+  - Hidden files and folders are not scanned, nor are files excluded by an `.ignore` file or, in a Git repository, by `.gitignore`
 </Warning>
 
 <Tip>
-  Use concise, descriptive link text so edge labels remain useful and readable in the graph.
+  Use concise, descriptive link text so relation labels remain useful and readable in the graph.
 </Tip>
+
+A link to a file that does not exist still creates a node. These nodes are drawn as hollow, dashed circles, and the title bar shows how many are visible, for example **2 missing**.
+
+The graph covers local workspaces. When you open it, Zditor updates its index of the workspace. While **Watch workspace files** is on in **Settings → Personal → General** (the default), changes to your notes appear in the graph as you save them. Click **Refresh file index** in the title bar to rescan at any time.
 
 ### Example
 
@@ -136,71 +139,52 @@ quickstart.md --[API Docs]---> api.md
 
 ## Interface layout
 
-The graph view has three main parts:
+The graph view has these parts:
+
+### Title bar
+
+The title bar shows **Graph** and how many files and relations are currently visible, for example **42 files · 57 relations**, plus the number of missing files when there are any. On the right are **Search** and **Refresh file index**.
 
 ### Main canvas
 
-The center canvas displays nodes and edges and supports free panning and zooming.
+The canvas displays nodes and relations and supports free panning and zooming.
 
-### Control panel
+### Zoom controls
 
-The side panel provides:
+The lower-left corner has **Zoom out**, the current zoom level, **Zoom in**, and **Fit to view**. Click the zoom level to return to 100%.
 
-- File type filters
-- Search
-- Configuration controls
-- Runtime statistics
+### Graph controls
 
-### LOD indicator
+The lower-right corner has three panels:
 
-The lower-left corner shows the current level of detail:
+- **Filters** for file types, relation types, and isolated files
+- **Color legend** for the colors in use, with counts
+- **Display** for colors, labels, directional flow, edge opacity, and the layout
 
-- **Level 0** for nodes only
-- **Level 1** for nodes plus labels
+### Details panel
+
+Selecting a file or a relation opens a details panel in the upper-right corner.
 
 <Tip>
-  The graph adjusts visible detail automatically based on the zoom level so performance stays acceptable as the view changes.
+  The graph adds detail as you zoom in: more file labels appear, busiest files first, then relation labels, and the nodes grow and show an icon for their file type.
 </Tip>
 
 ## File type recognition
 
-Nodes are color-coded by file extension.
+By default, nodes are colored by file type. Open **Color legend** to see the color of each type.
 
-<AccordionGroup>
-  <Accordion title="Markdown files" icon="markdown" defaultOpen>
-    Color: Indigo `#6366f1`
+| Type | Extensions |
+| --- | --- |
+| **Markdown** | `.md`, `.mdx`, `.markdown` |
+| **Images** | `.png`, `.jpg`, `.jpeg`, `.gif`, `.svg`, `.webp`, `.avif`, `.heic`, `.bmp`, `.tiff`, and other image formats |
+| **Videos** | `.mp4`, `.mov`, `.avi`, `.mkv`, `.webm`, `.flv`, `.wmv` |
+| **Audio** | `.mp3`, `.wav`, `.ogg`, `.flac`, `.aac`, `.m4a`, `.wma` |
+| **Code** | Source, web, configuration, and plain text files, such as `.js`, `.ts`, `.py`, `.json`, `.yaml`, `.html`, `.css`, and `.txt` |
+| **PDF** | `.pdf` |
+| **Documents** | `.doc`, `.docx`, `.rtf`, `.odt`, `.xls`, `.xlsx`, `.ppt`, `.pptx`, `.csv` |
+| **Other** | Everything else, including canvases (`.excalidraw`) |
 
-    Extensions: `.md`, `.mdx`, `.markdown`
-  </Accordion>
-
-  <Accordion title="Images" icon="image">
-    Color: Green `#4CAF50`
-
-    Extensions: `.png`, `.jpg`, `.jpeg`, `.gif`, `.svg`, `.webp`, `.bmp`, `.ico`
-  </Accordion>
-
-  <Accordion title="Videos" icon="video">
-    Color: Orange red `#FF5722`
-
-    Extensions: `.mp4`, `.mov`, `.avi`, `.mkv`, `.webm`, `.flv`, `.wmv`
-  </Accordion>
-
-  <Accordion title="Code files" icon="code">
-    Color: Sky `#0ea5e9`
-
-    Extensions: `.js`, `.ts`, `.jsx`, `.tsx`, `.py`, `.java`, `.cpp`, `.c`, `.go`, `.rs`, `.rb`, `.php`, `.swift`, `.kt`
-  </Accordion>
-
-  <Accordion title="Documents" icon="file-text">
-    Color: Red `#F44336`
-
-    Extensions: `.pdf`, `.doc`, `.docx`, `.txt`, `.rtf`, `.odt`, `.xls`, `.xlsx`, `.ppt`, `.pptx`
-  </Accordion>
-
-  <Accordion title="Other files" icon="file">
-    Color: Deep purple `#5D5CDE`
-  </Accordion>
-</AccordionGroup>
+You can also color nodes by community instead. See [Display settings](#display-settings).
 
 ## Basic interaction
 
@@ -212,19 +196,15 @@ Nodes are color-coded by file extension.
   </Accordion>
 
   <Accordion title="Zoom" icon="magnifying-glass">
-    Use the mouse wheel or trackpad pinch gesture to zoom in and out.
+    Scroll with the mouse wheel or the trackpad to zoom in and out around the pointer, or use the zoom controls in the lower-left corner. **Fit to view** brings every visible node into view.
   </Accordion>
 </AccordionGroup>
-
-<Tip>
-  Once zoom reaches roughly `1.2x` or higher, labels appear automatically so you can read file names more easily.
-</Tip>
 
 ### Node interaction
 
 <AccordionGroup>
   <Accordion title="Click a node" icon="mouse-pointer" defaultOpen>
-    Clicking a node selects it, highlights connected edges, and fades unrelated edges.
+    Clicking a node selects it, highlights its relations, fades the rest of the graph, and opens its details: **Open file**, **Locate in graph**, and its links under **References** and **Referenced by**. Click a related file in the list to move to its details, and use the back arrow to return.
   </Accordion>
 
   <Accordion title="Double-click a node" icon="hand-pointer">
@@ -232,19 +212,19 @@ Nodes are color-coded by file extension.
   </Accordion>
 
   <Accordion title="Drag a node" icon="arrows-alt">
-    Dragging a node moves it manually. When you release it, that node stays fixed at the new position.
+    Dragging a node moves it manually. When you release it, that node stays pinned at the new position while the files around it settle.
   </Accordion>
 </AccordionGroup>
 
 ### Edge interaction
 
 <AccordionGroup>
-  <Accordion title="Click an edge" icon="link">
-    Clicking an edge selects it, thickens the line, and shows its label when available.
+  <Accordion title="Click a relation" icon="link">
+    Clicking a relation selects it, highlights the line, shows its label, and opens its details: the relation type and its **Source** and **Target** files, each with a button to open it.
   </Accordion>
 
   <Accordion title="Hover for label details" icon="tag">
-    Hover over an edge to show the link title or description as a tooltip.
+    Hover over a relation to highlight it and show its link text as a tooltip.
   </Accordion>
 </AccordionGroup>
 
@@ -252,95 +232,96 @@ Nodes are color-coded by file extension.
 
 ### How to search
 
-1. Open the control panel
-2. Enter a keyword in the search box
-3. Review the live results
+1. Click **Search** in the title bar, or press `/`
+2. Enter part of a file name, a folder, or link text
+3. Choose a result with the mouse, or with `↑`, `↓`, and `Enter`
+
+Choosing a result selects it and opens its details. Click **Locate in graph** to center it in the view.
 
 ### Search scope
 
 <AccordionGroup>
-  <Accordion title="Node search" icon="circle-nodes">
-    Search by file name or path, for example `README` or `src/`.
+  <Accordion title="File search" icon="circle-nodes">
+    Search by file name or by a folder in its path, for example `README` or `projects`.
   </Accordion>
 
-  <Accordion title="Edge search" icon="link">
-    Search by link title or other relationship text.
+  <Accordion title="Relation search" icon="link">
+    Search by link text or by the paths of the linked files.
   </Accordion>
 </AccordionGroup>
 
-Search results are capped so the interface stays responsive.
+Search covers the whole graph, including items that the current filters hide, and shows up to 30 results. If you choose a hidden item, the details panel offers **Adjust filters to show this item**.
 
 ## Filtering
 
-Use file type filters to narrow the graph down to the content that matters for the current task.
+Use filters to narrow the graph down to the content that matters for the current task. Open **Filters** in the lower-right corner.
 
 ### Filter options
 
-- **All**
-- **Markdown**
-- **Images**
-- **Videos**
-- **Code**
-- **Documents**
-- **Other**
+- **File types**: Markdown, Images, Videos, Audio, Code, PDF, Documents, Other
+- **Relation types**: Images, Audio, Videos, PDF Card, Attachment, Embed, Excalidraw, Supertag, Data Table, Other
+- **Show isolated files**, to show or hide files without any links
+- **Reset filters**, to show everything again
 
 <Tip>
-  You can enable multiple filters at the same time.
+  Each type shows how many files or relations it has, and you can turn several types off at once. The **Filters** button shows how many are hidden. In **Color legend**, clicking a file type also shows or hides it.
 </Tip>
 
 <Warning>
-  After filtering, edges are shown only when both the source and target nodes are still visible.
+  After filtering, relations are shown only when both the source and target files are still visible.
 </Warning>
 
 ## Configuration
 
 ### Display settings
 
+Open **Display** in the lower-right corner.
+
 <AccordionGroup>
-  <Accordion title="Label visibility threshold" icon="text-size">
-    Controls the zoom level at which node labels appear. The default value is `1.2`.
+  <Accordion title="Color" icon="palette">
+    **By file type** colors each node by its type. **By community** colors groups of files that link closely to each other. Communities are found automatically from the links; the **Color legend** lists them, largest first, named after their most connected file. Files without links are grouped as **Ungrouped**. Click a community in the legend to show only that community.
   </Accordion>
 
-  <Accordion title="Node size scale" icon="circle">
-    Adjusts overall node size. Increase it when nodes are too subtle or reduce it for denser graphs.
+  <Accordion title="Show file and relation labels" icon="text-size">
+    Shows or hides the names of files and the link text of relations. On by default.
   </Accordion>
 
-  <Accordion title="Link thickness" icon="minus">
-    Controls how thick relationship lines appear.
+  <Accordion title="Show directional flow" icon="arrow-right">
+    Animates the direction of the selected relations, or of all relations of the selected file. On by default.
   </Accordion>
 
-  <Accordion title="Show link labels" icon="tags">
-    Toggles whether link labels are shown on hover.
+  <Accordion title="Edge opacity" icon="minus">
+    Sets how strongly relation lines are drawn, from 5% to 80%. The default is 28%.
   </Accordion>
 </AccordionGroup>
 
-### Physics settings
+### Layout settings
 
 <AccordionGroup>
-  <Accordion title="Node repulsion" icon="magnet">
-    Controls how strongly nodes push away from each other. More negative values create more space between clusters.
+  <Accordion title="Pause layout / Resume layout" icon="pause">
+    Stops or restarts the layout. The layout also stops by itself once the graph settles.
   </Accordion>
 
-  <Accordion title="Link distance" icon="ruler">
-    Sets the preferred distance between linked nodes.
+  <Accordion title="Reset layout and pinned positions" icon="arrows-rotate">
+    Releases every pinned node and lays out the graph again from the start.
   </Accordion>
 </AccordionGroup>
 
 <Note>
-  The graph uses a D3 force simulation. Changing physical parameters reheats the layout so nodes can settle into a new arrangement.
+  **Resume layout** sets the nodes moving again until they settle, and so does dragging a node while the layout is not paused. Filters and display settings belong to the graph tab and are not saved when you close it.
 </Note>
 
 ## Statistics
 
-The bottom of the control panel shows runtime stats:
+The graph reports these numbers:
 
-| Metric | Meaning |
+| Where | What it shows |
 | --- | --- |
-| **FPS** | Rendering frame rate |
-| **Zoom** | Current zoom level |
-| **Visible** | Number of visible nodes after filtering |
-| **Nodes** | Total node count |
-| **Links** | Total edge count |
+| **Title bar** | Visible files and relations, and missing files |
+| **Zoom controls** | Current zoom level |
+| **Filters** | Number of files or relations of each type |
+| **Color legend** | Number of files of each type or in each community |
+| **Details panel** | Number of **References** and **Referenced by** for the selected file |
 
 ## Advanced tips
 
@@ -350,31 +331,31 @@ The bottom of the control panel shows runtime stats:
   </Card>
 
   <Card title="Pin important nodes" icon="hand-sparkles">
-    Drag core files into the center and leave them fixed to create a custom reading layout.
+    Drag core files into the center and leave them pinned to create a custom reading layout.
   </Card>
 
-  <Card title="Combine search and filters" icon="filter">
-    Filter to a file type first, then search inside that smaller result set.
+  <Card title="Browse by community" icon="filter">
+    Color by community, then click a community in the legend to look at one cluster on its own.
   </Card>
 
   <Card title="Find hub files" icon="star">
-    High-degree nodes usually represent important modules, indexes, or shared resources.
+    Large nodes have many connections and usually represent indexes, overviews, or shared resources.
   </Card>
 </CardGroup>
 
 ## Common scenarios
 
 <AccordionGroup>
-  <Accordion title="Understand a new project" icon="folder-tree">
-    Use the graph to identify major modules, key files, and dependency structure quickly after opening a new workspace.
+  <Accordion title="Get to know a workspace" icon="folder-tree">
+    Use the graph to identify the main clusters, index notes, and shared resources quickly after opening a new workspace.
   </Accordion>
 
-  <Accordion title="Estimate refactor impact" icon="code-branch">
-    Select the file you plan to change and inspect its highlighted inbound and outbound edges before editing.
+  <Accordion title="Check what depends on a note" icon="code-branch">
+    Before you rename or rewrite a note, select it and check **Referenced by** to see which notes link to it.
   </Accordion>
 
   <Accordion title="Find orphan files" icon="unlink">
-    Nodes with no links may represent unused code, independent scripts, or content that still needs integration.
+    Isolated files are notes that neither link to another file nor are linked from one. They may still need to be connected to the rest of your notes.
   </Accordion>
 
   <Accordion title="Map documentation relationships" icon="book">
@@ -385,61 +366,70 @@ The bottom of the control panel shows runtime stats:
 ## Performance tips
 
 <Steps>
-  <Step title="Use file type filters">
-    Do not render every file when you only need a subset.
+  <Step title="Hide what you do not need">
+    Turn off file types, relation types, or isolated files in **Filters** so the graph shows only what you are working on.
   </Step>
 
-  <Step title="Tune physics carefully">
-    Increase repulsion or link distance if the graph is too dense.
+  <Step title="Pause the layout">
+    Once the arrangement looks right, choose **Pause layout** in **Display** so nodes stop moving.
   </Step>
 
   <Step title="Pin anchor nodes">
     Fixing a few important nodes reduces layout churn and improves readability.
   </Step>
 
-  <Step title="Disable edge labels">
-    Turning labels off lowers rendering cost when the graph is large.
+  <Step title="Turn off labels">
+    Turn off **Show file and relation labels** to draw only dots and lines in a very large graph.
   </Step>
 </Steps>
 
 ## FAQ
 
 <AccordionGroup>
+  <Accordion title="Why is the graph empty?" icon="question">
+    The graph indexes `.md` files in local workspaces. Make sure a local workspace is open, that your notes end in `.md`, and that they are not in hidden or ignored folders, then click **Refresh file index**. If the view says **No files match these filters**, choose **Reset filters**.
+  </Accordion>
+
   <Accordion title="Why are some nodes outside the visible canvas?" icon="question">
-    Zoom out, search for the file directly, or wait a few seconds for the simulation to settle.
+    Click **Fit to view**, zoom out, or search for the file and click **Locate in graph**.
   </Accordion>
 
   <Accordion title="How do I reset pinned node positions?" icon="question">
-    The current graph does not expose a direct per-node reset. Changing filters or reloading the graph forces a fresh layout.
+    Open **Display** and choose **Reset layout and pinned positions**.
   </Accordion>
 
   <Accordion title="Why does double-click not open the file?" icon="question">
-    Make sure the file exists, the clicks are close enough together, and you did not drag the node between clicks.
+    The file may not exist: missing files are drawn as hollow, dashed circles and cannot be opened. Also make sure you did not drag the node between the clicks.
   </Accordion>
 
-  <Accordion title="Why are edge arrows overlapping?" icon="question">
-    Zoom in, highlight the node first, or drag the nodes farther apart to separate curved edges more clearly.
+  <Accordion title="Why do relations overlap?" icon="question">
+    Zoom in, select the file first, or drag the nodes farther apart. Lowering **Edge opacity** also makes busy areas easier to read.
   </Accordion>
 
   <Accordion title="Can I export or share the graph?" icon="question">
     There is no built-in export yet. Use your system screenshot tool if you need to capture the current view.
   </Accordion>
 
-  <Accordion title="Why does the graph keep wobbling?" icon="question">
-    Adjust link distance or repulsion and pin a few stable anchor nodes to calm the simulation.
+  <Accordion title="Why does the graph keep moving?" icon="question">
+    The layout moves until it settles, and dragging a node starts it again. Choose **Pause layout** in **Display** to stop it, and pin a few anchor nodes to keep the arrangement stable.
   </Accordion>
 </AccordionGroup>
 
 ## Keyboard shortcuts
 
+Click the canvas first so the graph has keyboard focus.
+
 | Shortcut | What it does |
 | --- | --- |
-| `Esc` | Clear the current node or edge selection |
-| `Space + drag` | Pan quickly in some browsers |
-| `Ctrl/Cmd + wheel` | Adjust zoom speed with more control |
+| `/` | Open search |
+| `Esc` | Clear the current node or relation selection |
+| `+` or `=` | Zoom in |
+| `-` | Zoom out |
+| `Enter` | Open the selected file |
+| Arrow keys | Nudge the selected node, which pins it |
 
 ## Technical notes
 
 <Note>
-  The knowledge graph is built with `react-force-graph-2d`, D3 force simulation, the Canvas API, and adaptive level-of-detail rendering. Rendering happens on the client side, and the feature is code-split for faster initial page loads.
+  The graph is drawn with your graphics card, and its layout is calculated in the background so that it does not hold up editing. If your system is set to reduce motion, the layout starts paused and the directional flow is not animated. If the graph cannot be drawn, the view shows **Unable to load the graph. Please retry.** with a **Retry** button.
 </Note>

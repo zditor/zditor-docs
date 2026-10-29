@@ -1,0 +1,78 @@
+---
+title: "クイックスタート"
+description: "Zditor をインストールし、ファイルの置き場所を選んで、書き始めます。"
+icon: "rocket"
+---
+
+このページでは、ダウンロードから最初のノートを書くまでを数分で案内します。書くだけならアカウントは不要です。ログインが必要なのは、Zditor AI とメンバーシップの機能を使う場合だけです。
+
+<Steps>
+  <Step title="Zditor をインストールする">
+    [ダウンロードページ](https://zditor.com/download)から、お使いのシステム用のバージョンをダウンロードします。
+
+    <Tabs>
+      <Tab title="macOS">
+        M シリーズのチップを搭載した Mac では **Apple シリコン**、それより前の Mac では **Intel** を選びます。`.dmg` ディスクイメージを開き、Zditor を「アプリケーション」フォルダーにドラッグして、そこから開きます。
+      </Tab>
+
+      <Tab title="Windows">
+        `.exe` のセットアッププログラムを実行します。`.msi` パッケージは、組織で一括導入する場合に使います。
+      </Tab>
+
+      <Tab title="Linux">
+        `chmod +x` で AppImage に実行権限を付けて起動するか、パッケージマネージャーで `.deb` または `.rpm` パッケージをインストールします。
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="セットアップを進める">
+    Zditor を初めて開くと、短いセットアップで次の 4 つのステップを順に進めます。
+
+    - **Welcome**：**Set up Zditor** をクリックします。
+    - **Interface**：見やすい **Interface size** を選びます。
+    - **Workspace**：作業の置き場所を選びます。詳しくは次のステップで説明します。
+    - **Agent**：組み込みのエージェントが使う AI サービスを接続します。後で設定する場合は **Skip and finish** をクリックします。
+
+    これらはすべて後から変更できます。セットアップをもう一度表示するには、**Settings → Personal → General** で **Restart tour** をクリックします。
+  </Step>
+
+  <Step title="ワークスペースを選ぶ">
+    ワークスペースとは、Zditor が作業の対象にするフォルダーです。中のファイルはサイドバーに表示され、Zditor は元の形式のまま扱います。
+
+    - **Local folder**：**Choose folder** をクリックし、パソコン上のフォルダーを選びます。
+    - **S3**、**WebDAV**、**SSH**：接続情報を入力すると、別の場所に保存されたファイルを扱えます。
+
+    後からワークスペースを切り替えるには、**Files** パネル上部のワークスペースメニューを使います。空の Agent タブにも **Open Workspace** と **New Workspace** が表示されます。Git リポジトリを含むリモート接続は、**Settings → Integrations → Connections** で管理します。詳しくは[ファイルツリーガイド](/ja/file-tree)を参照してください。
+  </Step>
+
+  <Step title="最初のノートを書く">
+    ファイルツリーの上部にある **New File** をクリックし、名前を入力して `Enter` を押します。既定の設定を変えない限り、新しいファイルの拡張子は `.md` になります。
+
+    あとは入力するだけです。Markdown は入力したそばから書式に変わります。たとえば、行頭に `## ` と入力すると見出しになります。行頭で `/` を入力するとコマンドメニュー、`@` でほかのファイルへのリンク、`:` で絵文字を挿入できます。変更は Zditor が自動的にファイルに保存します。
+  </Step>
+
+  <Step title="エージェントを接続する（任意）">
+    組み込みのエージェントを使うには、AI サービスが必要です。**Settings → AI → Agents** を開き、**AI service** を次のいずれかに設定します。
+
+    - **Zditor**：Zditor アカウントにログインします。アカウントに Pro または無料の AI トークンが必要です。
+    - **Custom provider**：**API protocol**（OpenAI Responses または Claude Messages）を選び、**Base URL** と **API key** を入力して **Fetch models** をクリックします。モデルを有効にして、**Save** をクリックします。
+
+    あとはタブバーの **+** をクリックして Agent タブを開き、メッセージを送信します。詳しくは[エージェントガイド](/ja/agent-guide)を参照してください。
+  </Step>
+</Steps>
+
+## 次のステップ
+
+<CardGroup cols={3}>
+  <Card title="よく使う操作" icon="bolt" href="/ja/quick-actions">
+    ドラッグ＆ドロップ、トリガーメニュー、ツールバー、最初に覚えたいショートカット。
+  </Card>
+
+  <Card title="ファイルツリー" icon="folder-tree" href="/ja/file-tree">
+    ファイルを整理し、ワークスペースを切り替えます。
+  </Card>
+
+  <Card title="エージェント" icon="robot" href="/ja/agent-guide">
+    エージェントを設定し、何を許可するかを決めます。
+  </Card>
+</CardGroup>

@@ -1,0 +1,148 @@
+---
+title: "Guia de marcas de texto"
+description: "Formatação inline essencial, além da sintaxe de anotações e revisões no Zditor."
+icon: "highlighter"
+---
+
+O Zditor oferece a formatação inline padrão, como negrito, itálico, destaque e código inline, e também acrescenta marcas mais ricas, no estilo de revisão de texto, para anotações e revisões.
+
+<Frame>
+  <img src="/images/case2_en.png" alt="Exemplo de revisão e de sintaxe estendida no Zditor" style={{ borderRadius: '0.5rem' }} />
+</Frame>
+
+## Visão geral
+
+<CardGroup cols={2}>
+  <Card title="Formatação básica" icon="highlighter">
+    Use negrito, itálico e destaque para dar ênfase e estrutura ao texto.
+  </Card>
+
+  <Card title="Código inline" icon="code">
+    Marque comandos, identificadores e trechos curtos com crases.
+  </Card>
+
+  <Card title="Anotações" icon="lightbulb">
+    Use `mode=tip` para explicar um termo ou uma expressão sem alterar o texto original.
+  </Card>
+
+  <Card title="Revisões" icon="pen-to-square">
+    Use `mode=revision` para sugerir uma substituição que pode ser aceita depois.
+  </Card>
+</CardGroup>
+
+## Marcas inline básicas
+
+| Marca | Sintaxe | Uso típico |
+| --- | --- | --- |
+| Negrito | `**text**` | conclusões principais e termos importantes |
+| Itálico | `*text*` | ênfase leve, palavras estrangeiras, termos especiais |
+| Tachado | `~~text~~` | trechos removidos ou desatualizados |
+| Destaque | `==text==` | definições importantes e pontos-chave |
+| Código inline | `` `code` `` | comandos, variáveis, identificadores |
+| Link | `[text](url)` | navegação e referências |
+
+Você também pode aplicar essas marcas pela barra de formatação que aparece ao selecionar texto, ou com os atalhos de [Atalhos de teclado](/pt/keyboard-shortcuts).
+
+<Tip>
+  Use pouca formatação. As marcas de texto funcionam melhor quando deixam a estrutura mais clara, em vez de disputar a atenção.
+</Tip>
+
+## Marcas de anotação e revisão
+
+<AccordionGroup>
+  <Accordion title="Anotações com mode=tip" icon="lightbulb" defaultOpen>
+    Use anotações quando o texto original está correto, mas precisa de mais contexto.
+
+    ```md
+    [text](explanation|mode=tip)
+    ```
+
+    Forma completa:
+
+    ```md
+    [term](explanation%20goes%20here|mode=tip|style=teal)
+    ```
+
+    Casos de uso típicos:
+
+    - explicar termos técnicos
+    - acrescentar dicas de leitura
+    - anexar um breve contexto sem reescrever a frase
+  </Accordion>
+
+  <Accordion title="Revisões com mode=revision" icon="pen-to-square">
+    Use revisões quando o texto atual deve ser substituído.
+
+    ```md
+    [original text](reason|mode=revision|advice=replacement)
+    ```
+
+    Forma completa:
+
+    ```md
+    [original text](why%20it%20should%20change|mode=revision|style=indigo|advice=replacement%20text)
+    ```
+
+    Casos de uso típicos:
+
+    - corrigir erros de digitação
+    - enxugar o texto
+    - trocar datas vagas por datas exatas
+  </Accordion>
+
+  <Accordion title="Criar e revisar marcas no editor" icon="mouse-pointer">
+    - **Criar uma marca**: selecione o texto, clique em **Revision** na barra de formatação e escolha uma cor. `Mod-R` adiciona uma marca verde-azulada (`teal`). Uma marca nova é uma revisão sem descrição e sem texto sugerido.
+    - **Abrir uma marca**: clique no texto marcado. A barra de ferramentas dela mostra a **Description** (**Tip Content**, no caso de uma anotação) e, no caso de uma revisão, o **Suggested Text**.
+    - **Edit**: altere a cor em **Revision Type**, a descrição e o texto sugerido e clique em **Save Changes**.
+    - Seletor **Tip / Revision**: muda o modo. Mudar uma revisão para anotação apaga o texto sugerido dela.
+    - **Accept Revision**: substitui o texto marcado pelo texto sugerido. As anotações não têm a ação de aceitar.
+    - **Delete**: remove a marca e mantém o texto.
+
+    Quando um documento tem marcas, **Remove All Revisions**, na barra de título, remove de uma vez todas as marcas de anotação e de revisão e mantém o texto. As anotações aparecem com sublinhado ondulado; as revisões usam o sublinhado do tema do documento.
+  </Accordion>
+
+  <Accordion title="Quando codificar espaços como %20" icon="code">
+    Se você escrever diretamente o código Markdown, os espaços dentro dos parênteses de `tip` e `revision` precisam ser codificados como `%20`. Um espaço comum encerra o link, e o código passa a aparecer como texto comum.
+
+    Isso vale para:
+
+    - a explicação
+    - os valores de `advice`
+
+    Quando o Zditor salva um documento, ele faz essa codificação por você. Ele também codifica `|`, `(` e `)` dentro desses valores como `%7C`, `%28` e `%29`.
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  As marcas de anotação e de revisão precisam do plugin **Track changes**, em **Settings → Integrations → Plugins**. Ele vem ativado por padrão. Uma mudança nele vale depois que você reabre o editor de Markdown.
+</Note>
+
+## Significados sugeridos das cores
+
+`style` aceita cinco cores: `red`, `indigo`, `teal`, `yellow` e `green`. Uma marca sem `style` fica `teal`. Os significados abaixo são apenas uma convenção; o Zditor trata todas as cores da mesma forma.
+
+| Cor | Uso típico |
+| --- | --- |
+| `red` | erros, remoções, datas vagas, problemas de ortografia |
+| `indigo` | melhorias de redação, ajuste de tom, alinhamento de estilo |
+| `teal` | explicações neutras e sugestões gerais |
+| `yellow` | avisos e pontos que pedem atenção |
+| `green` | confirmação positiva ou indicação para manter como está |
+
+## Modelos prontos para copiar
+
+### Modelo de anotação
+
+```md
+This sentence includes a [term](explain%20the%20meaning%20here|mode=tip|style=teal).
+```
+
+### Modelo de revisão
+
+```md
+Please change [the original phrase](explain%20why%20it%20should%20change|mode=revision|style=indigo|advice=the%20revised%20phrase).
+```
+
+<Warning>
+  Uma `revision` precisa de um valor em `advice` para oferecer uma substituição. Sem ele, **Accept Revision** exclui o texto marcado; por isso, deixe `advice` vazio apenas quando estiver sugerindo uma exclusão.
+</Warning>

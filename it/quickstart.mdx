@@ -1,0 +1,78 @@
+---
+title: "Avvio rapido"
+description: "Installa Zditor, scegli dove tenere i tuoi file e inizia a scrivere."
+icon: "rocket"
+---
+
+Questa pagina ti accompagna dal download alla tua prima nota in pochi minuti. Per scrivere non serve un account: accedi solo per Zditor AI e per le funzioni dell’abbonamento.
+
+<Steps>
+  <Step title="Installa Zditor">
+    Scarica la versione per il tuo sistema dalla [pagina di download](https://zditor.com/download).
+
+    <Tabs>
+      <Tab title="macOS">
+        Scegli **Apple silicon** per i Mac con chip della serie M e **Intel** per i Mac meno recenti. Apri l’immagine disco `.dmg`, trascina Zditor nella cartella Applicazioni e aprilo da lì.
+      </Tab>
+
+      <Tab title="Windows">
+        Esegui il programma di installazione `.exe`. Il pacchetto `.msi` è pensato per le installazioni gestite.
+      </Tab>
+
+      <Tab title="Linux">
+        Rendi eseguibile l’AppImage con `chmod +x` ed eseguila, oppure installa il pacchetto `.deb` o `.rpm` con il tuo gestore di pacchetti.
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="Completa la configurazione iniziale">
+    Al primo avvio di Zditor, una breve configurazione ti guida in quattro passaggi:
+
+    - **Welcome**: fai clic su **Set up Zditor**.
+    - **Interface**: scegli in **Interface size** una dimensione comoda per l’interfaccia.
+    - **Workspace**: scegli dove tenere il tuo lavoro, come descritto nel passaggio successivo.
+    - **Agent**: collega il servizio IA usato dall’agente integrato, oppure fai clic su **Skip and finish** per farlo più tardi.
+
+    Puoi cambiare tutto in seguito. Per rivedere la configurazione iniziale, fai clic su **Restart tour** in **Settings → Personal → General**.
+  </Step>
+
+  <Step title="Scegli uno spazio di lavoro">
+    Uno spazio di lavoro è la cartella in cui lavora Zditor. I suoi file compaiono nella barra laterale e Zditor li conserva nel loro formato originale.
+
+    - **Local folder**: fai clic su **Choose folder** e scegli una cartella sul computer.
+    - **S3**, **WebDAV** o **SSH**: inserisci i dati di connessione per lavorare su file archiviati altrove.
+
+    In seguito potrai passare da uno spazio di lavoro all’altro con il menu degli spazi di lavoro in cima al pannello **Files**, e una scheda Agent vuota offre **Open Workspace** e **New Workspace**. Le connessioni remote, compresi i repository Git, si gestiscono in **Settings → Integrations → Connections**. Per saperne di più, consulta [la guida all’albero dei file](/it/file-tree).
+  </Step>
+
+  <Step title="Scrivi la tua prima nota">
+    Fai clic su **New File** in cima all’albero dei file, digita un nome e premi `Enter`. I nuovi file hanno l’estensione `.md`, a meno che tu non cambi quella predefinita.
+
+    Poi inizia a scrivere. Il Markdown diventa formattazione mentre digiti: ad esempio, `## ` all’inizio di una riga crea un titolo. Digita `/` all’inizio di una riga per il menu dei comandi, `@` per collegare un altro file e `:` per le emoji. Zditor salva automaticamente le modifiche nel file.
+  </Step>
+
+  <Step title="Collega l’agente (facoltativo)">
+    L’agente integrato ha bisogno di un servizio IA. Apri **Settings → AI → Agents** e imposta **AI service** su una di queste opzioni:
+
+    - **Zditor**: accedi al tuo account Zditor. Serve Pro oppure dei token IA gratuiti sul tuo account.
+    - **Custom provider**: scegli l’**API protocol** (OpenAI Responses o Claude Messages), inserisci **Base URL** e **API key**, fai clic su **Fetch models**, attiva un modello e fai clic su **Save**.
+
+    Poi fai clic su **+** nella barra delle schede per aprire una scheda Agent e invia un messaggio. Per i dettagli, consulta la [guida all’agente](/it/agent-guide).
+  </Step>
+</Steps>
+
+## Passi successivi
+
+<CardGroup cols={3}>
+  <Card title="Azioni rapide" icon="bolt" href="/it/quick-actions">
+    Trascinamento, menu rapidi, barre degli strumenti e le prime scorciatoie da imparare.
+  </Card>
+
+  <Card title="Albero dei file" icon="folder-tree" href="/it/file-tree">
+    Organizza i file e passa da uno spazio di lavoro all’altro.
+  </Card>
+
+  <Card title="Agente" icon="robot" href="/it/agent-guide">
+    Configura l’agente e decidi che cosa può fare.
+  </Card>
+</CardGroup>

@@ -1,0 +1,181 @@
+---
+title: "SuperTag ガイド"
+description: "SuperTag を使って、Markdown ファイルを構造化されたレコードとして整理し、文中から参照します。"
+icon: "hashtag"
+---
+
+SuperTag を使うと、Zditor は Markdown ファイルを構造化されたレコードとして扱い、ドキュメント内のレコードへの参照をタグのようなチップとして表示します。
+
+## 概要
+
+<CardGroup cols={2}>
+  <Card title="構造化されたレコード" icon="database">
+    本文は通常の Markdown のまま、再利用できるメタデータを Frontmatter に保存します。
+  </Card>
+
+  <Card title="共通のクラス" icon="table">
+    同じ `class` の値を付けることで、多くのファイルを 1 つの論理的なテーブルにまとめます。
+  </Card>
+
+  <Card title="インライン参照" icon="link">
+    `mode=supertag` を使って、レコードを別のドキュメントに挿入します。
+  </Card>
+
+  <Card title="カードのレイアウト用フィールド" icon="table">
+    `col`、`row`、`cover`、`warm` などのフィールドで、ドキュメントのヘッダーとレコードのカードの見せ方を決めます。
+  </Card>
+</CardGroup>
+
+## 基本概念
+
+<AccordionGroup>
+  <Accordion title="レコードも Markdown ファイル" icon="file" defaultOpen>
+    SuperTag のレコードは、型付きの Frontmatter を持つ通常の Markdown ドキュメントです。
+
+    ```yaml
+    ---
+    title:
+      type: text
+      label: Title
+      value: "The Godfather"
+    director:
+      type: text
+      label: Director
+      value: "Francis Ford Coppola"
+    year:
+      type: number
+      label: Year
+      value: 1972
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    ---
+    ```
+  </Accordion>
+
+  <Accordion title="class フィールドでレコードをまとめる" icon="table">
+    同じ `class` の値を持つファイルは、同じ論理的なテーブルに属します。`class` はテキストフィールドである必要があります。
+
+    ```yaml
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    ```
+
+    これにより、Zditor は多くの Markdown ファイルを 1 つの構造化されたコレクションにまとめられます。**Calendar** サイドバーの **Objects** タブに、クラスの一覧が表示されます。
+  </Accordion>
+
+  <Accordion title="スキーマファイルでフィールドを定義する" icon="list-check">
+    同じ `class` と `field` のリストを持つファイルは、そのクラスのスキーマファイルとして機能します。`field` にはすべてのレコードが持つべきフィールドを指定し、スキーマファイルにはそれらのフィールドを型とラベル付きで記述します。
+
+    ```yaml
+    ---
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    field:
+      type: array
+      label: field
+      value: [title, director, year]
+    title:
+      type: text
+      label: Title
+      value: ""
+    director:
+      type: text
+      label: Director
+      value: ""
+    year:
+      type: number
+      label: Year
+      value: 0
+    ---
+    ```
+
+    `#` メニューから作成したレコードには、スキーマファイルからコピーされたこれらのフィールドが最初から含まれます。スキーマファイルはクラスのテーブルの列も定義し、ナレッジグラフではすべてのレコードがスキーマファイルにリンクされます。
+  </Accordion>
+
+  <Accordion title="col と row でカードのレイアウトを決める" icon="table">
+    レイアウト用フィールドは、ドキュメントのヘッダーと、クラスの **Gallery** ビューのレコードカードで、どのメタデータを目立たせるかを決めます。
+
+    ```yaml
+    col:
+      type: array
+      label: Col
+      value: [year, title, director]
+    row:
+      type: array
+      label: Row
+      value: [genre, rank, score, watched]
+    ```
+
+    - `col` には、タイトルエリアに表示するフィールドを最大 3 つ指定します。上の小さな行、タイトル、その下の説明です
+    - `row` には、その下の情報行に表示するフィールドを指定します
+  </Accordion>
+</AccordionGroup>
+
+## 参照の構文
+
+`mode=supertag` を付けた通常の Markdown リンクを使います。
+
+```markdown
+[ClassicMovieEnglish](/movies/The%20Godfather.md|mode=supertag)
+```
+
+- 角かっこ内のテキストは、レコードのクラスです。
+- パスはレコードのファイルを指します。`/` で始まるパスはワークスペースのルートから、それ以外のパスは現在のドキュメントのフォルダーから始まります。パス内のスペースは `%20` と書きます。
+
+エディターでは、参照は `#ClassicMovieEnglish · The Godfather` のような色付きのチップとして表示されます。色はクラス名によって決まります。
+
+<Note>
+  この構文を手で入力する必要はほとんどありません。ドキュメントで `#` を入力するとオブジェクトメニューが開き、クラスの一覧が表示されます。クラスを選び、続けてレコードを選ぶと参照が挿入されます。**Create Row** を選ぶと、入力したテキストを名前にしたそのクラスの新しいレコードが現在のドキュメントのフォルダーに作成され、参照が挿入されます。**Create Table** を選ぶと新しいクラスを作り始められ、最初の行を作成した時点でクラスが存在するようになります。メニューが表示されない場合は、**Settings → Editor → Markdown Editor** で **Object menu (#)** がオンになっているか確認してください。
+</Note>
+
+参照をクリックすると選択されます。表示されるツールバーには、次の項目があります。
+
+- クラス名：クリックすると、そのクラスのすべてのレコードがタブで開きます。**Table**、**Gallery**、**Gantt** の各ビューがあります
+- レコード名：クリックすると、レコードのファイルが開きます
+- 更新ボタン：Zditor のノートのインデックスを更新します
+- **Info**：レコードのフィールドを表示します
+
+## よく使うフィールドの型
+
+| 型 | エディターでの表示 | 主な用途 |
+| --- | --- | --- |
+| `text` | Text | タイトル、著者、国、メモ |
+| `number` | Number | 年、スコア、順位 |
+| `date` | Date | 期日、鑑賞日、作成日 |
+| `checkbox` | Toggle | 完了状態、暖色テーマ、注目の状態 |
+| `multiselect` | Multi-select | ジャンル、タグ、カテゴリ |
+| `array` | List | キャストのリスト、レイアウト用フィールドのリスト |
+| `progress` | Progress | スコアや完了率など、0〜100 の値 |
+| `asset` | Image | カバーなどの画像 |
+
+すべてのフィールドの型と、フィールドの編集方法については、[Frontmatter ガイド](/ja/frontmatter)を参照してください。
+
+## おすすめの手順
+
+<Steps>
+  <Step title="既存のレコードをコピーする">
+    目的のスキーマをすでに持つファイルから始めるか、`#` メニューの **Create Row** でレコードを作成します。
+  </Step>
+
+  <Step title="フィールドの構造とクラスを保つ">
+    同じキー、型、`class` の値を使い回して、レコードが同じコレクションに入るようにします。
+  </Step>
+
+  <Step title="具体的な値を書き換える">
+    タイトル、日付、カバー、本文を、新しいレコードに合わせて更新します。
+  </Step>
+
+  <Step title="共通のフィールドは後から補う">
+    クラス全体に新しいフィールドが必要になったら、コレクション全体に同じように追加し、スキーマファイルの `field` リストにも追加します。
+  </Step>
+</Steps>
+
+<Tip>
+  SuperTag は、フィールド名を長く変えずに使い続けるときに最も効果を発揮します。クラスを使い始めたら、安易に名前を変えないようにしましょう。
+</Tip>

@@ -57,6 +57,38 @@ Zditor supports both inline and display math, so you can place short formulas in
     \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
     $$
     ```
+
+    The formula can also share a line with its delimiters, as in `$$E=mc^2$$`.
+  </Accordion>
+
+  <Accordion title="LaTeX bracket delimiters" icon="code">
+    Zditor also reads `\(...\)` as inline math and `\[...\]` as display math:
+
+    ```latex
+    The area is \(\pi r^2\).
+
+    \[
+    a^2 + b^2 = c^2
+    \]
+    ```
+
+    This needs **Bracket math delimiters** in **Settings → Integrations → Plugins**. Math itself needs **Math formulas** in the same place. Both are on by default, and a change applies after you reopen the Markdown editor.
+  </Accordion>
+
+  <Accordion title="Insert and edit formulas in the editor" icon="pen-to-square">
+    - Type `$E=mc^2$` in rich text: the formula forms when you type the closing `$`.
+    - On an empty line, type `$$` followed by a space to start a display formula.
+    - Press `Mod-Shift-E` for inline math or `Mod-Shift-D` for display math. The `/` menu also has **Math display (LaTeX)** in its **Code Block** group.
+    - Click an inline formula to edit its source. Click a display formula to select it, then press `Enter` or choose **Edit formula** in its toolbar.
+    - The formula toolbar can **Convert to block formula**, **Convert to inline formula**, **Convert to text**, or **Convert to paragraph**. While editing, `Mod-M` switches between inline and display.
+
+    See [Keyboard Shortcuts](/en/keyboard-shortcuts#math-editing) for the keys inside a formula.
+  </Accordion>
+
+  <Accordion title="Dollar signs in ordinary text" icon="lightbulb">
+    When Zditor reads Markdown, an opening `$` must not be followed by a space, and a closing `$` must not follow a space or come right before a digit. That keeps prices such as `$5 and $10` as plain text. Write `\$` for a literal dollar sign.
+
+    If a formula forms by accident while you type, press `Backspace` right away to undo the conversion.
   </Accordion>
 </AccordionGroup>
 
@@ -116,7 +148,7 @@ $$
 | Function | Integral |
 | --- | --- |
 | $x^n$ | $\frac{x^{n+1}}{n+1}+C,\; n \ne -1$ |
-| $\frac{1}{x}$ | $\ln|x|+C$ |
+| $\frac{1}{x}$ | $\ln\lvert x\rvert+C$ |
 | $e^x$ | $e^x+C$ |
 | $\sin x$ | $-\cos x + C$ |
 | $\cos x$ | $\sin x + C$ |
@@ -212,7 +244,3 @@ $$
 $$
 f(x) \approx f(x_0) + f'(x_0)(x-x_0) + \frac{1}{2}f''(x_0)(x-x_0)^2
 $$
-
-<Note>
-  Beyond this compact guide, Zditor's broader formula material also spans statistics, linear algebra, classical physics, chemistry, deep learning, and formula-layout showcases.
-</Note>

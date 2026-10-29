@@ -1,63 +1,83 @@
 ---
 title: "Introduction"
-description: "English entry point for the Zditor documentation."
+description: "What Zditor is, and where to start in its documentation."
 icon: "compass"
 ---
 
-Welcome to the English Zditor docs.
-
-<Info>
-  This site focuses on the product capabilities that are already mapped into the current docs: structured writing, extended Markdown syntax, formulas, file navigation, graph exploration, Agent workflows, MCP integration, and configuration paths.
-</Info>
+Zditor is a Markdown editor that works directly on the files in a folder you choose. Write notes with math, footnotes and structured metadata, annotate PDFs without changing them, draw on canvases, and let the built-in agent work with your files.
 
 <Frame>
-  <img src="/images/home_en.png" alt="Zditor English home interface" style={{ borderRadius: '0.5rem' }} />
+  <img src="/images/workspace.webp" alt="A note open in Zditor, with its Markdown source beside the formatted text" style={{ borderRadius: '0.5rem' }} />
 </Frame>
 
-## Start Here
+## Get started
 
 <CardGroup cols={3}>
+  <Card title="Quickstart" icon="rocket" href="/en/quickstart">
+    Install Zditor, open a workspace and write your first note.
+  </Card>
+
+  <Card title="Quick actions" icon="bolt" href="/en/quick-actions">
+    Drag and drop, trigger menus, toolbars and the shortcuts worth learning first.
+  </Card>
+
+  <Card title="Keyboard shortcuts" icon="keyboard" href="/en/keyboard-shortcuts">
+    The full list of editor shortcuts.
+  </Card>
+</CardGroup>
+
+## Write
+
+<CardGroup cols={3}>
+  <Card title="Text marks" icon="highlighter" href="/en/text-marks">
+    Inline formatting, plus annotation and revision marks for reviewing text.
+  </Card>
+
+  <Card title="Math formulas" icon="square-root-variable" href="/en/math-formulas">
+    Inline and display math in LaTeX syntax.
+  </Card>
+
+  <Card title="Footnotes" icon="list-ol" href="/en/footnotes">
+    Add notes and references without interrupting the text.
+  </Card>
+
+  <Card title="Frontmatter" icon="table" href="/en/frontmatter">
+    Structured metadata at the top of a note, edited as a table.
+  </Card>
+
   <Card title="SuperTag" icon="hashtag" href="/en/supertag">
-    Use Markdown files as structured records and insert them as tag-like references.
-  </Card>
-
-  <Card title="Text Marks" icon="highlighter" href="/en/text-marks">
-    Review core inline formatting plus annotation and revision syntax.
-  </Card>
-
-  <Card title="Math Formulas" icon="square-root-variable" href="/en/math-formulas">
-    Write inline and block formulas with LaTeX-style math syntax.
-  </Card>
-
-  <Card title="File Tree" icon="folder-tree" href="/en/file-tree">
-    Browse, rename, move, and organize workspace files and folders.
-  </Card>
-
-  <Card title="Knowledge Graph" icon="diagram-project" href="/en/knowledge-graph">
-    Explore file relationships as an interactive graph view.
-  </Card>
-
-  <Card title="Quick Actions" icon="bolt" href="/en/quick-actions">
-    Learn the highest-frequency workflows for drag and drop, shortcuts, menus, and toolbars.
+    Treat Markdown files as records and reference them inside other notes.
   </Card>
 </CardGroup>
 
-## AI And System Guides
+## Organize and read
 
 <CardGroup cols={3}>
-  <Card title="Agent Guide" icon="robot" href="/en/agent-guide">
-    Connect ACP-compatible agents and run multi-step workflows inside Zditor.
+  <Card title="File tree" icon="folder-tree" href="/en/file-tree">
+    Create, move and organize the files in your workspace.
   </Card>
 
-  <Card title="MCP Guide" icon="server" href="/en/mcp-guide">
-    Extend agent capability by connecting MCP services and tools.
+  <Card title="Knowledge graph" icon="diagram-project" href="/en/knowledge-graph">
+    See how your files link to each other.
   </Card>
 
-  <Card title="Config and Logs" icon="folder-open" href="/en/config-and-logs">
-    Find configuration and log paths across operating systems.
+  <Card title="PDF annotations" icon="file-text" href="/en/pdf-annotations">
+    Highlight, draw and comment on PDFs; the PDF itself stays unchanged.
   </Card>
 </CardGroup>
 
-<Note>
-  The broader Zditor content set also includes examples around diagrams, paper reading, and structured libraries. This Mintlify site currently centers on the product guides above.
-</Note>
+## AI and system
+
+<CardGroup cols={3}>
+  <Card title="Agent" icon="robot" href="/en/agent-guide">
+    Connect a model and let the built-in agent work with your files.
+  </Card>
+
+  <Card title="MCP" icon="server" href="/en/mcp-guide">
+    Give the agent more tools through MCP servers.
+  </Card>
+
+  <Card title="Configuration and logs" icon="folder-open" href="/en/config-and-logs">
+    Where Zditor keeps its settings and logs on each system.
+  </Card>
+</CardGroup>

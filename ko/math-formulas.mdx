@@ -1,0 +1,246 @@
+---
+title: "수식 가이드"
+description: "Zditor에서 인라인 수식과 블록 수식을 쓰는 방법과 자주 쓰는 공식을 간단히 정리했습니다."
+icon: "square-root-variable"
+---
+
+Zditor는 인라인 수식과 블록 수식을 모두 지원합니다. 짧은 수식은 본문 안에 넣고, 큰 수식은 별도의 블록으로 보여 줄 수 있습니다.
+
+## 동영상 데모
+
+<Frame>
+  <video
+    controls
+    style={{ width: '100%', height: '500px', borderRadius: '0.5rem' }}
+    src="https://download.zditor.com/zditor-com/math_en_small.mov"
+  >
+    사용 중인 브라우저가 동영상 태그를 지원하지 않습니다.
+  </video>
+</Frame>
+
+## 한눈에 보기
+
+<CardGroup cols={2}>
+  <Card title="인라인 수식" icon="code">
+    문장 안에 들어가는 짧은 식에는 `$...$`를 사용하세요.
+  </Card>
+
+  <Card title="블록 수식" icon="square-root-variable">
+    큰 수식, 행렬, 여러 줄에 걸친 유도 과정에는 `$$...$$`를 사용하세요.
+  </Card>
+
+  <Card title="LaTeX 스타일 문법" icon="code">
+    익숙한 LaTeX 수식 명령으로 수식을 작성하세요.
+  </Card>
+
+  <Card title="빠른 참조" icon="list">
+    미적분, 대수, 확률, 최적화에서 가장 자주 쓰는 공식을 곁에 두세요.
+  </Card>
+</CardGroup>
+
+## 수식 유형
+
+<AccordionGroup>
+  <Accordion title="인라인 수식" icon="code" defaultOpen>
+    식이 문장 안에 있어야 할 때 인라인 수식을 사용하세요.
+
+    ```markdown
+    Einstein's equation is $E=mc^2$.
+    ```
+  </Accordion>
+
+  <Accordion title="블록 수식" icon="square-root-variable">
+    별도의 블록으로 보여 줄 만한 큰 수식에는 블록 수식을 사용하세요.
+
+    ```latex
+    $$
+    \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+    $$
+    ```
+
+    `$$E=mc^2$$`처럼 수식을 구분 기호와 같은 줄에 쓸 수도 있습니다.
+  </Accordion>
+
+  <Accordion title="LaTeX 괄호 구분 기호" icon="code">
+    Zditor는 `\(...\)`를 인라인 수식으로, `\[...\]`를 블록 수식으로도 인식합니다.
+
+    ```latex
+    The area is \(\pi r^2\).
+
+    \[
+    a^2 + b^2 = c^2
+    \]
+    ```
+
+    이 기능을 쓰려면 **Settings → Integrations → Plugins**의 **Bracket math delimiters**가 필요합니다. 수식 기능 자체에는 같은 곳의 **Math formulas**가 필요합니다. 둘 다 기본적으로 켜져 있으며, 설정을 바꾸면 Markdown 편집기를 다시 연 뒤에 적용됩니다.
+  </Accordion>
+
+  <Accordion title="편집기에서 수식 삽입과 편집" icon="pen-to-square">
+    - 서식 보기에서 `$E=mc^2$`를 입력하면 닫는 `$`를 입력하는 순간 수식이 만들어집니다.
+    - 빈 줄에서 `$$` 다음에 공백을 입력하면 블록 수식이 시작됩니다.
+    - 인라인 수식은 `Mod-Shift-E`, 블록 수식은 `Mod-Shift-D`를 누르세요. `/` 메뉴의 **Code Block** 그룹에도 **Math display (LaTeX)** 항목이 있습니다.
+    - 인라인 수식을 클릭하면 소스를 편집할 수 있습니다. 블록 수식은 클릭해 선택한 다음 `Enter`를 누르거나 도구 모음에서 **Edit formula**를 선택하세요.
+    - 수식 도구 모음에서 **Convert to block formula**, **Convert to inline formula**, **Convert to text**, **Convert to paragraph**를 실행할 수 있습니다. 편집 중에는 `Mod-M`으로 인라인 수식과 블록 수식을 전환합니다.
+
+    수식 안에서 쓰는 키는 [키보드 단축키](/ko/keyboard-shortcuts#수식-편집)를 참고하세요.
+  </Accordion>
+
+  <Accordion title="일반 텍스트의 달러 기호" icon="lightbulb">
+    Zditor가 Markdown을 읽을 때 여는 `$` 바로 뒤에는 공백이 올 수 없고, 닫는 `$`는 공백 바로 뒤에 오거나 숫자 바로 앞에 올 수 없습니다. 그래서 `$5 and $10` 같은 가격은 일반 텍스트로 남습니다. 달러 기호를 문자 그대로 쓰려면 `\$`를 입력하세요.
+
+    입력 중에 실수로 수식이 만들어지면 바로 `Backspace`를 눌러 변환을 취소하세요.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  인라인 수식은 간결하게 유지하세요. 식에 큰 분수나 행렬, 정렬된 여러 단계가 들어간다면 블록 수식으로 바꾸세요.
+</Tip>
+
+## 미적분 기초
+
+### 극한
+
+$$
+\lim_{x \to 0}\frac{\sin x}{x} = 1
+$$
+
+$$
+\lim_{x \to 0}\frac{e^x - 1}{x} = 1
+$$
+
+$$
+\lim_{x \to 0}\frac{\ln(1+x)}{x} = 1
+$$
+
+$$
+\lim_{x \to \infty}\left(1+\frac{1}{x}\right)^x = e
+$$
+
+### 도함수
+
+$$
+f'(x) = \lim_{h \to 0}\frac{f(x+h)-f(x)}{h}
+$$
+
+| 함수 | 도함수 |
+| --- | --- |
+| $c$ | $0$ |
+| $x^n$ | $nx^{n-1}$ |
+| $e^x$ | $e^x$ |
+| $\ln x$ | $\frac{1}{x}$ |
+| $\sin x$ | $\cos x$ |
+| $\cos x$ | $-\sin x$ |
+
+$$
+\frac{d}{dx}[f(x)g(x)] = f'(x)g(x) + f(x)g'(x)
+$$
+
+$$
+\frac{d}{dx}f(g(x)) = f'(g(x))g'(x)
+$$
+
+### 적분
+
+$$
+\int f(x)\,dx = F(x) + C
+$$
+
+| 함수 | 적분 |
+| --- | --- |
+| $x^n$ | $\frac{x^{n+1}}{n+1}+C,\; n \ne -1$ |
+| $\frac{1}{x}$ | $\ln\lvert x\rvert+C$ |
+| $e^x$ | $e^x+C$ |
+| $\sin x$ | $-\cos x + C$ |
+| $\cos x$ | $\sin x + C$ |
+
+$$
+\int u\,dv = uv - \int v\,du
+$$
+
+$$
+\int f(g(x))g'(x)\,dx = \int f(u)\,du
+$$
+
+## 선형대수
+
+### 벡터와 내적
+
+$$
+\|\mathbf{x}\|_2 = \sqrt{\sum_{i=1}^{n}x_i^2}
+$$
+
+$$
+\mathbf{x}^T\mathbf{y} = \sum_{i=1}^{n}x_i y_i
+$$
+
+$$
+\cos\theta = \frac{\mathbf{x}^T\mathbf{y}}{\|\mathbf{x}\|_2\|\mathbf{y}\|_2}
+$$
+
+### 행렬
+
+$$
+c_{ij} = \sum_{k=1}^{n} a_{ik}b_{kj}
+$$
+
+$$
+\mathbf{A} =
+\begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}
+$$
+
+$$
+\det(\mathbf{A}) = ad - bc
+$$
+
+$$
+\mathbf{A}^{-1} = \frac{1}{ad-bc}
+\begin{bmatrix}
+d & -b \\
+-c & a
+\end{bmatrix}
+$$
+
+### 고윳값
+
+$$
+\mathbf{A}\mathbf{v} = \lambda \mathbf{v}
+$$
+
+$$
+\det(\mathbf{A} - \lambda \mathbf{I}) = 0
+$$
+
+## 확률과 통계
+
+$$
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}
+$$
+
+$$
+P(A \mid B) = \frac{P(B \mid A)P(A)}{P(B)}
+$$
+
+$$
+\mathbb{E}[X] = \sum_x xP(X=x)
+$$
+
+$$
+\mathrm{Var}(X) = \mathbb{E}[(X-\mu)^2]
+$$
+
+$$
+f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+$$
+
+## 최적화
+
+$$
+\theta_{t+1} = \theta_t - \eta \nabla J(\theta_t)
+$$
+
+$$
+f(x) \approx f(x_0) + f'(x_0)(x-x_0) + \frac{1}{2}f''(x_0)(x-x_0)^2
+$$

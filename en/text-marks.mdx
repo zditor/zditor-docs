@@ -36,9 +36,12 @@ Zditor supports standard inline formatting such as bold, italic, highlight, and 
 | --- | --- | --- |
 | Bold | `**text**` | key conclusions and important terms |
 | Italic | `*text*` | mild emphasis, foreign words, special terms |
+| Strikethrough | `~~text~~` | removed or outdated wording |
 | Highlight | `==text==` | important definitions and takeaways |
 | Inline code | `` `code` `` | commands, variables, identifiers |
 | Link | `[text](url)` | navigation and references |
+
+You can also apply these marks from the formatting toolbar that appears when you select text, or with the shortcuts in [Keyboard Shortcuts](/en/keyboard-shortcuts).
 
 <Tip>
   Keep formatting light. Text marks work best when they make structure clearer instead of competing for attention.
@@ -51,7 +54,7 @@ Zditor supports standard inline formatting such as bold, italic, highlight, and 
     Use annotations when the original text is correct but needs more context.
 
     ```md
-    [title](src|mode=tip)
+    [text](explanation|mode=tip)
     ```
 
     Expanded form:
@@ -71,7 +74,7 @@ Zditor supports standard inline formatting such as bold, italic, highlight, and 
     Use revisions when the current wording should be replaced.
 
     ```md
-    [title](src|mode=revision)
+    [original text](reason|mode=revision|advice=replacement)
     ```
 
     Expanded form:
@@ -87,19 +90,36 @@ Zditor supports standard inline formatting such as bold, italic, highlight, and 
     - replace vague dates with specific ones
   </Accordion>
 
+  <Accordion title="Create and review marks in the editor" icon="mouse-pointer">
+    - **Create a mark**: select text, click **Revision** in the formatting toolbar, and pick a color. `Mod-R` adds a teal mark. A new mark is a revision with no description and no suggested text.
+    - **Open a mark**: click the marked text. Its toolbar shows the **Description** (**Tip Content** for a tip) and, for a revision, the **Suggested Text**.
+    - **Edit**: change the color under **Revision Type**, the description, and the suggested text, then click **Save Changes**.
+    - **Tip / Revision switch**: change the mode. Switching a revision to a tip clears its suggested text.
+    - **Accept Revision**: replace the marked text with the suggested text. Tips have no accept action.
+    - **Delete**: remove the mark and keep the text.
+
+    When a document contains marks, **Remove All Revisions** in its title bar removes every tip and revision mark at once and keeps the text. Tips are drawn with a wavy underline; revisions use the document theme's underline.
+  </Accordion>
+
   <Accordion title="When to encode spaces as %20" icon="code">
-    If you write the raw Markdown source directly, spaces inside `tip` and `revision` parentheses should be encoded as `%20`.
+    If you write the raw Markdown source directly, spaces inside `tip` and `revision` parentheses must be encoded as `%20`. A plain space ends the link, and the source then shows as ordinary text.
 
     That applies to:
 
-    - annotation text
-    - file paths
-    - URLs
+    - the explanation
     - `advice` values
+
+    When Zditor saves a document, it does this encoding for you. It also encodes `|`, `(`, and `)` inside these values as `%7C`, `%28`, and `%29`.
   </Accordion>
 </AccordionGroup>
 
+<Note>
+  Tip and revision marks need the **Track changes** plugin in **Settings → Integrations → Plugins**. It is on by default. A change to it applies after you reopen the Markdown editor.
+</Note>
+
 ## Suggested Color Meanings
+
+`style` accepts five colors: `red`, `indigo`, `teal`, `yellow`, and `green`. A mark without `style` is teal. The meanings below are a convention only; Zditor treats every color the same way.
 
 | Color | Typical use |
 | --- | --- |
@@ -124,5 +144,5 @@ Please change [the original phrase](explain%20why%20it%20should%20change|mode=re
 ```
 
 <Warning>
-  `revision` must include `advice`. Without it, the mark points out a problem but does not provide a replacement.
+  A `revision` needs an `advice` value to offer a replacement. Without one, **Accept Revision** deletes the marked text, so leave `advice` empty only when you are suggesting a deletion.
 </Warning>

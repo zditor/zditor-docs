@@ -1,0 +1,153 @@
+---
+title: "각주 가이드"
+description: "읽는 흐름을 끊지 않고 Markdown 문서에 번호 매긴 각주를 추가하세요."
+icon: "list-ol"
+---
+
+Zditor는 표준 Markdown 각주 문법을 지원합니다. 본문을 끊지 않고 참고 문헌, 보충 설명, 세부 근거를 덧붙일 수 있습니다.
+
+## 한눈에 보기
+
+<CardGroup cols={2}>
+  <Card title="표준 문법" icon="hashtag">
+    `[^1]` 같은 표준 Markdown 각주 참조를 사용하세요.
+  </Card>
+
+  <Card title="하단 모음" icon="list-ol">
+    모든 각주가 문서 끝에 자동으로 모입니다.
+  </Card>
+
+  <Card title="플로팅 편집기" icon="pen-to-square">
+    각주 참조를 클릭해 해당 내용을 빠르게 확인하거나 편집하세요.
+  </Card>
+
+  <Card title="동기화된 업데이트" icon="arrows-rotate">
+    같은 레이블을 쓰는 참조는 항상 같은 내용을 공유합니다.
+  </Card>
+</CardGroup>
+
+## 각주 만들기
+
+<AccordionGroup>
+  <Accordion title="Markdown 문법" icon="code" defaultOpen>
+    다음과 같이 각주 참조를 넣으세요.
+
+    ```markdown
+    This paragraph has a footnote[^1], and it can have another one[^2].
+    ```
+
+    `[^1]`을 입력하면 Zditor가 위 첨자 각주 번호로 변환합니다.
+  </Accordion>
+
+  <Accordion title="자동 변환 규칙" icon="sparkles">
+    `[^` + 숫자 + `]`를 입력하면 각주로 자동 변환됩니다.
+
+    **참고**
+    - 입력으로 변환되는 것은 `[^1]`, `[^2]` 같은 숫자 레이블뿐입니다
+    - 같은 레이블은 항상 같은 각주 내용을 가리킵니다
+    - 문서에서 이미 쓰고 있는 레이블이면 새 참조가 기존 내용을 공유합니다
+  </Accordion>
+</AccordionGroup>
+
+## 각주 내용 편집
+
+새 각주는 레이블이 이미 쓰이고 있지 않다면 빈 내용으로 시작합니다. 내용은 두 가지 방법으로 편집할 수 있습니다.
+
+### 플로팅 도구 모음에서 편집
+
+<Steps>
+  <Step title="참조 선택">
+    문서에서 각주 번호를 클릭하세요.
+  </Step>
+  <Step title="편집기 열기">
+    플로팅 도구 모음에 `[^1]` 같은 레이블과 현재 내용이 표시됩니다. 내용이 비어 있으면 **No corresponding footnote**가 표시됩니다. **Edit**를 클릭하세요.
+  </Step>
+  <Step title="저장 또는 취소">
+    새 내용을 유지하려면 `Enter`를 누르거나 **Save**를 클릭하고, 취소하려면 **Cancel**을 클릭하세요.
+  </Step>
+</Steps>
+
+도구 모음에서 레이블을 클릭하면 하단 목록의 해당 항목으로 이동합니다.
+
+### 하단 목록에서 편집
+
+<Steps>
+  <Step title="맨 아래로 스크롤">
+    문서에 각주가 있으면 Zditor가 본문 아래에 각주 목록을 표시합니다.
+  </Step>
+  <Step title="내용 클릭">
+    항목의 텍스트를 클릭하면 그 자리에서 편집할 수 있습니다.
+  </Step>
+  <Step title="변경 사항 저장">
+    `Enter`를 누르거나 다른 곳을 클릭하면 저장됩니다.
+  </Step>
+</Steps>
+
+<Tip>
+  각주 하나를 편집하면 같은 레이블을 쓰는 모든 참조가 함께 업데이트됩니다.
+</Tip>
+
+## 표시 방식
+
+### 본문 속 참조
+
+각주는 본문에 위 첨자 참조로 표시됩니다. 참조 위에 마우스를 올리면 현재 각주 내용이 툴팁으로 나타납니다.
+
+### 하단 목록
+
+문서 하단에는 서로 다른 모든 각주가 순서대로 나열됩니다.
+
+- 각 항목에는 레이블과 내용이 표시되며, 내용 속 굵게, 기울임꼴, 인라인 코드, 링크 텍스트는 서식이 적용된 채로 나타납니다
+- 중복된 레이블은 자동으로 하나로 합쳐집니다
+- 숫자 레이블은 숫자 순서로 정렬됩니다
+- 항목의 레이블을 클릭하면 해당 레이블의 첫 번째 참조로 이동합니다
+
+### Markdown 파일에서
+
+Zditor는 문서를 저장할 때 각 각주의 내용을 파일 끝에 표준 정의로 한 번씩 기록합니다.
+
+```markdown
+This paragraph has a footnote[^1].
+
+[^1]: The footnote content.
+```
+
+Markdown 소스의 참조는 파일에 짝이 되는 정의가 있을 때만 각주가 됩니다. 서식 보기에서 `[^1]`을 입력하면 저장할 때 Zditor가 정의를 대신 추가합니다.
+
+## 예시
+
+```markdown
+Quantum computing uses quantum mechanics for information processing[^1],
+and in some problems it can outperform classical systems[^2].
+
+Common hardware approaches include superconducting qubits[^1] and trapped ions.
+
+[^1]: An introduction to quantum hardware.
+[^2]: The advantage depends on the problem.
+```
+
+이 예시에서는 다음과 같습니다.
+
+- `[^1]`은 두 번 나오며 하나의 각주 내용을 공유합니다
+- `[^2]`는 독립적으로 남습니다
+- 하단 목록에는 `1`과 `2` 두 항목이 들어갑니다
+
+## 자주 묻는 질문
+
+<AccordionGroup>
+  <Accordion title="각주에 텍스트 레이블을 쓸 수 있나요?">
+    편집기에서 입력할 때는 `[^1]` 같은 숫자 레이블만 변환됩니다. `[^source]` 같은 텍스트 레이블도 파일에 `[^source]: …` 같은 줄로 정의되어 있으면 작동합니다. 다른 Markdown 편집기에서 가져온 각주는 흔히 이런 형태입니다.
+  </Accordion>
+
+  <Accordion title="각주는 어떻게 삭제하나요?">
+    각주 참조를 선택하고 `Delete` 또는 `Backspace`를 누르세요. 같은 레이블의 참조가 모두 지워지면 하단 항목이 자동으로 사라지고, Zditor는 저장할 때 더 이상 그 정의를 기록하지 않습니다.
+  </Accordion>
+
+  <Accordion title="같은 레이블의 두 참조가 서로 다른 내용을 보이면 어떻게 되나요?">
+    Zditor가 둘을 항상 동기화합니다. 어느 쪽을 편집하든 그 레이블을 공유하는 모든 참조가 업데이트됩니다.
+  </Accordion>
+
+  <Accordion title="읽기 전용 모드에서 각주는 어떻게 동작하나요?">
+    참조와 툴팁, 하단 목록은 그대로 표시되고 목록의 레이블을 클릭하면 참조로 이동하지만, 편집은 할 수 없습니다.
+  </Accordion>
+</AccordionGroup>

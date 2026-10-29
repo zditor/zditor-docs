@@ -1,59 +1,78 @@
 ---
-title: "简介"
-description: "中文文档入口页。"
-icon: "compass"
+title: "快速开始"
+description: "安装 Zditor，选择文件存放的位置，然后开始写作。"
+icon: "rocket"
 ---
 
-欢迎来到 Zditor 中文文档。
+本页带你在几分钟内从下载走到第一篇笔记。写作不需要账户；只有使用 Zditor AI 和会员功能时才需要登录。
 
-<Info>
-  这里优先整理的是当前站点已经映射好的产品能力：结构化写作、扩展 Markdown、数学公式、文件导航、知识图谱、Agent、MCP，以及系统配置路径。
-</Info>
+<Steps>
+  <Step title="安装 Zditor">
+    从[下载页面](https://zditor.com/download)下载适合你系统的版本。
 
-## 从这里开始
+    <Tabs>
+      <Tab title="macOS">
+        搭载 M 系列芯片的 Mac 选择 **Apple silicon**，较早的 Mac 选择 **Intel**。打开 `.dmg` 磁盘映像，把 Zditor 拖进“应用程序”文件夹，然后从那里打开它。
+      </Tab>
+
+      <Tab title="Windows">
+        运行 `.exe` 安装程序。`.msi` 安装包适用于集中管理的部署。
+      </Tab>
+
+      <Tab title="Linux">
+        用 `chmod +x` 让 AppImage 可执行后运行它，或者用包管理器安装 `.deb` 或 `.rpm` 安装包。
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="完成初始设置">
+    第一次打开 Zditor 时，一个简短的设置流程会带你完成四个步骤：
+
+    - **欢迎**：点击 **设置 Zditor**。
+    - **界面**：选择合适的 **界面大小**。
+    - **工作区**：选择工作存放的位置，具体见下一步。
+    - **智能体**：连接内置智能体使用的 AI 服务，或点击 **跳过并完成**，稍后再设置。
+
+    这些之后都可以修改。要再次查看这个设置流程，在 **设置 → 个人 → 通用** 中点击 **重新查看新手引导**。
+  </Step>
+
+  <Step title="选择工作区">
+    工作区就是 Zditor 工作所在的文件夹。其中的文件会显示在侧边栏中，Zditor 会保持它们的原始格式。
+
+    - **本地目录**：点击 **选择目录**，然后选择电脑上的一个文件夹。
+    - **S3**、**WebDAV** 或 **SSH**：填写连接信息，处理存放在其他地方的文件。
+
+    之后，**文件** 面板顶部的工作区菜单可以在工作区之间切换，空白的智能体标签页也提供 **打开工作区** 和 **新建工作区**。远程连接（包括 Git 仓库）在 **设置 → 集成 → 连接** 中管理。更多内容见[侧边文件树使用指南](/zh/file-tree)。
+  </Step>
+
+  <Step title="写下第一篇笔记">
+    点击文件树顶部的 **新建文件**，输入文件名并按 `Enter`。除非你修改了默认设置，新文件的扩展名都是 `.md`。
+
+    然后开始输入。Markdown 语法会在输入时直接变成格式：例如在行首输入 `## ` 会生成标题。在行首输入 `/` 打开命令菜单，输入 `@` 链接其他文件，输入 `:` 插入表情。Zditor 会自动把修改保存到文件中。
+  </Step>
+
+  <Step title="连接智能体（可选）">
+    内置智能体需要一个 AI 服务。打开 **设置 → AI → 智能体**，把 **AI 服务** 设为以下之一：
+
+    - **Zditor 内置**：登录你的 Zditor 账户。这需要 Pro，或账户中有免费 AI Token。
+    - **自定义服务**：选择 **API 协议**（OpenAI Responses 或 Claude Messages），填写 **基础 URL** 和 **API 密钥**，点击 **获取模型**，启用一个模型，然后点击 **保存**。
+
+    然后点击标签栏中的 **+** 打开一个智能体标签页并发送消息。详见 [Agent 智能体使用指南](/zh/agent-guide)。
+  </Step>
+</Steps>
+
+## 下一步
 
 <CardGroup cols={3}>
-  <Card title="SuperTag 使用指南" icon="hashtag" href="/zh/SuperTag">
-    把 Markdown 文件当作结构化记录来组织，并以标签节点方式插入文档。
+  <Card title="快捷操作" icon="bolt" href="/zh/quick-actions">
+    拖放、触发菜单、工具栏，以及最先该学的快捷键。
   </Card>
 
-  <Card title="文本标记" icon="highlighter" href="/zh/文本标记">
-    查看基础行内格式，以及注释和修订这两类评审语法。
+  <Card title="文件树" icon="folder-tree" href="/zh/file-tree">
+    整理文件，并在工作区之间切换。
   </Card>
 
-  <Card title="数学公式" icon="square-root-variable" href="/zh/数学公式">
-    使用行内公式和块级公式编写数学表达式。
-  </Card>
-
-  <Card title="文件树" icon="folder-tree" href="/zh/文件树">
-    浏览、重命名、移动和整理工作区中的文件与文件夹。
-  </Card>
-
-  <Card title="知识图谱" icon="diagram-project" href="/zh/知识图谱">
-    用图谱视图理解文档之间的引用关系。
-  </Card>
-
-  <Card title="快捷操作" icon="bolt" href="/zh/快捷操作">
-    快速掌握拖拽、快捷键、命令菜单和上下文工具栏。
+  <Card title="智能体" icon="robot" href="/zh/agent-guide">
+    设置智能体，并决定它可以做什么。
   </Card>
 </CardGroup>
-
-## AI 与系统相关
-
-<CardGroup cols={3}>
-  <Card title="Agent 智能体使用指南" icon="robot" href="/zh/Agent智能体使用指南">
-    在 Zditor 中接入 ACP Agent 并执行多步骤任务。
-  </Card>
-
-  <Card title="MCP 服务使用指南" icon="server" href="/zh/MCP服务使用指南">
-    通过 MCP 扩展 Agent 的工具能力。
-  </Card>
-
-  <Card title="配置与日志路径" icon="folder-open" href="/zh/配置与日志路径">
-    查看各系统下的配置文件和日志目录。
-  </Card>
-</CardGroup>
-
-<Note>
-  Zditor 还有图表、论文阅读和结构化资料库等更广的内容范围。当前这个 Mintlify 站点先聚焦在上面这些核心产品说明页。
-</Note>

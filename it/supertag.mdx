@@ -1,0 +1,181 @@
+---
+title: "Guida a SuperTag"
+description: "Usa SuperTag per organizzare i file Markdown come record strutturati e richiamarli nel testo."
+icon: "hashtag"
+---
+
+SuperTag permette a Zditor di trattare i file Markdown come record strutturati e di mostrare i riferimenti a questi record come chip simili a tag all’interno dei documenti.
+
+## Panoramica
+
+<CardGroup cols={2}>
+  <Card title="Record strutturati" icon="database">
+    Salva metadati riutilizzabili nel frontmatter e mantieni il corpo come normale Markdown.
+  </Card>
+
+  <Card title="Classe condivisa" icon="table">
+    Raggruppa più file in un’unica tabella logica assegnando loro lo stesso valore di `class`.
+  </Card>
+
+  <Card title="Riferimenti nel testo" icon="link">
+    Inserisci un record in un altro documento con `mode=supertag`.
+  </Card>
+
+  <Card title="Campi di layout delle card" icon="table">
+    Usa campi come `col`, `row`, `cover` e `warm` per definire l’intestazione del documento e le card dei record.
+  </Card>
+</CardGroup>
+
+## Concetti fondamentali
+
+<AccordionGroup>
+  <Accordion title="Un record resta un file Markdown" icon="file" defaultOpen>
+    Un record SuperTag è un normale documento Markdown con un frontmatter tipizzato.
+
+    ```yaml
+    ---
+    title:
+      type: text
+      label: Title
+      value: "The Godfather"
+    director:
+      type: text
+      label: Director
+      value: "Francis Ford Coppola"
+    year:
+      type: number
+      label: Year
+      value: 1972
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    ---
+    ```
+  </Accordion>
+
+  <Accordion title="Il campo class raggruppa i record" icon="table">
+    I file che condividono lo stesso valore di `class` appartengono alla stessa tabella logica. `class` deve essere un campo di testo.
+
+    ```yaml
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    ```
+
+    È questo che permette a Zditor di riunire molti file Markdown in un’unica raccolta strutturata. La barra laterale **Calendar** elenca le tue classi nella scheda **Objects**.
+  </Accordion>
+
+  <Accordion title="Un file di schema definisce i campi" icon="list-check">
+    Un file con la stessa `class` e un elenco `field` fa da file di schema della classe. `field` indica i campi che ogni record dovrebbe avere, e il file di schema contiene quei campi con i loro tipi ed etichette.
+
+    ```yaml
+    ---
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    field:
+      type: array
+      label: field
+      value: [title, director, year]
+    title:
+      type: text
+      label: Title
+      value: ""
+    director:
+      type: text
+      label: Director
+      value: ""
+    year:
+      type: number
+      label: Year
+      value: 0
+    ---
+    ```
+
+    I record che crei dal menu `#` partono con questi campi, copiati dal file di schema. Il file di schema definisce anche le colonne della tabella della classe e, nel grafo della conoscenza, ogni record è collegato a esso.
+  </Accordion>
+
+  <Accordion title="col e row definiscono il layout delle card" icon="table">
+    I campi di layout stabiliscono quali metadati vengono messi in evidenza nell’intestazione del documento e nelle card dei record nella vista **Gallery** della classe.
+
+    ```yaml
+    col:
+      type: array
+      label: Col
+      value: [year, title, director]
+    row:
+      type: array
+      label: Row
+      value: [genre, rank, score, watched]
+    ```
+
+    - `col` indica fino a tre campi per l’area del titolo: una riga piccola sopra, il titolo e una descrizione sotto
+    - `row` indica i campi mostrati nella riga di informazioni sottostante
+  </Accordion>
+</AccordionGroup>
+
+## Sintassi dei riferimenti
+
+Usa un normale link Markdown con `mode=supertag`:
+
+```markdown
+[ClassicMovieEnglish](/movies/The%20Godfather.md|mode=supertag)
+```
+
+- Il testo tra parentesi quadre è la classe del record.
+- Il percorso punta al file del record. Un percorso che inizia con `/` parte dalla radice dello spazio di lavoro; qualsiasi altro percorso parte dalla cartella del documento corrente. Gli spazi nel percorso si scrivono come `%20`.
+
+Nell’editor il riferimento appare come un chip colorato, ad esempio `#ClassicMovieEnglish · The Godfather`. Il colore dipende dal nome della classe.
+
+<Note>
+  Raramente dovrai digitare questa sintassi. Digita `#` in un documento per aprire il menu degli oggetti, che elenca le tue classi; scegli una classe e poi un record per inserire un riferimento. **Create Row** crea un nuovo record della classe nella cartella del documento corrente, con il nome del testo che inserisci, e lo inserisce. **Create Table** avvia una nuova classe, che esiste dal momento in cui ne crei la prima riga. Se il menu non compare, verifica che **Object menu (#)** sia attivo in **Settings → Editor → Markdown Editor**.
+</Note>
+
+Fai clic su un riferimento per selezionarlo. La barra degli strumenti che compare mostra:
+
+- Il nome della classe, che apre tutti i record della classe in una scheda con le viste **Table**, **Gallery** e **Gantt**
+- Il nome del record, che apre il file del record
+- Un pulsante di aggiornamento, che aggiorna l’indice delle tue note in Zditor
+- **Info**, che mostra i campi del record
+
+## Tipi di campo comuni
+
+| Tipo | Nell’editor | Uso tipico |
+| --- | --- | --- |
+| `text` | Text | titolo, autore, paese, note |
+| `number` | Number | anno, punteggio, posizione in classifica |
+| `date` | Date | scadenze, date di visione, date di creazione |
+| `checkbox` | Toggle | stato di completamento, tema caldo, elemento in evidenza |
+| `multiselect` | Multi-select | genere, tag, categorie |
+| `array` | List | elenchi del cast, elenchi dei campi di layout |
+| `progress` | Progress | valori da 0 a 100, come punteggi o completamento |
+| `asset` | Image | copertine e altre immagini |
+
+Consulta la [guida al frontmatter](/it/frontmatter) per tutti i tipi di campo e per sapere come modificare i campi.
+
+## Flusso di lavoro consigliato
+
+<Steps>
+  <Step title="Copia un record esistente">
+    Parti da un file che ha già lo schema che ti serve, oppure crea il record dal menu `#` con **Create Row**.
+  </Step>
+
+  <Step title="Mantieni la struttura dei campi e la classe">
+    Riutilizza le stesse chiavi, gli stessi tipi e lo stesso valore di `class`, così il record resta nella stessa raccolta.
+  </Step>
+
+  <Step title="Sostituisci i valori concreti">
+    Aggiorna titolo, date, copertina e contenuto del corpo in base al nuovo record.
+  </Step>
+
+  <Step title="Aggiungi in seguito i nuovi campi comuni">
+    Se l’intera classe ha bisogno di un altro campo, aggiungilo in modo coerente in tutta la raccolta e nell’elenco `field` del file di schema.
+  </Step>
+</Steps>
+
+<Tip>
+  SuperTag funziona meglio quando i nomi dei campi restano stabili nel tempo. Evita di rinominarli alla leggera quando una classe è già in uso.
+</Tip>

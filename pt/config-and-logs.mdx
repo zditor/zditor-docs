@@ -1,0 +1,93 @@
+---
+title: "Caminhos de configuração e de logs"
+description: "Encontre os diretórios de configuração e de logs do Zditor no macOS, no Windows e no Linux."
+icon: "folder-open"
+---
+
+Esta página lista os caminhos padrão de configuração e de logs que o Zditor usa em cada sistema operacional. Ela é útil quando você quer migrar configurações, coletar logs para resolver problemas ou abrir rapidamente a pasta certa.
+
+<Warning>
+  Estes são os caminhos padrão. No Linux, eles seguem a variável de ambiente `XDG_DATA_HOME` quando ela está definida.
+</Warning>
+
+## Caminhos padrão
+
+O Zditor guarda as configurações e os outros dados do app em uma pasta com o nome do seu identificador de app, `com.zditor.ai`, e grava os arquivos de log em outra pasta.
+
+| Sistema | Caminho de configuração | Caminho dos logs |
+| :--- | :--- | :--- |
+| macOS | `~/Library/Application Support/com.zditor.ai` | `~/Library/Logs/com.zditor.ai` |
+| Windows | `%APPDATA%\com.zditor.ai` | `%LOCALAPPDATA%\com.zditor.ai\logs` |
+| Linux | `~/.local/share/com.zditor.ai` | `~/.local/share/com.zditor.ai/logs` |
+
+A pasta de configuração guarda suas configurações, a configuração de modelos do agente, as habilidades que você adiciona para todos os espaços de trabalho, as conversas do agente e os dados das conexões salvas, incluindo senhas, chaves e tokens.
+
+O log atual é `zditor.log`. Quando ele cresce, o Zditor começa um novo e renomeia o arquivo antigo para `zditor_` seguido da data e da hora. O Zditor exclui esses logs antigos quando eles passam de 30 dias.
+
+<Tip>
+  Para abrir rapidamente o log atual, clique no ícone do Zditor na barra de menus (macOS) ou na bandeja do sistema (Windows e Linux) e escolha **Open log file**.
+</Tip>
+
+## Abrir os diretórios rapidamente
+
+<Tabs>
+<Tab title="mac/linux">
+  ```bash
+  # macOS config directory
+  open ~/Library/Application\ Support/com.zditor.ai
+
+  # macOS log directory
+  open ~/Library/Logs/com.zditor.ai
+
+  # Linux config directory
+  xdg-open ~/.local/share/com.zditor.ai
+
+  # Linux log directory
+  xdg-open ~/.local/share/com.zditor.ai/logs
+  ```
+</Tab>
+
+<Tab title="windows">
+  ```powershell
+  # Config directory
+  explorer "$env:APPDATA\com.zditor.ai"
+
+  # Log directory
+  explorer "$env:LOCALAPPDATA\com.zditor.ai\logs"
+  ```
+</Tab>
+</Tabs>
+
+## Sugestões de backup
+
+1. Feche o Zditor por completo antes de copiar o diretório de configuração, para evitar conflitos de gravação de arquivos. Fechar a janela pode deixar o Zditor rodando em segundo plano; escolha **Quit zditor** no ícone dele na barra de menus ou na bandeja do sistema.
+2. Os logs servem principalmente para resolver problemas e em geral não precisam de backups completos de longo prazo.
+3. Faça backup do diretório de configuração antes de atualizar ou reinstalar.
+4. Mantenha as cópias do diretório de configuração em sigilo, porque ele contém as credenciais das conexões salvas. Ao relatar um problema, envie os arquivos de log, e não o diretório de configuração.
+
+<Tip>
+  Para ver quanto espaço os dados do app do Zditor ocupam e limpar caches, abra **Settings → Personal → Storage & data** no app para desktop.
+</Tip>
+
+## Perguntas frequentes
+
+### Não encontro o diretório
+
+- Abra o Zditor uma vez; os diretórios são criados na primeira execução
+- No Windows, cole `%APPDATA%` ou `%LOCALAPPDATA%` direto na barra de endereços do Explorador de Arquivos
+- No macOS, a pasta `~/Library` fica oculta no Finder. Pressione `Cmd + Shift + G` no Finder e digite o caminho, por exemplo `~/Library/Logs/com.zditor.ai`
+
+### Quero confirmar o caminho real no meu computador
+
+No Linux, os caminhos seguem `XDG_DATA_HOME`, se você a tiver definido. Primeiro, exiba o valor dela em um terminal:
+
+```bash
+# Linux
+echo $XDG_DATA_HOME
+```
+
+Se a saída estiver vazia, o Zditor usa `~/.local/share`. No macOS e no Windows, nenhuma variável de ambiente altera esses caminhos; use os da tabela.
+
+### Por que também existe uma pasta em ~/.config no Linux?
+
+O Zditor salva o tamanho e a posição da janela em `~/.config/com.zditor.ai` (ou em `XDG_CONFIG_HOME`, se você a tiver definido). Todo o resto fica em `~/.local/share/com.zditor.ai`.

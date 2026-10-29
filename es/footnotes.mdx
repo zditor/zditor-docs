@@ -1,0 +1,153 @@
+---
+title: "Guía de notas al pie"
+description: "Añade notas al pie numeradas a tus documentos Markdown sin interrumpir la lectura."
+icon: "list-ol"
+---
+
+Zditor admite la sintaxis estándar de notas al pie de Markdown, así que puedes añadir referencias, notas y detalles complementarios sin interrumpir el texto principal.
+
+## Descripción general
+
+<CardGroup cols={2}>
+  <Card title="Sintaxis estándar" icon="hashtag">
+    Usa referencias de notas al pie estándar de Markdown, como `[^1]`.
+  </Card>
+
+  <Card title="Resumen al final" icon="list-ol">
+    Todas las notas al pie se reúnen automáticamente al final del documento.
+  </Card>
+
+  <Card title="Editor flotante" icon="pen-to-square">
+    Haz clic en una referencia para revisar o editar rápidamente su contenido.
+  </Card>
+
+  <Card title="Actualización sincronizada" icon="arrows-rotate">
+    Las referencias repetidas con la misma etiqueta comparten siempre el mismo contenido.
+  </Card>
+</CardGroup>
+
+## Crear notas al pie
+
+<AccordionGroup>
+  <Accordion title="Sintaxis Markdown" icon="code" defaultOpen>
+    Inserta una referencia de nota al pie, por ejemplo:
+
+    ```markdown
+    This paragraph has a footnote[^1], and it can have another one[^2].
+    ```
+
+    Al escribir `[^1]`, Zditor lo convierte en un número de nota al pie en superíndice.
+  </Accordion>
+
+  <Accordion title="Reglas de conversión automática" icon="sparkles">
+    Las notas al pie se convierten automáticamente al escribir `[^` + número + `]`.
+
+    **Observaciones**
+    - Al escribir, solo se convierten las etiquetas numéricas, como `[^1]` y `[^2]`
+    - La misma etiqueta apunta siempre al mismo contenido de nota al pie
+    - Si la etiqueta ya se usa en el documento, la nueva referencia comparte su texto existente
+  </Accordion>
+</AccordionGroup>
+
+## Editar el contenido de una nota al pie
+
+Una nota al pie nueva empieza vacía, salvo que su etiqueta ya esté en uso. Puedes editar el contenido de dos formas.
+
+### Desde la barra de herramientas flotante
+
+<Steps>
+  <Step title="Selecciona una referencia">
+    Haz clic en un número de nota al pie del documento.
+  </Step>
+  <Step title="Abre el editor">
+    La barra de herramientas flotante muestra la etiqueta, como `[^1]`, y el contenido actual, o **No corresponding footnote** si está vacío. Haz clic en **Edit**.
+  </Step>
+  <Step title="Guarda o cancela">
+    Pulsa `Enter` o haz clic en **Save** para conservar el nuevo contenido, o haz clic en **Cancel**.
+  </Step>
+</Steps>
+
+Al hacer clic en la etiqueta de la barra de herramientas, saltas a la entrada correspondiente de la lista final.
+
+### Desde la lista final
+
+<Steps>
+  <Step title="Desplázate hasta el final">
+    Cuando un documento contiene notas al pie, Zditor muestra una lista de notas al pie debajo del cuerpo principal.
+  </Step>
+  <Step title="Haz clic en el contenido">
+    Haz clic en el texto de una entrada para editarlo en el sitio.
+  </Step>
+  <Step title="Guarda los cambios">
+    Pulsa `Enter` o haz clic en otro lugar para guardar.
+  </Step>
+</Steps>
+
+<Tip>
+  Al editar una nota al pie se actualizan todas las referencias que usan la misma etiqueta.
+</Tip>
+
+## Cómo se muestran
+
+### Referencias en el texto
+
+Las notas al pie aparecen en el texto como referencias en superíndice. Al pasar el puntero sobre una referencia, un cuadro emergente muestra el contenido actual de la nota al pie.
+
+### Lista final
+
+Al final del documento aparece una lista ordenada con todas las notas al pie distintas:
+
+- Cada elemento muestra la etiqueta y el contenido; la negrita, la cursiva, el código en línea y el texto de los enlaces aparecen con formato
+- Las etiquetas repetidas se muestran automáticamente una sola vez
+- Las etiquetas numéricas se ordenan por número
+- Al hacer clic en la etiqueta de un elemento, saltas a la primera referencia con esa etiqueta
+
+### En el archivo Markdown
+
+Cuando Zditor guarda el documento, escribe el contenido de cada nota al pie una sola vez, como una definición estándar al final del archivo:
+
+```markdown
+This paragraph has a footnote[^1].
+
+[^1]: The footnote content.
+```
+
+En el código Markdown, una referencia solo se convierte en nota al pie cuando el archivo tiene una definición correspondiente. Si escribes `[^1]` en texto con formato, Zditor añade la definición por ti al guardar.
+
+## Ejemplo
+
+```markdown
+Quantum computing uses quantum mechanics for information processing[^1],
+and in some problems it can outperform classical systems[^2].
+
+Common hardware approaches include superconducting qubits[^1] and trapped ions.
+
+[^1]: An introduction to quantum hardware.
+[^2]: The advantage depends on the problem.
+```
+
+En ese ejemplo:
+
+- `[^1]` aparece dos veces y comparte un mismo contenido
+- `[^2]` es independiente
+- La lista final contiene dos entradas, `1` y `2`
+
+## Preguntas frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Las notas al pie pueden usar etiquetas de texto?">
+    Al escribir en el editor solo se convierten las etiquetas numéricas, como `[^1]`. Una etiqueta de texto como `[^source]` sigue funcionando si el archivo la define con una línea como `[^source]: …`, que es como suelen llegar las notas al pie desde otros editores de Markdown.
+  </Accordion>
+
+  <Accordion title="¿Cómo elimino una nota al pie?">
+    Selecciona la referencia y pulsa `Delete` o `Backspace`. Cuando se eliminan todas las referencias con la misma etiqueta, la entrada de la lista final desaparece automáticamente y Zditor deja de escribir su definición al guardar.
+  </Accordion>
+
+  <Accordion title="¿Y si dos referencias con la misma etiqueta muestran contenidos distintos?">
+    Zditor las mantiene sincronizadas. Al editar cualquiera de ellas se actualizan todas las referencias que comparten esa etiqueta.
+  </Accordion>
+
+  <Accordion title="¿Cómo se comportan las notas al pie en el modo de solo lectura?">
+    Las referencias, sus cuadros emergentes y la lista final se siguen mostrando, y al hacer clic en una etiqueta de la lista se sigue saltando a su referencia, pero no se puede editar.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,319 @@
+---
+title: "Azioni rapide"
+description: "Impara i flussi di lavoro più frequenti in Zditor: trascinamento, scorciatoie, menu rapidi e barre degli strumenti."
+icon: "bolt"
+---
+
+Questa pagina raccoglie le interazioni più frequenti in Zditor. Se hai appena iniziato, leggi prima questa pagina e poi passa alle guide più dettagliate sulle singole funzioni.
+
+## Panoramica
+
+<CardGroup cols={2}>
+  <Card title="Trascinamento" icon="arrows-up-down-left-right">
+    Riordina i contenuti, sposta i file e porta rapidamente risorse nel Markdown.
+  </Card>
+
+  <Card title="Scorciatoie da tastiera" icon="keyboard">
+    Usa la tastiera per salvare, formattare, modificare la struttura e navigare.
+  </Card>
+
+  <Card title="Menu rapidi" icon="terminal">
+    Usa `/`, `@`, `#` e `:` per aprire menu strutturati invece di digitare tutto a mano.
+  </Card>
+
+  <Card title="Barre degli strumenti" icon="wand-magic-sparkles">
+    Lavora con barre degli strumenti mobili e contestuali, che cambiano in base alla selezione.
+  </Card>
+</CardGroup>
+
+## Trascinamento
+
+### Cinque modi di trascinare
+
+Zditor supporta più di un flusso di trascinamento.
+
+#### 1. Trascinare all’interno dell’albero dei file
+
+I file e le cartelle dell’albero dei file a sinistra si possono trascinare all’interno dell’albero per cambiarne la posizione nello spazio di lavoro.
+
+È utile per:
+
+- Riorganizzare le cartelle
+- Spostare file in un’altra cartella
+- Riordinare la struttura dello spazio di lavoro
+
+#### 2. Trascinare dall’albero dei file in un documento Markdown
+
+I file dell’albero a sinistra si possono trascinare direttamente in un documento Markdown.
+
+Il file rilasciato viene inserito come **nodo allegato**, che rimanda al file nella posizione in cui si trova già nello spazio di lavoro. Zditor non ne crea una copia.
+
+Per mostrare invece il file come immagine, video, lettore audio o lavagna:
+
+1. Fai clic sull’allegato, apri il suo menu **More** e scegli **Convert to Link**.
+2. Fai clic sul nuovo link e usa il pulsante corrispondente nella barra degli strumenti del link: **Convert to image**, **Convert to video**, **Convert to audio** o **Convert to canvas**. Compaiono solo i pulsanti adatti al tipo di file.
+
+Per un file di lavagna (`.excalidraw`), il menu **More** dell’allegato offre anche direttamente **Convert to Canvas**.
+
+È utile quando vuoi prima inserire il file e decidere solo dopo come presentarlo.
+
+#### 3. Trascinare file esterni in un documento Markdown
+
+Puoi trascinare file dal gestore di file del sistema direttamente in un documento Markdown.
+
+Zditor li inserisce in base al tipo di file:
+
+- File immagine → nodi immagine
+- File video → nodi video
+- File audio → nodi audio
+- File di lavagna (`.excalidraw`) → nodi lavagna
+- Altri file → nodi allegato
+
+Zditor salva una copia di ogni file rilasciato nella posizione impostata in **Settings → Integrations → Image hosting & uploads**. È il modo più rapido per portare risorse locali in note o documenti.
+
+#### 4. Trascinare nodi tra documenti Markdown
+
+Puoi trascinare nodi tra documenti Markdown diversi, ad esempio tra i riquadri affiancati di sinistra e di destra.
+
+Tra documenti diversi il comportamento predefinito è la **copia**: il documento di destinazione riceve una copia, mentre l’originale resta nel documento di partenza.
+
+È utile per:
+
+- Spostare il contenuto di una bozza in un documento definitivo
+- Riutilizzare blocchi tra riquadri affiancati
+- Riorganizzare contenuti tra più note
+
+#### 5. Trascinare all’interno dello stesso documento
+
+All’interno di un singolo documento puoi trascinare i blocchi in una nuova posizione senza tagliare e incollare.
+
+Nello stesso documento il comportamento predefinito è lo **spostamento**.
+
+È utile per:
+
+- Riordinare i paragrafi
+- Ristrutturare le sezioni
+- Spostare testo, immagini o blocchi di codice in una posizione migliore
+
+### Maniglie di trascinamento nell’editor
+
+Quando passi il puntatore su un blocco durante la modifica, Zditor mostra una maniglia di trascinamento nel margine sinistro. La maniglia indica il tipo di blocco (da `H1` a `H6` per i titoli) accanto a un’impugnatura. Trascinandola sposti l’intero blocco.
+
+Ogni blocco di primo livello ha questa maniglia, tra cui:
+
+- Paragrafi
+- Titoli
+- Elenchi
+- Citazioni
+- Immagini
+- Video
+- Blocchi di codice
+- Allegati
+- Riquadri
+- Tabelle
+- Formule in blocco
+
+Un elenco si sposta per intero. Per spostare una singola voce, usa `Alt-ArrowUp` e `Alt-ArrowDown`.
+
+<Warning>
+  **Segnalazioni sul trascinamento**
+
+  Se trovi un tipo di nodo che non si trascina correttamente, ad esempio:
+
+  - Non si può trascinare
+  - Viene rilasciato nella posizione sbagliata
+  - Il suo contenuto risulta alterato dopo il rilascio
+
+  invia una segnalazione di bug, così potremo continuare a colmare le lacune.
+</Warning>
+
+### Dove compaiono le maniglie di trascinamento
+
+Puoi iniziare un trascinamento da due punti:
+
+- **Margine sinistro**: la maniglia che compare al passaggio del puntatore, per qualsiasi blocco di primo livello
+- **Barra degli strumenti**: il pulsante **Drag** nella barra degli strumenti di un’immagine, un video, un file audio, un allegato, una lavagna, un contenuto incorporato, un blocco di codice, una tabella, un blocco HTML o una formula selezionati
+
+<Tip>
+  Il vero valore del trascinamento è la modifica strutturale: quando riorganizzi note lunghe, bozze o scalette, è molto più rapido di tagliare e incollare.
+</Tip>
+
+### Per approfondire
+
+Per maggiori dettagli sul trascinamento dei file nella barra laterale, prosegui con la [guida all’albero dei file](/it/file-tree).
+
+## Scorciatoie da tastiera
+
+Le scorciatoie da tastiera sono uno dei modi più rapidi per lavorare più velocemente in Zditor.
+
+Gli usi più comuni sono:
+
+- Salvare il documento
+- Cercare nei contenuti
+- Impostare il livello dei titoli
+- Attivare o disattivare grassetto, corsivo, evidenziazione e codice in linea
+- Creare elenchi, citazioni, tabelle, blocchi di codice e formule
+
+### Poche scorciatoie, ma essenziali
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Mod-K` | Apri la ricerca |
+| `Mod-S` | Salva il documento corrente |
+| `Mod-F` | Cerca nel documento corrente |
+| `Mod-/` | Alterna testo formattato e vista sorgente |
+| `Mod-B` | Attiva o disattiva il grassetto |
+| `Mod-I` | Attiva o disattiva il corsivo |
+| `Mod-H` | Attiva o disattiva l’evidenziazione |
+| `Mod-Shift-C` | Attiva o disattiva il codice in linea |
+| Da `Mod-1` a `Mod-6` | Imposta il livello del titolo |
+| `Mod-Shift-8` | Attiva o disattiva l’elenco puntato |
+| `Mod-Shift-7` | Attiva o disattiva l’elenco numerato |
+| `Mod-Shift-9` | Attiva o disattiva l’elenco con caselle di controllo |
+| `Mod-Shift-\` | Attiva o disattiva il blocco di codice |
+| `Mod-T` | Crea una tabella |
+
+<Warning>
+  `Mod` significa:
+  <ul>
+    <li><strong>macOS</strong>: `Command`</li>
+    <li><strong>Windows / Linux</strong>: `Ctrl`</li>
+  </ul>
+</Warning>
+
+### Quando le scorciatoie sono più utili
+
+Le scorciatoie sono particolarmente utili quando:
+
+- Sai già quale formattazione o struttura vuoi
+- Non vuoi interrompere il ritmo per prendere il mouse
+- Ripeti molte volte la stessa operazione
+
+Per l’elenco completo e per modificare le scorciatoie in **Settings → Personal → Keyboard shortcuts**, consulta [Scorciatoie da tastiera](/it/keyboard-shortcuts).
+
+## Menu rapidi
+
+I menu rapidi sono il modo più veloce per accedere ad azioni strutturate dalla tastiera.
+
+### Menu dei comandi `/`
+
+In un documento Markdown, digita `/` all’inizio di una riga o dopo uno spazio per aprire il menu dei comandi. Continua a digitare per filtrarlo: il filtro cerca in tutti i gruppi. Usa i tasti freccia e `Enter` per scegliere una voce.
+
+Il menu contiene:
+
+- Da **Heading 1** a **Heading 3**, e **Heading 4-6**
+- **List**: elenco con caselle di controllo, elenco puntato ed elenco numerato
+- **Media**: immagine, video, audio, lavagna e allegato, ciascuno scelto con un selettore di file
+- **MetaInfo**: un blocco frontmatter in cima al documento
+- **Code Block**: tabella, HTML, citazione, blocco di codice, formula in blocco, linea divisoria, interruzione di pagina e diagramma Mermaid
+- **Info**: riquadri di informazione, nota, avviso, suggerimento ed errore
+- **Templates**: compare quando hai documenti con `template: true` nel frontmatter. Sceglierne uno sostituisce il contenuto del documento corrente con il modello.
+
+Ti aiuta a:
+
+- Evitare di digitare sempre le stesse cose
+- Scoprire rapidamente i comandi disponibili
+- Lavorare in modo più strutturato
+
+Nella casella dei messaggi dell’agente, invece, `/` elenca i comandi della conversazione: `/share`, `/export`, `/goal`, `/compact` e `/side`. Lì `@` cita un file dello spazio di lavoro e `$` sceglie una skill. Consulta la [guida all’agente](/it/agent-guide).
+
+### Altri menu rapidi nell’editor
+
+Oltre a `/`, l’editor offre altri menu rapidi di uso comune:
+
+- `@`: crea un link a un file Markdown o PDF dello spazio di lavoro. Per un PDF con evidenziazioni puoi anche scegliere un’evidenziazione e inserirla come card PDF.
+- `#`: inserisce o crea elementi SuperTag
+- `:`: apre il selettore di emoji; continua a digitare per filtrare le emoji per nome
+
+Ogni menu si può disattivare in **Settings → Editor → Markdown Editor**, con le opzioni **Command menu (/)**, **Link menu (@)**, **Object menu (#)** ed **Emoji menu (:)**.
+
+<Tip>
+  Se ripeti spesso le stesse azioni nell’editor, i menu rapidi sono di solito più veloci e affidabili che riscrivere ogni volta la stessa sintassi.
+</Tip>
+
+## Barre degli strumenti
+
+Zditor non si affida a un’unica barra di formattazione fissa: mostra invece barre degli strumenti contestuali in base a ciò che hai selezionato.
+
+### Barre degli strumenti di selezione
+
+Quando selezioni del testo o un nodo, l’editor può mostrare una barra degli strumenti adatta, ad esempio:
+
+- Barra di formattazione del testo
+- Barra dei link
+- Barre di immagini, video e audio
+- Barra degli allegati
+- Barra della lavagna
+- Barra dei contenuti incorporati
+- Barre dei blocchi di codice e dei blocchi HTML
+- Barra delle formule
+- Barra delle tabelle
+- Barra dei riquadri
+- Barra delle note a piè di pagina
+- Barra delle annotazioni e delle revisioni
+- Barra dei SuperTag
+- Barra delle card PDF
+
+Così spesso non devi ricordare tutta la sintassi in anticipo. Un modo di procedere comune è:
+
+1. Seleziona prima il contenuto
+2. Usa la barra degli strumenti per applicare o regolare l’azione
+
+Per nascondere queste barre, disattiva **Selection toolbar** in **Settings → Editor → Markdown Editor**.
+
+### Comportamento delle barre degli strumenti
+
+<AccordionGroup>
+  <Accordion title="Cambiano con l’oggetto selezionato" icon="arrows-rotate" defaultOpen>
+    Oggetti diversi mostrano barre diverse: il testo mostra gli strumenti di formattazione, le immagini gli strumenti per le immagini e le card PDF una barra dedicata.
+  </Accordion>
+
+  <Accordion title="Possono aprire pannelli mobili secondari" icon="layer-group">
+    Alcuni pulsanti della barra aprono un secondo pannello mobile con opzioni o destinazioni più specifiche.
+  </Accordion>
+
+  <Accordion title="Consentono la modifica sul posto" icon="pen-to-square">
+    Le barre compaiono vicino al contenuto selezionato, così lo sguardo resta su ciò che stai modificando.
+  </Accordion>
+
+  <Accordion title="Possono passare la selezione all’agente" icon="sparkles">
+    Molte barre includono il pulsante **ASK AI**, che apre l’agente accanto al documento con la selezione allegata. I prompt che aggiungi in **Settings → AI → AI Toolbar Prompts** compaiono come pulsanti aggiuntivi nelle barre.
+  </Accordion>
+</AccordionGroup>
+
+### Quando le barre degli strumenti sono più utili
+
+Le barre degli strumenti sono di solito la scelta migliore quando:
+
+- Sai quale contenuto modificare, ma non vuoi ricordare la sintassi
+- Vuoi vedere le azioni possibili prima di decidere
+- Lavori con nodi visivi come immagini, allegati, card PDF o SuperTag
+
+## Ordine di apprendimento consigliato
+
+Se stai iniziando a usare Zditor, una sequenza pratica è:
+
+1. Impara il trascinamento per la modifica strutturale
+2. Memorizza poche scorciatoie da tastiera essenziali
+3. Inizia a usare i menu rapidi `/`, `@`, `#` e `:`
+4. Prendi confidenza con le barre degli strumenti dei singoli oggetti mentre scrivi davvero
+
+## Guide correlate
+
+<CardGroup cols={2}>
+  <Card title="Scorciatoie da tastiera" icon="keyboard" href="/it/keyboard-shortcuts">
+    Apri il riferimento completo delle scorciatoie.
+  </Card>
+
+  <Card title="Albero dei file" icon="folder-tree" href="/it/file-tree">
+    Scopri come trascinare e organizzare i file.
+  </Card>
+
+  <Card title="SuperTag" icon="hashtag" href="/it/supertag">
+    Scopri il menu `#` e i riferimenti strutturati.
+  </Card>
+
+  <Card title="Annotazioni PDF" icon="file-text" href="/it/pdf-annotations">
+    Approfondisci card PDF, annotazioni PDF e flussi di lavoro correlati.
+  </Card>
+</CardGroup>

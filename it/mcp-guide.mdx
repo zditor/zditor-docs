@@ -1,0 +1,98 @@
+---
+title: "Guida a MCP"
+description: "Aggiungi server MCP per dare all’agente di Zditor più strumenti e fonti di dati."
+icon: "server"
+---
+
+MCP (Model Context Protocol) è uno standard aperto per collegare gli agenti IA a strumenti e dati. Quando aggiungi un server MCP a Zditor, l’agente può usarne gli strumenti in tutte le conversazioni, insieme ai propri strumenti integrati.
+
+<Warning>
+  Collega solo server di cui ti fidi. Un server **Stdio** è un programma che gira sul tuo computer con i tuoi diritti di accesso, e ogni server riceve ciò che l’agente invia ai suoi strumenti.
+</Warning>
+
+## Quando serve MCP
+
+L’agente lavora già con i tuoi file, PDF e lavagne, esegue comandi e controlla Zditor stesso (consulta la [guida all’agente](/it/agent-guide)). Aggiungi un server MCP quando un’attività richiede qualcosa di più, come un sistema di tracciamento delle issue, un database, una knowledge base o i dati di un’altra app.
+
+## Aggiungere un server
+
+<Steps>
+  <Step title="Apri le impostazioni MCP">
+    Apri **Settings → AI → MCP Servers** e fai clic su **Add server**.
+  </Step>
+
+  <Step title="Dai un nome al server">
+    Inserisci un **Server name**. Identifica il server negli elenchi, negli aggiornamenti di stato e nelle chiamate agli strumenti, e deve essere univoco. Il nome `zditor` è riservato.
+  </Step>
+
+  <Step title="Scegli come collegarti">
+    In **Transport**, scegli **Stdio** perché Zditor avvii il server come programma sul tuo computer, oppure **HTTP** o **SSE** per collegarti a un server tramite un indirizzo web. Poi compila i campi di quel trasporto, descritti nella tabella seguente.
+  </Step>
+
+  <Step title="Verifica e salva">
+    Fai clic su **Test connection**. Se la connessione funziona, Zditor indica quanti strumenti ha trovato. Poi fai clic su **Save**.
+  </Step>
+</Steps>
+
+| Campo | Trasporto | Cosa inserire |
+| :--- | :--- | :--- |
+| **Command** | Stdio | Il programma che avvia il server, come `npx` o il percorso completo di un eseguibile. Obbligatorio. |
+| **Arguments** | Stdio | Gli argomenti da riga di comando per il programma. Racchiudi tra virgolette i valori che contengono spazi. |
+| **Environment variables** | Stdio | Nomi e valori impostati per il processo del server, come un token API. |
+| **Endpoint URL** | HTTP, SSE | L’indirizzo completo `http://` o `https://` del server. Obbligatorio. |
+| **Request headers** | HTTP, SSE | Nomi e valori inviati con ogni richiesta, di solito `Authorization` con un bearer token. |
+
+<Tip>
+  Puoi anche chiedere all’agente di aggiungere, modificare o rimuovere un server MCP al posto tuo. In modalità **Always ask**, la modifica delle impostazioni richiede la tua approvazione.
+</Tip>
+
+## Attivare e disattivare i server
+
+Ogni server dell’elenco ha un interruttore. Quando un server è disattivato, compare come **Disabled** e le conversazioni non vi si collegano né ne caricano gli strumenti. Il modulo del server ha lo stesso interruttore in **Status**.
+
+Le modifiche valgono dal turno successivo dell’agente, anche nelle conversazioni già aperte. Per modificare un server, fai clic su **Edit**. **Discard** scarta le modifiche non salvate, e **Delete** seguito da **Confirm delete** rimuove il server.
+
+## Usare gli strumenti MCP in una conversazione
+
+Non scegli i server per ogni conversazione: ogni server attivo è disponibile in tutte le conversazioni con l’agente. L’agente cerca gli strumenti di un server quando un’attività li richiede, e nominare il server o lo strumento nella tua richiesta lo aiuta a scegliere.
+
+- In modalità **Always ask**, ogni chiamata a uno strumento MCP richiede la tua approvazione. La lettura delle risorse offerte da un server no.
+- Un server può chiederti delle informazioni mentre lavora. La conversazione mostra allora un modulo di quel server: compilalo e fai clic su **Submit**, oppure fai clic su **Decline**. Se il server ti chiede di visitare una pagina web, **Open and continue** la apre.
+
+## Su iPhone e iPad
+
+Su iPhone e iPad Zditor non può avviare programmi, quindi lì usa server **HTTP** o **SSE**.
+
+## Il vecchio servizio MCP integrato di Zditor
+
+<Note>
+  Le versioni precedenti di Zditor includevano un servizio MCP integrato che offriva strumenti come `open_file`, `list_supertag_classes`, `list_agent_sessions` e `generate_image`. Non fa più parte di Zditor. L’agente ha invece strumenti propri per lavorare con Zditor: può leggere lo spazio di lavoro e le schede aperte, aprire file, cambiare e chiudere schede, modificare impostazioni e lavorare con PDF e lavagne. Gli strumenti per SuperTag, cronologia delle sessioni e immagini non hanno un sostituto integrato. Un server chiamato `zditor` rimasto da una configurazione precedente viene rimosso automaticamente, e il nome è riservato.
+</Note>
+
+## Permessi e sicurezza
+
+- Attiva solo i server necessari a un’attività e disattiva quelli che non usi.
+- Mantieni **Always ask** per i server i cui strumenti possono modificare qualcosa.
+- Inserisci token e chiavi in **Environment variables** o **Request headers**, non nei messaggi. Il modulo ne nasconde i valori finché non scegli di mostrarli.
+- Le impostazioni dei server, compresi quei valori, vengono salvate su questo dispositivo. Se esegui il backup di **Connections and credentials** in **Settings → Personal → Sync**, sono incluse nel backup cifrato.
+- Preferisci token con un ambito limitato e rinnovali regolarmente.
+
+## Domande frequenti
+
+<AccordionGroup>
+  <Accordion title="Test connection non riesce con un server Stdio" icon="terminal">
+    Zditor non mostra l’output di errore del server, quindi esegui lo stesso comando in un terminale per vedere cosa non va. Se il programma non viene trovato, inserisci il suo percorso completo in **Command**. Le app aperte dal Dock o dal Finder potrebbero non vedere lo stesso `PATH` del terminale: se il server ha bisogno di altri programmi, come Node.js per `npx`, aggiungi una variabile d’ambiente `PATH` impostata sull’output di `echo $PATH` nel tuo terminale.
+  </Accordion>
+
+  <Accordion title="Test connection non riesce con un server HTTP o SSE" icon="globe">
+    Controlla l’**Endpoint URL** e gli eventuali **Request headers**, ad esempio un token scaduto. Zditor invia ogni richiesta all’URL dell’endpoint come HTTP POST e accetta risposte JSON o event-stream, quindi un server che supporta solo il vecchio trasporto SSE, con un indirizzo separato per il flusso di eventi, potrebbe non collegarsi. Se il server ha un indirizzo streamable HTTP, usa quello.
+  </Accordion>
+
+  <Accordion title="Il server è collegato ma l’agente non lo usa" icon="question">
+    Verifica che il suo interruttore sia attivo e che **Test connection** trovi degli strumenti. Poi nomina il server o lo strumento nella tua richiesta: l’agente cerca gli strumenti MCP quando decide che un’attività li richiede.
+  </Accordion>
+
+  <Accordion title="Le risposte sono più lente dopo aver aggiunto dei server" icon="hourglass-half">
+    Zditor avvia ogni server attivo prima del primo turno dell’agente in una conversazione, e di nuovo dopo che modifichi l’elenco dei server, quindi un server lento ritarda la risposta. Disattiva i server che non ti servono.
+  </Accordion>
+</AccordionGroup>

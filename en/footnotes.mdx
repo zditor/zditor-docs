@@ -36,35 +36,38 @@ Zditor supports standard Markdown footnote syntax, so you can add references, no
     This paragraph has a footnote[^1], and it can have another one[^2].
     ```
 
-    After you enter `[^1]`, Zditor converts it into a superscript-style footnote reference.
+    After you enter `[^1]`, Zditor converts it into a superscript footnote number.
   </Accordion>
 
   <Accordion title="Auto-conversion rules" icon="sparkles">
     Footnotes convert automatically when you type `[^` + number + `]`.
 
     **Notes**
-    - Only numeric labels are supported, such as `[^1]` and `[^2]`
-    - The same numeric label always points to the same footnote content
+    - Typing converts numeric labels only, such as `[^1]` and `[^2]`
+    - The same label always points to the same footnote content
+    - If the label is already used in the document, the new reference shares its existing text
   </Accordion>
 </AccordionGroup>
 
 ## Edit footnote content
 
-Footnotes start with empty content. You can edit them in two ways.
+A new footnote starts with empty content unless its label is already in use. You can edit the content in two ways.
 
 ### Edit from the floating toolbar
 
 <Steps>
   <Step title="Select a reference">
-    Click a footnote reference in the document, such as `[1]`.
+    Click a footnote number in the document.
   </Step>
   <Step title="Open the editor">
-    The floating toolbar shows the label and current content. Click the edit button to enter editing mode.
+    The floating toolbar shows the label, such as `[^1]`, and the current content, or **No corresponding footnote** when it is empty. Click **Edit**.
   </Step>
   <Step title="Save or cancel">
-    Press `Enter` to save the new content or `Esc` to cancel.
+    Press `Enter` or click **Save** to keep the new content, or click **Cancel**.
   </Step>
 </Steps>
+
+Clicking the label in the toolbar jumps to the matching entry in the bottom list.
 
 ### Edit from the bottom list
 
@@ -73,7 +76,7 @@ Footnotes start with empty content. You can edit them in two ways.
     When a document contains footnotes, Zditor renders a footnote list below the main body.
   </Step>
   <Step title="Click the content">
-    Click a footnote entry to edit it inline.
+    Click an entry's text to edit it inline.
   </Step>
   <Step title="Save changes">
     Press `Enter` or click elsewhere to save.
@@ -81,7 +84,7 @@ Footnotes start with empty content. You can edit them in two ways.
 </Steps>
 
 <Tip>
-  Editing one footnote updates every reference that uses the same numeric label.
+  Editing one footnote updates every reference that uses the same label.
 </Tip>
 
 ## Display behavior
@@ -94,9 +97,22 @@ Footnotes appear as superscript references in the body. Hovering over a referenc
 
 The document bottom shows an ordered list of all distinct footnotes:
 
-- Each item shows the numeric label and content
+- Each item shows the label and content; bold, italics, inline code, and link text in the content appear formatted
 - Repeated labels are deduplicated automatically
-- Entries are sorted by label order
+- Numeric labels are sorted in numeric order
+- Clicking an item's label jumps to the first reference with that label
+
+### In the Markdown file
+
+When Zditor saves the document, it writes each footnote's content once, as a standard definition at the end of the file:
+
+```markdown
+This paragraph has a footnote[^1].
+
+[^1]: The footnote content.
+```
+
+A reference in Markdown source only becomes a footnote when the file has a matching definition. When you type `[^1]` in rich text, Zditor adds the definition for you on save.
 
 ## Example
 
@@ -105,6 +121,9 @@ Quantum computing uses quantum mechanics for information processing[^1],
 and in some problems it can outperform classical systems[^2].
 
 Common hardware approaches include superconducting qubits[^1] and trapped ions.
+
+[^1]: An introduction to quantum hardware.
+[^2]: The advantage depends on the problem.
 ```
 
 In that example:
@@ -117,11 +136,11 @@ In that example:
 
 <AccordionGroup>
   <Accordion title="Can footnotes use text labels?">
-    Not in the current implementation. Only numeric labels such as `[^1]` are supported.
+    Typing in the editor only converts numeric labels such as `[^1]`. A text label such as `[^source]` still works when the file defines it with a line such as `[^source]: …`, which is how footnotes often arrive from other Markdown editors.
   </Accordion>
 
   <Accordion title="How do I delete a footnote?">
-    Select the footnote reference and press `Delete` or `Backspace`. Once all references with the same label are removed, the bottom entry disappears automatically.
+    Select the footnote reference and press `Delete` or `Backspace`. Once all references with the same label are removed, the bottom entry disappears automatically, and Zditor no longer writes its definition when saving.
   </Accordion>
 
   <Accordion title="What if two references with the same label show different content?">
@@ -129,6 +148,6 @@ In that example:
   </Accordion>
 
   <Accordion title="How do footnotes behave in read-only mode?">
-    References and the bottom list still render, but editing is disabled.
+    References, their tooltips, and the bottom list still render, and clicking a label in the list still jumps to its reference, but editing is disabled.
   </Accordion>
 </AccordionGroup>

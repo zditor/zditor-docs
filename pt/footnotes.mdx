@@ -1,0 +1,153 @@
+---
+title: "Guia de notas de rodapé"
+description: "Adicione notas de rodapé numeradas a documentos Markdown sem quebrar o fluxo da leitura."
+icon: "list-ol"
+---
+
+O Zditor é compatível com a sintaxe padrão de notas de rodapé do Markdown, então você pode adicionar referências, observações e detalhes complementares sem interromper o texto principal.
+
+## Visão geral
+
+<CardGroup cols={2}>
+  <Card title="Sintaxe padrão" icon="hashtag">
+    Use referências de nota de rodapé do Markdown padrão, como `[^1]`.
+  </Card>
+
+  <Card title="Resumo no fim" icon="list-ol">
+    Todas as notas de rodapé são reunidas automaticamente no fim do documento.
+  </Card>
+
+  <Card title="Editor flutuante" icon="pen-to-square">
+    Clique em uma referência de nota de rodapé para revisar ou editar rapidamente o conteúdo correspondente.
+  </Card>
+
+  <Card title="Atualização sincronizada" icon="arrows-rotate">
+    Referências repetidas com o mesmo rótulo sempre compartilham o mesmo conteúdo.
+  </Card>
+</CardGroup>
+
+## Criar notas de rodapé
+
+<AccordionGroup>
+  <Accordion title="Sintaxe Markdown" icon="code" defaultOpen>
+    Insira uma referência de nota de rodapé como esta:
+
+    ```markdown
+    This paragraph has a footnote[^1], and it can have another one[^2].
+    ```
+
+    Depois que você digita `[^1]`, o Zditor a converte em um número de nota de rodapé sobrescrito.
+  </Accordion>
+
+  <Accordion title="Regras de conversão automática" icon="sparkles">
+    As notas de rodapé são convertidas automaticamente quando você digita `[^` + número + `]`.
+
+    **Observações**
+    - A digitação converte apenas rótulos numéricos, como `[^1]` e `[^2]`
+    - O mesmo rótulo sempre aponta para o mesmo conteúdo de nota de rodapé
+    - Se o rótulo já estiver em uso no documento, a nova referência compartilha o texto existente
+  </Accordion>
+</AccordionGroup>
+
+## Editar o conteúdo de uma nota de rodapé
+
+Uma nova nota de rodapé começa vazia, a menos que o rótulo dela já esteja em uso. Você pode editar o conteúdo de duas maneiras.
+
+### Editar pela barra de ferramentas flutuante
+
+<Steps>
+  <Step title="Selecione uma referência">
+    Clique em um número de nota de rodapé no documento.
+  </Step>
+  <Step title="Abra o editor">
+    A barra de ferramentas flutuante mostra o rótulo, como `[^1]`, e o conteúdo atual, ou **No corresponding footnote** quando ele está vazio. Clique em **Edit**.
+  </Step>
+  <Step title="Salve ou cancele">
+    Pressione `Enter` ou clique em **Save** para manter o novo conteúdo, ou clique em **Cancel**.
+  </Step>
+</Steps>
+
+Clicar no rótulo na barra de ferramentas leva à entrada correspondente na lista do fim do documento.
+
+### Editar pela lista do fim
+
+<Steps>
+  <Step title="Role até o fim">
+    Quando um documento tem notas de rodapé, o Zditor exibe uma lista de notas de rodapé abaixo do corpo principal.
+  </Step>
+  <Step title="Clique no conteúdo">
+    Clique no texto de uma entrada para editá-lo ali mesmo.
+  </Step>
+  <Step title="Salve as alterações">
+    Pressione `Enter` ou clique em outro lugar para salvar.
+  </Step>
+</Steps>
+
+<Tip>
+  Editar uma nota de rodapé atualiza todas as referências que usam o mesmo rótulo.
+</Tip>
+
+## Exibição
+
+### Referências no texto
+
+As notas de rodapé aparecem como referências sobrescritas no corpo do texto. Passar o ponteiro sobre uma referência mostra o conteúdo atual da nota em uma dica flutuante.
+
+### Lista do fim
+
+O fim do documento mostra uma lista ordenada de todas as notas de rodapé distintas:
+
+- Cada item mostra o rótulo e o conteúdo; negrito, itálico, código inline e texto de links no conteúdo aparecem formatados
+- Rótulos repetidos são unificados automaticamente
+- Rótulos numéricos são ordenados em ordem numérica
+- Clicar no rótulo de um item leva à primeira referência com esse rótulo
+
+### No arquivo Markdown
+
+Ao salvar o documento, o Zditor grava o conteúdo de cada nota de rodapé uma única vez, como uma definição padrão no fim do arquivo:
+
+```markdown
+This paragraph has a footnote[^1].
+
+[^1]: The footnote content.
+```
+
+No código Markdown, uma referência só vira nota de rodapé quando o arquivo tem a definição correspondente. Quando você digita `[^1]` no texto formatado, o Zditor adiciona a definição por você ao salvar.
+
+## Exemplo
+
+```markdown
+Quantum computing uses quantum mechanics for information processing[^1],
+and in some problems it can outperform classical systems[^2].
+
+Common hardware approaches include superconducting qubits[^1] and trapped ions.
+
+[^1]: An introduction to quantum hardware.
+[^2]: The advantage depends on the problem.
+```
+
+Nesse exemplo:
+
+- `[^1]` aparece duas vezes e compartilha um único conteúdo de nota
+- `[^2]` continua independente
+- A lista do fim tem duas entradas, `1` e `2`
+
+## Perguntas frequentes
+
+<AccordionGroup>
+  <Accordion title="As notas de rodapé podem usar rótulos de texto?">
+    Digitar no editor só converte rótulos numéricos, como `[^1]`. Um rótulo de texto como `[^source]` continua funcionando quando o arquivo o define com uma linha como `[^source]: …`, que é como as notas de rodapé costumam chegar de outros editores de Markdown.
+  </Accordion>
+
+  <Accordion title="Como excluo uma nota de rodapé?">
+    Selecione a referência da nota de rodapé e pressione `Delete` ou `Backspace`. Depois que todas as referências com o mesmo rótulo são removidas, a entrada da lista do fim desaparece automaticamente, e o Zditor deixa de gravar a definição ao salvar.
+  </Accordion>
+
+  <Accordion title="E se duas referências com o mesmo rótulo mostrarem conteúdos diferentes?">
+    O Zditor as mantém sincronizadas. Editar qualquer uma delas atualiza todas as referências que compartilham esse rótulo.
+  </Accordion>
+
+  <Accordion title="Como as notas de rodapé se comportam no modo somente leitura?">
+    As referências, as dicas flutuantes delas e a lista do fim continuam aparecendo, e clicar em um rótulo na lista ainda leva à referência, mas a edição fica desativada.
+  </Accordion>
+</AccordionGroup>

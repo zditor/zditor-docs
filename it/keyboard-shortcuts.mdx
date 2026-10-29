@@ -1,0 +1,280 @@
+---
+title: "Scorciatoie da tastiera"
+description: "Impara le principali scorciatoie da tastiera di Zditor per lavorare più velocemente."
+icon: "keyboard"
+---
+
+Zditor offre un ampio supporto alle scorciatoie da tastiera per modificare, formattare, cambiare la struttura e navigare. Le tabelle seguenti elencano le scorciatoie predefinite dell’editor Markdown e dell’app.
+
+<Warning>
+  `Mod` indica `Ctrl` su Windows e Linux e `Command` su macOS. Su macOS `Alt` è il tasto `Option`.
+</Warning>
+
+## Indice
+
+- [Scorciatoie globali](#scorciatoie-globali)
+- [Operazioni di modifica](#operazioni-di-modifica)
+- [Formattazione del testo](#formattazione-del-testo)
+- [Titoli](#titoli)
+- [Elenchi](#elenchi)
+- [Blocchi di codice](#blocchi-di-codice)
+- [Formule matematiche](#formule-matematiche)
+- [Tabelle](#tabelle)
+- [Altre operazioni](#altre-operazioni)
+- [Personalizzazione delle scorciatoie](#personalizzazione-delle-scorciatoie)
+
+## Scorciatoie globali
+
+### Ricerca e salvataggio
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Mod-K` | Apri la ricerca |
+| `Mod-S` | Salva il documento corrente |
+| `Mod-F` | Cerca nel documento corrente |
+
+### Modalità di visualizzazione
+
+Funzionano nel documento Markdown attivo. Premi di nuovo la stessa scorciatoia per tornare al testo formattato.
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Mod-E` | Alterna modalità di modifica e modalità di sola lettura |
+| `Mod-/` | Alterna testo formattato e vista sorgente |
+| `Mod-\` | Alterna testo formattato e vista divisa |
+
+### Zoom della vista
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Mod-=` | Aumenta lo zoom |
+| `Mod--` | Riduci lo zoom |
+| `Mod-0` | Ripristina lo zoom |
+
+## Operazioni di modifica
+
+### Modifica di base
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Mod-A` | Seleziona l’intero documento |
+| `Escape` | Togli il focus dall’editor |
+| `Shift-Enter` | Inserisci un a capo senza iniziare un nuovo paragrafo |
+
+### Annullare e ripetere
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Mod-Z` | Annulla |
+| `Mod-Y` | Ripeti |
+| `Mod-Shift-Z` | Ripeti (scorciatoia alternativa) |
+| `Backspace` | Subito dopo che Zditor ha convertito ciò che hai digitato, ad esempio `## ` in un titolo, annulla la conversione |
+
+## Formattazione del testo
+
+### Stili
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Mod-B` | Attiva o disattiva il grassetto |
+| `Mod-I` | Attiva o disattiva il corsivo |
+| `Mod-D` | Attiva o disattiva il barrato |
+| `Mod-H` | Attiva o disattiva l’evidenziazione |
+| `Mod-Shift-C` | Attiva o disattiva il codice in linea |
+| `Mod-R` | Attiva o disattiva una marcatura di revisione (vedi [Marcature del testo](/it/text-marks)) |
+
+### Inserire elementi
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Mod-Shift-E` | Inserisci una formula in linea |
+| `Mod-Shift-D` | Inserisci una formula in blocco |
+| `Mod-Shift-H` | Inserisci una linea divisoria (riga orizzontale) |
+| `Mod-P` | Inserisci un’interruzione di pagina |
+| `Mod-T` | Inserisci una tabella 3 × 3 |
+
+<Note>
+  Le scorciatoie per le marcature di revisione e per le formule richiedono i plugin **Track changes** e **Math formulas**, attivi per impostazione predefinita in **Settings → Integrations → Plugins**.
+</Note>
+
+## Titoli
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Mod-1` | Titolo 1 |
+| `Mod-2` | Titolo 2 |
+| `Mod-3` | Titolo 3 |
+| `Mod-4` | Titolo 4 |
+| `Mod-5` | Titolo 5 |
+| `Mod-6` | Titolo 6 |
+| `Mod-Shift-P` | Converti in paragrafo |
+| `Backspace` | Premuto all’inizio di un titolo, lo riconverte in paragrafo |
+
+Se premi la scorciatoia di un livello su un titolo di quello stesso livello, il titolo torna a essere un paragrafo.
+
+## Elenchi
+
+### Creare elenchi
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Mod-Shift-8` | Attiva o disattiva l’elenco puntato |
+| `Mod-Shift-7` | Attiva o disattiva l’elenco numerato |
+| `Mod-Shift-9` | Attiva o disattiva l’elenco con caselle di controllo |
+| `Mod-Shift-B` | Attiva o disattiva la citazione |
+
+### Voci di elenco
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Enter` | Dividi una voce di elenco |
+| `Tab` | Aumenta il rientro di una voce |
+| `Shift-Tab` | Riduci il rientro di una voce |
+| `Mod-Shift-Enter` | Inizia un nuovo paragrafo nella voce di elenco o nella citazione corrente |
+| `Alt-ArrowUp` | Sposta la voce in alto |
+| `Alt-ArrowDown` | Sposta la voce in basso |
+
+### Caselle di controllo
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Mod-Enter` | Seleziona o deseleziona la casella |
+| `Enter` | Dividi una voce con casella di controllo |
+| `Tab` | Aumenta il rientro di una voce con casella di controllo |
+| `Shift-Tab` | Riduci il rientro di una voce con casella di controllo |
+
+## Blocchi di codice
+
+### Creare blocchi di codice
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Mod-Shift-\` | Attiva o disattiva un blocco di codice |
+
+### Modificare e navigare nei blocchi di codice
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `ArrowUp` | Spostati in alto o, dalla prima riga, esci dal blocco di codice |
+| `ArrowDown` | Spostati in basso o, dall’ultima riga, esci dal blocco di codice |
+| `ArrowLeft` | Spostati a sinistra o, dall’inizio, esci dal blocco di codice |
+| `ArrowRight` | Spostati a destra o, dalla fine, esci dal blocco di codice |
+| `Tab` | Aumenta il rientro |
+| `Shift-Tab` | Riduci il rientro |
+| `Mod-Enter` | Esci dal blocco di codice e continua in un nuovo paragrafo sotto |
+| `Backspace` | All’inizio esatto del blocco di codice, riconvertilo in paragrafo |
+
+### Formattare i blocchi di codice
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Mod-Shift-F` | Formatta il blocco di codice |
+| `Alt-Shift-F` | Scorciatoia alternativa per formattare il codice |
+
+## Formule matematiche
+
+### All’interno di una formula
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Tab` | Inserisci una tabulazione |
+| `Enter` | In una formula in blocco, vai a capo; in una formula in linea, esci dalla formula |
+| `Mod-Enter` | Esci dalla formula |
+| `Backspace` | In una formula vuota, eliminala |
+| `Mod-Backspace` | Elimina la formula e torna al testo |
+| `Mod-A` | Seleziona tutto il contenuto della formula |
+| `Mod-M` | Alterna formula in linea e formula in blocco |
+| `Mod-P` | Converti la formula in testo normale |
+
+### Spostarsi nelle formule
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `ArrowLeft` | Spostati a sinistra o, dall’inizio, esci dalla formula |
+| `ArrowRight` | Spostati a destra o, dalla fine, esci dalla formula |
+| `ArrowUp` | Spostati in alto o, dalla prima riga, esci dalla formula |
+| `ArrowDown` | Spostati in basso o, dall’ultima riga, esci dalla formula |
+
+Quando è selezionata una formula in blocco, premi `Enter` per modificarla. Consulta [Formule matematiche](/it/math-formulas).
+
+## Tabelle
+
+### Spostarsi nelle tabelle
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Tab` | Passa alla cella successiva; nell’ultima cella, aggiungi una riga |
+| `Shift-Tab` | Torna alla cella precedente |
+
+### Modificare le tabelle
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Mod-Enter` | Aggiungi una riga sotto e spostati al suo interno |
+| `Mod-Shift-Enter` | Aggiungi una colonna a destra e spostati al suo interno |
+| `Mod-Backspace` | Elimina la riga corrente |
+| `Mod-Shift-Backspace` | Elimina la colonna corrente |
+
+## Altre operazioni
+
+### Altri elementi
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `Mod-Shift-M` | Aggiungi un blocco frontmatter, a partire dal primo paragrafo di un documento che non ne ha uno (vedi [Frontmatter](/it/frontmatter)) |
+| `Mod-Shift-V` | Attiva o disattiva un blocco HTML |
+
+### Menu dei suggerimenti
+
+Questi tasti funzionano nei menu `/`, `@` e `#`.
+
+| Scorciatoia | Azione |
+| --- | --- |
+| `ArrowUp` | Spostati in alto nell’elenco |
+| `ArrowDown` | Spostati in basso nell’elenco |
+| `Tab` / `Shift-Tab` | Passa alla voce successiva o precedente |
+| `ArrowRight` | Apri il gruppo evidenziato |
+| `ArrowLeft` | Esci da un gruppo |
+| `Enter` | Scegli la voce evidenziata o apri il gruppo evidenziato |
+| `Escape` | Esci da un gruppo o chiudi il menu |
+| `Backspace` | Cancella un carattere e aggiorna il filtro |
+
+Nel selettore di emoji che si apre con `:`, i tasti freccia si spostano nella griglia, `Enter` inserisce l’emoji evidenziata e `Mod-ArrowLeft` / `Mod-ArrowRight` cambiano categoria prima che tu digiti un filtro.
+
+## Personalizzazione delle scorciatoie
+
+Su desktop, apri **Settings → Personal → Keyboard shortcuts**.
+
+<Steps>
+  <Step title="Trova la scorciatoia">
+    Cerca per nome, scegli una categoria oppure passa tra **All Bindings**, **Commands** e **Semantic Intents**.
+  </Step>
+  <Step title="Registra i nuovi tasti">
+    Fai clic sul campo dei tasti della scorciatoia e premi la nuova combinazione. Premi `Escape` per annullare.
+  </Step>
+  <Step title="Controlla i conflitti">
+    Una scorciatoia che coincide con un’altra della stessa categoria mostra il badge **Conflict**. **Conflicts only** elenca solo quelle.
+  </Step>
+</Steps>
+
+Le scorciatoie modificate mostrano il badge **Customized** e il pulsante **Reset to default**. **Reset All** ripristina tutte le scorciatoie predefinite.
+
+<Tip>
+  Le scorciatoie contrassegnate come **Readonly** non si possono modificare: tra queste ci sono ricerca, salvataggio e zoom, i tasti all’interno dei blocchi di codice e delle formule e i tasti semantici come `Enter`, `Tab` e `Backspace`. Le modifiche hanno effetto immediato.
+</Tip>
+
+## Domande frequenti
+
+<AccordionGroup>
+  <Accordion title="Perché una scorciatoia non funziona?" icon="question">
+    Controlla che l’editor abbia il focus, che il tipo di nodo corrente supporti quell’azione, se hai modificato la scorciatoia in **Settings → Personal → Keyboard shortcuts** e se il sistema operativo intercetta la scorciatoia per primo.
+  </Accordion>
+
+  <Accordion title="Le scorciatoie sono diverse su macOS?" icon="question">
+    Le scorciatoie sono le stesse. Sostituisci `Mod` con `Command` su macOS e con `Ctrl` altrove, e premi `Option` dove una scorciatoia indica `Alt`.
+  </Accordion>
+
+  <Accordion title="Posso personalizzare tutto?" icon="question">
+    No. Le scorciatoie contrassegnate come **Readonly** nelle impostazioni mantengono i valori predefiniti, e alcune scorciatoie sono riservate al sistema operativo.
+  </Accordion>
+</AccordionGroup>

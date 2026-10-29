@@ -4,10 +4,10 @@ description: "Learn the core keyboard shortcuts in Zditor to edit faster."
 icon: "keyboard"
 ---
 
-Zditor includes extensive keyboard shortcut support for editing, formatting, structure changes, and navigation.
+Zditor includes extensive keyboard shortcut support for editing, formatting, structure changes, and navigation. The tables below list the default bindings of the Markdown editor and the app.
 
 <Warning>
-  `Mod` means `Ctrl` on Windows and Linux, and `Command` on macOS.
+  `Mod` means `Ctrl` on Windows and Linux, and `Command` on macOS. `Alt` is the `Option` key on macOS.
 </Warning>
 
 ## Contents
@@ -29,8 +29,19 @@ Zditor includes extensive keyboard shortcut support for editing, formatting, str
 
 | Shortcut | Action |
 | --- | --- |
-| `Mod-K` | Open the search box |
+| `Mod-K` | Open search |
 | `Mod-S` | Save the current document |
+| `Mod-F` | Search in the current document |
+
+### View modes
+
+These work in the active Markdown document. Press the same shortcut again to return to rich text.
+
+| Shortcut | Action |
+| --- | --- |
+| `Mod-E` | Switch between edit mode and read-only mode |
+| `Mod-/` | Switch between rich text and source view |
+| `Mod-\` | Switch between rich text and split view |
 
 ### View zoom
 
@@ -47,8 +58,8 @@ Zditor includes extensive keyboard shortcut support for editing, formatting, str
 | Shortcut | Action |
 | --- | --- |
 | `Mod-A` | Select the whole document |
-| `Escape` | Blur the current editor focus |
-| `Shift-Enter` | Insert a hard line break |
+| `Escape` | Remove focus from the editor |
+| `Shift-Enter` | Insert a line break without starting a new paragraph |
 
 ### Undo and redo
 
@@ -56,8 +67,8 @@ Zditor includes extensive keyboard shortcut support for editing, formatting, str
 | --- | --- |
 | `Mod-Z` | Undo |
 | `Mod-Y` | Redo |
-| `Shift-Mod-Z` | Alternate redo shortcut |
-| `Backspace` | Undo certain input rules |
+| `Mod-Shift-Z` | Redo (alternate shortcut) |
+| `Backspace` | Right after Zditor converts what you typed, for example `## ` into a heading, undo that conversion |
 
 ## Text formatting
 
@@ -70,7 +81,7 @@ Zditor includes extensive keyboard shortcut support for editing, formatting, str
 | `Mod-D` | Toggle strikethrough |
 | `Mod-H` | Toggle highlight |
 | `Mod-Shift-C` | Toggle inline code |
-| `Mod-R` | Toggle revision mark |
+| `Mod-R` | Toggle a revision mark (see [Text Marks](/en/text-marks)) |
 
 ### Insert elements
 
@@ -78,9 +89,13 @@ Zditor includes extensive keyboard shortcut support for editing, formatting, str
 | --- | --- |
 | `Mod-Shift-E` | Insert inline math |
 | `Mod-Shift-D` | Insert display math |
-| `Mod-Shift-H` | Insert a horizontal rule |
+| `Mod-Shift-H` | Insert a divider (horizontal rule) |
 | `Mod-P` | Insert a page break |
-| `Mod-T` | Create a `3x3` table |
+| `Mod-T` | Insert a 3 × 3 table |
+
+<Note>
+  The revision mark and math shortcuts need the **Track changes** and **Math formulas** plugins, which are on by default in **Settings → Integrations → Plugins**.
+</Note>
 
 ## Heading controls
 
@@ -93,7 +108,9 @@ Zditor includes extensive keyboard shortcut support for editing, formatting, str
 | `Mod-5` | Heading 5 |
 | `Mod-6` | Heading 6 |
 | `Mod-Shift-P` | Convert to paragraph |
-| `Backspace` | Convert a heading back to a paragraph when pressed at the start |
+| `Backspace` | Convert a heading back to a paragraph when pressed at its start |
+
+Pressing a heading shortcut on a heading of that level turns it back into a paragraph.
 
 ## List operations
 
@@ -113,9 +130,9 @@ Zditor includes extensive keyboard shortcut support for editing, formatting, str
 | `Enter` | Split a list item |
 | `Tab` | Indent a list item |
 | `Shift-Tab` | Outdent a list item |
-| `Mod-Shift-Enter` | Split inside a list |
-| `Alt-ArrowUp` | Move item up |
-| `Alt-ArrowDown` | Move item down |
+| `Mod-Shift-Enter` | Start a new paragraph inside the current list item or blockquote |
+| `Alt-ArrowUp` | Move the item up |
+| `Alt-ArrowDown` | Move the item down |
 
 ### Checkbox operations
 
@@ -132,18 +149,20 @@ Zditor includes extensive keyboard shortcut support for editing, formatting, str
 
 | Shortcut | Action |
 | --- | --- |
-| `Mod-Shift-\`` | Toggle a code block |
+| `Mod-Shift-\` | Toggle a code block |
 
-### Navigate code blocks
+### Edit and navigate code blocks
 
 | Shortcut | Action |
 | --- | --- |
-| `ArrowUp` | Move up or leave the code block |
-| `ArrowDown` | Move down or leave the code block |
-| `ArrowLeft` | Move left or leave the code block |
-| `ArrowRight` | Move right or leave the code block |
-| `Mod-Enter` | Exit the code block |
-| `Backspace` | Convert the code block back to a paragraph |
+| `ArrowUp` | Move up, or leave the code block from its first line |
+| `ArrowDown` | Move down, or leave the code block from its last line |
+| `ArrowLeft` | Move left, or leave the code block from its start |
+| `ArrowRight` | Move right, or leave the code block from its end |
+| `Tab` | Indent |
+| `Shift-Tab` | Outdent |
+| `Mod-Enter` | Leave the code block and continue in a new paragraph below |
+| `Backspace` | At the very start of the code block, convert it back to a paragraph |
 
 ### Format code blocks
 
@@ -154,23 +173,29 @@ Zditor includes extensive keyboard shortcut support for editing, formatting, str
 
 ## Math editing
 
-### Inline math
+### Inside a formula
 
 | Shortcut | Action |
 | --- | --- |
-| `Tab` | Insert a tab in a math node |
-| `Mod-Backspace` | Delete the math node and leave it |
-| `Enter` | Insert a newline or exit |
-| `Mod-Enter` | Exit math editing |
+| `Tab` | Insert a tab |
+| `Enter` | In display math, start a new line; in inline math, leave the formula |
+| `Mod-Enter` | Leave the formula |
+| `Backspace` | In an empty formula, delete it |
+| `Mod-Backspace` | Delete the formula and return to the text |
+| `Mod-A` | Select everything in the formula |
+| `Mod-M` | Switch between inline and display math |
+| `Mod-P` | Convert the formula to plain text |
 
 ### Math navigation
 
 | Shortcut | Action |
 | --- | --- |
-| `ArrowLeft` | Move left or exit the math node |
-| `ArrowRight` | Move right or exit the math node |
-| `ArrowUp` | Move up or exit the math node |
-| `ArrowDown` | Move down or exit the math node |
+| `ArrowLeft` | Move left, or leave the formula from its start |
+| `ArrowRight` | Move right, or leave the formula from its end |
+| `ArrowUp` | Move up, or leave the formula from its first line |
+| `ArrowDown` | Move down, or leave the formula from its last line |
+
+When a display formula is selected, press `Enter` to edit it. See [Math Formulas](/en/math-formulas).
 
 ## Table operations
 
@@ -178,15 +203,15 @@ Zditor includes extensive keyboard shortcut support for editing, formatting, str
 
 | Shortcut | Action |
 | --- | --- |
-| `Tab` | Move to the next cell |
+| `Tab` | Move to the next cell; in the last cell, add a row |
 | `Shift-Tab` | Move to the previous cell |
 
 ### Table editing
 
 | Shortcut | Action |
 | --- | --- |
-| `Mod-Enter` | Add a row and move into it |
-| `Mod-Shift-Enter` | Add a column and move into it |
+| `Mod-Enter` | Add a row below and move into it |
+| `Mod-Shift-Enter` | Add a column to the right and move into it |
 | `Mod-Backspace` | Delete the current row |
 | `Mod-Shift-Backspace` | Delete the current column |
 
@@ -196,37 +221,60 @@ Zditor includes extensive keyboard shortcut support for editing, formatting, str
 
 | Shortcut | Action |
 | --- | --- |
-| `Mod-Shift-M` | Create a metadata view |
+| `Mod-Shift-M` | Add a frontmatter block, from the first paragraph of a document that has none (see [Frontmatter](/en/frontmatter)) |
 | `Mod-Shift-V` | Toggle an HTML block |
 
 ### Suggestion menu
 
+These keys work in the `/`, `@`, and `#` menus.
+
 | Shortcut | Action |
 | --- | --- |
-| `ArrowUp` | Move up in the suggestion list |
-| `ArrowDown` | Move down in the suggestion list |
-| `Enter` | Confirm the current suggestion |
-| `Tab` | Confirm or advance in the suggestion list |
-| `Backspace` | Delete and update the suggestion query |
+| `ArrowUp` | Move up in the list |
+| `ArrowDown` | Move down in the list |
+| `Tab` / `Shift-Tab` | Move to the next or previous item |
+| `ArrowRight` | Open the highlighted group |
+| `ArrowLeft` | Go back from a group |
+| `Enter` | Choose the highlighted item, or open the highlighted group |
+| `Escape` | Go back from a group, or close the menu |
+| `Backspace` | Delete a character and update the filter |
+
+In the emoji picker that `:` opens, the arrow keys move around the grid, `Enter` inserts the highlighted emoji, and `Mod-ArrowLeft` / `Mod-ArrowRight` switch category before you type a filter.
 
 ## Shortcut customization
 
+On desktop, open **Settings → Personal → Keyboard shortcuts**.
+
+<Steps>
+  <Step title="Find the binding">
+    Search by name, pick a category, or switch between **All Bindings**, **Commands**, and **Semantic Intents**.
+  </Step>
+  <Step title="Record new keys">
+    Click the binding's key field and press the new combination. Press `Escape` to cancel.
+  </Step>
+  <Step title="Check for conflicts">
+    A binding that clashes with another in the same category shows a **Conflict** badge. **Conflicts only** lists just those.
+  </Step>
+</Steps>
+
+Changed bindings show a **Customized** badge and a **Reset to default** button. **Reset All** restores every default.
+
 <Tip>
-  Some versions of Zditor allow custom key bindings in the settings panel. Core read-only shortcuts, such as global actions and some structural navigation keys, may remain fixed.
+  Bindings marked **Readonly** cannot be changed. These include search, save, and zoom, the keys inside code blocks and formulas, and the semantic keys such as `Enter`, `Tab`, and `Backspace`. Changes take effect right away.
 </Tip>
 
 ## FAQ
 
 <AccordionGroup>
   <Accordion title="Why does a shortcut not work?" icon="question">
-    Check whether the editor has focus, whether the current node type supports that action, and whether the operating system intercepted the shortcut first.
+    Check whether the editor has focus, whether the current node type supports that action, whether you changed the binding in **Settings → Personal → Keyboard shortcuts**, and whether the operating system intercepted the shortcut first.
   </Accordion>
 
   <Accordion title="Are shortcuts different on macOS?" icon="question">
-    The bindings are the same conceptually. Replace `Mod` with `Command` on macOS and `Ctrl` elsewhere.
+    The bindings are the same. Replace `Mod` with `Command` on macOS and `Ctrl` elsewhere, and press `Option` where a shortcut says `Alt`.
   </Accordion>
 
   <Accordion title="Can I customize everything?" icon="question">
-    Usually no. Some shortcuts are reserved by the editor or by the operating system.
+    No. Bindings marked **Readonly** in the settings keep their defaults, and some shortcuts are reserved by the operating system.
   </Accordion>
 </AccordionGroup>

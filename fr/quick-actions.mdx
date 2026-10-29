@@ -1,0 +1,319 @@
+---
+title: "Actions rapides"
+description: "Découvrez les gestes les plus courants dans Zditor : glisser-déposer, raccourcis, menus déclencheurs et barres d’outils."
+icon: "bolt"
+---
+
+Cette page rassemble les interactions les plus fréquentes dans Zditor. Si vous débutez, lisez-la en premier, puis passez aux guides détaillés de chaque fonctionnalité.
+
+## Vue d’ensemble
+
+<CardGroup cols={2}>
+  <Card title="Glisser-déposer" icon="arrows-up-down-left-right">
+    Réorganisez le contenu, déplacez des fichiers et intégrez rapidement des ressources dans le Markdown.
+  </Card>
+
+  <Card title="Raccourcis clavier" icon="keyboard">
+    Utilisez le clavier pour enregistrer, mettre en forme, modifier la structure et naviguer.
+  </Card>
+
+  <Card title="Menus déclencheurs" icon="terminal">
+    Utilisez `/`, `@`, `#` et `:` pour ouvrir des menus structurés au lieu de tout taper à la main.
+  </Card>
+
+  <Card title="Barres d’outils" icon="wand-magic-sparkles">
+    Travaillez avec des barres d’outils flottantes contextuelles qui changent selon la sélection.
+  </Card>
+</CardGroup>
+
+## Glisser-déposer
+
+### Cinq façons de glisser-déposer
+
+Zditor propose plusieurs modes de glisser-déposer.
+
+#### 1. Glisser dans l’arborescence des fichiers
+
+Les fichiers et dossiers de l’arborescence, à gauche, peuvent être glissés à l’intérieur de l’arborescence pour changer leur emplacement dans l’espace de travail.
+
+C’est utile pour :
+
+- Réorganiser des dossiers
+- Déplacer des fichiers dans un autre dossier
+- Mettre de l’ordre dans la structure de l’espace de travail
+
+#### 2. Glisser depuis l’arborescence vers un document Markdown
+
+Les fichiers de l’arborescence, à gauche, peuvent être glissés directement dans un document Markdown.
+
+Le fichier déposé est inséré sous forme de **nœud de pièce jointe** qui pointe vers le fichier, là où il se trouve déjà dans votre espace de travail. Zditor n’en fait pas de copie.
+
+Pour afficher plutôt le fichier sous forme d’image, de vidéo, de lecteur audio ou de canevas :
+
+1. Cliquez sur la pièce jointe, ouvrez son menu **More** et choisissez **Convert to Link**.
+2. Cliquez sur le nouveau lien et utilisez le bouton correspondant de la barre d’outils du lien : **Convert to image**, **Convert to video**, **Convert to audio** ou **Convert to canvas**. Seuls les boutons adaptés au type de fichier apparaissent.
+
+Pour un fichier de canevas (`.excalidraw`), le menu **More** de la pièce jointe propose aussi directement **Convert to Canvas**.
+
+C’est utile lorsque vous voulez d’abord insérer le fichier, puis décider de sa présentation finale.
+
+#### 3. Glisser des fichiers externes dans un document Markdown
+
+Vous pouvez faire glisser des fichiers depuis le gestionnaire de fichiers du système directement dans un document Markdown.
+
+Zditor les insère selon leur type :
+
+- Fichiers image -> nœuds image
+- Fichiers vidéo -> nœuds vidéo
+- Fichiers audio -> nœuds audio
+- Fichiers de canevas (`.excalidraw`) -> nœuds canevas
+- Autres fichiers -> nœuds de pièce jointe
+
+Zditor enregistre une copie de chaque fichier déposé à l’emplacement défini dans **Settings → Integrations → Image hosting & uploads**. C’est le moyen le plus rapide d’intégrer des ressources locales dans vos notes ou vos documents.
+
+#### 4. Glisser des nœuds d’un document Markdown à l’autre
+
+Vous pouvez faire glisser des nœuds entre différents documents Markdown, par exemple entre les volets gauche et droit d’un affichage partagé.
+
+D’un document à l’autre, le comportement par défaut est la **copie** : le document cible reçoit une copie, et l’original reste dans le document source.
+
+C’est utile pour :
+
+- Faire passer un brouillon dans un document définitif
+- Réutiliser des blocs entre volets partagés
+- Réorganiser du contenu entre plusieurs notes
+
+#### 5. Glisser à l’intérieur d’un même document
+
+Dans un même document, le contenu de niveau bloc peut être glissé vers un nouvel emplacement sans couper-coller.
+
+Dans un même document, le comportement par défaut est le **déplacement**.
+
+C’est utile pour :
+
+- Réordonner des paragraphes
+- Restructurer des sections
+- Déplacer du texte, des images ou des blocs de code vers un meilleur emplacement
+
+### Poignées de déplacement dans l’éditeur
+
+Lorsque vous survolez un bloc pendant l’édition, Zditor affiche une poignée de déplacement dans la marge de gauche. La poignée indique le type du bloc (`H1` à `H6` pour les titres) à côté d’une icône de préhension. La faire glisser déplace tout le bloc.
+
+Chaque bloc de premier niveau possède cette poignée, notamment :
+
+- Les paragraphes
+- Les titres
+- Les listes
+- Les citations
+- Les images
+- Les vidéos
+- Les blocs de code
+- Les pièces jointes
+- Les encadrés
+- Les tableaux
+- Les formules en bloc
+
+Une liste se déplace d’un seul tenant. Pour déplacer un seul élément de liste, utilisez `Alt-ArrowUp` et `Alt-ArrowDown`.
+
+<Warning>
+  **Signaler un problème de glisser-déposer**
+
+  Si vous trouvez un type de nœud qui ne se glisse pas correctement, par exemple :
+
+  - Il ne peut pas être glissé
+  - Il est déposé au mauvais endroit
+  - Son contenu devient anormal après le dépôt
+
+  signalez-le dans un rapport de bug, et nous continuerons à combler ces lacunes.
+</Warning>
+
+### Où trouver les poignées de déplacement
+
+Vous pouvez commencer un glisser à deux endroits :
+
+- **Marge de gauche** : la poignée qui apparaît au survol, pour n’importe quel bloc de premier niveau
+- **Barre d’outils** : le bouton **Drag** de la barre d’outils d’une image, d’une vidéo, d’un fichier audio, d’une pièce jointe, d’un canevas, d’un contenu intégré, d’un bloc de code, d’un tableau, d’un bloc HTML ou d’une formule sélectionnés
+
+<Tip>
+  L’intérêt principal du glisser-déposer est l’édition structurelle. C’est bien plus rapide que le couper-coller lorsque vous réorganisez de longues notes, des brouillons ou des plans.
+</Tip>
+
+### À lire aussi
+
+Pour en savoir plus sur le glisser-déposer de fichiers dans la barre latérale, consultez le [guide de l’arborescence des fichiers](/fr/file-tree).
+
+## Raccourcis clavier
+
+Les raccourcis clavier sont l’un des moyens les plus efficaces d’éditer plus vite dans Zditor.
+
+Ils servent souvent à :
+
+- Enregistrer le document
+- Rechercher du contenu
+- Définir le niveau des titres
+- Activer ou désactiver le gras, l’italique, le surlignage et le code en ligne
+- Créer des listes, des citations, des tableaux, des blocs de code et des formules
+
+### Quelques raccourcis indispensables
+
+| Raccourci | Action |
+| --- | --- |
+| `Mod-K` | Ouvrir la recherche |
+| `Mod-S` | Enregistrer le document actuel |
+| `Mod-F` | Rechercher dans le document actuel |
+| `Mod-/` | Basculer entre le texte enrichi et la vue source |
+| `Mod-B` | Activer ou désactiver le gras |
+| `Mod-I` | Activer ou désactiver l’italique |
+| `Mod-H` | Activer ou désactiver le surlignage |
+| `Mod-Shift-C` | Activer ou désactiver le code en ligne |
+| `Mod-1` à `Mod-6` | Définir le niveau de titre |
+| `Mod-Shift-8` | Activer ou désactiver la liste à puces |
+| `Mod-Shift-7` | Activer ou désactiver la liste numérotée |
+| `Mod-Shift-9` | Activer ou désactiver la liste de cases à cocher |
+| `Mod-Shift-\` | Activer ou désactiver le bloc de code |
+| `Mod-T` | Créer un tableau |
+
+<Warning>
+  `Mod` signifie :
+  <ul>
+    <li><strong>macOS</strong> : `Command`</li>
+    <li><strong>Windows / Linux</strong> : `Ctrl`</li>
+  </ul>
+</Warning>
+
+### Quand les raccourcis sont les plus utiles
+
+Les raccourcis sont particulièrement utiles lorsque :
+
+- Vous savez déjà quelle mise en forme ou quelle structure vous voulez
+- Vous ne voulez pas interrompre votre élan en prenant la souris
+- Vous répétez la même opération de nombreuses fois
+
+Pour la liste complète, et pour modifier les raccourcis dans **Settings → Personal → Keyboard shortcuts**, consultez [Raccourcis clavier](/fr/keyboard-shortcuts).
+
+## Menus déclencheurs
+
+Les menus déclencheurs sont le moyen le plus rapide d’accéder à des actions structurées depuis le clavier.
+
+### Menu de commandes `/`
+
+Dans un document Markdown, tapez `/` en début de ligne ou après un espace pour ouvrir le menu de commandes. Continuez à taper pour le filtrer ; le filtre cherche dans tous les groupes. Utilisez les touches fléchées et `Enter` pour choisir un élément.
+
+Le menu contient :
+
+- **Heading 1** à **Heading 3**, et **Heading 4-6**
+- **List** : liste de cases à cocher, liste à puces et liste numérotée
+- **Media** : image, vidéo, audio, canevas et pièce jointe, chacun choisi avec un sélecteur de fichiers
+- **MetaInfo** : un bloc frontmatter en tête du document
+- **Code Block** : tableau, HTML, citation, bloc de code, formule en bloc, séparateur, saut de page et diagramme Mermaid
+- **Info** : encadrés d’information, de note, d’avertissement, de conseil et d’erreur
+- **Templates** : affiché lorsque vous avez des documents avec `template: true` dans leur frontmatter. En choisir un remplace le contenu du document actuel par ce modèle.
+
+Cela vous aide à :
+
+- Éviter les saisies répétitives
+- Découvrir rapidement les commandes disponibles
+- Adopter des méthodes de travail plus structurées
+
+Dans la zone de saisie de l’agent, `/` liste plutôt les commandes de conversation : `/share`, `/export`, `/goal`, `/compact` et `/side`. Là, `@` mentionne un fichier de l’espace de travail et `$` choisit une compétence. Consultez le [guide de l’agent](/fr/agent-guide).
+
+### Autres menus déclencheurs de l’éditeur
+
+Outre `/`, l’éditeur propose plusieurs autres menus déclencheurs courants :
+
+- `@` : créer un lien vers un fichier Markdown ou PDF de l’espace de travail. Pour un PDF qui contient des annotations de zone, vous pouvez aussi en choisir une pour l’insérer sous forme de carte PDF.
+- `#` : insérer ou créer des éléments SuperTag
+- `:` : ouvrir le sélecteur d’emoji ; continuez à taper pour filtrer les emoji par nom
+
+Chaque menu peut être désactivé dans **Settings → Editor → Markdown Editor**, avec **Command menu (/)**, **Link menu (@)**, **Object menu (#)** et **Emoji menu (:)**.
+
+<Tip>
+  Si vous répétez souvent les mêmes actions dans l’éditeur, les menus déclencheurs sont généralement plus rapides et plus fiables que la saisie répétée de la même syntaxe.
+</Tip>
+
+## Barres d’outils
+
+Zditor ne s’appuie pas sur une barre d’outils de mise en forme fixe. Il affiche plutôt des barres d’outils contextuelles selon ce que vous sélectionnez.
+
+### Barres d’outils de sélection
+
+Lorsque vous sélectionnez du texte ou un nœud, l’éditeur peut afficher une barre d’outils adaptée, par exemple :
+
+- Barre d’outils de mise en forme du texte
+- Barre d’outils des liens
+- Barres d’outils des images, des vidéos et de l’audio
+- Barre d’outils des pièces jointes
+- Barre d’outils des canevas
+- Barre d’outils des contenus intégrés
+- Barres d’outils des blocs de code et des blocs HTML
+- Barre d’outils des formules
+- Barre d’outils des tableaux
+- Barre d’outils des encadrés
+- Barre d’outils des notes de bas de page
+- Barre d’outils des annotations et des révisions
+- Barre d’outils SuperTag
+- Barre d’outils des cartes PDF
+
+Vous n’avez donc souvent pas besoin de mémoriser toute la syntaxe à l’avance. Une méthode courante consiste à :
+
+1. Sélectionner d’abord le contenu
+2. Utiliser la barre d’outils pour appliquer ou ajuster l’action
+
+Pour masquer ces barres d’outils, désactivez **Selection toolbar** dans **Settings → Editor → Markdown Editor**.
+
+### Comportement des barres d’outils
+
+<AccordionGroup>
+  <Accordion title="Elles changent selon l’objet sélectionné" icon="arrows-rotate" defaultOpen>
+    Des objets différents affichent des barres d’outils différentes. Le texte affiche des outils de mise en forme, les images des outils d’image, et les cartes PDF une barre d’outils qui leur est propre.
+  </Accordion>
+
+  <Accordion title="Elles peuvent ouvrir des panneaux flottants secondaires" icon="layer-group">
+    Certains boutons de barre d’outils ouvrent un second panneau flottant pour des options ou des cibles plus précises.
+  </Accordion>
+
+  <Accordion title="Elles permettent l’édition sur place" icon="pen-to-square">
+    Les barres d’outils apparaissent près du contenu sélectionné, pour que votre regard reste proche du contexte d’édition.
+  </Accordion>
+
+  <Accordion title="Elles peuvent confier la sélection à l’agent" icon="sparkles">
+    De nombreuses barres d’outils comportent un bouton **ASK AI**, qui ouvre l’agent à côté du document avec votre sélection jointe. Les invites que vous ajoutez dans **Settings → AI → AI Toolbar Prompts** apparaissent comme boutons supplémentaires dans les barres d’outils.
+  </Accordion>
+</AccordionGroup>
+
+### Quand les barres d’outils sont les plus utiles
+
+Les barres d’outils sont généralement plus pratiques lorsque :
+
+- Vous savez quel contenu modifier, sans vouloir mémoriser la syntaxe
+- Vous voulez voir les actions possibles avant de décider
+- Vous travaillez avec des nœuds visuels comme des images, des pièces jointes, des cartes PDF ou des éléments SuperTag
+
+## Ordre d’apprentissage conseillé
+
+Si vous débutez avec Zditor, voici un ordre pratique :
+
+1. Apprendre le glisser-déposer pour l’édition structurelle
+2. Mémoriser quelques raccourcis clavier indispensables
+3. Commencer à utiliser les menus déclencheurs `/`, `@`, `#` et `:`
+4. Vous familiariser avec les barres d’outils propres à chaque objet en situation réelle d’écriture
+
+## Guides associés
+
+<CardGroup cols={2}>
+  <Card title="Raccourcis clavier" icon="keyboard" href="/fr/keyboard-shortcuts">
+    Consultez la référence complète des raccourcis.
+  </Card>
+
+  <Card title="Arborescence des fichiers" icon="folder-tree" href="/fr/file-tree">
+    Découvrez le glisser-déposer et l’organisation au niveau des fichiers.
+  </Card>
+
+  <Card title="SuperTag" icon="hashtag" href="/fr/supertag">
+    Découvrez le menu déclencheur `#` et les références structurées.
+  </Card>
+
+  <Card title="Annotations PDF" icon="file-text" href="/fr/pdf-annotations">
+    Revoyez les cartes PDF, les annotations PDF et les méthodes associées.
+  </Card>
+</CardGroup>

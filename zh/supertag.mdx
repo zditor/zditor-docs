@@ -1,0 +1,181 @@
+---
+title: "SuperTag 使用指南"
+description: "使用 SuperTag 组织结构化 Markdown 记录，并在文档中以内联标签方式引用。"
+icon: "hashtag"
+---
+
+SuperTag 让 Zditor 可以把 Markdown 文件当作结构化记录，并在文档中把对这些记录的引用显示为标签样式。
+
+## 功能概览
+
+<CardGroup cols={2}>
+  <Card title="结构化记录" icon="database">
+    可复用的元数据放在 Frontmatter 中，正文仍然是普通的 Markdown。
+  </Card>
+
+  <Card title="共享 class" icon="table">
+    多个文件只要共享同一个 `class`，就会被聚合成同一张逻辑表。
+  </Card>
+
+  <Card title="内联引用" icon="link">
+    用 `mode=supertag` 把一条记录插入到其他文档中。
+  </Card>
+
+  <Card title="卡片布局字段" icon="table">
+    用 `col`、`row`、`cover`、`warm` 等字段控制文档头部和记录卡片的展示方式。
+  </Card>
+</CardGroup>
+
+## 核心概念
+
+<AccordionGroup>
+  <Accordion title="一条记录本质上仍然是 Markdown 文件" icon="file" defaultOpen>
+    SuperTag 记录本质上就是一篇带类型化 Frontmatter 的普通 Markdown 文档。
+
+    ```yaml
+    ---
+    title:
+      type: text
+      label: Title
+      value: "The Godfather"
+    director:
+      type: text
+      label: Director
+      value: "Francis Ford Coppola"
+    year:
+      type: number
+      label: Year
+      value: 1972
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    ---
+    ```
+  </Accordion>
+
+  <Accordion title="class 字段决定归组方式" icon="table">
+    `class` 值相同的文件属于同一张逻辑表。`class` 必须是文本字段。
+
+    ```yaml
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    ```
+
+    正是靠这个字段，Zditor 才能把许多 Markdown 文件聚合成一个结构化集合。**日历** 侧边栏的 **文档类型** 标签页会列出你的所有 class。
+  </Accordion>
+
+  <Accordion title="Schema 文件定义字段" icon="list-check">
+    `class` 相同、并带有 `field` 列表的文件，就是这个 class 的 Schema 文件。`field` 列出每条记录都应具备的字段，Schema 文件本身则包含这些字段及其类型和标签。
+
+    ```yaml
+    ---
+    class:
+      type: text
+      label: class
+      value: "ClassicMovieEnglish"
+    field:
+      type: array
+      label: field
+      value: [title, director, year]
+    title:
+      type: text
+      label: Title
+      value: ""
+    director:
+      type: text
+      label: Director
+      value: ""
+    year:
+      type: number
+      label: Year
+      value: 0
+    ---
+    ```
+
+    通过 `#` 菜单创建的记录，会从 Schema 文件复制这些字段作为初始字段。Schema 文件还定义了这个 class 的表格有哪些列；在知识图谱中，每条记录都会链接到它。
+  </Accordion>
+
+  <Accordion title="col 和 row 控制卡片布局" icon="table">
+    布局字段决定哪些元数据会在文档头部，以及 class 的 **Gallery** 视图中的记录卡片上突出显示。
+
+    ```yaml
+    col:
+      type: array
+      label: Col
+      value: [year, title, director]
+    row:
+      type: array
+      label: Row
+      value: [genre, rank, score, watched]
+    ```
+
+    - `col` 为标题区域指定最多三个字段：上方的一行小字、标题，以及下方的描述
+    - `row` 指定下方信息行中显示的字段
+  </Accordion>
+</AccordionGroup>
+
+## 引用语法
+
+使用带 `mode=supertag` 的普通 Markdown 链接：
+
+```markdown
+[ClassicMovieEnglish](/movies/The%20Godfather.md|mode=supertag)
+```
+
+- 方括号中的文字是记录所属的 class。
+- 路径指向记录文件。以 `/` 开头的路径从工作区根目录算起，其他路径从当前文档所在的文件夹算起。路径中的空格写作 `%20`。
+
+在编辑器中，引用显示为一个彩色标签，例如 `#ClassicMovieEnglish · The Godfather`。标签的颜色由 class 名称决定。
+
+<Note>
+  你很少需要手写这段语法。在文档中输入 `#` 会打开对象菜单，其中列出了你的所有 class；先选择一个 class，再选择一条记录，即可插入引用。**创建 Row** 会在当前文档所在的文件夹中新建一条该 class 的记录，以你输入的文字命名，并插入对它的引用。**创建 Table** 会开始一个新的 class，在你创建它的第一行之后，这个 class 才真正存在。如果菜单没有出现，请检查 **设置 → 编辑器 → Markdown 编辑器** 中的 **对象菜单（#）** 是否已开启。
+</Note>
+
+点击引用即可选中它。随后出现的工具栏会显示：
+
+- class 名称：点击后会在标签页中打开这个 class 的所有记录，提供 **Table**、**Gallery** 和 **Gantt** 三种视图
+- 记录名称：点击后打开记录文件
+- 刷新按钮：更新 Zditor 为你的笔记建立的索引
+- **信息**：显示记录的各个字段
+
+## 常见字段类型
+
+| 类型 | 编辑器中显示为 | 常见用途 |
+| --- | --- | --- |
+| `text` | 文本 | 标题、作者、国家、备注 |
+| `number` | 数字 | 年份、分数、排名 |
+| `date` | 日期 | 截止日期、观看日期、创建日期 |
+| `checkbox` | 开关 | 完成状态、暖色主题、精选状态 |
+| `multiselect` | 多选 | 题材、标签、分类 |
+| `array` | 列表 | 演员列表、布局字段列表 |
+| `progress` | 进度 | 0 到 100 之间的数值，例如评分或完成度 |
+| `asset` | 图片 | 封面和其他图片 |
+
+所有字段类型及字段的编辑方式，见 [Frontmatter 使用指南](/zh/frontmatter)。
+
+## 推荐工作流
+
+<Steps>
+  <Step title="先复制一条已有记录">
+    从已经具备所需字段结构的文件开始，或者在 `#` 菜单中用 **创建 Row** 新建记录。
+  </Step>
+
+  <Step title="保留字段结构和 class">
+    维持相同的字段名、字段类型和 `class` 值，保证它还属于同一个集合。
+  </Step>
+
+  <Step title="替换具体值">
+    按新记录修改标题、日期、封面和正文内容。
+  </Step>
+
+  <Step title="统一补齐共享字段">
+    如果整个 class 都需要新增字段，就在整个集合中统一补上，并把它加入 Schema 文件的 `field` 列表。
+  </Step>
+</Steps>
+
+<Tip>
+  SuperTag 最怕字段名频繁漂移。一个 class 一旦开始投入使用，就尽量保持字段稳定。
+</Tip>

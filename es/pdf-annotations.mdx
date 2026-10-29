@@ -1,0 +1,566 @@
+---
+title: "Guía de anotaciones en PDF"
+description: "Anota PDF en Zditor con trazos a mano alzada, resaltados de área, capas y referencias en forma de tarjeta en Markdown."
+icon: "file-text"
+---
+
+Zditor incluye un visor de PDF para leer y anotar. Puedes dibujar en las páginas, marcar regiones con resaltados de área que llevan un título y un comentario, separar conjuntos de anotaciones en capas y citar resaltados en tus notas Markdown. Las anotaciones se guardan en un archivo aparte, así que el PDF en sí nunca cambia.
+
+<Frame>
+  <img src="/images/pdf-annotations.webp" alt="Un PDF en Zditor con resaltados, la barra de herramientas de anotación y la barra lateral de capas" style={{ borderRadius: '0.5rem' }} />
+</Frame>
+
+## Descripción general
+
+<CardGroup cols={2}>
+  <Card title="Herramientas de anotación" icon="pen">
+    Lápiz, resaltador, goma de borrar, línea, rectángulo, lazo, láser y resaltado de área, cada una con un atajo de una letra.
+  </Card>
+
+  <Card title="Resaltados de área" icon="vector-square">
+    Marca una región con un color, un título y un comentario. Zditor guarda una miniatura de la región.
+  </Card>
+
+  <Card title="Capas" icon="layer-group">
+    Separa conjuntos de anotaciones y muestra, oculta, renombra o elimina cada capa.
+  </Card>
+
+  <Card title="Búsqueda y marcadores" icon="search">
+    Busca en el texto del PDF y en los comentarios de tus resaltados, y desplázate con los marcadores del propio PDF.
+  </Card>
+
+  <Card title="Tarjetas PDF en Markdown" icon="link">
+    Inserta un resaltado en una nota con `@` y vuelve a él en el PDF.
+  </Card>
+
+  <Card title="Integración con el agente" icon="robot">
+    El agente integrado, Native Agent, puede leer, buscar y anotar los PDF de tu espacio de trabajo.
+  </Card>
+</CardGroup>
+
+## Cómo se guardan las anotaciones
+
+Las anotaciones nunca se escriben en el archivo PDF. Zditor las guarda en un archivo JSON aparte, en la misma carpeta y con el nombre del PDF:
+
+```text
+example.pdf.zditor-pdf-annotation.json
+```
+
+Zditor crea este archivo la primera vez que anotas el PDF y guarda cada cambio automáticamente. Contiene:
+
+- Las capas, con sus nombres y su visibilidad
+- Los trazos, con su página, capa, puntos, color, grosor y parámetros de trazo
+- Los resaltados de área, con su página, capa, región, color, título, comentario y una referencia a su miniatura
+- En los resaltados que crea el agente a partir de una cita, el texto citado
+
+<Tip>
+  Como el PDF nunca se modifica, es fácil sincronizar tus anotaciones, hacer copias de seguridad y mantenerlas bajo control de versiones.
+</Tip>
+
+## Disposición de la interfaz
+
+En la aplicación de escritorio, el visor de PDF tiene cuatro zonas.
+
+### Barra de título
+
+La barra de título, encima del PDF, contiene:
+
+- **Undo** y **Redo**, a la izquierda
+- **Print**, **Search**, **Bookmarks**, **Layers** y **Clear Page**, a la derecha
+
+Cuando la pestaña es estrecha, **Bookmarks**, **Layers** y **Clear Page** pasan a un menú **More**. Mientras buscas, el campo de búsqueda ocupa el lugar de estos botones.
+
+### Barra de herramientas de anotación
+
+Una barra de herramientas redondeada flota sobre la parte superior de las páginas. De izquierda a derecha, contiene:
+
+- **Keep tool active**
+- Las herramientas de anotación
+- Seis colores
+- El control deslizante **Width**
+- **Stroke Parameters**
+
+Cuando la pestaña es demasiado estrecha para mostrarlo todo, el control de grosor y después los colores pasan al botón de parámetros de trazo, que entonces muestra el color actual y se llama **Brush settings**. Si aun así no cabe, las herramientas pasan a un menú **More**, empezando por las menos usadas, como **Laser** y **Line**. El menú muestra la letra del atajo de cada herramienta.
+
+### Controles de zoom y de página
+
+La esquina inferior izquierda contiene **Zoom Out**, el porcentaje de zoom, **Zoom In** y el número de la página actual.
+
+### Barra lateral izquierda
+
+**Bookmarks**, **Layers** y **Search** abren una barra lateral a la izquierda de las páginas. Muestra una de estas cosas:
+
+- Los marcadores del PDF
+- Las capas, con la lista de resaltados de área
+- Los resultados de búsqueda
+
+Haz clic de nuevo en **Bookmarks** o **Layers** para cerrarla.
+
+## Herramientas de anotación
+
+Elige una herramienta en la barra de herramientas de anotación o pulsa su letra.
+
+### Seleccionar
+
+Atajo: `V`. La herramienta de selección (**Select**) selecciona y mueve anotaciones en lugar de dibujar. Los PDF se abren con esta herramienta activa.
+
+Con la herramienta de selección puedes:
+
+- Hacer clic en un trazo para seleccionarlo, y hacer `Shift`-clic en otros trazos para añadirlos a la selección o quitarlos de ella
+- Arrastrar un trazo seleccionado, o cualquier punto dentro de una selección, para moverlo
+- Hacer clic en un resaltado de área para ver su tarjeta, arrastrarlo para moverlo o arrastrar un controlador de esquina para cambiar su tamaño
+
+Al hacer clic en un espacio vacío, se anula la selección.
+
+### Lápiz
+
+Atajo: `P`. El lápiz (**Pen**) sirve para dibujar a mano alzada: notas manuscritas, círculos, flechas y trazados libres. Elige uno de los seis colores y ajusta el grosor con **Width**.
+
+**Stroke Parameters** define la forma de cada trazo:
+
+- **Pressure sensitivity**: varía el grosor según la presión del lápiz. No tiene efecto con un ratón.
+- **Smoothing**: suaviza el contorno de cada trazo
+- **Stabilization**: hace que la línea siga al lápiz con un ligero retraso, para que los trazos rápidos salgan más firmes
+- **Taper Start** y **Taper End**: estrechan el trazo hasta terminar en punta al empezar o al acabar
+- **Cap Start** y **Cap End**: redondean el principio o el final de un trazo que no se estrecha
+- **Reset**: restablece los parámetros de trazo predeterminados
+
+<Tip>
+  El grosor y los parámetros de trazo se aplican a los trazos nuevos; los existentes conservan los ajustes con los que se dibujaron. Zditor recuerda tus elecciones como valores de dibujo predeterminados, que también puedes definir en **Settings → Editor → PDF Editor**.
+</Tip>
+
+### Resaltador
+
+Atajo: `M`. El resaltador (**Highlighter**) también dibuja a mano alzada, pero se comporta de forma distinta al lápiz:
+
+- Es semitransparente, así que el texto de debajo sigue siendo legible
+- Se funde con la página como un marcador fluorescente
+- Su grosor no cambia con la presión del lápiz
+
+### Goma de borrar
+
+Atajo: `E`. Arrastra la goma de borrar (**Eraser**) sobre los trazos que quieras quitar.
+
+- Elimina enteros todos los trazos que toca su recorrido, incluidas las líneas y los rectángulos
+- Su tamaño sigue el ajuste de **Width**
+- Los trazos desaparecen mientras arrastras, y el cambio se guarda al soltar
+- Funciona con los trazos de todas las capas visibles
+
+<Warning>
+  La goma de borrar no elimina los resaltados de área. Elimínalos desde su tarjeta, desde su editor o desde la lista de anotaciones de la barra lateral de capas.
+</Warning>
+
+### Línea y rectángulo
+
+Para marcas más estructuradas, usa:
+
+- **Line** (`L`) para dibujar un segmento recto desde donde pulsas hasta donde sueltas
+- **Rectangle** (`R`) para dibujar el contorno de un rectángulo entre dos esquinas
+
+Después de dibujar uno, Zditor vuelve a **Select** con la nueva forma seleccionada, para que puedas moverla enseguida. Para dibujar varias seguidas, activa **Keep tool active**.
+
+### Lazo
+
+Atajo: `S`. Con el lazo (**Lasso**), dibuja un bucle alrededor de los trazos para seleccionarlos. Se selecciona cada trazo que tenga algún punto dentro del bucle. Después puedes usar la barra de herramientas de selección o arrastrar la selección, como se describe en [Selección y operaciones en lote](#selección-y-operaciones-en-lote).
+
+<Tip>
+  El lazo solo selecciona trazos. No selecciona resaltados de área ni el texto del PDF.
+</Tip>
+
+### Láser
+
+Atajo: `K`. El láser (**Laser**) es un puntero temporal para presentaciones, clases o pantallas compartidas:
+
+- Un punto del color actual sustituye al cursor y deja una estela que se desvanece en menos de un segundo
+- No se guarda nada en los datos de anotación
+- Al cambiar a otra herramienta, la estela desaparece al instante
+
+### Desplazar
+
+Atajo: `H`. Con la herramienta de desplazamiento (**Pan**), arrastra para mover las páginas en cualquier dirección en lugar de anotar. Es especialmente útil después de acercar el zoom.
+
+### Mantener la herramienta activa
+
+Atajo: `Q`. Después de dibujar una línea, un rectángulo o un resaltado de área, Zditor suele volver a **Select**. Con **Keep tool active** activado, la herramienta sigue seleccionada. El lápiz, el resaltador, la goma de borrar, el lazo, el láser y la herramienta de desplazamiento permanecen siempre activos.
+
+### Atajos de teclado
+
+| Tecla | Acción |
+| --- | --- |
+| `V` | Seleccionar |
+| `H` | Desplazar |
+| `P` | Lápiz |
+| `M` | Resaltador |
+| `A` | Resaltado de área |
+| `E` | Goma de borrar |
+| `L` | Línea |
+| `R` | Rectángulo |
+| `S` | Lazo |
+| `K` | Láser |
+| `Q` | Activar o desactivar **Keep tool active** |
+| `Cmd/Ctrl + Z` | Deshacer |
+| `Shift + Cmd/Ctrl + Z` | Rehacer (en Windows y Linux también funciona `Ctrl + Y`) |
+| `Delete` o `Backspace` | Eliminar los trazos seleccionados |
+| `Cmd/Ctrl + F` | Buscar en el PDF |
+
+Las letras de las herramientas y las teclas de deshacer y rehacer funcionan una vez que has hecho clic en el visor de PDF, y nunca mientras escribes en un campo.
+
+## Resaltados de área
+
+Los resaltados de área son el tipo de anotación más estructurado del visor de PDF: un rectángulo en la página con un color, un título, un comentario y una miniatura de la región.
+
+### Crear un resaltado de área
+
+<Steps>
+  <Step title="Cambia a la herramienta de resaltado de área">
+    Elige **Area Highlight** en la barra de herramientas de anotación o pulsa `A`.
+  </Step>
+
+  <Step title="Dibuja un rectángulo en el PDF">
+    Arrastra sobre la región que quieras anotar.
+  </Step>
+
+  <Step title="Añade un título y un comentario">
+    Al soltar el puntero, se abre un pequeño editor junto a la región. Elige uno de los cinco colores (amarillo de forma predeterminada) y escribe un título y un comentario, ambos opcionales. Al pulsar `Enter` en el título, pasas al comentario.
+  </Step>
+
+  <Step title="Confirma">
+    Haz clic en **Confirm** o pulsa `Cmd/Ctrl + Enter` para guardar el resaltado en la capa activa. **Cancel** o `Esc` lo descartan.
+  </Step>
+</Steps>
+
+Tras confirmar, Zditor vuelve a **Select** con el nuevo resaltado seleccionado, salvo que **Keep tool active** esté activado. Un resaltado con comentario muestra un pequeño punto en su esquina superior derecha.
+
+### Editar un resaltado de área
+
+#### Con la herramienta de selección
+
+Haz clic en un resaltado para ver su tarjeta, con su título y su comentario. Haz clic en **Edit Annotation** (el lápiz) o en el texto de la tarjeta para abrir el editor, o en **Delete Annotation** (la papelera) para eliminar el resaltado. También se abre la barra lateral de capas, con el resaltado marcado en su lista de anotaciones.
+
+#### Con la herramienta de resaltado de área
+
+Haz clic en un resaltado existente para abrir directamente su editor.
+
+#### En el editor
+
+- Un color nuevo se aplica al instante
+- Después de cambiar el título o el comentario, haz clic en **Save** o pulsa `Cmd/Ctrl + Enter`
+- **Close** o `Esc` cierran el editor sin guardar el título ni el comentario
+- La papelera elimina el resaltado
+
+### Mover un resaltado de área y cambiar su tamaño
+
+Con la herramienta de selección, arrastra un resaltado para moverlo. Un resaltado seleccionado muestra un controlador en cada esquina; arrastra uno para cambiar el tamaño del resaltado.
+
+Mientras el editor está abierto, aparecen ocho controladores alrededor del recuadro:
+
+- Arriba a la izquierda, arriba, arriba a la derecha
+- Izquierda, derecha
+- Abajo a la izquierda, abajo, abajo a la derecha
+
+Así puedes ajustar el tamaño con precisión en lugar de eliminar el resaltado y volver a dibujarlo.
+
+### Eliminar un resaltado de área
+
+Puedes quitar un resaltado:
+
+- Haciendo clic en **Delete Annotation** en su tarjeta
+- Haciendo clic en la papelera de su editor
+- Haciendo clic en **Delete Annotation** junto a él, en la lista de anotaciones de la barra lateral de capas
+- Haciendo clic con el botón derecho sobre él mientras la herramienta de resaltado de área está activa
+
+Al deshacer, el resaltado eliminado vuelve.
+
+### Miniaturas de los resaltados
+
+Al guardar un resaltado de área, Zditor captura una imagen de la región y la guarda en la ubicación elegida en **Settings → Editor → PDF Editor → Highlight thumbnails**. La misma opción está disponible en **Settings → Integrations → Image hosting & uploads**. La ubicación puede ser una carpeta local o un almacenamiento compatible con S3, WebDAV o GitHub que hayas configurado.
+
+Si a un resaltado le falta la miniatura, pasa el puntero sobre él en la lista de anotaciones de la barra lateral de capas y haz clic en **Regenerate missing thumbnails**.
+
+## Citar tarjetas PDF en Markdown
+
+Los resaltados de área no se limitan al visor de PDF. Puedes insertarlos en documentos Markdown como tarjetas PDF, algo útil para convertir las anotaciones de lectura en notas reutilizables.
+
+Cuando escribes `@` en un documento Markdown, Zditor abre una lista de referencias. Esa lista incluye:
+
+- Los archivos Markdown de tu espacio de trabajo
+- Los PDF que has anotado
+
+Al elegir un PDF con resaltados de área, Zditor abre un menú de segundo nivel con dos tipos de entradas:
+
+- **El propio PDF**, que inserta un enlace a todo el PDF
+- **Cada uno de sus resaltados de área**, que inserta una tarjeta PDF de esa región
+
+Un PDF sin resaltados de área se inserta directamente como enlace. Los resaltados aparecen por su título, o por su página y su comentario si no tienen título. Sigue escribiendo después de `@` para buscar en nombres de archivo, títulos de resaltados, comentarios y números de página (por ejemplo, `page 3`).
+
+Una tarjeta PDF muestra el título del resaltado, si lo tiene, y el nombre del archivo PDF.
+
+### Flujo de trabajo habitual
+
+<Steps>
+  <Step title="Crea primero resaltados de área en el PDF">
+    Añade resaltados de área a las regiones importantes, a ser posible con un título o un comentario, para reconocerlos fácilmente después en la lista.
+  </Step>
+
+  <Step title="Vuelve a un documento Markdown y escribe @">
+    Así se abre la lista de referencias del espacio de trabajo.
+  </Step>
+
+  <Step title="Elige el PDF">
+    Selecciona el PDF en la lista de primer nivel para abrir su menú de segundo nivel.
+  </Step>
+
+  <Step title="Elige el PDF completo o un resaltado">
+    Selecciona el propio PDF para obtener un enlace a todo el archivo, o un resaltado concreto para obtener una tarjeta que apunte a esa región.
+  </Step>
+
+  <Step title="Insértalo en Markdown">
+    Zditor inserta el enlace o la tarjeta PDF en el documento Markdown actual.
+  </Step>
+</Steps>
+
+### Hacer clic en una tarjeta PDF dentro de Markdown
+
+Haz clic en una tarjeta PDF para seleccionarla y abrir su barra de herramientas. La barra conecta lo que escribes con el PDF original:
+
+- **ASK AI**: abre la tarjeta en el agente, junto con la página, el título y el comentario del resaltado
+- **El nombre del archivo PDF**: abre el PDF, se desplaza hasta el resaltado y lo selecciona
+- **Open with Default App**, **Open Containing Folder** y **Copy File Path**: actúan sobre el archivo PDF (aplicación de escritorio)
+- El número de página del resaltado
+- **Edit Title**: cambia el título que muestra esta tarjeta en la nota
+- **Refresh**: vuelve a cargar los detalles y la miniatura del resaltado
+- **More Options**: muestra la página, el título, el comentario y la miniatura del resaltado. Haz clic en la miniatura para verla a tamaño completo.
+
+Por tanto, una tarjeta PDF no es solo una referencia estática. Puedes escribir a partir de la nota resumida en Markdown y volver al PDF de origen siempre que necesites comprobar el contexto original.
+
+<Tip>
+  Este flujo es especialmente útil para leer artículos y tomar notas de investigación. En Markdown queda una tarjeta reutilizable, y en el PDF, la región anotada original.
+</Tip>
+
+Este patrón es útil para:
+
+- Convertir los resaltados de un artículo en notas
+- Conservar la miniatura y el comentario del PDF dentro de Markdown
+- Construir notas de investigación estructuradas mientras lees
+
+## Gestión de capas
+
+Las capas son una de las principales herramientas para organizar las anotaciones en PDF. Haz clic en **Layers** en la barra de título para abrirlas en la barra lateral. Todos los PDF empiezan con una capa **Default Layer**.
+
+### Acciones disponibles con las capas
+
+La barra lateral de capas permite:
+
+- Hacer clic en **Add Layer** (el signo más) para crear una capa, que pasa a ser la capa activa
+- Hacer clic en una capa para activarla. Al hacer clic en una capa oculta, también vuelve a mostrarse.
+- Hacer doble clic en el nombre de una capa para renombrarla. `Enter` confirma y `Esc` cancela.
+- Pasar el puntero sobre una capa y hacer clic en el ojo para ocultarla o mostrarla
+- Pasar el puntero sobre una capa y hacer clic en la papelera para eliminarla. La última capa que queda no se puede eliminar.
+
+<Warning>
+  Al eliminar una capa, también se eliminan los trazos y los resaltados de área guardados en ella. Deshacer los recupera mientras el PDF siga abierto.
+</Warning>
+
+Debajo de las capas, la lista **Annotations** muestra todos los resaltados de área con su página, capa, título y comentario. Haz clic en uno para saltar a su página.
+
+### Qué significa la capa activa
+
+La capa activa determina:
+
+- Dónde se crean los trazos nuevos
+- Dónde se crean los resaltados de área nuevos
+- Adónde van los trazos pegados
+- Qué trazos elimina **Clear Page**
+
+La goma de borrar, el lazo y la herramienta de selección funcionan en todas las capas visibles. Si ocultas la capa activa, la primera capa visible pasa a ser la activa.
+
+### Visibilidad de las capas
+
+Cada capa se puede ocultar o mostrar por separado. Cuando una capa está oculta:
+
+- Sus trazos y resaltados de área desaparecen de las páginas
+- Se omiten al imprimir
+- Los datos siguen existiendo, y la lista de anotaciones sigue mostrando los resaltados de la capa
+
+Esto es útil para:
+
+- Separar las anotaciones por temas
+- Separar tus marcas personales de las de tus compañeros
+- Centrarte temporalmente en una categoría de anotaciones
+
+## Selección y operaciones en lote
+
+Después de seleccionar trazos con la herramienta de selección o con el lazo, Zditor muestra una barra de herramientas vertical a la izquierda de la selección.
+
+Acciones disponibles:
+
+- **Delete**
+- **Copy**
+- **Cut**
+- **Paste**, que aparece después de copiar o cortar. Añade los trazos copiados a esta página, ligeramente desplazados, en la capa activa.
+- **Move to Layer**, que aparece cuando el PDF tiene más de una capa
+
+También puedes arrastrar dentro de la selección para mover los trazos seleccionados en grupo.
+
+Copiar y cortar guardan los trazos para pegarlos dentro del mismo PDF; no usan el portapapeles del sistema.
+
+### Atajo para eliminar
+
+Con la herramienta de selección o con el lazo, si hay trazos seleccionados, puedes pulsar:
+
+- `Delete`
+- `Backspace`
+
+para eliminarlos.
+
+## Deshacer, rehacer y borrar
+
+### Deshacer y rehacer
+
+**Undo** y **Redo** están en la barra de título. Recorren todos los cambios en las anotaciones del PDF, en todas las páginas y capas:
+
+- Dibujar, borrar, mover, pegar y eliminar trazos, y moverlos a otra capa
+- Crear, editar, mover, redimensionar y eliminar resaltados de área
+- Añadir, renombrar, ocultar, mostrar y eliminar capas
+- **Clear Page**
+- Los cambios que hace el agente mientras el PDF está abierto
+
+El historial dura mientras el PDF siga abierto. Cuando vuelves a abrir el PDF, el historial empieza de cero.
+
+### Borrar la página actual
+
+**Clear Page** (la papelera de la barra de título, o en **More** cuando la pestaña es estrecha) elimina todos los trazos de:
+
+- La página actual, la que indica el número de página de abajo a la izquierda
+- La capa activa
+
+<Warning>
+  **Clear Page** solo afecta a los trazos. Los resaltados de área y los trazos de otras capas se mantienen. Deshacer recupera los trazos borrados.
+</Warning>
+
+## Marcadores, búsqueda y navegación
+
+### Marcadores del PDF
+
+Si el PDF incluye su propio esquema o marcadores, haz clic en **Bookmarks** en la barra de título para mostrarlos en la barra lateral.
+
+Puedes:
+
+- Expandir o contraer los marcadores anidados
+- Hacer clic en un marcador para saltar a su página, que aparece junto a su título
+- Ver reflejada en la barra lateral la página actual: su marcador aparece resaltado
+
+Un PDF sin esquema muestra **No bookmarks**.
+
+### Buscar en el texto y en los comentarios de las anotaciones
+
+Haz clic en **Search** en la barra de título o pulsa `Cmd/Ctrl + F`. El campo de búsqueda ocupa el lugar de los botones de la barra de título, y los resultados se abren en la barra lateral.
+
+La búsqueda en PDF no se limita al texto del documento. También busca en los comentarios de los resaltados de área.
+
+Comportamiento de la búsqueda:
+
+- Los resultados se actualizan poco después de que dejes de escribir, y el visor salta al primero
+- La búsqueda no distingue entre mayúsculas y minúsculas
+- `Enter`, o el botón de flecha hacia abajo, para el resultado siguiente
+- `Shift + Enter`, o el botón de flecha hacia arriba, para el resultado anterior
+- `Esc`, o el botón de cerrar, para cerrar la búsqueda y sus resultados
+
+### Cómo se muestran los resultados
+
+Cuando hay una coincidencia:
+
+- La página marca las regiones coincidentes
+- El campo de búsqueda indica en qué resultado estás, por ejemplo `2/7`
+- La barra lateral muestra todos los resultados; haz clic en uno para saltar a él
+
+Hay dos tipos de resultados:
+
+- **Coincidencias en el texto**: se agrupan por página, y cada página con coincidencias cuenta como un resultado
+- **Coincidencias en comentarios de resaltados**: aparecen una por resaltado, con su color, página y comentario
+
+## Zoom y lectura
+
+El visor de PDF permite:
+
+- Usar **Zoom In** y **Zoom Out**, abajo a la izquierda
+- Hacer clic en el porcentaje de zoom para ajustar la página al ancho del visor
+- Pellizcar en el trackpad de un Mac
+- Mantener pulsado `Ctrl` y desplazarte
+- Usar niveles de zoom del 40 % al 400 %
+- Hacer clic en el número de página, escribir una página y pulsar `Enter` para saltar a ella
+
+### Imprimir
+
+**Print**, en la barra de título, imprime todas las páginas del PDF con las anotaciones de las capas visibles. Las capas ocultas no se imprimen.
+
+### Modo oscuro
+
+Cuando Zditor usa una apariencia oscura, las páginas del PDF se invierten para leer con más comodidad, con texto claro sobre páginas oscuras.
+
+<Tip>
+  La inversión solo se aplica a las páginas del PDF. Las anotaciones se dibujan en una capa aparte, por encima, y conservan sus colores.
+</Tip>
+
+## Trabajar con el agente
+
+El agente integrado, Native Agent, puede trabajar con cualquier PDF de tu espacio de trabajo, esté o no abierto en una pestaña. Puedes pedirle que:
+
+- Lea un PDF página a página, junto con su esquema y tus resaltados existentes
+- Encuentre un pasaje
+- Examine una página o parte de ella, como una figura, una tabla o una página escaneada
+- Resalte un pasaje con un título y un comentario, lo subraye, lo tache o dibuje un recuadro a su alrededor
+- Dibuje a mano alzada, edite o elimine resaltados y elimine trazos
+
+Qué esperar:
+
+- Las anotaciones nuevas van a una capa llamada **Agent**, salvo que le pidas que use una de tus capas, así que puedes ocultar o eliminar su trabajo de una sola vez
+- Si el PDF está abierto, los cambios del agente aparecen al instante, y **Undo** deshace cada lote de cambios de una sola vez
+- Por cada resaltado que crea, el agente obtiene un enlace de tarjeta PDF ya preparado, para poder citar el resaltado en una nota Markdown
+- Las miniaturas de los resaltados del agente se generan mientras el PDF está abierto. Para los resaltados que creó con el PDF cerrado, abre el PDF y usa **Regenerate missing thumbnails** en la lista de anotaciones.
+- Leer, buscar y examinar páginas no requiere aprobación. Añadir, cambiar o eliminar anotaciones depende del **Permission mode** del agente.
+
+Para conectar el agente a un servicio de IA, abre **Settings → AI → Agents**.
+
+## Notas sobre el rendimiento
+
+La lista de páginas solo renderiza las páginas cercanas al área visible:
+
+- Las páginas visibles, más una anterior y una posterior, se renderizan por completo
+- Las demás páginas se sustituyen por espacios reservados que conservan la altura de desplazamiento
+
+Así se reduce el coste de renderizado, sobre todo con PDF largos, niveles de zoom altos y pantallas de alta resolución.
+
+La primera búsqueda en un PDF lee el texto de todas las páginas, así que puede tardar un momento en un documento largo. Las búsquedas posteriores en el mismo PDF reutilizan ese texto.
+
+## Preguntas frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Dónde se guardan las anotaciones?" icon="question">
+    En un archivo aparte, junto al PDF: las anotaciones de `paper.pdf` están en `paper.pdf.zditor-pdf-annotation.json`. Zditor nunca las escribe en el propio PDF.
+  </Accordion>
+
+  <Accordion title="¿Por qué faltan algunas anotaciones?" icon="question">
+    Comprueba primero si su capa está oculta en la barra lateral de capas. Una capa oculta conserva sus datos, y sus resaltados de área siguen apareciendo en la lista de anotaciones. Recuerda también que la capa activa solo decide adónde van las anotaciones nuevas; los datos de las demás capas siguen ahí.
+  </Accordion>
+
+  <Accordion title="¿Por qué la búsqueda no encuentra mis anotaciones manuscritas?" icon="question">
+    La búsqueda abarca el texto del PDF y los comentarios de los resaltados de área. No busca en la escritura a mano ni en los títulos de los resaltados, y no aplica OCR, así que no se puede buscar en un PDF escaneado sin capa de texto.
+  </Accordion>
+
+  <Accordion title="¿Y si no se generó una miniatura?" icon="question">
+    Abre el PDF, abre la barra lateral de capas, pasa el puntero sobre el resaltado en la lista de anotaciones y haz clic en **Regenerate missing thumbnails**. Si sigue fallando, comprueba la ubicación de almacenamiento en **Settings → Editor → PDF Editor → Highlight thumbnails**.
+  </Accordion>
+
+  <Accordion title="¿Qué ocurre al eliminar una capa?" icon="question">
+    Al eliminar una capa, se eliminan los trazos y los resaltados de área guardados en ella. Deshacer los recupera mientras el PDF siga abierto. Para conservar algunos trazos, muévelos antes a otra capa con **Move to Layer**; los resaltados de área no se pueden mover entre capas.
+  </Accordion>
+
+  <Accordion title="¿Puedo deshacer cambios después de cerrar el PDF?" icon="question">
+    No. El historial de deshacer solo dura mientras el PDF está abierto. Para retirar más tarde el trabajo de un agente, oculta o elimina su capa **Agent**.
+  </Accordion>
+
+  <Accordion title="¿Qué diferencia hay entre un resaltado de área y el resaltador normal?" icon="question">
+    El resaltador dibuja un trazo semitransparente a mano alzada. Un resaltado de área es un rectángulo estructurado con un título, un comentario, un color y una miniatura. Puedes moverlo y cambiar su tamaño, encontrarlo por su comentario en la búsqueda y citarlo en Markdown como tarjeta PDF.
+  </Accordion>
+</AccordionGroup>

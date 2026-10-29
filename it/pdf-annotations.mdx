@@ -1,0 +1,566 @@
+---
+title: "Guida alle annotazioni PDF"
+description: "Annota i PDF in Zditor con tratti a mano libera, evidenziazioni di area, livelli e riferimenti come card nel Markdown."
+icon: "file-text"
+---
+
+Zditor ha un visualizzatore PDF integrato per leggere e annotare. Puoi disegnare sulle pagine, contrassegnare zone con evidenziazioni di area dotate di titolo e commento, tenere separati gruppi di annotazioni in livelli e citare le evidenziazioni nelle tue note Markdown. Le annotazioni vengono salvate in un file separato, quindi il PDF non cambia mai.
+
+<Frame>
+  <img src="/images/pdf-annotations.webp" alt="Un PDF in Zditor con evidenziazioni, la barra degli strumenti di annotazione e la barra laterale dei livelli" style={{ borderRadius: '0.5rem' }} />
+</Frame>
+
+## Panoramica
+
+<CardGroup cols={2}>
+  <Card title="Strumenti di annotazione" icon="pen">
+    Penna, evidenziatore, gomma, linea, rettangolo, lazo, laser ed evidenziazione di area, ciascuno con una scorciatoia di una lettera.
+  </Card>
+
+  <Card title="Evidenziazioni di area" icon="vector-square">
+    Contrassegna una zona con un colore, un titolo e un commento. Zditor conserva una miniatura della zona.
+  </Card>
+
+  <Card title="Livelli" icon="layer-group">
+    Tieni separati i gruppi di annotazioni e mostra, nascondi, rinomina o elimina ciascun livello.
+  </Card>
+
+  <Card title="Ricerca e segnalibri" icon="search">
+    Cerca nel testo del PDF e nei commenti delle tue evidenziazioni, e spostati con i segnalibri del PDF stesso.
+  </Card>
+
+  <Card title="Card PDF nel Markdown" icon="link">
+    Inserisci un’evidenziazione in una nota con `@` e torna a essa nel PDF.
+  </Card>
+
+  <Card title="Supporto dell’agente" icon="robot">
+    Il Native Agent integrato può leggere, cercare e annotare i PDF del tuo spazio di lavoro.
+  </Card>
+</CardGroup>
+
+## Come vengono salvate le annotazioni
+
+Le annotazioni PDF non vengono mai scritte nel file PDF. Zditor le salva in un file JSON separato nella stessa cartella, che prende il nome dal PDF:
+
+```text
+example.pdf.zditor-pdf-annotation.json
+```
+
+Zditor crea questo file la prima volta che annoti il PDF e vi salva automaticamente ogni modifica. Contiene:
+
+- I livelli, con nome e visibilità
+- I tratti, con pagina, livello, punti, colore, spessore e parametri del tratto
+- Le evidenziazioni di area, con pagina, livello, zona, colore, titolo, commento e un riferimento alla miniatura
+- Per le evidenziazioni che l’agente crea a partire da una citazione, il testo citato
+
+<Tip>
+  Poiché il PDF non viene mai modificato, le annotazioni sono facili da sincronizzare, salvare in backup e tenere sotto controllo di versione.
+</Tip>
+
+## Struttura dell’interfaccia
+
+Nell’app desktop, il visualizzatore PDF ha quattro aree.
+
+### Barra del titolo
+
+La barra del titolo sopra il PDF contiene:
+
+- **Undo** e **Redo** a sinistra
+- **Print**, **Search**, **Bookmarks**, **Layers** e **Clear Page** a destra
+
+Quando la scheda è stretta, **Bookmarks**, **Layers** e **Clear Page** passano in un menu **More**. Durante la ricerca, il campo di ricerca prende il posto di questi pulsanti.
+
+### Barra degli strumenti di annotazione
+
+Una barra degli strumenti arrotondata fluttua sopra la parte alta delle pagine. Da sinistra a destra contiene:
+
+- **Keep tool active** (mantieni attivo lo strumento)
+- Gli strumenti di annotazione
+- Sei colori
+- Il cursore **Width** (spessore)
+- **Stroke Parameters** (parametri del tratto)
+
+Quando la scheda è troppo stretta per contenere tutto, il cursore dello spessore e poi i colori passano nel pulsante dei parametri del tratto, che allora mostra il colore attuale e si chiama **Brush settings**. Se ancora non basta, gli strumenti passano in un menu **More**, a partire da quelli usati meno spesso come **Laser** e **Line**. Il menu mostra la lettera della scorciatoia di ogni strumento.
+
+### Controlli di zoom e pagina
+
+Nell’angolo in basso a sinistra si trovano **Zoom Out**, la percentuale di zoom, **Zoom In** e il numero della pagina corrente.
+
+### Barra laterale sinistra
+
+**Bookmarks**, **Layers** e **Search** aprono una barra laterale a sinistra delle pagine, che mostra uno di questi contenuti:
+
+- I segnalibri del PDF
+- I livelli, con l’elenco delle evidenziazioni di area
+- I risultati della ricerca
+
+Fai di nuovo clic su **Bookmarks** o **Layers** per chiuderla.
+
+## Strumenti di annotazione
+
+Scegli uno strumento nella barra degli strumenti di annotazione, oppure premi la sua lettera.
+
+### Selezione
+
+Scorciatoia: `V`. Lo strumento Select seleziona e sposta le annotazioni invece di disegnare. Un PDF si apre con questo strumento attivo.
+
+Con lo strumento Select puoi:
+
+- Fare clic su un tratto per selezionarlo, e fare clic sui tratti tenendo premuto `Shift` per aggiungerli alla selezione o toglierli
+- Trascinare un tratto selezionato, o un punto qualsiasi all’interno di una selezione, per spostarlo
+- Fare clic su un’evidenziazione di area per mostrarne la card, trascinarla per spostarla o trascinare una maniglia d’angolo per ridimensionarla
+
+Un clic in uno spazio vuoto annulla la selezione.
+
+### Penna
+
+Scorciatoia: `P`. La penna serve per disegnare a mano libera: note scritte a mano, cerchi, frecce e tracciati di ogni tipo. Scegli uno dei sei colori e regola **Width**.
+
+**Stroke Parameters** definisce la forma di ogni tratto:
+
+- **Pressure sensitivity**: varia lo spessore in base alla pressione della penna. Non ha effetto con il mouse.
+- **Smoothing**: ammorbidisce il contorno di ogni tratto
+- **Stabilization**: fa seguire la linea alla penna con un leggero ritardo, così i tratti veloci risultano più stabili
+- **Taper Start** e **Taper End**: assottigliano il tratto fino a una punta all’inizio o alla fine
+- **Cap Start** e **Cap End**: arrotondano l’inizio o la fine di un tratto non assottigliato
+- **Reset**: ripristina i parametri del tratto predefiniti
+
+<Tip>
+  Spessore e parametri del tratto si applicano ai nuovi tratti; quelli esistenti mantengono le impostazioni con cui sono stati disegnati. Zditor ricorda le tue scelte come impostazioni di disegno predefinite, che puoi impostare anche in **Settings → Editor → PDF Editor**.
+</Tip>
+
+### Evidenziatore
+
+Scorciatoia: `M`. Anche l’evidenziatore funziona a mano libera, ma si comporta diversamente dalla penna:
+
+- È semitrasparente, quindi il testo sottostante resta leggibile
+- Si fonde con la pagina come un evidenziatore fluorescente
+- Il suo spessore non cambia con la pressione della penna
+
+### Gomma
+
+Scorciatoia: `E`. Trascina la gomma sui tratti che vuoi rimuovere.
+
+- Rimuove per intero ogni tratto che tocca lungo il suo percorso, comprese linee e rettangoli
+- La sua dimensione segue l’impostazione **Width**
+- I tratti scompaiono mentre trascini e la modifica viene salvata quando rilasci
+- Agisce sui tratti di tutti i livelli visibili
+
+<Warning>
+  La gomma non rimuove le evidenziazioni di area. Eliminale dalla loro card, dal loro editor o dall’elenco delle annotazioni nella barra laterale dei livelli.
+</Warning>
+
+### Linea e rettangolo
+
+Per annotazioni più strutturate, usa:
+
+- **Line** (`L`) per tracciare un segmento dritto dal punto in cui premi a quello in cui rilasci
+- **Rectangle** (`R`) per tracciare il contorno di un riquadro tra due angoli opposti
+
+Dopo averne disegnato uno, Zditor torna a **Select** con la nuova forma selezionata, così puoi spostarla subito. Per disegnarne diversi di fila, attiva **Keep tool active**.
+
+### Lazo
+
+Scorciatoia: `S`. Traccia un anello attorno ai tratti per selezionarli. Viene selezionato ogni tratto con almeno un punto all’interno dell’anello. Puoi poi usare la barra degli strumenti di selezione o trascinare la selezione, come descritto in [Selezione e operazioni di gruppo](#selezione-e-operazioni-di-gruppo).
+
+<Tip>
+  Il lazo seleziona solo i tratti, non le evidenziazioni di area né il testo del PDF.
+</Tip>
+
+### Laser
+
+Scorciatoia: `K`. Il laser è un puntatore temporaneo per presentazioni, lezioni o condivisione dello schermo:
+
+- Un punto del colore attuale sostituisce il cursore e lascia una scia che svanisce in meno di un secondo
+- Nei dati delle annotazioni non viene salvato nulla
+- Passando a un altro strumento, la scia scompare subito
+
+### Spostamento
+
+Scorciatoia: `H`. Trascina per scorrere le pagine in qualsiasi direzione invece di annotare. È particolarmente utile dopo aver ingrandito.
+
+### Mantenere attivo lo strumento
+
+Scorciatoia: `Q`. Dopo che hai disegnato una linea, un rettangolo o un’evidenziazione di area, Zditor normalmente torna a **Select**. Con **Keep tool active** attivo, lo strumento resta selezionato. Penna, evidenziatore, gomma, lazo, laser e spostamento restano sempre attivi.
+
+### Scorciatoie da tastiera
+
+| Tasto | Azione |
+| --- | --- |
+| `V` | Selezione |
+| `H` | Spostamento |
+| `P` | Penna |
+| `M` | Evidenziatore |
+| `A` | Evidenziazione di area |
+| `E` | Gomma |
+| `L` | Linea |
+| `R` | Rettangolo |
+| `S` | Lazo |
+| `K` | Laser |
+| `Q` | Attiva o disattiva **Keep tool active** |
+| `Cmd/Ctrl + Z` | Annulla |
+| `Shift + Cmd/Ctrl + Z` | Ripeti (su Windows e Linux funziona anche `Ctrl + Y`) |
+| `Delete` o `Backspace` | Elimina i tratti selezionati |
+| `Cmd/Ctrl + F` | Cerca nel PDF |
+
+Le lettere degli strumenti e i tasti per annullare e ripetere funzionano dopo che hai fatto clic nel visualizzatore PDF, e mai mentre stai scrivendo in un campo.
+
+## Evidenziazioni di area
+
+Le evidenziazioni di area sono il tipo di annotazione più strutturato del visualizzatore PDF: un rettangolo sulla pagina con un colore, un titolo, un commento e una miniatura della zona.
+
+### Creare un’evidenziazione di area
+
+<Steps>
+  <Step title="Passa allo strumento Area Highlight">
+    Scegli **Area Highlight** nella barra degli strumenti di annotazione, oppure premi `A`.
+  </Step>
+
+  <Step title="Trascina un rettangolo sul PDF">
+    Trascina sulla zona che vuoi annotare.
+  </Step>
+
+  <Step title="Aggiungi un titolo e un commento">
+    Quando rilasci il puntatore, accanto alla zona si apre un piccolo editor. Scegli uno dei cinque colori (giallo per impostazione predefinita) e digita un titolo e un commento, entrambi facoltativi. Premendo `Enter` nel titolo passi al commento.
+  </Step>
+
+  <Step title="Conferma">
+    Fai clic su **Confirm** o premi `Cmd/Ctrl + Enter` per salvare l’evidenziazione nel livello attivo. **Cancel** o `Esc` la annullano.
+  </Step>
+</Steps>
+
+Dopo la conferma, Zditor torna a **Select** con la nuova evidenziazione selezionata, a meno che **Keep tool active** non sia attivo. Un’evidenziazione con un commento mostra un piccolo punto nell’angolo in alto a destra.
+
+### Modificare un’evidenziazione di area
+
+#### Con lo strumento Select
+
+Fai clic su un’evidenziazione per mostrarne la card, con titolo e commento. Fai clic su **Edit Annotation** (la matita) o sul testo della card per aprire l’editor, oppure su **Delete Annotation** (il cestino) per eliminare l’evidenziazione. Si apre anche la barra laterale dei livelli, con l’evidenziazione segnalata nell’elenco delle annotazioni.
+
+#### Con lo strumento Area Highlight
+
+Fai clic su un’evidenziazione esistente per aprirne direttamente l’editor.
+
+#### Nell’editor
+
+- Un nuovo colore si applica subito
+- Dopo aver cambiato titolo o commento, fai clic su **Save** o premi `Cmd/Ctrl + Enter`
+- **Close** o `Esc` chiudono l’editor senza salvare titolo e commento
+- Il cestino elimina l’evidenziazione
+
+### Spostare e ridimensionare un’evidenziazione di area
+
+Con lo strumento Select, trascina un’evidenziazione per spostarla. Un’evidenziazione selezionata mostra una maniglia a ogni angolo; trascinane una per ridimensionarla.
+
+Mentre l’editor è aperto, attorno al riquadro compaiono otto maniglie:
+
+- In alto a sinistra, in alto, in alto a destra
+- A sinistra, a destra
+- In basso a sinistra, in basso, in basso a destra
+
+Così puoi ridimensionare con precisione invece di eliminare e ridisegnare.
+
+### Eliminare un’evidenziazione di area
+
+Puoi rimuovere un’evidenziazione:
+
+- Facendo clic su **Delete Annotation** nella sua card
+- Facendo clic sul cestino nel suo editor
+- Facendo clic su **Delete Annotation** accanto a essa nell’elenco delle annotazioni della barra laterale dei livelli
+- Facendo clic su di essa con il pulsante destro mentre è attivo lo strumento Area Highlight
+
+Un’evidenziazione eliminata si può recuperare annullando l’operazione.
+
+### Miniature delle evidenziazioni
+
+Quando salvi un’evidenziazione di area, Zditor cattura un’immagine della zona e la salva nella posizione scelta in **Settings → Editor → PDF Editor → Highlight thumbnails**. La stessa scelta è disponibile in **Settings → Integrations → Image hosting & uploads**. La posizione può essere una cartella locale oppure uno spazio di archiviazione compatibile con S3, WebDAV o GitHub che hai configurato.
+
+Se a un’evidenziazione manca la miniatura, passa il puntatore su di essa nell’elenco delle annotazioni della barra laterale dei livelli e fai clic su **Regenerate missing thumbnails**.
+
+## Citare card PDF nel Markdown
+
+Le evidenziazioni di area non restano chiuse nel visualizzatore PDF. Puoi inserirle nei documenti Markdown come card PDF, il che è utile quando trasformi le annotazioni di lettura in note riutilizzabili.
+
+Quando digiti `@` in un documento Markdown, Zditor apre un elenco di riferimenti che comprende:
+
+- I file Markdown del tuo spazio di lavoro
+- I PDF che hai annotato
+
+Quando scegli un PDF con evidenziazioni di area, Zditor apre un menu di secondo livello con due tipi di voci:
+
+- **Il PDF stesso**, che inserisce un link all’intero PDF
+- **Ciascuna delle sue evidenziazioni di area**, che inserisce una card PDF per quella zona
+
+Un PDF senza evidenziazioni di area viene inserito subito come link. Le evidenziazioni sono elencate per titolo o, se non ne hanno uno, per pagina e commento. Continua a digitare dopo `@` per cercare nomi di file, titoli delle evidenziazioni, commenti e numeri di pagina (ad esempio `page 3`).
+
+Una card PDF mostra il titolo dell’evidenziazione, se ce l’ha, e il nome del file PDF.
+
+### Flusso di lavoro tipico
+
+<Steps>
+  <Step title="Crea prima le evidenziazioni di area nel PDF">
+    Aggiungi evidenziazioni di area alle zone importanti, idealmente con un titolo o un commento, così da riconoscerle facilmente nell’elenco in seguito.
+  </Step>
+
+  <Step title="Torna a un documento Markdown e digita @">
+    Si apre l’elenco dei riferimenti dello spazio di lavoro.
+  </Step>
+
+  <Step title="Scegli il PDF">
+    Seleziona il PDF nell’elenco di primo livello per aprire il suo menu di secondo livello.
+  </Step>
+
+  <Step title="Scegli l’intero PDF o un’evidenziazione">
+    Seleziona il PDF stesso per un link all’intero file, oppure un’evidenziazione specifica per una card che punta a quella zona.
+  </Step>
+
+  <Step title="Inseriscilo nel Markdown">
+    Zditor inserisce il link o la card PDF nel documento Markdown corrente.
+  </Step>
+</Steps>
+
+### Fare clic su una card PDF nel Markdown
+
+Fai clic su una card PDF per selezionarla e aprirne la barra degli strumenti, che collega la tua scrittura al PDF originale:
+
+- **ASK AI**: apre la card nell’agente, insieme a pagina, titolo e commento dell’evidenziazione
+- **Il nome del file PDF**: apre il PDF, scorre fino all’evidenziazione e la seleziona
+- **Open with Default App**, **Open Containing Folder** e **Copy File Path**: agiscono sul file PDF (app desktop)
+- Il numero di pagina dell’evidenziazione
+- **Edit Title**: cambia il titolo che questa card mostra nella nota
+- **Refresh**: ricarica dettagli e miniatura dell’evidenziazione
+- **More Options**: mostra pagina, titolo, commento e miniatura dell’evidenziazione. Fai clic sulla miniatura per vederla a grandezza piena.
+
+Una card PDF, quindi, non è solo un riferimento statico: puoi scrivere a partire dalla nota di sintesi in Markdown e tornare al PDF di origine ogni volta che devi verificare il contesto originale.
+
+<Tip>
+  Questo flusso di lavoro è particolarmente utile per la lettura di articoli scientifici e gli appunti di ricerca. Il lato Markdown conserva una card riutilizzabile, mentre il lato PDF conserva la zona originale annotata.
+</Tip>
+
+Questo schema è utile quando:
+
+- Trasformi in note le evidenziazioni di un articolo
+- Vuoi tenere nel Markdown la miniatura del PDF e il contesto del commento
+- Costruisci appunti di ricerca strutturati mentre leggi
+
+## Gestione dei livelli
+
+I livelli sono uno degli strumenti principali per organizzare le annotazioni PDF. Fai clic su **Layers** nella barra del titolo per aprirli nella barra laterale. Ogni PDF parte con un **Default Layer**.
+
+### Azioni disponibili sui livelli
+
+Nella barra laterale dei livelli puoi:
+
+- Fare clic su **Add Layer** (il segno più) per creare un livello, che diventa il livello attivo
+- Fare clic su un livello per renderlo attivo. Un clic su un livello nascosto lo rende anche di nuovo visibile.
+- Fare doppio clic sul nome di un livello per rinominarlo. `Enter` conferma ed `Esc` annulla.
+- Passare il puntatore su un livello e fare clic sull’occhio per nasconderlo o mostrarlo
+- Passare il puntatore su un livello e fare clic sul cestino per eliminarlo. L’ultimo livello rimasto non si può eliminare.
+
+<Warning>
+  Eliminando un livello si eliminano anche i tratti e le evidenziazioni di area salvati in quel livello. Finché il PDF è aperto, puoi recuperarli annullando l’operazione.
+</Warning>
+
+Sotto i livelli, l’elenco **Annotations** mostra ogni evidenziazione di area con pagina, livello, titolo e commento. Fai clic su una voce per passare alla sua pagina.
+
+### Che cosa significa livello attivo
+
+Il livello attivo determina:
+
+- Dove vengono creati i nuovi tratti
+- Dove vengono create le nuove evidenziazioni di area
+- Dove finiscono i tratti incollati
+- Quali tratti rimuove **Clear Page**
+
+La gomma, il lazo e lo strumento Select agiscono su tutti i livelli visibili. Se nascondi il livello attivo, diventa attivo il primo livello visibile.
+
+### Visibilità dei livelli
+
+Ogni livello si può nascondere o mostrare in modo indipendente. Quando un livello è nascosto:
+
+- I suoi tratti e le sue evidenziazioni di area scompaiono dalle pagine
+- Vengono esclusi dalla stampa
+- I dati restano, e l’elenco delle annotazioni mostra ancora le evidenziazioni del livello
+
+È utile per:
+
+- Separare le annotazioni per tema
+- Distinguere le annotazioni personali da quelle del team
+- Concentrarti temporaneamente su una categoria di annotazioni
+
+## Selezione e operazioni di gruppo
+
+Dopo che hai selezionato dei tratti con lo strumento Select o con il lazo, Zditor mostra una barra degli strumenti verticale a sinistra della selezione.
+
+Le azioni disponibili comprendono:
+
+- **Delete**
+- **Copy**
+- **Cut**
+- **Paste**, che compare dopo una copia o un taglio. Aggiunge i tratti copiati a questa pagina, leggermente sfalsati, nel livello attivo.
+- **Move to Layer**, che compare quando il PDF ha più di un livello
+
+Puoi anche trascinare all’interno della selezione per spostare insieme i tratti selezionati.
+
+Copia e taglia conservano i tratti per incollarli nello stesso PDF; non usano gli appunti di sistema.
+
+### Scorciatoia per eliminare
+
+Con lo strumento Select o con il lazo, se ci sono tratti selezionati, puoi premere:
+
+- `Delete`
+- `Backspace`
+
+per rimuoverli.
+
+## Annullare, ripetere e cancellare
+
+### Annullare e ripetere
+
+**Undo** e **Redo** si trovano nella barra del titolo. Ripercorrono ogni modifica alle annotazioni del PDF, su tutte le pagine e tutti i livelli:
+
+- Disegnare, cancellare, spostare, incollare ed eliminare tratti, e spostarli in un altro livello
+- Creare, modificare, spostare, ridimensionare ed eliminare evidenziazioni di area
+- Aggiungere, rinominare, nascondere, mostrare ed eliminare livelli
+- **Clear Page**
+- Le modifiche che l’agente apporta mentre il PDF è aperto
+
+La cronologia dura finché il PDF resta aperto. Quando riapri il PDF, la cronologia riparte da zero.
+
+### Cancellare la pagina corrente
+
+**Clear Page** (il cestino nella barra del titolo, o in **More** quando la scheda è stretta) rimuove tutti i tratti:
+
+- Della pagina corrente, quella indicata dal numero di pagina in basso a sinistra
+- Del livello attivo
+
+<Warning>
+  **Clear Page** agisce solo sui tratti: le evidenziazioni di area e i tratti degli altri livelli restano. Puoi recuperare i tratti cancellati annullando l’operazione.
+</Warning>
+
+## Segnalibri, ricerca e navigazione
+
+### Segnalibri del PDF
+
+Se il PDF contiene un proprio sommario o dei segnalibri, fai clic su **Bookmarks** nella barra del titolo per mostrarli nella barra laterale.
+
+Puoi:
+
+- Espandere o comprimere i segnalibri annidati
+- Fare clic su un segnalibro per andare alla sua pagina, indicata accanto al titolo
+- Vedere la pagina corrente riflessa nella barra laterale: il suo segnalibro è evidenziato
+
+Un PDF senza sommario mostra **No bookmarks**.
+
+### Cercare nel testo e nei commenti delle annotazioni
+
+Fai clic su **Search** nella barra del titolo o premi `Cmd/Ctrl + F`. Il campo di ricerca prende il posto dei pulsanti della barra del titolo e i risultati si aprono nella barra laterale.
+
+La ricerca nel PDF non riguarda solo il testo del documento: cerca anche nei commenti delle evidenziazioni di area.
+
+Come funziona la ricerca:
+
+- I risultati si aggiornano poco dopo che smetti di digitare, e il visualizzatore passa al primo
+- La ricerca non distingue tra maiuscole e minuscole
+- `Enter`, o il pulsante con la freccia in giù, per il risultato successivo
+- `Shift + Enter`, o il pulsante con la freccia in su, per il risultato precedente
+- `Esc`, o il pulsante di chiusura, per chiudere la ricerca e i risultati
+
+### Come vengono mostrati i risultati
+
+Quando viene trovata una corrispondenza:
+
+- La pagina evidenzia le zone corrispondenti
+- Il campo di ricerca indica su quale risultato ti trovi, ad esempio `2/7`
+- La barra laterale elenca tutti i risultati; fai clic su uno per raggiungerlo
+
+Ci sono due tipi di risultato:
+
+- Le **corrispondenze nel testo** sono raggruppate per pagina: ogni pagina con corrispondenze conta come un risultato
+- Le **corrispondenze nei commenti** sono elencate una per evidenziazione, con colore, pagina e commento dell’evidenziazione
+
+## Zoom e lettura
+
+Nel visualizzatore PDF puoi:
+
+- Usare **Zoom In** e **Zoom Out** in basso a sinistra
+- Fare clic sulla percentuale di zoom per adattare la pagina alla larghezza del visualizzatore
+- Usare il gesto di pizzico sul trackpad di un Mac
+- Scorrere tenendo premuto `Ctrl`
+- Scegliere livelli di zoom dal 40% al 400%
+- Fare clic sul numero di pagina, digitare una pagina e premere `Enter` per raggiungerla
+
+### Stampa
+
+**Print** nella barra del titolo stampa tutte le pagine del PDF con le annotazioni dei livelli visibili. I livelli nascosti non vengono stampati.
+
+### Modalità scura
+
+Quando Zditor usa un aspetto scuro, le pagine del PDF vengono invertite per una lettura più confortevole, con testo chiaro su pagine scure.
+
+<Tip>
+  L’inversione si applica solo alle pagine del PDF. Le annotazioni sono disegnate su uno strato separato sopra le pagine e mantengono i loro colori.
+</Tip>
+
+## Lavorare con l’agente
+
+Il Native Agent integrato può lavorare con qualsiasi PDF del tuo spazio di lavoro, che sia aperto in una scheda o no. Puoi chiedergli di:
+
+- Leggere un PDF pagina per pagina, insieme al sommario e alle tue evidenziazioni esistenti
+- Trovare un passaggio
+- Guardare una pagina o parte di essa, come una figura, una tabella o una pagina scansionata
+- Evidenziare un passaggio con titolo e commento, sottolinearlo, barrarlo o racchiuderlo in un riquadro
+- Disegnare a mano libera, modificare o eliminare evidenziazioni ed eliminare tratti
+
+Cosa aspettarsi:
+
+- Le nuove annotazioni finiscono in un livello chiamato **Agent**, a meno che all’agente non venga chiesto di usare uno dei tuoi livelli: così puoi nascondere o eliminare il suo lavoro in un solo passaggio
+- Se il PDF è aperto, le modifiche dell’agente compaiono subito e **Undo** annulla ogni gruppo di modifiche in un solo passaggio
+- Per ogni evidenziazione che crea, l’agente riceve un link pronto a una card PDF, così può citare l’evidenziazione in una nota Markdown
+- Le miniature delle evidenziazioni dell’agente vengono create mentre il PDF è aperto. Per quelle create a PDF chiuso, apri il PDF e usa **Regenerate missing thumbnails** nell’elenco delle annotazioni.
+- Leggere, cercare e guardare le pagine non richiede approvazione. Aggiungere, modificare o eliminare annotazioni segue la **Permission mode** dell’agente.
+
+Per collegare l’agente a un servizio IA, apri **Settings → AI → Agents**.
+
+## Note sulle prestazioni
+
+L’elenco delle pagine visualizza solo le pagine attorno all’area visibile:
+
+- Le pagine visibili, più una pagina prima e una dopo, vengono visualizzate per intero
+- Le altre pagine sono sostituite da segnaposto che mantengono l’altezza di scorrimento
+
+Così si riduce il costo di rendering, soprattutto con PDF lunghi, livelli di zoom elevati e schermi ad alta risoluzione.
+
+La prima ricerca in un PDF legge il testo di tutte le pagine, quindi in un documento lungo può richiedere qualche istante. Le ricerche successive nello stesso PDF riutilizzano quel testo.
+
+## Domande frequenti
+
+<AccordionGroup>
+  <Accordion title="Dove vengono salvati i dati delle annotazioni?" icon="question">
+    In un file separato accanto al PDF: le annotazioni di `paper.pdf` si trovano in `paper.pdf.zditor-pdf-annotation.json`. Zditor non le scrive mai nel PDF stesso.
+  </Accordion>
+
+  <Accordion title="Perché alcune annotazioni non compaiono?" icon="question">
+    Per prima cosa controlla se il loro livello è nascosto nella barra laterale dei livelli. Un livello nascosto conserva i suoi dati, e le sue evidenziazioni di area compaiono comunque nell’elenco delle annotazioni. Ricorda inoltre che il livello attivo decide solo dove vanno le nuove annotazioni: i dati degli altri livelli sono ancora lì.
+  </Accordion>
+
+  <Accordion title="Perché la ricerca non trova le mie annotazioni scritte a mano?" icon="question">
+    La ricerca copre il testo del PDF e i commenti delle evidenziazioni di area. Non cerca nella scrittura a mano né nei titoli delle evidenziazioni e non esegue l’OCR, quindi non si può cercare in un PDF scansionato senza strato di testo.
+  </Accordion>
+
+  <Accordion title="E se una miniatura non è stata generata?" icon="question">
+    Apri il PDF e la barra laterale dei livelli, passa il puntatore sull’evidenziazione nell’elenco delle annotazioni e fai clic su **Regenerate missing thumbnails**. Se continua a non funzionare, controlla la posizione di archiviazione in **Settings → Editor → PDF Editor → Highlight thumbnails**.
+  </Accordion>
+
+  <Accordion title="Cosa succede quando elimino un livello?" icon="question">
+    Eliminare un livello rimuove i tratti e le evidenziazioni di area salvati al suo interno. Finché il PDF è aperto, puoi recuperarli annullando l’operazione. Per conservare alcuni tratti, spostali prima in un altro livello con **Move to Layer**; le evidenziazioni di area non si possono spostare tra livelli.
+  </Accordion>
+
+  <Accordion title="Posso annullare le modifiche dopo aver chiuso il PDF?" icon="question">
+    No. La cronologia degli annullamenti dura solo finché il PDF è aperto. Per annullare in seguito il lavoro di un agente, nascondi o elimina il suo livello **Agent**.
+  </Accordion>
+
+  <Accordion title="Che differenza c’è tra un’evidenziazione di area e il normale evidenziatore?" icon="question">
+    L’evidenziatore traccia un segno semitrasparente a mano libera. Un’evidenziazione di area è un rettangolo strutturato con titolo, commento, colore e miniatura: puoi spostarla e ridimensionarla, trovarla con la ricerca tramite il suo commento e citarla nel Markdown come card PDF.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,153 @@
+---
+title: "脚注ガイド"
+description: "読む流れを妨げずに、Markdown ドキュメントに番号付きの脚注を追加します。"
+icon: "list-ol"
+---
+
+Zditor は標準的な Markdown の脚注構文に対応しているので、本文の流れを止めずに、出典や注、補足情報を追加できます。
+
+## 概要
+
+<CardGroup cols={2}>
+  <Card title="標準の構文" icon="hashtag">
+    `[^1]` のような標準的な Markdown の脚注参照を使います。
+  </Card>
+
+  <Card title="末尾にまとめて表示" icon="list-ol">
+    すべての脚注は、ドキュメントの末尾に自動的にまとめられます。
+  </Card>
+
+  <Card title="フローティングエディター" icon="pen-to-square">
+    脚注参照をクリックすると、対応する内容をすばやく確認したり編集したりできます。
+  </Card>
+
+  <Card title="同期して更新" icon="arrows-rotate">
+    同じラベルの参照は、常に同じ内容を共有します。
+  </Card>
+</CardGroup>
+
+## 脚注の作成
+
+<AccordionGroup>
+  <Accordion title="Markdown の構文" icon="code" defaultOpen>
+    次のように脚注参照を挿入します。
+
+    ```markdown
+    This paragraph has a footnote[^1], and it can have another one[^2].
+    ```
+
+    `[^1]` と入力すると、Zditor が上付きの脚注番号に変換します。
+  </Accordion>
+
+  <Accordion title="自動変換のルール" icon="sparkles">
+    `[^` + 数字 + `]` と入力すると、自動的に脚注に変換されます。
+
+    **注意点**
+    - 入力時に変換されるのは、`[^1]` や `[^2]` のような数字のラベルだけです
+    - 同じラベルは、常に同じ脚注の内容を指します
+    - ドキュメント内ですでに使われているラベルの場合、新しい参照は既存のテキストを共有します
+  </Accordion>
+</AccordionGroup>
+
+## 脚注の内容の編集
+
+新しい脚注の内容は、そのラベルがまだ使われていなければ空の状態から始まります。内容は 2 つの方法で編集できます。
+
+### フローティングツールバーから編集
+
+<Steps>
+  <Step title="参照を選択する">
+    ドキュメント内の脚注番号をクリックします。
+  </Step>
+  <Step title="エディターを開く">
+    フローティングツールバーに、`[^1]` のようなラベルと現在の内容が表示されます。内容が空の場合は **No corresponding footnote** と表示されます。**Edit** をクリックします。
+  </Step>
+  <Step title="保存またはキャンセルする">
+    新しい内容を保存するには、`Enter` を押すか **Save** をクリックします。取り消すには **Cancel** をクリックします。
+  </Step>
+</Steps>
+
+ツールバーのラベルをクリックすると、末尾の一覧の該当する項目に移動します。
+
+### 末尾の一覧から編集
+
+<Steps>
+  <Step title="末尾までスクロールする">
+    ドキュメントに脚注があると、本文の下に脚注の一覧が表示されます。
+  </Step>
+  <Step title="内容をクリックする">
+    項目のテキストをクリックすると、その場で編集できます。
+  </Step>
+  <Step title="変更を保存する">
+    `Enter` を押すか、ほかの場所をクリックすると保存されます。
+  </Step>
+</Steps>
+
+<Tip>
+  1 つの脚注を編集すると、同じラベルを使うすべての参照が更新されます。
+</Tip>
+
+## 表示のしくみ
+
+### 本文中の参照
+
+脚注は、本文中では上付きの参照として表示されます。参照にポインターを合わせると、現在の脚注の内容がツールチップで表示されます。
+
+### 末尾の一覧
+
+ドキュメントの末尾には、重複を除いたすべての脚注が番号付きの一覧で表示されます。
+
+- 各項目にはラベルと内容が表示されます。内容に含まれる太字、斜体、インラインコード、リンクテキストは書式付きで表示されます
+- 繰り返し使われたラベルは、自動的に 1 つにまとめられます
+- 数字のラベルは数値の順に並びます
+- 項目のラベルをクリックすると、そのラベルを使った最初の参照に移動します
+
+### Markdown ファイルでの保存形式
+
+ドキュメントを保存するとき、Zditor は各脚注の内容を、ファイル末尾の標準的な定義として 1 回だけ書き込みます。
+
+```markdown
+This paragraph has a footnote[^1].
+
+[^1]: The footnote content.
+```
+
+Markdown のソース内の参照は、ファイルに対応する定義がある場合にだけ脚注になります。リッチテキストで `[^1]` と入力した場合は、保存時に Zditor が定義を追加します。
+
+## 例
+
+```markdown
+Quantum computing uses quantum mechanics for information processing[^1],
+and in some problems it can outperform classical systems[^2].
+
+Common hardware approaches include superconducting qubits[^1] and trapped ions.
+
+[^1]: An introduction to quantum hardware.
+[^2]: The advantage depends on the problem.
+```
+
+この例では、次のようになります。
+
+- `[^1]` は 2 回使われ、1 つの脚注の内容を共有します
+- `[^2]` は独立したままです
+- 末尾の一覧には、`1` と `2` の 2 つの項目があります
+
+## よくある質問
+
+<AccordionGroup>
+  <Accordion title="脚注に文字のラベルを使えますか？">
+    エディターでの入力時に変換されるのは、`[^1]` のような数字のラベルだけです。`[^source]` のような文字のラベルも、ファイル内で `[^source]: …` のような行によって定義されていれば機能します。ほかの Markdown エディターで作られた脚注は、多くの場合この形式です。
+  </Accordion>
+
+  <Accordion title="脚注を削除するには？">
+    脚注参照を選択して、`Delete` または `Backspace` を押します。同じラベルの参照がすべて削除されると、末尾の項目も自動的に消え、保存時にその定義は書き込まれなくなります。
+  </Accordion>
+
+  <Accordion title="同じラベルの 2 つの参照で内容が違って表示される場合は？">
+    Zditor は同じラベルの参照の内容を常に同期させます。どれか 1 つを編集すると、そのラベルを共有するすべての参照が更新されます。
+  </Accordion>
+
+  <Accordion title="読み取り専用モードでは脚注はどうなりますか？">
+    参照、そのツールチップ、末尾の一覧は表示され、一覧のラベルをクリックして参照に移動することもできますが、編集はできません。
+  </Accordion>
+</AccordionGroup>

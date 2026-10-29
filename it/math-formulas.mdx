@@ -1,0 +1,246 @@
+---
+title: "Guida alle formule matematiche"
+description: "Scrivi formule in linea e in blocco in Zditor, con un riferimento compatto alle formule più comuni."
+icon: "square-root-variable"
+---
+
+Zditor supporta sia le formule in linea sia quelle in blocco: puoi inserire formule brevi nel testo o dare alle espressioni più grandi un blocco tutto loro.
+
+## Video dimostrativo
+
+<Frame>
+  <video
+    controls
+    style={{ width: '100%', height: '500px', borderRadius: '0.5rem' }}
+    src="https://download.zditor.com/zditor-com/math_en_small.mov"
+  >
+    Il tuo browser non supporta il tag video.
+  </video>
+</Frame>
+
+## Panoramica
+
+<CardGroup cols={2}>
+  <Card title="Formule in linea" icon="code">
+    Usa `$...$` per espressioni brevi che restano all’interno di una frase.
+  </Card>
+
+  <Card title="Formule in blocco" icon="square-root-variable">
+    Usa `$$...$$` per formule più grandi, matrici e derivazioni su più righe.
+  </Card>
+
+  <Card title="Sintassi in stile LaTeX" icon="code">
+    Scrivi le formule con i comandi matematici LaTeX che già conosci.
+  </Card>
+
+  <Card title="Riferimento rapido" icon="list">
+    Tieni a portata di mano le formule più comuni di analisi, algebra, probabilità e ottimizzazione.
+  </Card>
+</CardGroup>
+
+## Tipi di formula
+
+<AccordionGroup>
+  <Accordion title="Formule in linea" icon="code" defaultOpen>
+    Usa una formula in linea quando l’espressione deve restare all’interno di una frase.
+
+    ```markdown
+    Einstein's equation is $E=mc^2$.
+    ```
+  </Accordion>
+
+  <Accordion title="Formule in blocco" icon="square-root-variable">
+    Usa una formula in blocco per le formule più grandi, che meritano un blocco a sé.
+
+    ```latex
+    $$
+    \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+    $$
+    ```
+
+    La formula può anche stare sulla stessa riga dei delimitatori, come in `$$E=mc^2$$`.
+  </Accordion>
+
+  <Accordion title="Delimitatori LaTeX con parentesi" icon="code">
+    Zditor legge anche `\(...\)` come formula in linea e `\[...\]` come formula in blocco:
+
+    ```latex
+    The area is \(\pi r^2\).
+
+    \[
+    a^2 + b^2 = c^2
+    \]
+    ```
+
+    Serve l’opzione **Bracket math delimiters** in **Settings → Integrations → Plugins**; le formule in sé richiedono **Math formulas**, nella stessa posizione. Entrambe sono attive per impostazione predefinita, e una modifica ha effetto dopo aver riaperto l’editor Markdown.
+  </Accordion>
+
+  <Accordion title="Inserire e modificare formule nell’editor" icon="pen-to-square">
+    - Digita `$E=mc^2$` nel testo formattato: la formula si crea quando digiti il `$` di chiusura.
+    - Su una riga vuota, digita `$$` seguito da uno spazio per iniziare una formula in blocco.
+    - Premi `Mod-Shift-E` per una formula in linea o `Mod-Shift-D` per una formula in blocco. Il menu `/` offre anche **Math display (LaTeX)** nel gruppo **Code Block**.
+    - Fai clic su una formula in linea per modificarne il sorgente. Fai clic su una formula in blocco per selezionarla, poi premi `Enter` o scegli **Edit formula** nella sua barra degli strumenti.
+    - La barra degli strumenti della formula offre **Convert to block formula**, **Convert to inline formula**, **Convert to text** o **Convert to paragraph**. Durante la modifica, `Mod-M` alterna formula in linea e formula in blocco.
+
+    Per i tasti all’interno di una formula, consulta [Scorciatoie da tastiera](/it/keyboard-shortcuts#formule-matematiche).
+  </Accordion>
+
+  <Accordion title="Simboli del dollaro nel testo normale" icon="lightbulb">
+    Quando Zditor legge il Markdown, un `$` di apertura non deve essere seguito da uno spazio, e un `$` di chiusura non deve seguire uno spazio né precedere direttamente una cifra. Così i prezzi come `$5 and $10` restano testo normale. Scrivi `\$` per ottenere un simbolo del dollaro letterale.
+
+    Se mentre scrivi si crea per sbaglio una formula, premi subito `Backspace` per annullare la conversione.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Mantieni compatte le formule in linea. Se l’espressione contiene frazioni grandi, matrici o più passaggi allineati, passa a una formula in blocco.
+</Tip>
+
+## Nozioni di analisi
+
+### Limiti
+
+$$
+\lim_{x \to 0}\frac{\sin x}{x} = 1
+$$
+
+$$
+\lim_{x \to 0}\frac{e^x - 1}{x} = 1
+$$
+
+$$
+\lim_{x \to 0}\frac{\ln(1+x)}{x} = 1
+$$
+
+$$
+\lim_{x \to \infty}\left(1+\frac{1}{x}\right)^x = e
+$$
+
+### Derivate
+
+$$
+f'(x) = \lim_{h \to 0}\frac{f(x+h)-f(x)}{h}
+$$
+
+| Funzione | Derivata |
+| --- | --- |
+| $c$ | $0$ |
+| $x^n$ | $nx^{n-1}$ |
+| $e^x$ | $e^x$ |
+| $\ln x$ | $\frac{1}{x}$ |
+| $\sin x$ | $\cos x$ |
+| $\cos x$ | $-\sin x$ |
+
+$$
+\frac{d}{dx}[f(x)g(x)] = f'(x)g(x) + f(x)g'(x)
+$$
+
+$$
+\frac{d}{dx}f(g(x)) = f'(g(x))g'(x)
+$$
+
+### Integrali
+
+$$
+\int f(x)\,dx = F(x) + C
+$$
+
+| Funzione | Integrale |
+| --- | --- |
+| $x^n$ | $\frac{x^{n+1}}{n+1}+C,\; n \ne -1$ |
+| $\frac{1}{x}$ | $\ln\lvert x\rvert+C$ |
+| $e^x$ | $e^x+C$ |
+| $\sin x$ | $-\cos x + C$ |
+| $\cos x$ | $\sin x + C$ |
+
+$$
+\int u\,dv = uv - \int v\,du
+$$
+
+$$
+\int f(g(x))g'(x)\,dx = \int f(u)\,du
+$$
+
+## Algebra lineare
+
+### Vettori e prodotti scalari
+
+$$
+\|\mathbf{x}\|_2 = \sqrt{\sum_{i=1}^{n}x_i^2}
+$$
+
+$$
+\mathbf{x}^T\mathbf{y} = \sum_{i=1}^{n}x_i y_i
+$$
+
+$$
+\cos\theta = \frac{\mathbf{x}^T\mathbf{y}}{\|\mathbf{x}\|_2\|\mathbf{y}\|_2}
+$$
+
+### Matrici
+
+$$
+c_{ij} = \sum_{k=1}^{n} a_{ik}b_{kj}
+$$
+
+$$
+\mathbf{A} =
+\begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}
+$$
+
+$$
+\det(\mathbf{A}) = ad - bc
+$$
+
+$$
+\mathbf{A}^{-1} = \frac{1}{ad-bc}
+\begin{bmatrix}
+d & -b \\
+-c & a
+\end{bmatrix}
+$$
+
+### Autovalori
+
+$$
+\mathbf{A}\mathbf{v} = \lambda \mathbf{v}
+$$
+
+$$
+\det(\mathbf{A} - \lambda \mathbf{I}) = 0
+$$
+
+## Probabilità e statistica
+
+$$
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}
+$$
+
+$$
+P(A \mid B) = \frac{P(B \mid A)P(A)}{P(B)}
+$$
+
+$$
+\mathbb{E}[X] = \sum_x xP(X=x)
+$$
+
+$$
+\mathrm{Var}(X) = \mathbb{E}[(X-\mu)^2]
+$$
+
+$$
+f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+$$
+
+## Ottimizzazione
+
+$$
+\theta_{t+1} = \theta_t - \eta \nabla J(\theta_t)
+$$
+
+$$
+f(x) \approx f(x_0) + f'(x_0)(x-x_0) + \frac{1}{2}f''(x_0)(x-x_0)^2
+$$

@@ -1,463 +1,280 @@
 ---
 title: "Agent Guide"
-description: "Configure and use ACP-compatible agents in Zditor for multi-step AI workflows."
+description: "Set up Zditor's built-in agent, give it tasks, and decide what it may do."
 icon: "robot"
 ---
 
-Zditor integrates with CLI tools on your machine through the Agent Client Protocol, or ACP. That allows Agent sessions to do more than plain chat: they can read and write files, call tools, and execute multi-step workflows with permission controls.
+Zditor has a built-in agent. It works with the files in your workspace: it reads and edits notes, annotates PDFs, builds canvases, runs commands, and can operate Zditor itself. You choose the AI service behind it, either Zditor AI through your Zditor account or a provider of your own, and you decide what it may do without asking.
 
 <Frame>
-  <img src="/images/case4_en.png" alt="Agent hub interface preview in Zditor" style={{ borderRadius: '0.5rem' }} />
-</Frame>
-
-<Tip>
-  If you want to connect OpenClaw, see the dedicated [OpenClaw Setup](/en/openclaw-guide) page. OpenClaw exposes an `openclaw acp` bridge, so it can be wired into Zditor as an ACP Agent directly.
-</Tip>
-
-### Video demo
-
-<Frame>
-  <video
-    controls
-    style={{ width: '100%', height: '500px', borderRadius: '0.5rem' }}
-    src="https://download.zditor.com/zditor-com/agent_en_small.mov"
-  >
-    Your browser does not support the video tag.
-  </video>
+  <img src="/images/agent.webp" alt="An Agent conversation in Zditor waiting for approval to edit a file, with Allow once, Always allow and Reject, and the Always ask permission mode below the message box" style={{ borderRadius: '0.5rem' }} />
 </Frame>
 
 <Warning>
-  Agents can access files and perform system operations. Install only official or trusted CLI tools and review permissions carefully.
+  The agent can change files, run commands and, on a Mac, operate other apps. Read each request before you approve it, and keep the **Always ask** permission mode unless you trust the task.
 </Warning>
 
-## Contents
-
-- [Quick start](#quick-start)
-- [How Agent differs from normal AI chat](#how-agent-differs-from-normal-ai-chat)
-- [Configure an Agent](#configure-an-agent)
-- [Use Agent](#use-agent)
-- [Permission management](#permission-management)
-- [FAQ](#faq)
-- [Best practices](#best-practices)
-- [Technical reference](#technical-reference)
-
-## Quick start
-
-### Quick Claude Code setup
-
-Claude Code is a good first Agent to try.
-
-**1. Install dependencies**
-
-<Tabs>
-<Tab title="mac/linux">
-  ```bash
-  # Make sure Node.js v18+ is installed
-  node --version
-
-  # Install the Claude Agent ACP adapter
-  npm install -g @agentclientprotocol/claude-agent-acp
-
-  # Verify the install
-  claude-agent-acp --version
-  ```
-</Tab>
-
-<Tab title="windows">
-  ```powershell
-  node --version
-  npm install -g @agentclientprotocol/claude-agent-acp
-  claude-agent-acp --version
-  ```
-</Tab>
-</Tabs>
-
-**2. Get an API key**
-
-Create an API key from [Anthropic Console](https://console.anthropic.com/).
-
-**3. Configure it in Zditor**
-
-1. Open **Settings -> Agent Configuration -> Add**
-2. Fill in:
-   - **Agent name**: `claude-code`
-   - **Agent path**
-     - macOS/Linux: the output of `which claude-agent-acp`, for example `/usr/local/bin/claude-agent-acp`
-     - Windows: the output of `where claude-agent-acp`, for example `C:\Users\<username>\AppData\Roaming\npm\claude-agent-acp.cmd`
-   - **Environment variables**
-     - macOS/Linux: `ANTHROPIC_API_KEY=your_api_key_here, ANTHROPIC_BASE_URL=https://xaapi.ai, PATH=/usr/local/bin`
-     - Windows: `ANTHROPIC_API_KEY=your_api_key_here, ANTHROPIC_BASE_URL=https://xaapi.ai, PATH=C:\Program Files\nodejs`
-3. Click **Test Connection**
-4. Save the configuration
-
-<Tip>
-  If you manage Node.js with `nvm`, include the correct Node binary directory in `PATH`.
-</Tip>
-
-**4. Start using it**
-
-Once the connection test passes, the usual workflow is:
-
-1. Choose a model
-2. Choose MCP services if needed
-3. Use slash commands for structured actions
-4. Choose `ask` or `bypass` mode
-
-## How Agent differs from normal AI chat
-
-### Feature comparison
-
-| Capability | Normal AI chat | Agent |
-| :--- | :--- | :--- |
-| Conversation | Yes | Yes |
-| File read and write | No | Yes |
-| Tool calls | No | Yes |
-| Multi-step task execution | No | Yes |
-| Permission control | Not needed | Yes |
-| Streaming process feedback | Limited | Yes |
-| Terminal operations | In progress | Planned |
-| Selection-based actions | No | Yes |
-
-### Typical use cases
-
-**Normal AI chat fits**
-
-- Everyday questions
-- Basic text generation
-- Translation and summarization
-
-**Agent fits**
-
-- Codebase analysis and modification
-- Batch file operations
-- Multi-step workflows
-- Tasks that require external tools
-- Structured document processing and conversion
-
-## Configure an Agent
-
-### Open the configuration screen
-
-1. Launch Zditor
-2. Open the settings page
-3. Find the **Agent Configuration** section
-4. Click **Add**
-
-### Basic fields
-
-#### Agent name
-
-- Used as the unique identifier
-- Must be unique
-- Should not contain tabs or leading and trailing spaces
-
-Examples: `gemini-cli`, `claude-code`, `custom-agent`
-
-#### Agent path
-
-- Full path to the executable CLI tool
-- Must be a valid executable file
-- Should not contain tabs or leading and trailing spaces
-
-Examples:
-
-- macOS: the output of `which claude-agent-acp`, for example `/usr/local/bin/claude-agent-acp`
-- Windows: the output of `where claude-agent-acp`, for example `C:\Users\<username>\AppData\Roaming\npm\claude-agent-acp.cmd`
-
-<Tip>
-  Use `which` on macOS/Linux and `where` on Windows if you need to locate the executable path.
-</Tip>
-
-### Advanced fields
-
-#### Startup arguments
-
-- Optional command line arguments passed to the CLI tool
-- Separate multiple values with commas
-
-Examples:
-
-- Gemini CLI: `--experimental-acp, --model, gemini-2.5-flash`
-- Claude Code: `--model, claude-3-5-sonnet-20241022`
-
-#### Environment variables
-
-- Optional runtime environment variables for the Agent process
-- Use `KEY=value` pairs separated by commas
-
-Examples:
-
-- `ANTHROPIC_API_KEY=your_key, ANTHROPIC_BASE_URL=https://xaapi.ai, PATH=/usr/local/bin`
-- `GEMINI_API_KEY=your_key, PATH=/usr/local/bin:/usr/bin:/bin`
-
-<Warning>
-  Secrets in the environment variable field are stored in local configuration. Protect the machine accordingly.
-</Warning>
-
-#### API key precedence
-
-If the same API key is configured in more than one place, the effective priority is:
-
-1. The Agent client's own config file
-2. The environment variables set in Zditor Agent configuration
-3. System-level environment variables
-
-<Tip>
-  If Zditor still appears to use an old key, check whether the Agent client already has its own key in its native configuration file.
-</Tip>
-
-### Connection testing
-
-Click **Test Connection** after saving the configuration details. The test checks:
-
-1. Whether the Agent process can start
-2. Whether ACP handshake works
-3. Which capabilities the Agent reports
-
-Reported capabilities can include:
-
-- **Audio**
-- **Image**
-- **Context**
-- **MCP STDIO**
-- **MCP HTTP**
-- **MCP SSE**
-
-<Tip>
-  Zditor supports `stdio`, `http`, and `sse` at the MCP layer, but you should always trust the result shown by **Test Connection** for the current Agent.
-</Tip>
-
-## Use Agent
-
-### 1. Choose a model
-
-Pick the model that matches the task:
-
-- Use lighter models for quick questions
-- Use stronger models for coding and multi-step tasks
-
-### 2. Choose MCP services
-
-Open the MCP selector and enable only the services needed for the current task.
-
-<Warning>
-  Follow the least-privilege principle. Do not enable more MCP services than necessary.
-</Warning>
-
-<Tip>
-  For transport modes, permissions, and troubleshooting, see the [MCP Guide](/en/mcp-guide).
-</Tip>
-
-### 3. Use slash commands
-
-Type `/` in the input box to open the command menu. Slash commands help trigger structured actions, switch contexts, or activate preset workflows with less ambiguity.
-
-### 4. Choose `ask` or `bypass`
-
-- `ask` requests confirmation before sensitive operations
-- `bypass` reduces intermediate confirmations for controlled environments
-
-<Tip>
-  Use `ask` by default. Use `bypass` only when you clearly understand the impact of the task and can recover from mistakes.
-</Tip>
-
-### Connection and status
-
-1. Find the mode selector in the main UI
-2. Switch to **Agent mode**
-3. Choose a configured Agent from the selector
-4. Wait for the status to show as connected
-
-### Start execution
-
-Once connected, you can:
-
-- Send plain text instructions
-- Drag files into the chat for context
-- Run larger tasks that require planning, tools, and file operations
-
-```mermaid
-graph TD;
-    A[User sends instruction] --> B[Agent analyzes request];
-    B --> C{Need tools?};
-    C -- Yes --> D[Request permission];
-    D --> E[User approves];
-    E --> F[Run tool];
-    F --> G[Return result];
-    C -- No --> H[Reply directly];
-    G --> I[Task complete];
-    H --> I;
-```
-
-### Agent feedback process
-
-During execution, Agent can stream:
-
-- **Thinking** about the problem and plan
-- **Tool calls** being executed
-- **Results** and summaries
-
-## Permission management
-
-### Permission request types
-
-Agent may request confirmation for:
-
-#### File system permissions
-
-- Reading files
-- Writing files
-- Deleting, moving, or renaming files
-
-#### Network permissions
-
-- HTTP requests
-- Resource downloads
-
-#### System permissions
-
-- Running commands
-- Reading environment information
-
-### Permission decisions
-
-You can usually:
-
-- **Allow**
-- **Deny**
-- **Cancel**
-
-<Tip>
-  Review requests carefully, grant only what is necessary, and stop the run if the requested action does not match the task.
-</Tip>
-
-## FAQ
-
-<AccordionGroup>
-  <Accordion title="Connection test fails with 'Failed to establish connection'" icon="circle-xmark">
-    Check the executable path, executable permission, required dependencies, and environment variables such as API keys and `PATH`.
-  </Accordion>
-
-  <Accordion title="The CLI tool starts and exits immediately" icon="circle-xmark">
-    This usually means the tool cannot find Node.js, lacks required dependencies, received wrong startup arguments, or is not ACP compatible.
-  </Accordion>
-
-  <Accordion title="I see 'command not found'" icon="circle-xmark">
-    This is usually a `PATH` issue. Find the real installation prefix and include it in the Zditor Agent environment variables.
-  </Accordion>
-
-  <Accordion title="Permission prompts keep blocking the task" icon="shield-halved">
-    That means the task needs capabilities you have not granted. Either approve the required steps selectively or break the task into safer smaller parts.
-  </Accordion>
-
-  <Accordion title="The Agent performed an unexpected action" icon="triangle-exclamation">
-    Stop the session immediately, verify the CLI tool source, and switch back to trusted or official builds only.
-  </Accordion>
-
-  <Accordion title="The Agent feels slow" icon="hourglass-half">
-    Check network stability, machine resources, CLI tool version, and whether too many tools or MCP services are enabled at once.
-  </Accordion>
-</AccordionGroup>
-
-## Best practices
-
-### Security
-
-<Steps>
-  <Step title="Use trusted sources">
-    Install only official or trusted CLI tools.
-  </Step>
-
-  <Step title="Grant minimum permissions">
-    Start small and approve only what the current task needs.
-  </Step>
-
-  <Step title="Keep tools updated">
-    Update Zditor and the connected CLI tools regularly.
-  </Step>
-
-  <Step title="Watch execution closely">
-    Monitor file operations and network activity during important runs.
-  </Step>
-</Steps>
-
-### CLI tool management
-
-```bash
-# Example: manage Node.js with nvm
-nvm use 18
-npm install -g @agentclientprotocol/claude-agent-acp
-
-# Inspect globally installed npm packages
-npm list -g --depth=0
-```
-
-Update commands:
-
-```bash
-npm update -g @agentclientprotocol/claude-agent-acp
-npm update -g @google/gemini-cli
-```
-
-### Efficiency tips
+## What the agent can do
 
 <CardGroup cols={2}>
-  <Card title="Be specific" icon="bullseye">
-    Give Agent concrete tasks and expected outcomes.
+  <Card title="Work with your files" icon="folder-open">
+    Read, search, create and edit the files in your workspace, and look at images.
   </Card>
 
-  <Card title="Split large tasks" icon="list-ol">
-    Break complex jobs into smaller steps with checkpoints.
+  <Card title="Run commands" icon="terminal">
+    Run commands in a terminal, and use Git through Zditor's built-in Git, so Git doesn't need to be installed.
   </Card>
 
-  <Card title="Provide context" icon="file-import">
-    Attach files or reference the exact workspace area the Agent should inspect.
+  <Card title="Annotate PDFs" icon="file-pdf">
+    Read and search PDFs, look at pages, and add highlights with comments, underlines and drawings. See the [PDF Annotations Guide](/en/pdf-annotations).
   </Card>
 
-  <Card title="Intervene when needed" icon="hand">
-    Correct direction early instead of waiting for a long run to drift.
+  <Card title="Build canvases" icon="diagram-project">
+    Turn a Markdown note into a canvas (a logic chart, mind map or org chart), edit and restyle canvases, and turn a canvas back into Markdown.
+  </Card>
+
+  <Card title="Operate Zditor" icon="window-restore">
+    See your workspace and open tabs, open files, switch or close tabs, and change settings and connections.
+  </Card>
+
+  <Card title="Use the web" icon="globe">
+    Call web services and download files. Requests to local or private network addresses are refused.
+  </Card>
+
+  <Card title="Use your Mac" icon="computer-mouse">
+    Look at other apps and click, type and scroll in them. See Computer use on a Mac below.
+  </Card>
+
+  <Card title="Add tools and skills" icon="plug">
+    Connect MCP servers for more tools, and add skills: written instructions for particular kinds of tasks.
   </Card>
 </CardGroup>
 
-## Technical reference
+It can also hand parts of a large task to sub-agents that work in parallel, ask you a question when it needs a decision, and open what it makes, such as an HTML page, an image or a video, in a Zditor tab.
 
-### Agent Client Protocol
+<Note>
+  On iPhone and iPad, and in remote workspaces (SSH, S3, WebDAV or Git), the agent reads and writes files through Zditor but can't run terminal commands or operate other apps. In remote workspaces it can't use Git either.
+</Note>
 
-- Supported ACP version: `0.4.0`
-- Communication model: JSON-RPC over standard input and output
-- Current capability areas:
-  - File system operations
-  - Session management
-  - Permission control
-  - Tool calls
-  - Streaming responses
-  - Selection-based actions
+## Set up an AI service
 
-Planned capability:
+The agent needs an AI service before it can do anything. Open **Settings → AI → Agents** and, under **Provider**, set **AI service** to **Zditor** or **Custom provider**.
 
-- Terminal support
+<Tabs>
+<Tab title="Zditor AI">
+  Zditor AI needs no API key. It's available when you're signed in to your Zditor account and have either Pro, which includes a monthly AI usage allowance, or free AI tokens on your account. Free tokens are used with Claude Haiku 5.5.
 
-### Compatible CLI tools
+  1. Open **Settings → AI → Agents**.
+  2. If you aren't signed in, click **Sign in** and finish signing in in your browser.
+  3. Set **AI service** to **Zditor**.
 
-#### Claude Code
+  Zditor loads the available models and their settings each time it starts; **Update** under **Service configuration** loads them right away. Your usage is shown under **AI usage** in **Settings → Personal → Account**.
+</Tab>
 
-Install `@agentclientprotocol/claude-agent-acp`, then configure the `claude-agent-acp` executable path, API key, optional model argument, and a valid `PATH`.
+<Tab title="Custom provider">
+  Connect a service that supports the OpenAI Responses API or the Claude Messages (Anthropic) API, including one that runs on your own computer.
 
-#### Gemini CLI
+  <Steps>
+    <Step title="Choose the protocol">
+      Set **AI service** to **Custom provider**, then choose the **API protocol** your service supports: **OpenAI Responses** or **Claude Messages (Anthropic)**.
+    </Step>
 
-Typical install path:
+    <Step title="Enter the address and key">
+      Enter the **Base URL**, the root address of the service's API, which usually ends in `/v1` (for example `https://api.openai.com/v1` or `https://api.anthropic.com/v1`). Then enter your **API key**; local providers may not need one. The key is stored on this device and sent only to this address.
+    </Step>
 
-```bash
-npm install -g @google/gemini-cli
-```
+    <Step title="Add models">
+      Under **Model and generation**, click **Fetch models**. The provider's models appear as **Not enabled**: open each one you want to use and turn on its **Enable** switch. To add a model the provider doesn't list, type its ID in **Add model** and press Enter. A model added this way is enabled.
+    </Step>
 
-Typical setup:
+    <Step title="Check the token limits">
+      Each enabled model needs **Context window tokens** and **Maximum output tokens**. If the provider reports them, Zditor fills them in (**Server-reported**). Otherwise, choose **Enter manually** and use the numbers from the provider's documentation.
+    </Step>
 
-- **Agent name**: `gemini-cli`
-- **Agent path**: `gemini`
-- **Arguments**: `--experimental-acp, --model, gemini-2.5-flash`
-- **Environment variables**: `GEMINI_API_KEY=your_api_key_here, PATH=/usr/local/bin`
+    <Step title="Save">
+      Click **Save**. **Test connection** checks the address and key by fetching the model list.
+    </Step>
+  </Steps>
+</Tab>
+</Tabs>
 
-#### Other tools
+### Model settings
 
-If another CLI tool supports ACP, you can integrate it by supplying the executable path, arguments, and environment variables. If it does not support ACP directly, you can wrap it with your own adapter that translates ACP requests into that tool's native API.
+Open a model under **Model and generation** to adjust it. With Zditor AI you can see these settings but not change them.
+
+| Setting | What it does |
+| :--- | :--- |
+| **Reasoning effort** | How much the model reasons before it answers. **Automatic** uses the model's default; higher levels take more time and tokens. |
+| **Temperature** | Lower values give more predictable answers, higher values more varied ones. Leave it empty to let the service decide. |
+| **Context window tokens**, **Maximum output tokens** | The model's limits, reported by the service or entered by you. |
+| **Automatic compaction threshold** | When a conversation reaches this many tokens, Zditor summarizes earlier context to make room. The default is 90% of the context window. |
+
+In a conversation, the model menu at the top (**Model and reasoning effort**) lists your enabled models and the reasoning effort. You can switch models during a conversation, and new conversations start with the model you picked last.
+
+## Start a conversation
+
+### In an Agent tab
+
+Click **+** in the tab bar to open a new tab. New tabs are Agent tabs. The agent works in the workspace that's open in Zditor, so open one first: an empty Agent tab offers **Open Workspace** and **New Workspace**. Without a workspace, the agent works in a scratch folder inside Zditor's app data.
+
+### Beside a document
+
+In a Markdown note, click **Document sidebar** in the title bar and choose the **Chat** tab. The chat starts with the note attached, so you can ask about it right away. Canvases have the same **Chat** tab in their sidebar.
+
+To ask about part of a note, select it and click the sparkles button (**ASK AI**) in the selection toolbar. The **Chat** tab opens with the selection attached. Prompts you set up in **Settings → AI → AI Toolbar Prompts** appear as extra buttons in the toolbar and send their instructions with the selection right away.
+
+<Note>
+  Chats in the document sidebar are temporary and aren't saved to your conversation history. Use an Agent tab for work you want to keep.
+</Note>
+
+### Write a request
+
+Type in the message box and click **Send message**. While the agent works, **Stop current turn** stops it, and anything you send in the meantime waits in a queue until the current turn ends.
+
+- Type `/` to run a command (see the table below).
+- Type `@` to attach a file from the workspace.
+- Type `$` to use a skill.
+- Click **Upload file** (the paperclip), or drag files onto the message box, to attach them. Images, audio and text files go into the message; other files, such as PDFs and Office documents, are passed by their path so the agent can open them itself.
+
+On iPhone and iPad, the **Commands**, **Files** and **Skills** buttons under the message box open the same lists as `/`, `@` and `$`.
+
+The first time you send a message to an AI service, Zditor asks for permission to share data with it. See Privacy below.
+
+### Commands
+
+| Command | What it does |
+| :--- | :--- |
+| `/goal` | Gives the conversation a goal that the agent keeps working toward, turn after turn, until it's complete or blocked. Type `/goal` and the objective to set it, `/goal` alone to see it, or `/goal edit`, `/goal pause`, `/goal resume` or `/goal clear`. Not available in temporary chats. |
+| `/side` | Opens a temporary side conversation that starts from the current context. You can add a question after the command. |
+| `/compact` | Summarizes the conversation so far to free up context, keeping the key information. |
+| `/export` | Saves the conversation as Markdown, or as JSON with `/export json`. |
+| `/share` | Saves the conversation as a PNG image. |
+
+<Tip>
+  An active goal keeps the agent working without new messages from you, and every turn uses tokens. Pause or clear the goal when you want it to stop.
+</Tip>
+
+### While it works
+
+The agent shows its work as it goes: the files it reads and edits, the commands it runs, and its answer. When a turn ends, its steps fold into **Work details**, which you can expand.
+
+- After a turn that changed files, a card such as **Changed 2 files** lists them; expand a file to see what changed. In a local workspace, **Undo** reverts that turn's text changes. If the files have changed since, nothing is undone.
+- **Usage**, below the message box, shows how much of the model's context window the conversation uses. Zditor compacts earlier context automatically at the model's compaction threshold, and `/compact` does it on demand.
+- In an Agent tab, open a message's **More** menu and choose **Branch in new chat** to continue from that point in a new conversation. The original stays unchanged.
+- If your workspace has an `AGENTS.md` file, the agent follows it as project instructions.
+
+## Permissions and approvals
+
+Choose a **Permission mode** below the message box. Zditor remembers your choice.
+
+| Mode | What happens |
+| :--- | :--- |
+| **Always ask** | The agent asks you before every restricted action. This is the default. |
+| **AI review** | A separate request to your model checks each restricted action against your task and allows or refuses it. When in doubt, it refuses. You aren't asked, and each check is an extra model request. |
+| **Full Access** | Every tool action runs without asking. |
+
+In **Always ask**, the agent asks before it runs a command (on the desktop, that includes commands that only read files), edits a file, uses Git, sends a web request, changes Zditor's tabs or settings, annotates a PDF, edits a canvas, calls an MCP tool, or opens an app or clicks, types or scrolls in one. Reading PDFs and canvases, checking your open tabs and taking screenshots don't need approval.
+
+When it asks, the request shows the action and three choices:
+
+- **Allow once** runs this action.
+- **Always allow** runs it and allows the same action again without asking for the rest of the conversation, such as the same command or more edits to the same files. Other actions still ask.
+- **Reject** doesn't run it, and the agent is told you declined.
+
+<Tip>
+  Desktop tasks often involve many commands. If approving each one gets tedious, **AI review** is a middle ground. Use **Full Access** only in a workspace you can restore, for example one under version control.
+</Tip>
+
+## Computer use on a Mac
+
+On a Mac, in a local workspace, the agent can operate other apps when a task calls for it. It looks at their windows through screenshots and their accessibility information, and it can open apps, click, type, scroll and press keys.
+
+- The first time, macOS asks you to give Zditor **Screen Recording** and **Accessibility** permission. If either is missing, the computer-use step in the conversation shows "macOS is blocking computer use:" with a button for each missing permission, **Open Accessibility** or **Open Screen Recording**, which opens the matching page of System Settings. You can turn either permission off there at any time.
+- In **Always ask**, opening apps, clicking, typing, scrolling and pressing keys need approval; screenshots don't. **Always allow** for one of these covers more actions of the same kind in that conversation.
+- While the agent works, a panel shows the app it's driving. If you close the panel, **Show computer use window** (the monitor button below the message box) brings it back.
+
+## MCP servers and skills
+
+### MCP servers
+
+MCP servers connect the agent to other apps and services, such as an issue tracker or a database. Add them in **Settings → AI → MCP Servers**; every enabled server is available in every Agent conversation. See the [MCP Guide](/en/mcp-guide).
+
+### Skills
+
+A skill is a set of written instructions for one kind of task, kept in a `SKILL.md` file. The agent knows the name and description of every skill and reads the full instructions when a task matches. To use a skill on purpose, type `$` in the message box and pick it.
+
+- **Built-in skills.** **Canvas**, **Markdown** and **Settings and tabs** come with Zditor. They're listed under **Installed skills** in **Settings → AI → Skills**.
+- **Your own skills.** In **Settings → AI → Skills**, click **Add skill**, fill in **Name** (letters, numbers, hyphens or underscores), **Description** (what the skill is for) and **Skill instructions (Markdown)**, and click **Save**. Zditor keeps the skill in its app data, and it's available to all your local workspaces.
+- **Project skills.** A skill folder containing a `SKILL.md`, placed in `.zditor/skills` inside a workspace, is available only in that workspace.
+- **Skills from other agents.** Zditor also picks up skills from other agents' skill folders, such as `.agents/skills`, `.claude/skills` and `.codex/skills` in the workspace or in your home folder. They don't appear in Settings; change them where they are.
+- **Installing from GitHub.** On the desktop, you can ask the agent to install a skill from a GitHub folder that contains a `SKILL.md`. Like other changes, this needs your approval in **Always ask**.
+
+## Conversation history
+
+Conversations in Agent tabs are saved automatically and given a title. To find one, click **AI conversations** (the sparkles icon) in the left sidebar, search by title or workspace, and click a conversation to open it in a tab.
+
+Hover over a conversation for **Export session** (JSON), **Export as text**, **Copy session ID** and **Delete session**. **Clear History** deletes all your conversations.
+
+## Privacy
+
+- **Zditor asks first.** The first time you send something to an AI service, Zditor shows **Allow data sharing with AI?** with the recipient, the service address and what will be sent. Nothing is sent until you click **Allow and continue**; **Not now** cancels. Zditor asks again for each new service address.
+- **What is sent.** Your messages, the conversation history, selected text, the images, audio and attachments you add, and the workspace files, file names and tool results the agent reads to do the task.
+- **Where it goes.** With a custom provider, requests go straight from your device to the **Base URL** you entered, and your API key is stored on this device and sent only there. With Zditor AI, requests go through Zditor's service, whose usage records hold the model, token counts and cost of each request, not your messages. MCP servers receive what the agent sends to their tools.
+- **Where conversations are kept.** On this device, in Zditor's app data. Backups made in **Settings → Personal → Sync** don't include them.
+- **Withdrawing permission.** In **Settings → AI → Agents**, under **AI data privacy**, click **Withdraw permission**. Zditor then asks again before anything else is sent. Data already sent can't be recalled.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Sending fails with “No AI service is configured”" icon="circle-xmark">
+    The agent has no AI service yet. In **Settings → AI → Agents**, sign in and choose **Zditor**, or set up a **Custom provider**.
+  </Accordion>
+
+  <Accordion title="Fetch models or Test connection fails" icon="plug">
+    Check that **API protocol** matches the service, that **Base URL** is the root of its API (often ending in `/v1`), and that the API key is right. Zditor needs the OpenAI Responses API or the Claude Messages API; a service that offers only the older Chat Completions API won't work. If the provider lists no models, type the model ID in **Add model**.
+  </Accordion>
+
+  <Accordion title="Save asks for context window and output tokens" icon="ruler">
+    Every enabled model needs both limits. Open the model, choose **Enter manually**, and enter **Context window tokens** and **Maximum output tokens** from the provider's documentation.
+  </Accordion>
+
+  <Accordion title="“This response is incomplete”" icon="scissors">
+    The model reached its output limit for a single response. Raise **Maximum output tokens** for the model, or split the task into smaller parts.
+  </Accordion>
+
+  <Accordion title="“Your input exceeds this model's context window”" icon="triangle-exclamation">
+    Shorten the message or its attachments, run `/compact`, or switch to a model with a larger context window.
+  </Accordion>
+
+  <Accordion title="“Model response timed out”" icon="hourglass-half">
+    The service took too long to start answering. Try again; if it keeps happening, check the service or try later.
+  </Accordion>
+
+  <Accordion title="The agent can't run commands or use other apps" icon="terminal">
+    Commands need the desktop app and a local workspace, and computer use also needs a Mac. On iPhone and iPad and in remote workspaces, the agent works on files through Zditor instead. On a Mac, check that Zditor has **Screen Recording** and **Accessibility** permission in System Settings.
+  </Accordion>
+
+  <Accordion title="Approval requests keep interrupting" icon="shield-halved">
+    In **Always ask**, every command needs approval. Choose **Always allow** for a command you expect to repeat, or switch to **AI review**. Use **Full Access** only where you can undo mistakes.
+  </Accordion>
+</AccordionGroup>
+
+## Tips
+
+<CardGroup cols={2}>
+  <Card title="Be specific" icon="bullseye">
+    Say what you want done and what the result should look like.
+  </Card>
+
+  <Card title="Split large tasks" icon="list-ol">
+    Break complex jobs into smaller steps, and check the result of each.
+  </Card>
+
+  <Card title="Give it context" icon="file-import">
+    Attach the files that matter with `@`, or start from a note's **Chat** tab.
+  </Card>
+
+  <Card title="Step in early" icon="hand">
+    Stop a turn and redirect the agent as soon as it heads the wrong way.
+  </Card>
+</CardGroup>

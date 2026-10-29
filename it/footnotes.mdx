@@ -1,0 +1,153 @@
+---
+title: "Guida alle note a piè di pagina"
+description: "Aggiungi note a piè di pagina numerate ai documenti Markdown senza interrompere la lettura."
+icon: "list-ol"
+---
+
+Zditor supporta la sintassi standard di Markdown per le note a piè di pagina: puoi aggiungere riferimenti, note e dettagli di supporto senza interrompere il testo principale.
+
+## Panoramica
+
+<CardGroup cols={2}>
+  <Card title="Sintassi standard" icon="hashtag">
+    Usa i richiami di nota standard di Markdown, come `[^1]`.
+  </Card>
+
+  <Card title="Elenco in fondo" icon="list-ol">
+    Tutte le note vengono raccolte automaticamente alla fine del documento.
+  </Card>
+
+  <Card title="Editor mobile" icon="pen-to-square">
+    Fai clic su un richiamo di nota per rivedere o modificare rapidamente il contenuto corrispondente.
+  </Card>
+
+  <Card title="Aggiornamenti sincronizzati" icon="arrows-rotate">
+    I richiami ripetuti con la stessa etichetta condividono sempre lo stesso contenuto.
+  </Card>
+</CardGroup>
+
+## Creare note a piè di pagina
+
+<AccordionGroup>
+  <Accordion title="Sintassi Markdown" icon="code" defaultOpen>
+    Inserisci un richiamo di nota, ad esempio:
+
+    ```markdown
+    This paragraph has a footnote[^1], and it can have another one[^2].
+    ```
+
+    Quando inserisci `[^1]`, Zditor lo converte in un numero di nota in apice.
+  </Accordion>
+
+  <Accordion title="Regole di conversione automatica" icon="sparkles">
+    Le note si convertono automaticamente quando digiti `[^` + numero + `]`.
+
+    **Note**
+    - Durante la digitazione vengono convertite solo le etichette numeriche, come `[^1]` e `[^2]`
+    - La stessa etichetta rimanda sempre allo stesso contenuto della nota
+    - Se l’etichetta è già usata nel documento, il nuovo richiamo ne condivide il testo esistente
+  </Accordion>
+</AccordionGroup>
+
+## Modificare il contenuto delle note
+
+Una nuova nota parte vuota, a meno che la sua etichetta non sia già in uso. Puoi modificarne il contenuto in due modi.
+
+### Dalla barra degli strumenti mobile
+
+<Steps>
+  <Step title="Seleziona un richiamo">
+    Fai clic sul numero di una nota nel documento.
+  </Step>
+  <Step title="Apri l’editor">
+    La barra degli strumenti mobile mostra l’etichetta, ad esempio `[^1]`, e il contenuto attuale, oppure **No corresponding footnote** se la nota è vuota. Fai clic su **Edit**.
+  </Step>
+  <Step title="Salva o annulla">
+    Premi `Enter` o fai clic su **Save** per conservare il nuovo contenuto, oppure fai clic su **Cancel**.
+  </Step>
+</Steps>
+
+Se fai clic sull’etichetta nella barra degli strumenti, passi alla voce corrispondente nell’elenco in fondo.
+
+### Dall’elenco in fondo
+
+<Steps>
+  <Step title="Scorri fino in fondo">
+    Quando un documento contiene note, Zditor mostra un elenco delle note sotto il testo principale.
+  </Step>
+  <Step title="Fai clic sul contenuto">
+    Fai clic sul testo di una voce per modificarlo direttamente.
+  </Step>
+  <Step title="Salva le modifiche">
+    Premi `Enter` o fai clic altrove per salvare.
+  </Step>
+</Steps>
+
+<Tip>
+  Se modifichi una nota, si aggiornano tutti i richiami che usano la stessa etichetta.
+</Tip>
+
+## Visualizzazione
+
+### Richiami nel testo
+
+Le note compaiono nel testo come richiami in apice. Passando il puntatore su un richiamo, il contenuto attuale della nota compare in un tooltip.
+
+### Elenco in fondo
+
+In fondo al documento compare un elenco ordinato di tutte le note distinte:
+
+- Ogni voce mostra etichetta e contenuto; grassetto, corsivo, codice in linea e testo dei link nel contenuto appaiono formattati
+- Le etichette ripetute vengono unificate automaticamente
+- Le etichette numeriche sono disposte in ordine numerico
+- Facendo clic sull’etichetta di una voce passi al primo richiamo con quell’etichetta
+
+### Nel file Markdown
+
+Quando Zditor salva il documento, scrive il contenuto di ogni nota una sola volta, come definizione standard alla fine del file:
+
+```markdown
+This paragraph has a footnote[^1].
+
+[^1]: The footnote content.
+```
+
+Nel sorgente Markdown un richiamo diventa una nota solo se il file contiene una definizione corrispondente. Quando digiti `[^1]` nel testo formattato, Zditor aggiunge la definizione al salvataggio.
+
+## Esempio
+
+```markdown
+Quantum computing uses quantum mechanics for information processing[^1],
+and in some problems it can outperform classical systems[^2].
+
+Common hardware approaches include superconducting qubits[^1] and trapped ions.
+
+[^1]: An introduction to quantum hardware.
+[^2]: The advantage depends on the problem.
+```
+
+In questo esempio:
+
+- `[^1]` compare due volte e condivide un unico testo di nota
+- `[^2]` resta indipendente
+- L’elenco in fondo contiene due voci, `1` e `2`
+
+## Domande frequenti
+
+<AccordionGroup>
+  <Accordion title="Le note possono usare etichette testuali?">
+    Durante la digitazione l’editor converte solo le etichette numeriche come `[^1]`. Un’etichetta testuale come `[^source]` funziona comunque se il file la definisce con una riga come `[^source]: …`, il formato in cui spesso arrivano le note da altri editor Markdown.
+  </Accordion>
+
+  <Accordion title="Come elimino una nota?">
+    Seleziona il richiamo di nota e premi `Delete` o `Backspace`. Una volta rimossi tutti i richiami con la stessa etichetta, la voce in fondo scompare automaticamente e Zditor non ne scrive più la definizione al salvataggio.
+  </Accordion>
+
+  <Accordion title="E se due richiami con la stessa etichetta mostrano contenuti diversi?">
+    Zditor li mantiene sincronizzati: modificandone uno qualsiasi, si aggiornano tutti i richiami con quell’etichetta.
+  </Accordion>
+
+  <Accordion title="Come si comportano le note in modalità di sola lettura?">
+    Richiami, tooltip ed elenco in fondo vengono comunque mostrati, e un clic su un’etichetta dell’elenco porta comunque al suo richiamo, ma la modifica è disattivata.
+  </Accordion>
+</AccordionGroup>

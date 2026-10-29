@@ -1,0 +1,435 @@
+---
+title: "Guía del grafo de conocimiento"
+description: "Visualiza las relaciones entre archivos con un grafo interactivo dirigido por fuerzas."
+icon: "diagram-project"
+---
+
+El grafo de conocimiento es una de las funciones más destacadas de Zditor. Convierte los archivos de tu espacio de trabajo y los enlaces entre ellos en un grafo interactivo dirigido por fuerzas, para que veas de un vistazo la estructura, las referencias y los grupos.
+
+## Descripción general
+
+Abre el grafo con el botón **Graph** de la barra de navegación de la izquierda. Se abre en una pestaña y muestra el espacio de trabajo actual.
+
+Cada archivo Markdown (`.md`) se convierte en un nodo, igual que cada archivo al que enlazan esas notas. Cada enlace se convierte en una relación dirigida desde el archivo que lo contiene hasta el archivo al que apunta. La disposición coloca los nodos automáticamente y mantiene el grafo legible mientras te desplazas, haces zoom y examinas las relaciones. Los puntos más grandes son archivos con más conexiones.
+
+### ¿Por qué usar el grafo de conocimiento?
+
+<CardGroup cols={2}>
+  <Card title="Visualiza las relaciones" icon="network-wired">
+    Ve directamente las referencias y la estructura de dependencias en lugar de revisar los archivos uno por uno.
+  </Card>
+
+  <Card title="Navega más rápido" icon="compass">
+    Haz doble clic en los nodos para abrir los archivos directamente desde el grafo.
+  </Card>
+
+  <Card title="Visión del proyecto" icon="chart-network">
+    Detecta rápidamente grupos de notas relacionadas, archivos centrales y archivos aislados.
+  </Card>
+
+  <Card title="Disposición inteligente" icon="atom">
+    La disposición reparte los nodos automáticamente y se estabiliza sola.
+  </Card>
+</CardGroup>
+
+## Cómo se interpretan los enlaces
+
+El grafo se construye a partir de los enlaces que contienen los archivos Markdown de tu espacio de trabajo.
+
+### Sintaxis de enlaces Markdown
+
+Zditor reconoce los enlaces y las imágenes estándar de Markdown:
+
+```markdown
+[Link Text](file/path.md)
+![Alt text](images/diagram.png)
+```
+
+También cuentan los enlaces que Zditor escribe para el contenido incrustado, como audio, vídeo, tarjetas PDF, lienzos y referencias de SuperTag (`[text](path|mode=...)`).
+
+<AccordionGroup>
+  <Accordion title="Partes de un enlace" icon="link" defaultOpen>
+    **Texto del enlace**
+    - El contenido entre `[]`
+    - Se usa como etiqueta de la relación en el grafo
+    - Describe el significado de la relación
+
+    **Ruta del enlace**
+    - El contenido entre `()`
+    - Apunta al archivo de destino
+    - Determina el nodo de destino
+  </Accordion>
+
+  <Accordion title="Cómo se convierten los enlaces en relaciones" icon="diagram-project">
+    Cada enlace se convierte en una relación dirigida:
+
+    - El archivo que contiene el enlace es el **origen**
+    - El archivo enlazado es el **destino**
+    - La relación apunta del origen al destino
+    - El texto del enlace se muestra como etiqueta de la relación
+  </Accordion>
+
+  <Accordion title="Ver la dirección" icon="arrow-right">
+    Selecciona un archivo o una relación para ver hacia dónde apuntan los enlaces. Con **Show directional flow** activado, unos pequeños puntos recorren las relaciones seleccionadas desde el origen hasta el destino.
+
+    El panel de detalles de un archivo muestra sus enlaces salientes en **References** y sus enlaces entrantes en **Referenced by**. Así puedes detectar archivos centrales, recursos muy referenciados y archivos que se enlazan entre sí.
+  </Accordion>
+
+  <Accordion title="Tipos de relación" icon="tags">
+    Las relaciones se agrupan según el tipo de enlace: **Images**, **Audio**, **Videos**, **PDF Card**, **Attachment**, **Embed**, **Excalidraw**, **Supertag**, **Data Table** y **Other** para los enlaces simples. Algunos tipos se dibujan con líneas discontinuas o de puntos.
+
+    Los registros de SuperTag también reciben una relación **Data Table** con el archivo de estructura de su clase, etiquetada con el nombre de la clase.
+  </Accordion>
+</AccordionGroup>
+
+### Varios enlaces entre los mismos archivos
+
+<AccordionGroup>
+  <Accordion title="Varios enlaces en la misma dirección" icon="arrows-turn-right">
+    Si el archivo A enlaza varias veces con el archivo B con textos de enlace distintos, el grafo dibuja cada relación con su propia curva para que sigan viéndose en lugar de fundirse en una sola línea. El mismo enlace repetido con el mismo texto en un archivo cuenta una sola vez.
+  </Accordion>
+
+  <Accordion title="Enlaces en ambas direcciones" icon="arrows-left-right">
+    Cuando A enlaza con B y B enlaza de vuelta con A, las dos relaciones se dibujan en curvas separadas para que no se superpongan. Un enlace de un archivo a sí mismo se dibuja como un bucle.
+  </Accordion>
+</AccordionGroup>
+
+### Reglas y límites de interpretación
+
+<Warning>
+  Reglas de interpretación actuales:
+
+  - Solo se buscan enlaces en los archivos que terminan en `.md`. Los demás archivos, incluidos los `.mdx` y `.markdown`, solo aparecen cuando una nota enlaza con ellos
+  - Se interpretan los enlaces estándar `[text](path)` y las imágenes `![alt](path)`
+  - Se ignoran los enlaces web que empiezan por `http://` o `https://`
+  - No se interpretan los enlaces wiki como `[[page]]`, los enlaces de estilo referencia ni las etiquetas HTML como `<a>`
+  - Una ruta que empieza por `/` se resuelve desde la raíz del espacio de trabajo; las demás rutas se resuelven desde la carpeta del archivo que contiene el enlace
+  - Una parte `#heading` al final de una ruta se ignora, así que los enlaces a un título cuentan como enlaces al archivo
+  - No se analizan los archivos y carpetas ocultos, ni los archivos excluidos por un archivo `.ignore` o, en un repositorio Git, por `.gitignore`
+</Warning>
+
+<Tip>
+  Usa textos de enlace breves y descriptivos para que las etiquetas de las relaciones sigan siendo útiles y legibles en el grafo.
+</Tip>
+
+Un enlace a un archivo que no existe también crea un nodo. Estos nodos se dibujan como círculos huecos y discontinuos, y la barra de título muestra cuántos hay visibles, por ejemplo **2 missing**.
+
+El grafo abarca los espacios de trabajo locales. Al abrirlo, Zditor actualiza su índice del espacio de trabajo. Mientras **Watch workspace files** esté activado en **Settings → Personal → General** (la opción predeterminada), los cambios en tus notas aparecen en el grafo a medida que los guardas. Haz clic en **Refresh file index** en la barra de título para volver a analizar en cualquier momento.
+
+### Ejemplo
+
+```markdown
+<!-- docs/README.md -->
+- [Quickstart](./quickstart.md)
+- [API Docs](./api.md)
+
+<!-- docs/quickstart.md -->
+Read [README](./README.md) first
+See [API Docs](./api.md)
+```
+
+Eso produce relaciones como estas:
+
+```text
+README.md ----[Quickstart]----> quickstart.md
+README.md ----[API Docs]-----> api.md
+quickstart.md --[README]-----> README.md
+quickstart.md --[API Docs]---> api.md
+```
+
+## Disposición de la interfaz
+
+La vista del grafo tiene estas partes:
+
+### Barra de título
+
+La barra de título muestra **Graph** y cuántos archivos y relaciones hay visibles en ese momento, por ejemplo **42 files · 57 relations**, además del número de archivos que faltan, si los hay. A la derecha están **Search** y **Refresh file index**.
+
+### Área del grafo
+
+El área del grafo muestra los nodos y las relaciones, y permite desplazarse y hacer zoom libremente.
+
+### Controles de zoom
+
+La esquina inferior izquierda tiene **Zoom out**, el nivel de zoom actual, **Zoom in** y **Fit to view**. Haz clic en el nivel de zoom para volver al 100 %.
+
+### Controles del grafo
+
+La esquina inferior derecha tiene tres paneles:
+
+- **Filters**, para los tipos de archivo, los tipos de relación y los archivos aislados
+- **Color legend**, con los colores en uso y sus recuentos
+- **Display**, para los colores, las etiquetas, el flujo direccional, la opacidad de las líneas y la disposición
+
+### Panel de detalles
+
+Al seleccionar un archivo o una relación, se abre un panel de detalles en la esquina superior derecha.
+
+<Tip>
+  El grafo muestra más detalle a medida que acercas el zoom: aparecen más etiquetas de archivo, empezando por los archivos con más conexiones, después las etiquetas de las relaciones, y los nodos crecen y muestran un icono de su tipo de archivo.
+</Tip>
+
+## Reconocimiento de tipos de archivo
+
+De forma predeterminada, los nodos se colorean según su tipo de archivo. Abre **Color legend** para ver el color de cada tipo.
+
+| Tipo | Extensiones |
+| --- | --- |
+| **Markdown** | `.md`, `.mdx`, `.markdown` |
+| **Images** | `.png`, `.jpg`, `.jpeg`, `.gif`, `.svg`, `.webp`, `.avif`, `.heic`, `.bmp`, `.tiff` y otros formatos de imagen |
+| **Videos** | `.mp4`, `.mov`, `.avi`, `.mkv`, `.webm`, `.flv`, `.wmv` |
+| **Audio** | `.mp3`, `.wav`, `.ogg`, `.flac`, `.aac`, `.m4a`, `.wma` |
+| **Code** | Archivos de código fuente, web, configuración y texto sin formato, como `.js`, `.ts`, `.py`, `.json`, `.yaml`, `.html`, `.css` y `.txt` |
+| **PDF** | `.pdf` |
+| **Documents** | `.doc`, `.docx`, `.rtf`, `.odt`, `.xls`, `.xlsx`, `.ppt`, `.pptx`, `.csv` |
+| **Other** | Todo lo demás, incluidos los lienzos (`.excalidraw`) |
+
+También puedes colorear los nodos por comunidad. Consulta [Ajustes de visualización](#ajustes-de-visualización).
+
+## Interacción básica
+
+### Controles de la vista
+
+<AccordionGroup>
+  <Accordion title="Desplazar la vista" icon="hand">
+    Arrastra sobre un espacio vacío del grafo para mover toda la vista.
+  </Accordion>
+
+  <Accordion title="Zoom" icon="magnifying-glass">
+    Desplázate con la rueda del ratón o con el trackpad para acercar o alejar en torno al puntero, o usa los controles de zoom de la esquina inferior izquierda. **Fit to view** encuadra todos los nodos visibles.
+  </Accordion>
+</AccordionGroup>
+
+### Interacción con los nodos
+
+<AccordionGroup>
+  <Accordion title="Hacer clic en un nodo" icon="mouse-pointer" defaultOpen>
+    Al hacer clic en un nodo, este se selecciona, se resaltan sus relaciones, se atenúa el resto del grafo y se abren sus detalles: **Open file**, **Locate in graph** y sus enlaces en **References** y **Referenced by**. Haz clic en un archivo relacionado de la lista para ir a sus detalles, y usa la flecha atrás para volver.
+  </Accordion>
+
+  <Accordion title="Hacer doble clic en un nodo" icon="hand-pointer">
+    El doble clic abre el archivo correspondiente en el editor.
+  </Accordion>
+
+  <Accordion title="Arrastrar un nodo" icon="arrows-alt">
+    Al arrastrar un nodo, lo mueves manualmente. Cuando lo sueltas, ese nodo queda fijado en la nueva posición mientras los archivos de su alrededor se reacomodan.
+  </Accordion>
+</AccordionGroup>
+
+### Interacción con las relaciones
+
+<AccordionGroup>
+  <Accordion title="Hacer clic en una relación" icon="link">
+    Al hacer clic en una relación, esta se selecciona, se resalta la línea, se muestra su etiqueta y se abren sus detalles: el tipo de relación y sus archivos **Source** y **Target**, cada uno con un botón para abrirlo.
+  </Accordion>
+
+  <Accordion title="Pasar el puntero para ver la etiqueta" icon="tag">
+    Pasa el puntero sobre una relación para resaltarla y ver su texto de enlace en un cuadro emergente.
+  </Accordion>
+</AccordionGroup>
+
+## Búsqueda
+
+### Cómo buscar
+
+1. Haz clic en **Search** en la barra de título, o pulsa `/`
+2. Escribe parte de un nombre de archivo, una carpeta o un texto de enlace
+3. Elige un resultado con el ratón, o con `↑`, `↓` y `Enter`
+
+Al elegir un resultado, este se selecciona y se abren sus detalles. Haz clic en **Locate in graph** para centrarlo en la vista.
+
+### Alcance de la búsqueda
+
+<AccordionGroup>
+  <Accordion title="Búsqueda de archivos" icon="circle-nodes">
+    Busca por nombre de archivo o por una carpeta de su ruta, por ejemplo `README` o `projects`.
+  </Accordion>
+
+  <Accordion title="Búsqueda de relaciones" icon="link">
+    Busca por texto de enlace o por las rutas de los archivos enlazados.
+  </Accordion>
+</AccordionGroup>
+
+La búsqueda abarca todo el grafo, incluidos los elementos que ocultan los filtros actuales, y muestra hasta 30 resultados. Si eliges un elemento oculto, el panel de detalles ofrece **Adjust filters to show this item**.
+
+## Filtros
+
+Usa los filtros para limitar el grafo al contenido que importa para la tarea actual. Abre **Filters** en la esquina inferior derecha.
+
+### Opciones de filtro
+
+- **File types**: Markdown, Images, Videos, Audio, Code, PDF, Documents, Other
+- **Relation types**: Images, Audio, Videos, PDF Card, Attachment, Embed, Excalidraw, Supertag, Data Table, Other
+- **Show isolated files**, para mostrar u ocultar los archivos sin ningún enlace
+- **Reset filters**, para volver a mostrarlo todo
+
+<Tip>
+  Cada tipo muestra cuántos archivos o relaciones tiene, y puedes desactivar varios tipos a la vez. El botón **Filters** muestra cuántos están ocultos. En **Color legend**, al hacer clic en un tipo de archivo también se muestra u oculta.
+</Tip>
+
+<Warning>
+  Después de filtrar, las relaciones solo se muestran cuando tanto el archivo de origen como el de destino siguen visibles.
+</Warning>
+
+## Configuración
+
+### Ajustes de visualización
+
+Abre **Display** en la esquina inferior derecha.
+
+<AccordionGroup>
+  <Accordion title="Color" icon="palette">
+    **By file type** colorea cada nodo según su tipo. **By community** colorea los grupos de archivos que se enlazan estrechamente entre sí. Las comunidades se detectan automáticamente a partir de los enlaces; **Color legend** las muestra de mayor a menor, con el nombre de su archivo más conectado. Los archivos sin enlaces se agrupan como **Ungrouped**. Haz clic en una comunidad de la leyenda para mostrar solo esa comunidad.
+  </Accordion>
+
+  <Accordion title="Etiquetas de archivos y relaciones" icon="text-size">
+    **Show file and relation labels** muestra u oculta los nombres de los archivos y el texto de enlace de las relaciones. Activado de forma predeterminada.
+  </Accordion>
+
+  <Accordion title="Flujo direccional" icon="arrow-right">
+    **Show directional flow** anima la dirección de las relaciones seleccionadas, o de todas las relaciones del archivo seleccionado. Activado de forma predeterminada.
+  </Accordion>
+
+  <Accordion title="Opacidad de las líneas" icon="minus">
+    **Edge opacity** define la intensidad con la que se dibujan las líneas de las relaciones, del 5 % al 80 %. El valor predeterminado es 28 %.
+  </Accordion>
+</AccordionGroup>
+
+### Ajustes de disposición
+
+<AccordionGroup>
+  <Accordion title="Pausar y reanudar la disposición" icon="pause">
+    **Pause layout** y **Resume layout** detienen o reanudan la disposición. La disposición también se detiene sola cuando el grafo se estabiliza.
+  </Accordion>
+
+  <Accordion title="Restablecer la disposición y las posiciones fijadas" icon="arrows-rotate">
+    **Reset layout and pinned positions** libera todos los nodos fijados y vuelve a disponer el grafo desde el principio.
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  **Resume layout** vuelve a poner los nodos en movimiento hasta que se estabilizan, y lo mismo ocurre al arrastrar un nodo mientras la disposición no está en pausa. Los filtros y los ajustes de visualización pertenecen a la pestaña del grafo y no se guardan al cerrarla.
+</Note>
+
+## Estadísticas
+
+El grafo muestra estas cifras:
+
+| Dónde | Qué muestra |
+| --- | --- |
+| **Barra de título** | Archivos y relaciones visibles, y archivos que faltan |
+| **Controles de zoom** | Nivel de zoom actual |
+| **Filters** | Número de archivos o relaciones de cada tipo |
+| **Color legend** | Número de archivos de cada tipo o de cada comunidad |
+| **Panel de detalles** | Número de **References** y **Referenced by** del archivo seleccionado |
+
+## Consejos avanzados
+
+<CardGroup cols={2}>
+  <Card title="Explora el entorno de un nodo" icon="project-diagram">
+    Selecciona primero un nodo para ver con claridad sus relaciones inmediatas.
+  </Card>
+
+  <Card title="Fija los nodos importantes" icon="hand-sparkles">
+    Arrastra los archivos principales al centro y déjalos fijados para crear una disposición de lectura a tu medida.
+  </Card>
+
+  <Card title="Explora por comunidades" icon="filter">
+    Colorea por comunidad y haz clic en una comunidad de la leyenda para ver un grupo por separado.
+  </Card>
+
+  <Card title="Encuentra los archivos centrales" icon="star">
+    Los nodos grandes tienen muchas conexiones y suelen representar índices, resúmenes o recursos compartidos.
+  </Card>
+</CardGroup>
+
+## Casos habituales
+
+<AccordionGroup>
+  <Accordion title="Conocer un espacio de trabajo" icon="folder-tree">
+    Usa el grafo para identificar rápidamente los grupos principales, las notas índice y los recursos compartidos después de abrir un espacio de trabajo nuevo.
+  </Accordion>
+
+  <Accordion title="Comprobar qué depende de una nota" icon="code-branch">
+    Antes de renombrar o reescribir una nota, selecciónala y revisa **Referenced by** para ver qué notas enlazan con ella.
+  </Accordion>
+
+  <Accordion title="Encontrar archivos huérfanos" icon="unlink">
+    Los archivos aislados son notas que no enlazan con ningún otro archivo ni reciben enlaces de ninguno. Puede que aún tengas que conectarlos con el resto de tus notas.
+  </Accordion>
+
+  <Accordion title="Trazar el mapa de la documentación" icon="book">
+    En espacios de trabajo con mucha documentación, el grafo te ayuda a examinar los grupos de artículos y a mejorar la estructura de enlaces internos.
+  </Accordion>
+</AccordionGroup>
+
+## Consejos de rendimiento
+
+<Steps>
+  <Step title="Oculta lo que no necesites">
+    Desactiva tipos de archivo, tipos de relación o archivos aislados en **Filters** para que el grafo muestre solo aquello con lo que estás trabajando.
+  </Step>
+
+  <Step title="Pausa la disposición">
+    Cuando la distribución te parezca bien, elige **Pause layout** en **Display** para que los nodos dejen de moverse.
+  </Step>
+
+  <Step title="Fija nodos de anclaje">
+    Fijar algunos nodos importantes reduce los reajustes de la disposición y mejora la legibilidad.
+  </Step>
+
+  <Step title="Desactiva las etiquetas">
+    Desactiva **Show file and relation labels** para dibujar solo puntos y líneas en un grafo muy grande.
+  </Step>
+</Steps>
+
+## Preguntas frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Por qué está vacío el grafo?" icon="question">
+    El grafo indexa los archivos `.md` de los espacios de trabajo locales. Asegúrate de tener abierto un espacio de trabajo local, de que tus notas terminen en `.md` y de que no estén en carpetas ocultas o ignoradas; después, haz clic en **Refresh file index**. Si la vista indica **No files match these filters**, elige **Reset filters**.
+  </Accordion>
+
+  <Accordion title="¿Por qué hay nodos fuera del área visible?" icon="question">
+    Haz clic en **Fit to view**, aleja el zoom o busca el archivo y haz clic en **Locate in graph**.
+  </Accordion>
+
+  <Accordion title="¿Cómo restablezco las posiciones de los nodos fijados?" icon="question">
+    Abre **Display** y elige **Reset layout and pinned positions**.
+  </Accordion>
+
+  <Accordion title="¿Por qué el doble clic no abre el archivo?" icon="question">
+    Puede que el archivo no exista: los archivos que faltan se dibujan como círculos huecos y discontinuos, y no se pueden abrir. Comprueba también que no hayas arrastrado el nodo entre los dos clics.
+  </Accordion>
+
+  <Accordion title="¿Por qué se superponen las relaciones?" icon="question">
+    Acerca el zoom, selecciona antes el archivo o separa más los nodos arrastrándolos. Reducir **Edge opacity** también facilita la lectura de las zonas más densas.
+  </Accordion>
+
+  <Accordion title="¿Puedo exportar o compartir el grafo?" icon="question">
+    Todavía no hay una función de exportación integrada. Usa la herramienta de capturas de pantalla de tu sistema si necesitas capturar la vista actual.
+  </Accordion>
+
+  <Accordion title="¿Por qué el grafo no deja de moverse?" icon="question">
+    La disposición se mueve hasta estabilizarse, y al arrastrar un nodo vuelve a empezar. Elige **Pause layout** en **Display** para detenerla, y fija algunos nodos de anclaje para mantener estable la distribución.
+  </Accordion>
+</AccordionGroup>
+
+## Atajos de teclado
+
+Haz clic primero en el área del grafo para que tenga el foco del teclado.
+
+| Atajo | Qué hace |
+| --- | --- |
+| `/` | Abrir la búsqueda |
+| `Esc` | Quitar la selección actual de nodo o relación |
+| `+` o `=` | Acercar |
+| `-` | Alejar |
+| `Enter` | Abrir el archivo seleccionado |
+| Teclas de flecha | Desplazar ligeramente el nodo seleccionado, lo que lo deja fijado |
+
+## Notas técnicas
+
+<Note>
+  El grafo se dibuja con la tarjeta gráfica, y su disposición se calcula en segundo plano para no entorpecer la edición. Si tu sistema está configurado para reducir el movimiento, la disposición empieza en pausa y el flujo direccional no se anima. Si el grafo no se puede dibujar, la vista muestra **Unable to load the graph. Please retry.** con un botón **Retry**.
+</Note>

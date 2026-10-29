@@ -8,38 +8,47 @@ The sidebar file tree is one of the core parts of Zditor. It gives you a direct 
 
 ## Interface overview
 
-The file tree sits on the left side of the app and shows every file and folder in the current workspace by default.
+The file tree is the **Files** panel of the sidebar. Click the folder icon at the top of the navigation rail on the left to show it. With no filter active, it shows every file and folder in the workspace, including names that start with a dot.
 
 ### Top toolbar
 
-The toolbar at the top of the file tree provides:
+The top of the file tree shows the name of the current workspace. Click it to switch workspaces (see [Workspace management](#workspace-management)). Next to it are three buttons:
 
-- **New file** to create a file in the root directory
-- **New folder** to create a folder in the root directory
-- **Clear clipboard** to cancel a pending copy or cut state
-- **Filter** to show only certain file types
-- **More actions** for refresh, collapse all, and opening the workspace in the system file manager
+- **New File** creates a file in the workspace root
+- **New Folder** creates a folder in the workspace root
+- **More** opens a menu with:
+  - **Filter**, to show only certain file types
+  - **Refresh**, to rescan the workspace
+  - **Collapse**, to close every expanded folder
+  - **Clear clipboard**, to cancel a pending copy or cut (shown only while something is copied or cut)
+  - **Open Folder**, to open the workspace in your system file manager
+
+A thin progress line appears under the toolbar while the tree loads, refreshes, or imports files.
 
 ### File list
 
-The main list shows files and folders with indentation that reflects the current hierarchy.
+The main list shows files and folders with indentation that reflects the current hierarchy. Hover over an item to see its full path.
 
-### Bottom status bar
+### Bottom bar
 
-The bottom area shows the current workspace name. You can click it to switch workspaces, use the left button for quick creation, and open the upward menu from the right button.
+The bar at the bottom of the panel has three parts:
+
+- The **+** button on the left creates an empty Markdown file named `untitled1.md` (or the next free number) in the workspace root and opens it.
+- The workspace name in the middle opens your system folder picker, so you can switch to another local folder.
+- The **⋮** button on the right opens a panel with the sort options, your recent folders, and any remote workspaces you have set up.
 
 ## Basic operations
 
 <AccordionGroup>
   <Accordion title="Single click" icon="mouse">
-    - Click a file to open it in the editor
+    - Click a file to open it in a tab
     - Click a folder to expand or collapse it
   </Accordion>
 
-  <Accordion title="Context menus" icon="menu">
-    - Right-click a file to open the file menu for actions such as copy and rename
-    - Right-click a folder to create new items or paste into it
-    - Right-click the empty bottom area to open the root-level menu
+  <Accordion title="Context menus" icon="bars">
+    - Right-click a file for actions such as **Open in Right Split**, **Rename**, and **Copy**
+    - Right-click a folder to create items inside it or paste into it
+    - Right-click the empty area below the list to open the menu for the workspace root
   </Accordion>
 </AccordionGroup>
 
@@ -52,13 +61,13 @@ Click a file or folder to select it. The selected item is highlighted.
 <AccordionGroup>
   <Accordion title="How to rename" icon="pen">
     1. Right-click a file or folder and choose **Rename**
-    2. Or hover over the item and use the more menu
-    3. Press `Enter` to confirm or `Esc` to cancel
+    2. Or hover over the item, click its **…** button, and choose **Rename**
+    3. Press `Enter` to confirm or `Esc` to cancel. Clicking elsewhere also confirms the new name.
   </Accordion>
 </AccordionGroup>
 
 <Tip>
-  When you rename a file, the extension is selected automatically so you can change the base name quickly.
+  When you rename a file, only the part of the name before the extension is selected, so you can type a new name and keep the extension.
 </Tip>
 
 ## File and folder management
@@ -67,7 +76,7 @@ Click a file or folder to select it. The selected item is highlighted.
 
 <AccordionGroup>
   <Accordion icon="plus" title="Method 1: top toolbar">
-    Click **New file** or **New folder** in the toolbar.
+    Click **New File** or **New Folder** in the toolbar to create the item in the workspace root.
   </Accordion>
 
   <Accordion icon="folder-plus" title="Method 2: hover shortcuts">
@@ -77,79 +86,94 @@ Click a file or folder to select it. The selected item is highlighted.
     - The folder icon creates a child folder
   </Accordion>
 
-  <Accordion icon="mouse-right-click" title="Method 3: right-click menu">
-    Right-click the target folder and choose **New file** or **New folder**.
+  <Accordion icon="computer-mouse" title="Method 3: right-click menu">
+    Right-click the target folder, or the empty area below the list for the workspace root, and choose **New File** or **New Folder**.
   </Accordion>
 </AccordionGroup>
+
+When you create a file, Zditor shows a name field followed by an extension field. The extension starts as your default extension (`.md` unless you change it):
+
+- Press `↑` or `↓` to switch to another extension from your list
+- Type an extension from your list at the end of the name, such as `notes.txt`, to switch to it
+- Press `→` at the end of the name to move into the extension field
+
+You can change the default extension and the list of extensions in **Settings → Personal → General → File types**.
 
 ### Delete files and folders
 
 1. Right-click the target file or folder
 2. Choose **Delete**
-3. Confirm the operation
+
+If the file, or anything inside the folder, is open in a tab, Zditor first asks whether to close those tabs and delete. Otherwise the item is deleted right away.
 
 <Warning>
-  Delete cannot be undone. Confirm carefully before removing files or folders.
+  Delete does not move items to the system Trash, and it cannot be undone. Check carefully before removing files or folders.
 </Warning>
 
 ### Copy, cut, and paste
 
 <AccordionGroup>
   <Accordion icon="copy" title="Copy">
-    1. Right-click a file and choose **Copy**
-    2. The file shows a yellow copy marker
+    1. Right-click a file or folder and choose **Copy**
+    2. The item gets a yellow outline and a **Copy** label
   </Accordion>
 
   <Accordion icon="scissors" title="Cut">
-    1. Right-click a file and choose **Cut**
-    2. The file shows a cyan cut marker
+    1. Right-click a file or folder and choose **Cut**
+    2. The item gets a teal outline and a **Cut** label
   </Accordion>
 
   <Accordion icon="paste" title="Paste">
-    1. Right-click the destination folder or root area
+    1. Right-click the destination folder, or the empty area below the list for the workspace root
     2. Choose **Paste**
-    3. The file is copied or moved to that location
+    3. The item is copied or moved to that location
   </Accordion>
 </AccordionGroup>
 
 <Tip>
-  You cannot paste a file into itself or into one of its own descendants.
+  The clipboard holds one item at a time and is cleared after you paste. You cannot paste an item into itself, move it into one of its own subfolders, or paste it into a folder that already contains an item with the same name.
 </Tip>
 
 ## Sorting and filtering
 
 ### File type filters
 
-Click the filter button in the top toolbar to show only certain file types:
+Open **More → Filter** in the top toolbar to show only certain file types:
 
-- **All**
-- **Markdown**
-- **Documents**
-- **Assets**
-- **Code**
-- **Excalidraw**
-- **Other**
+| Filter | Shows |
+| --- | --- |
+| **All** | Every file and folder |
+| **Markdown** | `.md`, `.mdx`, `.markdown` |
+| **Documents** | `.pdf`, `.doc`, `.docx`, `.txt`, `.csv`, `.xls`, `.xlsx`, `.ppt`, `.pptx` |
+| **Assets** | Images, video, and audio files |
+| **Code** | Source, web, and configuration files, such as `.ts`, `.js`, `.py`, `.json`, `.yaml`, `.html`, and `.css` |
+| **Excalidraw** | Canvas files (`.excalidraw`) |
+| **Hidden** | Files and folders whose names start with a dot |
+| **Other** | Files that fit none of the categories above |
 
-You can enable multiple filters at once. The filter icon shows the number of active filters.
+You can enable several filters at once. Choosing **All** turns the others off. While a filter is active, the **Filter** item shows how many types are selected and the **More** button shows a dot.
+
+Folders always stay in the list so you can reach the matching files inside them. Items whose names start with a dot are hidden whenever a filter is active, unless **Hidden** is one of the selected filters.
 
 ### Sort options
 
-Open the recent-folder menu at the bottom to access sort options:
+Click the **⋮** button in the bottom bar. The sort buttons are at the top of the panel:
 
 #### Sort mode
 
-- **By name** sorts alphabetically
-- **By created time** sorts by file creation time
-- **By modified time** sorts by last modified time
+- **Sort alphabetically** sorts by name
+- **Sort by creation time** sorts by when each file was created
+- **Sort by modification time** sorts by when each file was last changed
 
 #### Sort direction
 
-- **Ascending**
-- **Descending**
+- The arrow button switches between **Sort ascending** and **Sort descending**
 
 #### Folder grouping
 
-- **Group folders first** keeps folders above files
+- **Group by folder** keeps folders above files
+
+By default the tree is sorted alphabetically in ascending order, with folders grouped first. Items whose names start with a dot are listed before the others.
 
 ## Drag and drop
 
@@ -163,67 +187,85 @@ The file tree supports drag-and-drop management.
   </Accordion>
 
   <Accordion icon="upload" title="Import files from outside">
-    Drag files directly from the system file manager into the tree to copy them into the workspace.
+    Drag files or folders from your system file manager onto a folder in the tree, or onto the empty area for the workspace root, to copy them into the workspace. A dropped file replaces a file with the same name in that folder. A short status line at the bottom of the tree reports how many files were added.
   </Accordion>
 
   <Accordion icon="home" title="Drop to the root">
-    Drop files onto the blank tree area to move them to the workspace root.
+    Drop items onto the empty area of the tree to move them to the workspace root.
   </Accordion>
 </AccordionGroup>
 
 <Tip>
-  While dragging, the destination folder is highlighted. If you hover for about 600 ms, the folder expands automatically.
+  While dragging, the destination folder is highlighted. If you hover over a closed folder for about 600 ms, it expands automatically. Dragging near the top or bottom edge of the list scrolls it.
 </Tip>
 
 ## Context menus
 
-Files and folders expose rich context menus.
+Files and folders expose rich context menus. You can also open the same menu from the **…** button that appears when you hover over an item.
 
 ### File context menu
 
 | Item | What it does |
 | --- | --- |
-| **Open** | Open the file in the left editor |
-| **Open on right** | Open the file in the right panel |
-| **Open in new window** | Open the file in a new window |
+| **Open** | Open the file in the left pane |
+| **Open in Right Split** | Open the file in the right pane |
 | **Rename** | Rename the file |
 | **Copy** | Copy the file to the clipboard |
 | **Cut** | Cut the file to the clipboard |
-| **Paste** | Paste clipboard contents when the target is a folder |
-| **Open in folder** | Reveal the file in the system file manager |
-| **Copy file path** | Copy the absolute path to the clipboard |
+| **Paste** | Not available on files; paste into a folder or the workspace root instead |
+| **Open in Folder** | Reveal the file in your system file manager |
+| **Copy File Path** | Copy the file's full path to the clipboard |
+| **Save As** | Save a copy of the file to a location you choose on this computer |
 | **Delete** | Delete the file |
 
 ### Folder context menu
 
-Folder menus include the file actions plus:
+Folder menus have **Rename**, **Copy**, **Cut**, **Paste**, **Open in Folder**, **Copy File Path**, and **Delete**, plus:
 
 | Item | What it does |
 | --- | --- |
-| **New file** | Create a file in that folder |
-| **New folder** | Create a child folder |
+| **New File** | Create a file in that folder |
+| **New Folder** | Create a child folder |
 
 ### Root context menu
 
-Right-click the blank area in the file tree to open the root menu:
+Right-click the empty area of the file tree to open the menu for the workspace root:
 
-It includes the usual file actions plus:
-
+- **New File** and **New Folder** to create items in the root
+- **Paste** to paste the copied or cut item into the root
 - **Refresh** to rescan the workspace
-- **Collapse all** to close expanded folders
-- **Open in folder** to open the workspace in the system file manager
+- **Collapse All** to close expanded folders
+- **Open in Folder** to open the workspace in your system file manager
+- **Copy File Path** to copy the workspace path
 
 ## Workspace management
 
+A workspace is the folder whose files the tree shows. On an empty tab you can also choose **Open Workspace** to open an existing folder, or **New Workspace** to create an empty folder and open it.
+
 ### Switch workspaces
 
-1. Click the workspace name in the bottom bar
-2. Pick a different folder in the system folder picker
-3. Zditor reloads the new workspace automatically
+1. Click the workspace name at the top of the file tree
+2. Choose a workspace from the menu, or choose **Open Directory** to pick a folder in the system folder picker
+3. Zditor loads the new workspace
+
+If Agent tabs are open, Zditor asks you to confirm the switch, because their connections to the current workspace close. Your tabs and session history are kept and reconnect when you return to that workspace.
+
+<Tip>
+  Each workspace can have a window of its own. Choose **Open Folder in New Window…**, or `Cmd`-click a workspace in the menu (`Ctrl`-click on Windows and Linux), to open it in a new window. If a workspace is already open in another window, choosing it brings that window to the front.
+</Tip>
+
+### Remote workspaces
+
+Workspaces do not have to be on this computer. Add a connection in **Settings → Integrations → Connections**:
+
+- **S3** storage, **WebDAV** servers, and folders on **SSH** hosts appear as their own groups in the workspace menu and in the **⋮** panel.
+- A **Git** connection keeps a local clone of the repository and opens it like any other folder.
+
+In S3, WebDAV, and SSH workspaces, **Open in Folder** is not available, and the tree does not refresh by itself when files change on the server. Use **Refresh** to see the latest files.
 
 ### Recent folders
 
-Use the right-side bottom menu to see recently used folders:
+The workspace menu lists your recent local folders. The **⋮** panel in the bottom bar lists them too, and lets you manage them:
 
 <AccordionGroup>
   <Accordion icon="thumbtack" title="Pin folders">
@@ -235,26 +277,28 @@ Use the right-side bottom menu to see recently used folders:
   </Accordion>
 </AccordionGroup>
 
+The list keeps up to five folders, and pinned folders always stay on it. At startup Zditor reopens the workspace you used last; to start without one, turn off **Reopen previous workspace** in **Settings → Personal → General**.
+
 ### Auto refresh
 
-The file tree watches the workspace automatically:
+In a local workspace, the file tree watches the workspace root and every expanded folder:
 
-- Creating, deleting, or renaming a file updates the tree
-- A blue progress bar appears at the top while the tree is refreshing
+- Creating, deleting, or renaming a file, in Zditor or in another app, updates the tree
+- A folder you expand again is rescanned, so changes made while it was collapsed appear
 
 ## Advanced tips
 
 <CardGroup cols={2}>
-  <Card title="Fast navigation" icon="lightning">
-    Double-click files to open them quickly, use the arrow keys to move through the list, and press `Enter` to expand the selected folder.
+  <Card title="Side by side" icon="bolt">
+    Use **Open in Right Split** to read one file while you edit another.
   </Card>
 
-  <Card title="Bulk moves" icon="layers">
-    Copy and paste are useful for moving or duplicating several files across folders quickly.
+  <Card title="Move with cut and paste" icon="layer-group">
+    Cut and paste moves a file or folder to a folder that is far away in the tree, without a long drag.
   </Card>
 
   <Card title="Copy paths" icon="clipboard">
-    Use **Copy file path** when you need to share or reference a file path elsewhere.
+    Use **Copy File Path** when you need to share or reference a file path elsewhere.
   </Card>
 </CardGroup>
 
@@ -262,18 +306,22 @@ The file tree watches the workspace automatically:
 
 <AccordionGroup>
   <Accordion title="Why are some files missing from the tree?" icon="question">
-    Check whether a file type filter is active. Set the filter back to **All** first.
+    Check whether a file type filter is active: the **More** button shows a dot when one is. Set **More → Filter** back to **All**. While any other filter is active, files and folders whose names start with a dot stay hidden unless you also select **Hidden**.
   </Accordion>
 
   <Accordion title="Why does dragging not work?" icon="question">
-    Make sure the destination folder is expanded or hover on the folder long enough for auto-expand to trigger.
+    Hover over a closed folder long enough for it to expand. You cannot move an item into itself, into one of its subfolders, or into the folder it is already in, and the move is refused if the destination already has an item with the same name.
   </Accordion>
 
   <Accordion title="How do I find recently changed files quickly?" icon="question">
-    Use **Sort by modified time** with descending order.
+    In the **⋮** panel, choose **Sort by modification time** and set the direction to descending.
   </Accordion>
 
   <Accordion title="Can I open multiple files at once?" icon="question">
-    Yes. Each file opens in its own tab when you click it.
+    Yes. Each file opens in its own tab when you click it. Use **Open in Right Split** to see two files side by side.
+  </Accordion>
+
+  <Accordion title="Why is Open in Folder unavailable?" icon="question">
+    S3, WebDAV, and SSH workspaces are not on this computer, so there is no local folder to show in your system file manager.
   </Accordion>
 </AccordionGroup>

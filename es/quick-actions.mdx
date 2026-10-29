@@ -1,0 +1,319 @@
+---
+title: "Acciones rápidas"
+description: "Aprende los flujos de trabajo más frecuentes de Zditor: arrastrar y soltar, atajos, menús de activación y barras de herramientas."
+icon: "bolt"
+---
+
+Esta página reúne las interacciones más frecuentes de Zditor. Si estás empezando, léela primero y pasa después a las guías detalladas de cada función.
+
+## Descripción general
+
+<CardGroup cols={2}>
+  <Card title="Arrastrar y soltar" icon="arrows-up-down-left-right">
+    Reordena contenido, mueve archivos y lleva recursos a Markdown rápidamente.
+  </Card>
+
+  <Card title="Atajos de teclado" icon="keyboard">
+    Usa el teclado para guardar, dar formato, cambiar la estructura y navegar.
+  </Card>
+
+  <Card title="Menús de activación" icon="terminal">
+    Usa `/`, `@`, `#` y `:` para abrir menús estructurados en lugar de escribirlo todo a mano.
+  </Card>
+
+  <Card title="Barras de herramientas" icon="wand-magic-sparkles">
+    Trabaja con barras de herramientas flotantes y contextuales que cambian según la selección actual.
+  </Card>
+</CardGroup>
+
+## Arrastrar y soltar
+
+### Cinco formas de arrastrar y soltar
+
+Zditor admite más de un flujo de arrastrar y soltar.
+
+#### 1. Arrastrar dentro del árbol de archivos
+
+Los archivos y carpetas del árbol de archivos de la izquierda se pueden arrastrar dentro del árbol para cambiar su ubicación en el espacio de trabajo.
+
+Es útil para:
+
+- Reorganizar carpetas
+- Mover archivos a otro directorio
+- Ordenar la estructura del espacio de trabajo
+
+#### 2. Arrastrar del árbol de archivos a un documento Markdown
+
+Los archivos del árbol de archivos de la izquierda se pueden arrastrar directamente a un documento Markdown.
+
+El archivo soltado se inserta como un **nodo de adjunto** que enlaza al archivo en el lugar donde ya está dentro de tu espacio de trabajo. Zditor no hace ninguna copia.
+
+Para mostrar el archivo como imagen, vídeo, reproductor de audio o lienzo:
+
+1. Haz clic en el adjunto, abre su menú **More** y elige **Convert to Link**.
+2. Haz clic en el nuevo enlace y usa el botón correspondiente de la barra de herramientas del enlace: **Convert to image**, **Convert to video**, **Convert to audio** o **Convert to canvas**. Solo aparecen los botones que corresponden al tipo de archivo.
+
+En un archivo de lienzo (`.excalidraw`), el menú **More** del adjunto también ofrece directamente **Convert to Canvas**.
+
+Es útil cuando quieres insertar primero y decidir después cómo se presenta.
+
+#### 3. Arrastrar archivos externos a un documento Markdown
+
+Puedes arrastrar archivos desde el gestor de archivos del sistema directamente a un documento Markdown.
+
+Zditor los inserta según su tipo:
+
+- Archivos de imagen -> nodos de imagen
+- Archivos de vídeo -> nodos de vídeo
+- Archivos de audio -> nodos de audio
+- Archivos de lienzo (`.excalidraw`) -> nodos de lienzo
+- Otros archivos -> nodos de adjunto
+
+Zditor guarda una copia de cada archivo soltado en el lugar definido en **Settings → Integrations → Image hosting & uploads**. Es la forma más rápida de llevar recursos locales a tus notas o documentos.
+
+#### 4. Arrastrar nodos entre documentos Markdown
+
+Puedes arrastrar nodos entre distintos documentos Markdown, por ejemplo entre el panel izquierdo y el derecho de una vista dividida.
+
+Entre documentos, el comportamiento predeterminado es **copiar**: el documento de destino recibe una copia y el original se queda en el documento de origen.
+
+Es útil para:
+
+- Pasar contenido de un borrador a un documento definitivo
+- Reutilizar bloques entre paneles divididos
+- Reorganizar contenido entre varias notas
+
+#### 5. Arrastrar dentro del mismo documento
+
+Dentro de un mismo documento, el contenido de nivel de bloque se puede arrastrar a otra posición sin cortar y pegar.
+
+Dentro del mismo documento, el comportamiento predeterminado es **mover**.
+
+Es útil para:
+
+- Reordenar párrafos
+- Reestructurar secciones
+- Mover texto, imágenes o bloques de código a un lugar más adecuado
+
+### Controladores de arrastre en el editor
+
+Al pasar el puntero sobre un bloque mientras editas, Zditor muestra un controlador de arrastre en el margen izquierdo. El controlador muestra el tipo de bloque (de `H1` a `H6` en los títulos) junto a un icono de agarre. Al arrastrarlo, se mueve el bloque entero.
+
+Todos los bloques de nivel superior tienen este controlador, entre ellos:
+
+- Párrafos
+- Títulos
+- Listas
+- Citas
+- Imágenes
+- Vídeos
+- Bloques de código
+- Adjuntos
+- Avisos
+- Tablas
+- Fórmulas en bloque
+
+Una lista se mueve entera. Para mover un solo elemento de la lista, usa `Alt-ArrowUp` y `Alt-ArrowDown`.
+
+<Warning>
+  **Informa de los problemas al arrastrar y soltar**
+
+  Si encuentras un tipo de nodo que no se arrastra correctamente, por ejemplo:
+
+  - No se puede arrastrar
+  - Cae en una posición incorrecta
+  - Su contenido queda alterado al soltarlo
+
+  envía un informe de error para que podamos seguir corrigiendo lo que falte.
+</Warning>
+
+### Dónde suelen aparecer los controladores de arrastre
+
+Puedes empezar a arrastrar desde dos sitios:
+
+- **Margen izquierdo**: el controlador que aparece al pasar el puntero, en cualquier bloque de nivel superior
+- **Barra de herramientas**: el botón **Drag** de la barra de herramientas de una imagen, vídeo, archivo de audio, adjunto, lienzo, contenido incrustado, bloque de código, tabla, bloque HTML o fórmula seleccionados
+
+<Tip>
+  El valor principal de arrastrar y soltar es la edición estructural. Es mucho más rápido que cortar y pegar cuando reorganizas notas largas, borradores o esquemas.
+</Tip>
+
+### Más información
+
+Si quieres más detalles sobre cómo arrastrar archivos en la barra lateral, continúa con la [guía del árbol de archivos](/es/file-tree).
+
+## Atajos de teclado
+
+Los atajos de teclado son una de las mejores formas de ganar velocidad al editar en Zditor.
+
+Situaciones habituales:
+
+- Guardar el documento
+- Buscar contenido
+- Establecer niveles de título
+- Activar o desactivar la negrita, la cursiva, el resaltado y el código en línea
+- Crear listas, citas, tablas, bloques de código y fórmulas
+
+### Unos pocos atajos muy útiles
+
+| Atajo | Acción |
+| --- | --- |
+| `Mod-K` | Abrir la búsqueda |
+| `Mod-S` | Guardar el documento actual |
+| `Mod-F` | Buscar en el documento actual |
+| `Mod-/` | Cambiar entre texto con formato y vista de código |
+| `Mod-B` | Activar o desactivar la negrita |
+| `Mod-I` | Activar o desactivar la cursiva |
+| `Mod-H` | Activar o desactivar el resaltado |
+| `Mod-Shift-C` | Activar o desactivar el código en línea |
+| `Mod-1` a `Mod-6` | Establecer el nivel de título |
+| `Mod-Shift-8` | Activar o desactivar la lista con viñetas |
+| `Mod-Shift-7` | Activar o desactivar la lista numerada |
+| `Mod-Shift-9` | Activar o desactivar la lista de tareas |
+| `Mod-Shift-\` | Activar o desactivar el bloque de código |
+| `Mod-T` | Crear una tabla |
+
+<Warning>
+  `Mod` significa:
+  <ul>
+    <li><strong>macOS</strong>: `Command`</li>
+    <li><strong>Windows / Linux</strong>: `Ctrl`</li>
+  </ul>
+</Warning>
+
+### Cuándo ayudan más los atajos
+
+Los atajos son especialmente útiles cuando:
+
+- Ya sabes qué formato o estructura quieres
+- No quieres perder el ritmo apartando las manos del teclado
+- Repites la misma operación muchas veces
+
+Para ver la lista completa y cambiar las asignaciones en **Settings → Personal → Keyboard shortcuts**, consulta [Atajos de teclado](/es/keyboard-shortcuts).
+
+## Menús de activación
+
+Los menús de activación son la forma más rápida de abrir acciones estructuradas desde el teclado.
+
+### Menú de comandos `/`
+
+En un documento Markdown, escribe `/` al principio de una línea o después de un espacio para abrir el menú de comandos. Sigue escribiendo para filtrarlo; el filtro busca dentro de todos los grupos. Usa las flechas y `Enter` para elegir un elemento.
+
+El menú contiene:
+
+- **Heading 1** a **Heading 3**, y **Heading 4-6**
+- **List**: lista de tareas, lista con viñetas y lista numerada
+- **Media**: imagen, vídeo, audio, lienzo y archivo adjunto, cada uno elegido con un selector de archivos
+- **MetaInfo**: un bloque de frontmatter al principio del documento
+- **Code Block**: tabla, HTML, cita, bloque de código, fórmula en bloque, separador, salto de página y un diagrama Mermaid
+- **Info**: avisos de tipo información, nota, advertencia, consejo y error
+- **Templates**: aparece cuando tienes documentos con `template: true` en su frontmatter. Al elegir una plantilla, el contenido del documento actual se sustituye por ella.
+
+Esto te ayuda a:
+
+- Evitar escribir lo mismo una y otra vez
+- Descubrir rápidamente los comandos disponibles
+- Trabajar de forma más estructurada
+
+En el cuadro de mensaje del agente, `/` muestra en cambio los comandos de la conversación: `/share`, `/export`, `/goal`, `/compact` y `/side`. Allí, `@` menciona un archivo del espacio de trabajo y `$` elige una habilidad. Consulta la [guía del agente](/es/agent-guide).
+
+### Otros menús de activación del editor
+
+Además de `/`, el editor ofrece otros menús de activación habituales:
+
+- `@`: enlaza a un archivo Markdown o PDF del espacio de trabajo. En un PDF con resaltados, también puedes elegir un resaltado para insertarlo como tarjeta PDF.
+- `#`: inserta o crea elementos de SuperTag
+- `:`: abre el selector de emojis; sigue escribiendo para filtrar los emojis por nombre
+
+Cada menú se puede desactivar en **Settings → Editor → Markdown Editor**, con las opciones **Command menu (/)**, **Link menu (@)**, **Object menu (#)** y **Emoji menu (:)**.
+
+<Tip>
+  Si repites a menudo las mismas acciones en el editor, los menús de activación suelen ser más rápidos y fiables que volver a escribir la misma sintaxis cada vez.
+</Tip>
+
+## Barras de herramientas
+
+Zditor no depende de una única barra de formato fija. En su lugar, muestra barras de herramientas contextuales según lo que hayas seleccionado.
+
+### Barras de herramientas de selección
+
+Al seleccionar texto o un nodo, el editor puede mostrar la barra de herramientas correspondiente, por ejemplo:
+
+- Barra de formato de texto
+- Barra de enlaces
+- Barras de imagen, vídeo y audio
+- Barra de adjuntos
+- Barra de lienzo
+- Barra de contenido incrustado
+- Barras de bloque de código y de bloque HTML
+- Barra de fórmulas
+- Barra de tablas
+- Barra de avisos
+- Barra de notas al pie
+- Barra de anotaciones y revisiones
+- Barra de SuperTag
+- Barra de tarjetas PDF
+
+Así, a menudo no necesitas recordar toda la sintaxis de antemano. Un patrón habitual es:
+
+1. Seleccionar primero el contenido
+2. Usar la barra de herramientas para aplicar o ajustar la acción
+
+Para ocultar estas barras, desactiva **Selection toolbar** en **Settings → Editor → Markdown Editor**.
+
+### Comportamiento de las barras de herramientas
+
+<AccordionGroup>
+  <Accordion title="Cambian según el objeto seleccionado" icon="arrows-rotate" defaultOpen>
+    Cada tipo de objeto muestra una barra distinta. El texto muestra herramientas de formato, las imágenes muestran herramientas de imagen y las tarjetas PDF muestran una barra propia.
+  </Accordion>
+
+  <Accordion title="Pueden abrir paneles flotantes secundarios" icon="layer-group">
+    Algunos botones de la barra abren un segundo panel flotante con opciones o destinos más concretos.
+  </Accordion>
+
+  <Accordion title="Permiten editar en el sitio" icon="pen-to-square">
+    Las barras aparecen cerca del contenido seleccionado, para que no tengas que apartar la vista de lo que estás editando.
+  </Accordion>
+
+  <Accordion title="Pueden pasar la selección al agente" icon="sparkles">
+    Muchas barras incluyen un botón **ASK AI**, que abre el agente junto al documento con tu selección adjunta. Las indicaciones que añadas en **Settings → AI → AI Toolbar Prompts** aparecen como botones adicionales en las barras.
+  </Accordion>
+</AccordionGroup>
+
+### Cuándo ayudan más las barras de herramientas
+
+Las barras de herramientas suelen ser la mejor opción cuando:
+
+- Sabes qué contenido quieres editar, pero no quieres recordar la sintaxis
+- Quieres ver las acciones posibles antes de decidir
+- Trabajas con nodos visuales como imágenes, adjuntos, tarjetas PDF o SuperTags
+
+## Orden de aprendizaje recomendado
+
+Si estás empezando con Zditor, este orden resulta práctico:
+
+1. Aprende a arrastrar y soltar para editar la estructura
+2. Memoriza unos pocos atajos de teclado muy útiles
+3. Empieza a usar los menús de activación `/`, `@`, `#` y `:`
+4. Familiarízate con las barras de herramientas de cada objeto mientras escribes
+
+## Guías relacionadas
+
+<CardGroup cols={2}>
+  <Card title="Atajos de teclado" icon="keyboard" href="/es/keyboard-shortcuts">
+    Abre la referencia completa de atajos.
+  </Card>
+
+  <Card title="Árbol de archivos" icon="folder-tree" href="/es/file-tree">
+    Aprende a arrastrar y organizar archivos.
+  </Card>
+
+  <Card title="SuperTag" icon="hashtag" href="/es/supertag">
+    Aprende a usar el menú `#` y las referencias estructuradas.
+  </Card>
+
+  <Card title="Anotaciones en PDF" icon="file-text" href="/es/pdf-annotations">
+    Consulta las tarjetas PDF, las anotaciones en PDF y los flujos de trabajo relacionados.
+  </Card>
+</CardGroup>

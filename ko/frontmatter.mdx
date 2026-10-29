@@ -1,0 +1,226 @@
+---
+title: "Frontmatter 가이드"
+description: "YAML Frontmatter로 Zditor의 Markdown 문서에 구조화된 메타데이터를 추가하세요."
+icon: "table"
+---
+
+Frontmatter는 문서 맨 위에 있는 YAML 메타데이터 블록입니다. Zditor에서는 시각적인 표인 **Document properties** 대화 상자에서 편집할 수 있으므로 모든 필드를 직접 관리할 필요가 없습니다. Zditor는 속성을 문서 위에 헤더로도 표시합니다.
+
+## 한눈에 보기
+
+<CardGroup cols={2}>
+  <Card title="시각적 편집" icon="table">
+    YAML을 직접 쓰는 대신 표에서 필드를 편집하세요.
+  </Card>
+
+  <Card title="11가지 필드 유형" icon="list-check">
+    텍스트, 숫자, 날짜, 체크박스, 진행률, 선택 등을 지원합니다.
+  </Card>
+
+  <Card title="커버 이미지 지원" icon="image">
+    문서 헤더에 커버 이미지를 넣고 따뜻한 톤과 차가운 톤을 전환하세요.
+  </Card>
+
+  <Card title="데이터베이스 연동" icon="database">
+    `class` 필드로 Frontmatter 필드를 SuperTag 표 시스템과 연결하세요.
+  </Card>
+</CardGroup>
+
+## 기본 문법
+
+Frontmatter는 파일 맨 위에서 `---`로 감쌉니다.
+
+```yaml
+---
+title: "My document"
+date: 2024-01-15
+tags: [product, notes]
+draft: true
+---
+
+Document content starts here...
+```
+
+## 지원 형식
+
+<AccordionGroup>
+  <Accordion title="약식 형식" icon="bolt" defaultOpen>
+    단순한 키-값 쌍을 쓰면 편집기가 필드 유형을 추론합니다.
+
+    ```yaml
+    ---
+    title: "Document title"
+    count: 42
+    done: true
+    tags: [tag-1, tag-2]
+    ---
+    ```
+
+    **추론 규칙**
+    - `[a, b]` 같은 목록은 `array`가 됩니다
+    - `true`와 `false`는 `checkbox`가 됩니다
+    - 숫자는 `number`가 됩니다
+    - `2024-01-15` 같은 날짜는 `text`로 남습니다. 날짜 필드로 쓰려면 `type: date`를 지정한 전체 형식을 사용하세요
+    - 그 밖의 문자열은 `text`가 됩니다
+    - 값이 없는 키는 무시됩니다
+  </Accordion>
+
+  <Accordion title="전체 형식" icon="sliders">
+    필드의 유형, 레이블, 설명, 값을 명시적으로 정의하고, `select`와 `multiselect` 필드에는 옵션도 지정합니다.
+
+    ```yaml
+    ---
+    status:
+      type: select
+      label: "Status"
+      description: "Current document status"
+      value: "In Progress"
+      options: [Todo, In Progress, Done]
+    priority:
+      type: number
+      label: "Priority"
+      value: 3
+    ---
+    ```
+
+    전체 형식의 필드에는 아래 유형 중 하나가 있어야 합니다. `type`이 없거나 알 수 없는 유형인 중첩 항목은 Zditor가 무시합니다.
+  </Accordion>
+</AccordionGroup>
+
+## 필드 유형
+
+| 유형 | 편집기 표시 | 설명 | 예시 |
+|------|------|------|--------|
+| `text` | Text | 텍스트 문자열 | `"Hello"` |
+| `number` | Number | 숫자 값 | `42` |
+| `checkbox` | Toggle | 불리언 값 | `true` / `false` |
+| `date` | Date | 날짜 | `2024-01-15` |
+| `datetime` | Date and time | 날짜와 시간 | `2024-01-15T10:30` |
+| `time` | Time | 시간 | `10:30` |
+| `array` | List | 문자열 배열 | `[tag-1, tag-2]` |
+| `select` | Select | `options` 중 하나 선택 | `"Option A"` |
+| `multiselect` | Multi-select | `options` 중 여러 개 선택 | `[Option A, Option B]` |
+| `progress` | Progress | 0부터 100까지의 진행률 | `75` |
+| `asset` | Image | 이미지 경로 또는 URL | `"cover.png"` |
+
+## 시각적 편집기
+
+Zditor는 표 형식의 Frontmatter 편집기를 제공하므로 바꿀 때마다 YAML을 직접 작성할 필요가 없습니다. 편집기를 열려면 서식 보기나 분할 보기에서 Markdown 문서의 제목 표시줄에 있는 **Edit properties**(태그 아이콘)를 클릭하세요. 문서가 편집 가능한 상태여야 합니다.
+
+### 속성 표
+
+**Document properties**의 **Properties** 탭은 다음 열로 구성된 표에 필드를 나열합니다.
+
+- **Property**: 필드의 표시 이름. 키와 다르면 그 아래에 키도 표시됩니다
+- **Type**: 필드 종류
+- **Value**: 현재 값. 유형에 맞는 컨트롤로 편집합니다
+
+행 끝의 톱니바퀴 버튼을 누르면 속성 설정이 열립니다.
+
+- **Property key**: 필드 이름. 이름을 바꾸려면 **Update key**를 클릭합니다
+- **Display name**: 편집기에 표시되는 레이블
+- **Field description**: 추가 설명
+- **Options**: `select`와 `multiselect`의 값
+- **Delete property**: 필드 삭제
+
+표 위에서는 속성을 검색하거나 **Export CSV**를 클릭할 수 있습니다. **Layout fields**를 클릭하면 기본적으로 숨겨져 있는 헤더 설정 `row`, `col`, `warm`, `warmDark`, `display`도 표시됩니다.
+
+필드 유형을 바꿨는데 값을 변환할 수 없으면 Zditor가 **Keep value**와 **Reset value and change type** 중 무엇을 할지 묻습니다.
+
+변경 사항은 **Apply**를 클릭하거나 `Cmd + Enter`(Windows와 Linux에서는 `Ctrl + Enter`)를 눌러야 저장됩니다. **Cancel**을 누르면 변경 사항이 취소됩니다.
+
+### 필드 추가
+
+<AccordionGroup>
+  <Accordion title="사용자 지정 필드 추가" icon="plus" defaultOpen>
+    **Add property**를 클릭하고 **Property key**를 입력한 다음 **Type**을 고르세요. 필요하면 **Display name**과 **Field description**도 입력합니다. 그런 다음 패널에서 **Add property**를 클릭하세요.
+  </Accordion>
+
+  <Accordion title="미리 정의된 필드 추가" icon="ellipsis">
+    같은 패널에서 **Property preset**을 고르면 자주 쓰는 필드의 키와 유형이 채워집니다. 문서에 이미 있는 프리셋은 목록에 나오지 않습니다.
+
+    **Text**
+    - Title, Subject, Description, Author
+
+    **Image**
+    - Avatar, Cover, `coverDark`
+
+    **Date**
+    - Created, Updated
+
+    **List**
+    - Tags
+    - Information row (`row`)와 Title area (`col`)
+
+    **Toggle**
+    - Favorite, Template
+    - Show property summary (`display`), Warm tone (`warm`), `warmDark`
+  </Accordion>
+</AccordionGroup>
+
+### 헤더 레이아웃
+
+**Header layout** 탭에서는 문서 위에 속성을 어떻게 표시할지 정합니다.
+
+- **Cover image**: 헤더 뒤에 깔리는 이미지입니다. 이미지가 없으면 헤더는 텍스트만 있는 레이아웃을 사용합니다.
+- **Title area**(제목 영역): **Eyebrow**, **Title**, **Description**으로 표시할 속성입니다. `col`에 저장됩니다.
+- **Information row**(정보 행): 제목 아래 한 줄에 지정한 순서대로 표시할 속성입니다. 드래그하거나 화살표 버튼으로 순서를 바꾸고, **Add to information row…**로 속성을 더 추가할 수 있습니다. `row`에 저장됩니다.
+- **Show property summary**와 **Warm tone** 스위치: 각각 `display`와 `warm`에 저장됩니다.
+
+직접 설정하기 전까지 제목 영역에는 `subject`, `title`, `description`이, 정보 행에는 값이 있는 `avatar`, `author`, `updated`, `created`, `tags`가 표시됩니다. 값이 있는 다른 속성은 최대 4개까지 헤더 아래에 요약으로 표시됩니다.
+
+## 커버 이미지
+
+`cover` 필드로 문서에 커버 이미지를 추가하세요.
+
+<Steps>
+  <Step title="cover 필드 추가">
+    **Document properties**를 열고 **Header layout**으로 이동한 다음 **Cover image** 아래의 **Choose image**를 클릭하세요. 입력란에 경로나 URL을 직접 입력할 수도 있습니다. Zditor는 이 값을 `asset` 유형의 `cover` 필드에 저장합니다.
+  </Step>
+  <Step title="이미지 선택">
+    이미지 선택기에는 탭이 세 개 있습니다. **Upload**에서는 컴퓨터의 이미지를 추가하고, **Library**에서는 작업 공간의 이미지를 검색하며, **Link**에서는 이미지 URL을 붙여 넣고 **Apply**를 클릭합니다.
+  </Step>
+  <Step title="테마 조정">
+    커버 위에 마우스를 올려 도구 모음을 표시한 다음 **Toggle Tone**을 클릭해 따뜻한 톤과 차가운 톤을 전환하세요. 따뜻한 톤은 밝은 이미지에 어두운 텍스트를, 차가운 톤은 어두운 이미지에 흰색 텍스트를 사용합니다. 같은 도구 모음에 **Change Cover**, **Edit properties**, **Copy Meta Information**, **Refresh**, **Delete Meta Information**도 있습니다.
+  </Step>
+</Steps>
+
+<Tip>
+  다크 모드에서 다른 커버를 쓰려면 `coverDark` 프리셋을 추가하세요. 이 커버의 톤은 `warmDark`에 저장됩니다.
+</Tip>
+
+## 특수 필드
+
+| 필드 | 의미 |
+|------|------|
+| `class` | SuperTag가 사용하는 카테고리 또는 표 이름. 텍스트 필드여야 합니다 |
+| `field` | SuperTag 스키마 파일에서, 해당 클래스의 레코드가 가지는 필드 목록 |
+| `row` | 헤더의 정보 행에 표시되는 필드 |
+| `col` | 헤더의 제목 영역에 표시되는 필드(최대 3개) |
+| `cover` | 커버 이미지 경로 또는 URL |
+| `coverDark` | 다크 모드에서 쓰는 커버 이미지 |
+| `warm` | 커버 톤. `true`는 따뜻한 톤, `false`는 차가운 톤 |
+| `warmDark` | `coverDark`의 톤 |
+| `display` | `false`이면 헤더 아래의 속성 요약을 숨깁니다 |
+| `template` | `true`이면 `/` 메뉴의 **Templates**와 **Calendar** 사이드바에 문서가 표시됩니다. `/` 메뉴에서 템플릿을 고르면 현재 문서가 그 템플릿의 사본으로 바뀝니다 |
+| `favorites` | `true`이면 **Calendar** 사이드바의 **Favorites** 탭에 문서가 표시됩니다. 복수형에 주의하세요. **Favorite** 프리셋은 `favorite`을 추가하는데, 이 탭은 그 필드를 읽지 않습니다 |
+
+## 자주 묻는 질문
+
+<AccordionGroup>
+  <Accordion title="Frontmatter가 문서 본문에 표시되나요?">
+    서식 보기에서는 표시되지 않습니다. Zditor는 YAML 블록을 숨기고 대신 문서 위에 속성을 헤더로 보여 줍니다. 소스 보기에서는 원본 YAML이 표시되며 그곳에서 편집할 수 있습니다.
+  </Accordion>
+
+  <Accordion title="Frontmatter 데이터는 어떻게 내보내나요?">
+    **Document properties**에서 **Export CSV**를 클릭하면 현재 문서의 속성이 Property, Type, Value, Label, Description, Options 열로 구성된 CSV 파일로 저장됩니다.
+  </Accordion>
+
+  <Accordion title="약식 형식과 전체 형식을 섞어 쓸 수 있나요?">
+    네. Zditor는 한 문서 안의 두 형식을 모두 읽고 약식 필드의 유형을 자동으로 추론합니다. **Document properties**나 커버 도구 모음에서 변경 사항을 적용하면 Zditor가 블록 전체를 전체 형식으로 다시 쓰며, 값이 없는 키처럼 읽지 못한 항목은 제거됩니다.
+  </Accordion>
+
+  <Accordion title="Frontmatter를 모두 지우려면 어떻게 하나요?">
+    소스 보기에서 여는 `---` 줄과 닫는 `---` 줄 사이의 YAML 블록을 삭제하세요. 문서에 커버 이미지가 있다면 커버 도구 모음의 **Delete Meta Information**을 클릭해도 됩니다.
+  </Accordion>
+</AccordionGroup>

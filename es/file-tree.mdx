@@ -1,0 +1,327 @@
+---
+title: "Guía del árbol de archivos"
+description: "Gestiona archivos y carpetas de forma eficiente con el árbol de archivos de la barra lateral de Zditor."
+icon: "folder-tree"
+---
+
+El árbol de archivos de la barra lateral es una de las partes centrales de Zditor. Te permite explorar, crear, renombrar, mover y organizar directamente los archivos del espacio de trabajo actual.
+
+## Vista general de la interfaz
+
+El árbol de archivos es el panel **Files** de la barra lateral. Haz clic en el icono de carpeta, en la parte superior de la barra de navegación de la izquierda, para mostrarlo. Sin ningún filtro activo, muestra todos los archivos y carpetas del espacio de trabajo, incluidos los que empiezan por un punto.
+
+### Barra de herramientas superior
+
+La parte superior del árbol de archivos muestra el nombre del espacio de trabajo actual. Haz clic en él para cambiar de espacio de trabajo (consulta [Gestión de espacios de trabajo](#gestión-de-espacios-de-trabajo)). A su lado hay tres botones:
+
+- **New File** crea un archivo en la raíz del espacio de trabajo
+- **New Folder** crea una carpeta en la raíz del espacio de trabajo
+- **More** abre un menú con:
+  - **Filter**, para mostrar solo ciertos tipos de archivo
+  - **Refresh**, para volver a analizar el espacio de trabajo
+  - **Collapse**, para cerrar todas las carpetas expandidas
+  - **Clear clipboard**, para cancelar una copia o un corte pendientes (solo aparece mientras hay algo copiado o cortado)
+  - **Open Folder**, para abrir el espacio de trabajo en el gestor de archivos del sistema
+
+Una fina línea de progreso aparece bajo la barra de herramientas mientras el árbol se carga, se actualiza o importa archivos.
+
+### Lista de archivos
+
+La lista principal muestra archivos y carpetas con una sangría que refleja la jerarquía actual. Pasa el puntero sobre un elemento para ver su ruta completa.
+
+### Barra inferior
+
+La barra de la parte inferior del panel tiene tres partes:
+
+- El botón **+** de la izquierda crea un archivo Markdown vacío llamado `untitled1.md` (o con el siguiente número libre) en la raíz del espacio de trabajo y lo abre.
+- El nombre del espacio de trabajo, en el centro, abre el selector de carpetas del sistema para que puedas cambiar a otra carpeta local.
+- El botón **⋮** de la derecha abre un panel con las opciones de ordenación, tus carpetas recientes y los espacios de trabajo remotos que hayas configurado.
+
+## Operaciones básicas
+
+<AccordionGroup>
+  <Accordion title="Clic simple" icon="mouse">
+    - Haz clic en un archivo para abrirlo en una pestaña
+    - Haz clic en una carpeta para expandirla o contraerla
+  </Accordion>
+
+  <Accordion title="Menús contextuales" icon="bars">
+    - Haz clic con el botón derecho en un archivo para ver acciones como **Open in Right Split**, **Rename** y **Copy**
+    - Haz clic con el botón derecho en una carpeta para crear elementos dentro de ella o pegar en ella
+    - Haz clic con el botón derecho en el área vacía bajo la lista para abrir el menú de la raíz del espacio de trabajo
+  </Accordion>
+</AccordionGroup>
+
+### Seleccionar elementos
+
+Haz clic en un archivo o una carpeta para seleccionarlo. El elemento seleccionado aparece resaltado.
+
+### Renombrar
+
+<AccordionGroup>
+  <Accordion title="Cómo renombrar" icon="pen">
+    1. Haz clic con el botón derecho en un archivo o una carpeta y elige **Rename**
+    2. O pasa el puntero sobre el elemento, haz clic en su botón **…** y elige **Rename**
+    3. Pulsa `Enter` para confirmar o `Esc` para cancelar. Hacer clic en otro lugar también confirma el nuevo nombre.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Al renombrar un archivo, solo se selecciona la parte del nombre anterior a la extensión, así que puedes escribir un nombre nuevo y conservar la extensión.
+</Tip>
+
+## Gestión de archivos y carpetas
+
+### Crear archivos y carpetas
+
+<AccordionGroup>
+  <Accordion icon="plus" title="Método 1: barra de herramientas superior">
+    Haz clic en **New File** o **New Folder** en la barra de herramientas para crear el elemento en la raíz del espacio de trabajo.
+  </Accordion>
+
+  <Accordion icon="folder-plus" title="Método 2: accesos al pasar el puntero">
+    Al pasar el puntero sobre una carpeta, aparecen botones de acción rápida.
+
+    - `+` crea un archivo nuevo dentro de esa carpeta
+    - El icono de carpeta crea una subcarpeta
+  </Accordion>
+
+  <Accordion icon="computer-mouse" title="Método 3: menú del botón derecho">
+    Haz clic con el botón derecho en la carpeta de destino, o en el área vacía bajo la lista para la raíz del espacio de trabajo, y elige **New File** o **New Folder**.
+  </Accordion>
+</AccordionGroup>
+
+Al crear un archivo, Zditor muestra un campo para el nombre seguido de otro para la extensión. La extensión inicial es tu extensión predeterminada (`.md`, salvo que la cambies):
+
+- Pulsa `↑` o `↓` para cambiar a otra extensión de tu lista
+- Escribe al final del nombre una extensión de tu lista, como `notes.txt`, para cambiar a ella
+- Pulsa `→` al final del nombre para pasar al campo de la extensión
+
+Puedes cambiar la extensión predeterminada y la lista de extensiones en **Settings → Personal → General → File types**.
+
+### Eliminar archivos y carpetas
+
+1. Haz clic con el botón derecho en el archivo o la carpeta
+2. Elige **Delete**
+
+Si el archivo, o algo dentro de la carpeta, está abierto en una pestaña, Zditor pregunta primero si quieres cerrar esas pestañas y eliminarlo. Si no, el elemento se elimina de inmediato.
+
+<Warning>
+  Al eliminar, los elementos no van a la Papelera del sistema, y la acción no se puede deshacer. Revisa con cuidado antes de eliminar archivos o carpetas.
+</Warning>
+
+### Copiar, cortar y pegar
+
+<AccordionGroup>
+  <Accordion icon="copy" title="Copiar">
+    1. Haz clic con el botón derecho en un archivo o una carpeta y elige **Copy**
+    2. El elemento recibe un contorno amarillo y la etiqueta **Copy**
+  </Accordion>
+
+  <Accordion icon="scissors" title="Cortar">
+    1. Haz clic con el botón derecho en un archivo o una carpeta y elige **Cut**
+    2. El elemento recibe un contorno verde azulado y la etiqueta **Cut**
+  </Accordion>
+
+  <Accordion icon="paste" title="Pegar">
+    1. Haz clic con el botón derecho en la carpeta de destino, o en el área vacía bajo la lista para la raíz del espacio de trabajo
+    2. Elige **Paste**
+    3. El elemento se copia o se mueve a esa ubicación
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  El portapapeles contiene un solo elemento cada vez y se vacía después de pegar. No puedes pegar un elemento dentro de sí mismo, moverlo a una de sus propias subcarpetas ni pegarlo en una carpeta que ya contenga un elemento con el mismo nombre.
+</Tip>
+
+## Ordenar y filtrar
+
+### Filtros por tipo de archivo
+
+Abre **More → Filter** en la barra de herramientas superior para mostrar solo ciertos tipos de archivo:
+
+| Filtro | Muestra |
+| --- | --- |
+| **All** | Todos los archivos y carpetas |
+| **Markdown** | `.md`, `.mdx`, `.markdown` |
+| **Documents** | `.pdf`, `.doc`, `.docx`, `.txt`, `.csv`, `.xls`, `.xlsx`, `.ppt`, `.pptx` |
+| **Assets** | Archivos de imagen, vídeo y audio |
+| **Code** | Archivos de código fuente, web y configuración, como `.ts`, `.js`, `.py`, `.json`, `.yaml`, `.html` y `.css` |
+| **Excalidraw** | Archivos de lienzo (`.excalidraw`) |
+| **Hidden** | Archivos y carpetas cuyo nombre empieza por un punto |
+| **Other** | Archivos que no encajan en ninguna de las categorías anteriores |
+
+Puedes activar varios filtros a la vez. Al elegir **All** se desactivan los demás. Mientras hay un filtro activo, el elemento **Filter** muestra cuántos tipos están seleccionados y el botón **More** muestra un punto.
+
+Las carpetas siempre permanecen en la lista para que puedas llegar a los archivos coincidentes que contienen. Los elementos cuyo nombre empieza por un punto se ocultan siempre que haya un filtro activo, salvo que **Hidden** sea uno de los filtros seleccionados.
+
+### Opciones de ordenación
+
+Haz clic en el botón **⋮** de la barra inferior. Los botones de ordenación están en la parte superior del panel:
+
+#### Modo de ordenación
+
+- **Sort alphabetically** ordena por nombre
+- **Sort by creation time** ordena por la fecha de creación de cada archivo
+- **Sort by modification time** ordena por la fecha del último cambio de cada archivo
+
+#### Sentido de la ordenación
+
+- El botón de flecha alterna entre **Sort ascending** y **Sort descending**
+
+#### Agrupación de carpetas
+
+- **Group by folder** mantiene las carpetas por encima de los archivos
+
+De forma predeterminada, el árbol se ordena alfabéticamente en orden ascendente, con las carpetas agrupadas primero. Los elementos cuyo nombre empieza por un punto aparecen antes que los demás.
+
+## Arrastrar y soltar
+
+El árbol de archivos permite organizar los archivos arrastrándolos y soltándolos.
+
+<AccordionGroup>
+  <Accordion icon="file-import" title="Mover archivos o carpetas">
+    1. Arrastra el archivo o la carpeta
+    2. Llévalo hasta la carpeta de destino
+    3. Suéltalo para terminar de moverlo
+  </Accordion>
+
+  <Accordion icon="upload" title="Importar archivos externos">
+    Arrastra archivos o carpetas desde el gestor de archivos del sistema hasta una carpeta del árbol, o hasta el área vacía para la raíz del espacio de trabajo, para copiarlos en el espacio de trabajo. Un archivo soltado sustituye a otro con el mismo nombre en esa carpeta. Una breve línea de estado en la parte inferior del árbol indica cuántos archivos se han añadido.
+  </Accordion>
+
+  <Accordion icon="home" title="Soltar en la raíz">
+    Suelta elementos en el área vacía del árbol para moverlos a la raíz del espacio de trabajo.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Mientras arrastras, la carpeta de destino aparece resaltada. Si mantienes el puntero sobre una carpeta cerrada unos 600 ms, se expande automáticamente. Al arrastrar cerca del borde superior o inferior de la lista, esta se desplaza.
+</Tip>
+
+## Menús contextuales
+
+Los archivos y carpetas ofrecen menús contextuales completos. También puedes abrir el mismo menú desde el botón **…** que aparece al pasar el puntero sobre un elemento.
+
+### Menú contextual de archivo
+
+| Elemento | Qué hace |
+| --- | --- |
+| **Open** | Abre el archivo en el panel izquierdo |
+| **Open in Right Split** | Abre el archivo en el panel derecho |
+| **Rename** | Cambia el nombre del archivo |
+| **Copy** | Copia el archivo al portapapeles |
+| **Cut** | Corta el archivo al portapapeles |
+| **Paste** | No disponible en archivos; pega en una carpeta o en la raíz del espacio de trabajo |
+| **Open in Folder** | Muestra el archivo en el gestor de archivos del sistema |
+| **Copy File Path** | Copia la ruta completa del archivo al portapapeles |
+| **Save As** | Guarda una copia del archivo en la ubicación que elijas de este equipo |
+| **Delete** | Elimina el archivo |
+
+### Menú contextual de carpeta
+
+Los menús de carpeta tienen **Rename**, **Copy**, **Cut**, **Paste**, **Open in Folder**, **Copy File Path** y **Delete**, además de:
+
+| Elemento | Qué hace |
+| --- | --- |
+| **New File** | Crea un archivo en esa carpeta |
+| **New Folder** | Crea una subcarpeta |
+
+### Menú contextual de la raíz
+
+Haz clic con el botón derecho en el área vacía del árbol de archivos para abrir el menú de la raíz del espacio de trabajo:
+
+- **New File** y **New Folder**, para crear elementos en la raíz
+- **Paste**, para pegar en la raíz el elemento copiado o cortado
+- **Refresh**, para volver a analizar el espacio de trabajo
+- **Collapse All**, para cerrar las carpetas expandidas
+- **Open in Folder**, para abrir el espacio de trabajo en el gestor de archivos del sistema
+- **Copy File Path**, para copiar la ruta del espacio de trabajo
+
+## Gestión de espacios de trabajo
+
+Un espacio de trabajo es la carpeta cuyos archivos muestra el árbol. En una pestaña vacía también puedes elegir **Open Workspace** para abrir una carpeta existente, o **New Workspace** para crear una carpeta vacía y abrirla.
+
+### Cambiar de espacio de trabajo
+
+1. Haz clic en el nombre del espacio de trabajo, en la parte superior del árbol de archivos
+2. Elige un espacio de trabajo del menú, o elige **Open Directory** para seleccionar una carpeta en el selector de carpetas del sistema
+3. Zditor carga el nuevo espacio de trabajo
+
+Si hay pestañas de agente abiertas, Zditor te pide que confirmes el cambio, porque se cierran sus conexiones con el espacio de trabajo actual. Tus pestañas y el historial de sesiones se conservan y vuelven a conectarse cuando regresas a ese espacio de trabajo.
+
+<Tip>
+  Cada espacio de trabajo puede tener su propia ventana. Elige **Open Folder in New Window…**, o haz `Cmd`-clic en un espacio de trabajo del menú (`Ctrl`-clic en Windows y Linux), para abrirlo en una ventana nueva. Si un espacio de trabajo ya está abierto en otra ventana, al elegirlo esa ventana pasa al primer plano.
+</Tip>
+
+### Espacios de trabajo remotos
+
+Los espacios de trabajo no tienen por qué estar en este equipo. Añade una conexión en **Settings → Integrations → Connections**:
+
+- El almacenamiento **S3**, los servidores **WebDAV** y las carpetas de hosts **SSH** aparecen como grupos propios en el menú de espacios de trabajo y en el panel **⋮**.
+- Una conexión **Git** mantiene un clon local del repositorio y lo abre como cualquier otra carpeta.
+
+En los espacios de trabajo S3, WebDAV y SSH, **Open in Folder** no está disponible y el árbol no se actualiza solo cuando cambian los archivos en el servidor. Usa **Refresh** para ver los archivos más recientes.
+
+### Carpetas recientes
+
+El menú de espacios de trabajo muestra tus carpetas locales recientes. El panel **⋮** de la barra inferior también las muestra y te permite gestionarlas:
+
+<AccordionGroup>
+  <Accordion icon="thumbtack" title="Fijar carpetas">
+    Haz clic en el icono de la chincheta para mantener una carpeta importante al principio de la lista de recientes.
+  </Accordion>
+
+  <Accordion icon="trash" title="Quitar entradas recientes">
+    En las carpetas no fijadas, haz clic en el icono de la papelera para quitar la entrada de la lista de recientes.
+  </Accordion>
+</AccordionGroup>
+
+La lista conserva hasta cinco carpetas, y las carpetas fijadas siempre permanecen en ella. Al iniciarse, Zditor vuelve a abrir el último espacio de trabajo que usaste; para empezar sin ninguno, desactiva **Reopen previous workspace** en **Settings → Personal → General**.
+
+### Actualización automática
+
+En un espacio de trabajo local, el árbol de archivos vigila la raíz del espacio de trabajo y todas las carpetas expandidas:
+
+- Crear, eliminar o renombrar un archivo, en Zditor o en otra aplicación, actualiza el árbol
+- Una carpeta que vuelves a expandir se analiza de nuevo, así que aparecen los cambios hechos mientras estaba contraída
+
+## Consejos avanzados
+
+<CardGroup cols={2}>
+  <Card title="Uno al lado del otro" icon="bolt">
+    Usa **Open in Right Split** para leer un archivo mientras editas otro.
+  </Card>
+
+  <Card title="Mover con cortar y pegar" icon="layer-group">
+    Cortar y pegar mueve un archivo o una carpeta a una carpeta lejana del árbol sin un arrastre largo.
+  </Card>
+
+  <Card title="Copiar rutas" icon="clipboard">
+    Usa **Copy File Path** cuando necesites compartir o citar la ruta de un archivo en otro lugar.
+  </Card>
+</CardGroup>
+
+## Preguntas frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Por qué faltan algunos archivos en el árbol?" icon="question">
+    Comprueba si hay un filtro de tipo de archivo activo: el botón **More** muestra un punto cuando lo hay. Vuelve a poner **More → Filter** en **All**. Mientras haya cualquier otro filtro activo, los archivos y carpetas cuyo nombre empieza por un punto siguen ocultos, salvo que también selecciones **Hidden**.
+  </Accordion>
+
+  <Accordion title="¿Por qué no funciona el arrastre?" icon="question">
+    Mantén el puntero sobre una carpeta cerrada el tiempo suficiente para que se expanda. No puedes mover un elemento dentro de sí mismo, a una de sus subcarpetas ni a la carpeta en la que ya está, y el movimiento se rechaza si el destino ya tiene un elemento con el mismo nombre.
+  </Accordion>
+
+  <Accordion title="¿Cómo encuentro rápido los archivos modificados recientemente?" icon="question">
+    En el panel **⋮**, elige **Sort by modification time** y pon el sentido en descendente.
+  </Accordion>
+
+  <Accordion title="¿Puedo abrir varios archivos a la vez?" icon="question">
+    Sí. Cada archivo se abre en su propia pestaña al hacer clic en él. Usa **Open in Right Split** para ver dos archivos uno al lado del otro.
+  </Accordion>
+
+  <Accordion title="¿Por qué no está disponible Open in Folder?" icon="question">
+    Los espacios de trabajo S3, WebDAV y SSH no están en este equipo, así que no hay ninguna carpeta local que mostrar en el gestor de archivos del sistema.
+  </Accordion>
+</AccordionGroup>

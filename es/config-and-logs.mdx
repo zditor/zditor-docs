@@ -1,0 +1,93 @@
+---
+title: "Rutas de configuración y registros"
+description: "Encuentra las carpetas de configuración y de registros de Zditor en macOS, Windows y Linux."
+icon: "folder-open"
+---
+
+Esta página recoge las rutas predeterminadas de configuración y de registros que usa Zditor en cada sistema operativo. Te resultará útil cuando quieras migrar los ajustes, reunir registros para resolver un problema o abrir rápidamente la carpeta correcta.
+
+<Warning>
+  Estas son las rutas predeterminadas. En Linux, siguen la variable de entorno `XDG_DATA_HOME` cuando está definida.
+</Warning>
+
+## Rutas predeterminadas
+
+Zditor guarda sus ajustes y los demás datos de la aplicación en una carpeta con el nombre de su identificador de aplicación, `com.zditor.ai`, y escribe sus archivos de registro en otra carpeta.
+
+| Sistema | Ruta de configuración | Ruta de registros |
+| :--- | :--- | :--- |
+| macOS | `~/Library/Application Support/com.zditor.ai` | `~/Library/Logs/com.zditor.ai` |
+| Windows | `%APPDATA%\com.zditor.ai` | `%LOCALAPPDATA%\com.zditor.ai\logs` |
+| Linux | `~/.local/share/com.zditor.ai` | `~/.local/share/com.zditor.ai/logs` |
+
+La carpeta de configuración contiene tus ajustes, la configuración de modelos del agente, las habilidades que añades para todos los espacios de trabajo, las conversaciones del agente y los datos de las conexiones guardadas, incluidas sus contraseñas, claves y tokens.
+
+El registro actual es `zditor.log`. Cuando crece, Zditor empieza uno nuevo y renombra el archivo antiguo como `zditor_` seguido de la fecha y la hora. Zditor elimina estos archivos de registro antiguos cuando tienen más de 30 días.
+
+<Tip>
+  Para abrir rápidamente el registro actual, haz clic en el icono de Zditor en la barra de menús (macOS) o en la bandeja del sistema (Windows y Linux) y elige **Open log file**.
+</Tip>
+
+## Abrir las carpetas rápidamente
+
+<Tabs>
+<Tab title="mac/linux">
+  ```bash
+  # macOS config directory
+  open ~/Library/Application\ Support/com.zditor.ai
+
+  # macOS log directory
+  open ~/Library/Logs/com.zditor.ai
+
+  # Linux config directory
+  xdg-open ~/.local/share/com.zditor.ai
+
+  # Linux log directory
+  xdg-open ~/.local/share/com.zditor.ai/logs
+  ```
+</Tab>
+
+<Tab title="windows">
+  ```powershell
+  # Config directory
+  explorer "$env:APPDATA\com.zditor.ai"
+
+  # Log directory
+  explorer "$env:LOCALAPPDATA\com.zditor.ai\logs"
+  ```
+</Tab>
+</Tabs>
+
+## Recomendaciones para las copias de seguridad
+
+1. Cierra Zditor por completo antes de copiar la carpeta de configuración, para evitar conflictos de escritura de archivos. Cerrar la ventana puede dejar Zditor ejecutándose en segundo plano; elige **Quit zditor** en su icono de la barra de menús o de la bandeja del sistema.
+2. Los registros sirven sobre todo para resolver problemas y no suelen necesitar copias de seguridad completas a largo plazo.
+3. Haz una copia de seguridad de la carpeta de configuración antes de actualizar o reinstalar.
+4. Mantén en privado las copias de la carpeta de configuración, porque contiene las credenciales de tus conexiones guardadas. Cuando informes de un problema, envía los archivos de registro en lugar de la carpeta de configuración.
+
+<Tip>
+  Para ver cuánto espacio ocupan los datos de la aplicación de Zditor y vaciar las cachés, abre **Settings → Personal → Storage & data** en la aplicación de escritorio.
+</Tip>
+
+## Preguntas frecuentes
+
+### No encuentro la carpeta
+
+- Inicia Zditor una vez; las carpetas se crean la primera vez que se ejecuta
+- En Windows, pega `%APPDATA%` o `%LOCALAPPDATA%` directamente en la barra de direcciones del Explorador de archivos
+- En macOS, la carpeta `~/Library` está oculta en el Finder. Pulsa `Cmd + Shift + G` en el Finder e introduce la ruta, por ejemplo `~/Library/Logs/com.zditor.ai`
+
+### Quiero confirmar la ruta real en mi equipo
+
+En Linux, las rutas siguen `XDG_DATA_HOME` si la has definido. Muéstrala primero en una ventana de terminal:
+
+```bash
+# Linux
+echo $XDG_DATA_HOME
+```
+
+Si la salida está vacía, Zditor usa `~/.local/share`. En macOS y Windows, ninguna variable de entorno cambia estas rutas, así que usa las de la tabla.
+
+### ¿Por qué también hay una carpeta en ~/.config en Linux?
+
+Zditor guarda el tamaño y la posición de su ventana en `~/.config/com.zditor.ai` (o en `XDG_CONFIG_HOME`, si la has definido). Todo lo demás está en `~/.local/share/com.zditor.ai`.

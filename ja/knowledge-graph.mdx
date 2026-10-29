@@ -1,0 +1,435 @@
+---
+title: "ナレッジグラフガイド"
+description: "インタラクティブな力指向グラフで、ファイル同士の関係を可視化します。"
+icon: "diagram-project"
+---
+
+ナレッジグラフは、Zditor の特長的な機能の 1 つです。ワークスペース内のファイルとファイル間のリンクを、インタラクティブな力指向グラフとして表示するので、構造、参照、まとまり（クラスター）をひと目で把握できます。
+
+## 概要
+
+左端のナビゲーションレールにある **Graph** ボタンでグラフを開きます。グラフはタブで開き、現在のワークスペースを表示します。
+
+Markdown（`.md`）ファイルはそれぞれノードになり、それらのノートがリンクしているファイルもすべてノードになります。各リンクは、リンクを含むファイルからリンク先のファイルへ向かう、向きのある関係になります。レイアウトは自動的にノードを配置し、パンやズームをしたり関係を調べたりする間も、グラフを見やすく保ちます。大きな点ほど、つながりの多いファイルです。
+
+### ナレッジグラフを使うメリット
+
+<CardGroup cols={2}>
+  <Card title="関係を可視化" icon="network-wired">
+    ファイルを 1 つずつ調べなくても、参照や依存の構造を直接確認できます。
+  </Card>
+
+  <Card title="すばやく移動" icon="compass">
+    ノードをダブルクリックすると、グラフから直接ファイルを開けます。
+  </Card>
+
+  <Card title="プロジェクトの全体像" icon="chart-network">
+    関連するノートのまとまり、ハブとなるファイル、孤立したファイルをすばやく見つけられます。
+  </Card>
+
+  <Card title="スマートなレイアウト" icon="atom">
+    レイアウトが自動的にノードを広げ、ひとりでに落ち着きます。
+  </Card>
+</CardGroup>
+
+## リンクの解析方法
+
+グラフは、ワークスペース内の Markdown ファイルに含まれるリンクから作られます。
+
+### Markdown のリンク構文
+
+Zditor は、標準的な Markdown のリンクと画像を認識します。
+
+```markdown
+[Link Text](file/path.md)
+![Alt text](images/diagram.png)
+```
+
+音声、動画、PDF カード、キャンバス、SuperTag の参照など、埋め込みコンテンツのために Zditor が書き込むリンク（`[text](path|mode=...)`）も対象になります。
+
+<AccordionGroup>
+  <Accordion title="リンクの構成" icon="link" defaultOpen>
+    **リンクテキスト**
+    - `[]` の中の内容
+    - グラフで関係のラベルとして使われます
+    - 関係の意味を表します
+
+    **リンクパス**
+    - `()` の中の内容
+    - リンク先のファイルを指します
+    - リンク先のノードを決めます
+  </Accordion>
+
+  <Accordion title="リンクと関係の対応" icon="diagram-project">
+    各リンクは、向きのある関係になります。
+
+    - リンクを含むファイルが**リンク元**です
+    - リンクされたファイルが**リンク先**です
+    - 関係はリンク元からリンク先へ向かいます
+    - リンクテキストが関係のラベルとして表示されます
+  </Accordion>
+
+  <Accordion title="向きを確認する" icon="arrow-right">
+    ファイルや関係を選択すると、リンクの向きを確認できます。**Show directional flow** がオンのときは、選択した関係に沿って、小さな点がリンク元からリンク先へ流れます。
+
+    ファイルの詳細パネルには、そのファイルから出ていくリンクが **References** に、入ってくるリンクが **Referenced by** に表示されます。これを見ると、ハブとなるファイル、多く参照されている資料、互いにリンクし合っているファイルを見つけやすくなります。
+  </Accordion>
+
+  <Accordion title="関係の種類" icon="tags">
+    関係はリンクの種類ごとに分類されます。**Images**、**Audio**、**Videos**、**PDF Card**、**Attachment**、**Embed**、**Excalidraw**、**Supertag**、**Data Table** があり、通常のリンクは **Other** になります。一部の種類は破線や点線で描かれます。
+
+    SuperTag のレコードには、クラスのスキーマファイルへの **Data Table** の関係も作られ、クラス名がラベルとして付きます。
+  </Accordion>
+</AccordionGroup>
+
+### 同じファイル間の複数のリンク
+
+<AccordionGroup>
+  <Accordion title="同じ向きの複数のリンク" icon="arrows-turn-right">
+    ファイル A がファイル B に、異なるリンクテキストで複数回リンクしている場合、グラフは各関係を別々の曲線で描くので、1 本の線に重なって見えなくなることはありません。1 つのファイル内で同じテキストの同じリンクを繰り返しても、1 回として数えられます。
+  </Accordion>
+
+  <Accordion title="双方向のリンク" icon="arrows-left-right">
+    A が B にリンクし、B も A にリンクしている場合、2 つの関係は重ならないよう別々の曲線で描かれます。ファイルからそれ自身へのリンクは、ループとして描かれます。
+  </Accordion>
+</AccordionGroup>
+
+### 解析のルールと制限
+
+<Warning>
+  現在の解析ルールは次のとおりです。
+
+  - リンクを探すためにスキャンされるのは、`.md` で終わるファイルだけです。`.mdx` や `.markdown` を含むその他のファイルは、ノートからリンクされている場合にだけ表示されます
+  - 標準のリンク `[text](path)` と画像 `![alt](path)` が解析されます
+  - `http://` または `https://` で始まる Web リンクは無視されます
+  - `[[page]]` のような Wiki リンク、参照形式のリンク、`<a>` などの HTML タグは解析されません
+  - `/` で始まるパスはワークスペースのルートから、それ以外のパスはリンクを含むファイルのフォルダーから解決されます
+  - パスの末尾にある `#heading` の部分は無視されるので、見出しへのリンクはファイルへのリンクとして数えられます
+  - 隠しファイルや隠しフォルダーはスキャンされません。`.ignore` ファイルや、Git リポジトリの `.gitignore` で除外されたファイルもスキャンされません
+</Warning>
+
+<Tip>
+  リンクテキストは簡潔でわかりやすいものにしましょう。そうすれば、グラフ上の関係のラベルも読みやすく、役に立つものになります。
+</Tip>
+
+存在しないファイルへのリンクでも、ノードは作成されます。このようなノードは中が空洞の破線の円で描かれ、タイトルバーには表示中のその数が **2 missing** のように表示されます。
+
+グラフの対象はローカルのワークスペースです。グラフを開くと、Zditor はワークスペースのインデックスを更新します。**Settings → Personal → General** の **Watch workspace files** がオン（既定）の間は、ノートの変更が保存のたびにグラフに反映されます。いつでも再スキャンするには、タイトルバーの **Refresh file index** をクリックします。
+
+### 例
+
+```markdown
+<!-- docs/README.md -->
+- [Quickstart](./quickstart.md)
+- [API Docs](./api.md)
+
+<!-- docs/quickstart.md -->
+Read [README](./README.md) first
+See [API Docs](./api.md)
+```
+
+これにより、次のような関係ができます。
+
+```text
+README.md ----[Quickstart]----> quickstart.md
+README.md ----[API Docs]-----> api.md
+quickstart.md --[README]-----> README.md
+quickstart.md --[API Docs]---> api.md
+```
+
+## 画面のレイアウト
+
+グラフビューは、次の部分で構成されています。
+
+### タイトルバー
+
+タイトルバーには **Graph** と、現在表示されているファイルと関係の数（**42 files · 57 relations** など）が表示され、見つからないファイルがある場合はその数も表示されます。右側には **Search** と **Refresh file index** があります。
+
+### メインキャンバス
+
+キャンバスにはノードと関係が表示され、自由にパンやズームができます。
+
+### ズームコントロール
+
+左下には、**Zoom out**、現在の拡大率、**Zoom in**、**Fit to view** があります。拡大率をクリックすると 100% に戻ります。
+
+### グラフのコントロール
+
+右下には 3 つのパネルがあります。
+
+- **Filters**：ファイルの種類、関係の種類、孤立したファイルの絞り込み
+- **Color legend**：使われている色と、それぞれの数
+- **Display**：色、ラベル、向きのアニメーション、線の不透明度、レイアウト
+
+### 詳細パネル
+
+ファイルや関係を選択すると、右上に詳細パネルが開きます。
+
+<Tip>
+  ズームインするほど、グラフに表示される情報が増えます。つながりの多いファイルから順にファイルのラベルが増え、次に関係のラベルが表示されます。ノードも大きくなり、ファイルの種類を示すアイコンが表示されます。
+</Tip>
+
+## ファイルの種類の判別
+
+既定では、ノードはファイルの種類ごとに色分けされます。各種類の色は、**Color legend** を開くと確認できます。
+
+| 種類 | 拡張子 |
+| --- | --- |
+| **Markdown** | `.md`、`.mdx`、`.markdown` |
+| **Images** | `.png`、`.jpg`、`.jpeg`、`.gif`、`.svg`、`.webp`、`.avif`、`.heic`、`.bmp`、`.tiff` などの画像形式 |
+| **Videos** | `.mp4`、`.mov`、`.avi`、`.mkv`、`.webm`、`.flv`、`.wmv` |
+| **Audio** | `.mp3`、`.wav`、`.ogg`、`.flac`、`.aac`、`.m4a`、`.wma` |
+| **Code** | `.js`、`.ts`、`.py`、`.json`、`.yaml`、`.html`、`.css`、`.txt` などのソースコード、Web、設定、プレーンテキストのファイル |
+| **PDF** | `.pdf` |
+| **Documents** | `.doc`、`.docx`、`.rtf`、`.odt`、`.xls`、`.xlsx`、`.ppt`、`.pptx`、`.csv` |
+| **Other** | キャンバス（`.excalidraw`）を含む、その他すべて |
+
+代わりに、コミュニティごとにノードを色分けすることもできます。[表示設定](#表示設定)を参照してください。
+
+## 基本操作
+
+### 表示の操作
+
+<AccordionGroup>
+  <Accordion title="キャンバスをパンする" icon="hand">
+    キャンバスの空いている部分をドラッグすると、ビュー全体を動かせます。
+  </Accordion>
+
+  <Accordion title="ズーム" icon="magnifying-glass">
+    マウスホイールやトラックパッドでスクロールすると、ポインターの位置を中心にズームインやズームアウトができます。左下のズームコントロールも使えます。**Fit to view** を使うと、表示されているすべてのノードが画面に収まります。
+  </Accordion>
+</AccordionGroup>
+
+### ノードの操作
+
+<AccordionGroup>
+  <Accordion title="ノードをクリックする" icon="mouse-pointer" defaultOpen>
+    ノードをクリックすると選択され、その関係がハイライト表示されて、グラフのほかの部分は薄く表示されます。また詳細が開き、**Open file**、**Locate in graph**、**References** と **Referenced by** の下のリンクが表示されます。一覧の関連ファイルをクリックするとその詳細に移動し、戻る矢印で元に戻れます。
+  </Accordion>
+
+  <Accordion title="ノードをダブルクリックする" icon="hand-pointer">
+    ダブルクリックすると、対応するファイルがエディターで開きます。
+  </Accordion>
+
+  <Accordion title="ノードをドラッグする" icon="arrows-alt">
+    ノードをドラッグすると、手動で動かせます。離すと、そのノードは新しい位置に固定されたまま、周りのファイルが落ち着くまで動きます。
+  </Accordion>
+</AccordionGroup>
+
+### 関係線の操作
+
+<AccordionGroup>
+  <Accordion title="関係をクリックする" icon="link">
+    関係をクリックすると選択され、線がハイライト表示されてラベルが表示されます。詳細も開き、関係の種類と、**Source** と **Target** のファイルが、それぞれ開くためのボタン付きで表示されます。
+  </Accordion>
+
+  <Accordion title="ポインターを合わせてラベルを確認する" icon="tag">
+    関係にポインターを合わせると、その関係がハイライト表示され、リンクテキストがツールチップで表示されます。
+  </Accordion>
+</AccordionGroup>
+
+## 検索
+
+### 検索の方法
+
+1. タイトルバーの **Search** をクリックするか、`/` を押します
+2. ファイル名の一部、フォルダー、またはリンクテキストを入力します
+3. マウス、または `↑`、`↓`、`Enter` で結果を選びます
+
+結果を選ぶと、その項目が選択され、詳細が開きます。**Locate in graph** をクリックすると、ビューの中央に表示されます。
+
+### 検索の範囲
+
+<AccordionGroup>
+  <Accordion title="ファイルの検索" icon="circle-nodes">
+    ファイル名や、パスに含まれるフォルダー名（`README` や `projects` など）で検索します。
+  </Accordion>
+
+  <Accordion title="関係の検索" icon="link">
+    リンクテキストや、リンクされたファイルのパスで検索します。
+  </Accordion>
+</AccordionGroup>
+
+検索の対象は、現在のフィルターで非表示になっている項目も含めたグラフ全体で、最大 30 件の結果が表示されます。非表示の項目を選ぶと、詳細パネルに **Adjust filters to show this item** が表示されます。
+
+## フィルター
+
+フィルターを使うと、今の作業に関係する内容だけにグラフを絞り込めます。右下の **Filters** を開きます。
+
+### フィルターのオプション
+
+- **File types**：Markdown、Images、Videos、Audio、Code、PDF、Documents、Other
+- **Relation types**：Images、Audio、Videos、PDF Card、Attachment、Embed、Excalidraw、Supertag、Data Table、Other
+- **Show isolated files**：リンクのないファイルの表示と非表示を切り替えます
+- **Reset filters**：すべてを再び表示します
+
+<Tip>
+  各種類には、そのファイルや関係の数が表示され、複数の種類を一度にオフにできます。**Filters** ボタンには、非表示になっている数が表示されます。**Color legend** でファイルの種類をクリックしても、表示と非表示を切り替えられます。
+</Tip>
+
+<Warning>
+  フィルターをかけた後は、リンク元とリンク先の両方のファイルが表示されている関係だけが表示されます。
+</Warning>
+
+## 設定
+
+### 表示設定
+
+右下の **Display** を開きます。
+
+<AccordionGroup>
+  <Accordion title="Color（色）" icon="palette">
+    **By file type** は、各ノードをファイルの種類ごとに色分けします。**By community** は、互いに密接にリンクし合うファイルのグループごとに色分けします。コミュニティはリンクから自動的に検出され、**Color legend** に大きい順で一覧表示されます。各コミュニティには、最もつながりの多いファイルの名前が付きます。リンクのないファイルは **Ungrouped** にまとめられます。凡例でコミュニティをクリックすると、そのコミュニティだけが表示されます。
+  </Accordion>
+
+  <Accordion title="Show file and relation labels（ラベルの表示）" icon="text-size">
+    ファイル名と関係のリンクテキストの表示と非表示を切り替えます。既定ではオンです。
+  </Accordion>
+
+  <Accordion title="Show directional flow（向きのアニメーション）" icon="arrow-right">
+    選択した関係、または選択したファイルのすべての関係について、向きをアニメーションで示します。既定ではオンです。
+  </Accordion>
+
+  <Accordion title="Edge opacity（線の不透明度）" icon="minus">
+    関係の線を描く濃さを 5%〜80% の範囲で設定します。既定値は 28% です。
+  </Accordion>
+</AccordionGroup>
+
+### レイアウト設定
+
+<AccordionGroup>
+  <Accordion title="Pause layout / Resume layout（一時停止と再開）" icon="pause">
+    レイアウトを停止または再開します。グラフが落ち着くと、レイアウトは自動的にも停止します。
+  </Accordion>
+
+  <Accordion title="Reset layout and pinned positions（レイアウトのリセット）" icon="arrows-rotate">
+    固定したノードをすべて解除し、グラフを最初からレイアウトし直します。
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  **Resume layout** を選ぶと、ノードは落ち着くまで再び動き出します。レイアウトが一時停止していないときにノードをドラッグした場合も同様です。フィルターと表示設定はグラフのタブごとの設定で、タブを閉じると保存されません。
+</Note>
+
+## 統計
+
+グラフには、次の数値が表示されます。
+
+| 場所 | 表示される内容 |
+| --- | --- |
+| **タイトルバー** | 表示中のファイルと関係の数、見つからないファイルの数 |
+| **ズームコントロール** | 現在の拡大率 |
+| **Filters** | 種類ごとのファイルまたは関係の数 |
+| **Color legend** | 種類ごと、またはコミュニティごとのファイルの数 |
+| **詳細パネル** | 選択したファイルの **References** と **Referenced by** の数 |
+
+## 上級者向けのヒント
+
+<CardGroup cols={2}>
+  <Card title="周辺の関係を探る" icon="project-diagram">
+    まずノードを選択すると、そのノードと直接つながる関係がはっきり見えます。
+  </Card>
+
+  <Card title="重要なノードを固定する" icon="hand-sparkles">
+    中心となるファイルを中央にドラッグして固定しておくと、自分なりに読みやすいレイアウトを作れます。
+  </Card>
+
+  <Card title="コミュニティごとに見る" icon="filter">
+    コミュニティごとに色分けしてから凡例でコミュニティをクリックすると、1 つのまとまりだけを表示できます。
+  </Card>
+
+  <Card title="ハブとなるファイルを見つける" icon="star">
+    大きなノードはつながりが多く、たいていは索引、概要、共有の資料にあたります。
+  </Card>
+</CardGroup>
+
+## よくある使い方
+
+<AccordionGroup>
+  <Accordion title="ワークスペースを把握する" icon="folder-tree">
+    新しいワークスペースを開いたら、グラフを使って、主なまとまり、索引となるノート、共有の資料をすばやく把握できます。
+  </Accordion>
+
+  <Accordion title="ノートに依存しているものを確認する" icon="code-branch">
+    ノートの名前を変えたり書き直したりする前に、そのノートを選択して **Referenced by** を確認し、どのノートからリンクされているかを調べます。
+  </Accordion>
+
+  <Accordion title="孤立したファイルを見つける" icon="unlink">
+    孤立したファイルとは、ほかのファイルへのリンクも、ほかのファイルからのリンクもないノートです。ほかのノートとつなげる必要があるかもしれません。
+  </Accordion>
+
+  <Accordion title="ドキュメント間の関係を把握する" icon="book">
+    ドキュメントの多いワークスペースでは、グラフを使って記事のまとまりを調べ、内部リンクの構造を改善できます。
+  </Accordion>
+</AccordionGroup>
+
+## パフォーマンスのヒント
+
+<Steps>
+  <Step title="不要なものを隠す">
+    **Filters** でファイルの種類、関係の種類、孤立したファイルをオフにして、作業中の内容だけがグラフに表示されるようにします。
+  </Step>
+
+  <Step title="レイアウトを一時停止する">
+    配置が整ったら、**Display** で **Pause layout** を選び、ノードの動きを止めます。
+  </Step>
+
+  <Step title="基準となるノードを固定する">
+    重要なノードをいくつか固定すると、レイアウトの揺れが減り、見やすくなります。
+  </Step>
+
+  <Step title="ラベルをオフにする">
+    非常に大きなグラフでは、**Show file and relation labels** をオフにすると、点と線だけが描かれます。
+  </Step>
+</Steps>
+
+## よくある質問
+
+<AccordionGroup>
+  <Accordion title="グラフが空なのはなぜですか？" icon="question">
+    グラフは、ローカルのワークスペースにある `.md` ファイルをインデックスに登録します。ローカルのワークスペースが開いていること、ノートの拡張子が `.md` であること、ノートが隠しフォルダーや除外されたフォルダーにないことを確認してから、**Refresh file index** をクリックしてください。ビューに **No files match these filters** と表示されている場合は、**Reset filters** を選びます。
+  </Accordion>
+
+  <Accordion title="一部のノードがキャンバスの表示範囲の外にあるのはなぜですか？" icon="question">
+    **Fit to view** をクリックするか、ズームアウトするか、ファイルを検索して **Locate in graph** をクリックしてください。
+  </Accordion>
+
+  <Accordion title="固定したノードの位置をリセットするには？" icon="question">
+    **Display** を開き、**Reset layout and pinned positions** を選びます。
+  </Accordion>
+
+  <Accordion title="ダブルクリックしてもファイルが開かないのはなぜですか？" icon="question">
+    ファイルが存在しない可能性があります。見つからないファイルは中が空洞の破線の円で描かれ、開くことはできません。また、2 回のクリックの間にノードをドラッグしていないかも確認してください。
+  </Accordion>
+
+  <Accordion title="関係の線が重なるのはなぜですか？" icon="question">
+    ズームインするか、先にファイルを選択するか、ノードをドラッグして離してください。**Edge opacity** を下げると、線が密集した部分も読みやすくなります。
+  </Accordion>
+
+  <Accordion title="グラフを書き出したり共有したりできますか？" icon="question">
+    現時点では、書き出し機能は組み込まれていません。現在のビューを残したい場合は、システムのスクリーンショット機能を使ってください。
+  </Accordion>
+
+  <Accordion title="グラフが動き続けるのはなぜですか？" icon="question">
+    レイアウトは落ち着くまで動き続け、ノードをドラッグすると再び動き出します。止めるには **Display** で **Pause layout** を選び、基準となるノードをいくつか固定して配置を安定させます。
+  </Accordion>
+</AccordionGroup>
+
+## キーボードショートカット
+
+まずキャンバスをクリックして、グラフにキーボードフォーカスを移します。
+
+| ショートカット | 機能 |
+| --- | --- |
+| `/` | 検索を開く |
+| `Esc` | ノードや関係の選択を解除 |
+| `+` または `=` | ズームイン |
+| `-` | ズームアウト |
+| `Enter` | 選択したファイルを開く |
+| 矢印キー | 選択したノードを少しずつ動かす（ノードは固定されます） |
+
+## 技術的な補足
+
+<Note>
+  グラフはグラフィックカードを使って描画され、レイアウトは編集を妨げないようバックグラウンドで計算されます。システムで動きを減らす設定がオンになっている場合、レイアウトは一時停止した状態で始まり、向きはアニメーション表示されません。グラフを描画できない場合は、ビューに **Unable to load the graph. Please retry.** と **Retry** ボタンが表示されます。
+</Note>

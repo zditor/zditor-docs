@@ -1,0 +1,327 @@
+---
+title: "Guia da árvore de arquivos"
+description: "Gerencie arquivos e pastas com eficiência na árvore de arquivos da barra lateral do Zditor."
+icon: "folder-tree"
+---
+
+A árvore de arquivos da barra lateral é uma das partes centrais do Zditor. Com ela, você navega, cria, renomeia, move e organiza diretamente os arquivos do espaço de trabalho atual.
+
+## Visão geral da interface
+
+A árvore de arquivos é o painel **Files** da barra lateral. Clique no ícone de pasta no topo da barra de navegação à esquerda para exibi-la. Sem filtro ativo, ela mostra todos os arquivos e pastas do espaço de trabalho, inclusive os nomes que começam com ponto.
+
+### Barra de ferramentas superior
+
+O topo da árvore de arquivos mostra o nome do espaço de trabalho atual. Clique nele para trocar de espaço de trabalho (veja [Gerenciamento de espaços de trabalho](#gerenciamento-de-espaços-de-trabalho)). Ao lado dele há três botões:
+
+- **New File** cria um arquivo na raiz do espaço de trabalho
+- **New Folder** cria uma pasta na raiz do espaço de trabalho
+- **More** abre um menu com:
+  - **Filter**, para mostrar apenas certos tipos de arquivo
+  - **Refresh**, para examinar de novo o espaço de trabalho
+  - **Collapse**, para recolher todas as pastas expandidas
+  - **Clear clipboard**, para cancelar uma cópia ou um recorte pendente (aparece só enquanto há algo copiado ou recortado)
+  - **Open Folder**, para abrir o espaço de trabalho no gerenciador de arquivos do sistema
+
+Uma linha fina de progresso aparece sob a barra de ferramentas enquanto a árvore carrega, atualiza ou importa arquivos.
+
+### Lista de arquivos
+
+A lista principal mostra arquivos e pastas com recuos que refletem a hierarquia atual. Passe o ponteiro sobre um item para ver o caminho completo dele.
+
+### Barra inferior
+
+A barra na parte de baixo do painel tem três partes:
+
+- O botão **+** à esquerda cria um arquivo Markdown vazio chamado `untitled1.md` (ou com o próximo número livre) na raiz do espaço de trabalho e o abre.
+- O nome do espaço de trabalho, no meio, abre o seletor de pastas do sistema, para você trocar para outra pasta local.
+- O botão **⋮** à direita abre um painel com as opções de ordenação, suas pastas recentes e os espaços de trabalho remotos que você configurou.
+
+## Operações básicas
+
+<AccordionGroup>
+  <Accordion title="Clique simples" icon="mouse">
+    - Clique em um arquivo para abri-lo em uma aba
+    - Clique em uma pasta para expandi-la ou recolhê-la
+  </Accordion>
+
+  <Accordion title="Menus de contexto" icon="bars">
+    - Clique com o botão direito em um arquivo para ver ações como **Open in Right Split**, **Rename** e **Copy**
+    - Clique com o botão direito em uma pasta para criar itens dentro dela ou colar nela
+    - Clique com o botão direito na área vazia abaixo da lista para abrir o menu da raiz do espaço de trabalho
+  </Accordion>
+</AccordionGroup>
+
+### Selecionar itens
+
+Clique em um arquivo ou pasta para selecioná-lo. O item selecionado fica destacado.
+
+### Renomear
+
+<AccordionGroup>
+  <Accordion title="Como renomear" icon="pen">
+    1. Clique com o botão direito em um arquivo ou pasta e escolha **Rename**
+    2. Ou passe o ponteiro sobre o item, clique no botão **…** dele e escolha **Rename**
+    3. Pressione `Enter` para confirmar ou `Esc` para cancelar. Clicar em outro lugar também confirma o novo nome.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Ao renomear um arquivo, só a parte do nome antes da extensão fica selecionada; assim, você digita o novo nome e mantém a extensão.
+</Tip>
+
+## Gerenciamento de arquivos e pastas
+
+### Criar arquivos e pastas
+
+<AccordionGroup>
+  <Accordion icon="plus" title="Método 1: barra de ferramentas superior">
+    Clique em **New File** ou **New Folder** na barra de ferramentas para criar o item na raiz do espaço de trabalho.
+  </Accordion>
+
+  <Accordion icon="folder-plus" title="Método 2: botões ao passar o ponteiro">
+    Quando você passa o ponteiro sobre uma pasta, aparecem botões de ação rápida.
+
+    - `+` cria um novo arquivo dentro dessa pasta
+    - O ícone de pasta cria uma subpasta
+  </Accordion>
+
+  <Accordion icon="computer-mouse" title="Método 3: menu do botão direito">
+    Clique com o botão direito na pasta de destino, ou na área vazia abaixo da lista para a raiz do espaço de trabalho, e escolha **New File** ou **New Folder**.
+  </Accordion>
+</AccordionGroup>
+
+Ao criar um arquivo, o Zditor mostra um campo de nome seguido de um campo de extensão. A extensão começa com a sua extensão padrão (`.md`, a menos que você a mude):
+
+- Pressione `↑` ou `↓` para trocar por outra extensão da sua lista
+- Digite uma extensão da sua lista no fim do nome, como em `notes.txt`, para trocar para ela
+- Pressione `→` no fim do nome para ir ao campo de extensão
+
+Você pode mudar a extensão padrão e a lista de extensões em **Settings → Personal → General → File types**.
+
+### Excluir arquivos e pastas
+
+1. Clique com o botão direito no arquivo ou na pasta
+2. Escolha **Delete**
+
+Se o arquivo, ou algo dentro da pasta, estiver aberto em uma aba, o Zditor primeiro pergunta se deve fechar essas abas e excluir. Caso contrário, o item é excluído na hora.
+
+<Warning>
+  A exclusão não move os itens para a Lixeira do sistema e não pode ser desfeita. Confira com cuidado antes de remover arquivos ou pastas.
+</Warning>
+
+### Copiar, recortar e colar
+
+<AccordionGroup>
+  <Accordion icon="copy" title="Copiar">
+    1. Clique com o botão direito em um arquivo ou pasta e escolha **Copy**
+    2. O item ganha um contorno amarelo e a etiqueta **Copy**
+  </Accordion>
+
+  <Accordion icon="scissors" title="Recortar">
+    1. Clique com o botão direito em um arquivo ou pasta e escolha **Cut**
+    2. O item ganha um contorno verde-azulado e a etiqueta **Cut**
+  </Accordion>
+
+  <Accordion icon="paste" title="Colar">
+    1. Clique com o botão direito na pasta de destino, ou na área vazia abaixo da lista para a raiz do espaço de trabalho
+    2. Escolha **Paste**
+    3. O item é copiado ou movido para esse local
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  A área de transferência guarda um item por vez e é esvaziada depois que você cola. Não é possível colar um item dentro dele mesmo, movê-lo para uma das próprias subpastas nem colá-lo em uma pasta que já tenha um item com o mesmo nome.
+</Tip>
+
+## Ordenação e filtros
+
+### Filtros por tipo de arquivo
+
+Abra **More → Filter** na barra de ferramentas superior para mostrar apenas certos tipos de arquivo:
+
+| Filtro | Mostra |
+| --- | --- |
+| **All** | Todos os arquivos e pastas |
+| **Markdown** | `.md`, `.mdx`, `.markdown` |
+| **Documents** | `.pdf`, `.doc`, `.docx`, `.txt`, `.csv`, `.xls`, `.xlsx`, `.ppt`, `.pptx` |
+| **Assets** | Arquivos de imagem, vídeo e áudio |
+| **Code** | Arquivos de código-fonte, web e configuração, como `.ts`, `.js`, `.py`, `.json`, `.yaml`, `.html` e `.css` |
+| **Excalidraw** | Arquivos de tela (`.excalidraw`) |
+| **Hidden** | Arquivos e pastas cujo nome começa com ponto |
+| **Other** | Arquivos que não se encaixam em nenhuma das categorias acima |
+
+Você pode ativar vários filtros ao mesmo tempo. Escolher **All** desativa os outros. Enquanto um filtro está ativo, o item **Filter** mostra quantos tipos estão selecionados e o botão **More** exibe um ponto.
+
+As pastas sempre ficam na lista, para que você chegue aos arquivos correspondentes dentro delas. Itens cujo nome começa com ponto ficam ocultos sempre que um filtro está ativo, a menos que **Hidden** seja um dos filtros selecionados.
+
+### Opções de ordenação
+
+Clique no botão **⋮** na barra inferior. Os botões de ordenação ficam no topo do painel:
+
+#### Critério de ordenação
+
+- **Sort alphabetically** ordena pelo nome
+- **Sort by creation time** ordena pela data de criação de cada arquivo
+- **Sort by modification time** ordena pela data da última alteração de cada arquivo
+
+#### Direção da ordenação
+
+- O botão de seta alterna entre **Sort ascending** e **Sort descending**
+
+#### Agrupamento de pastas
+
+- **Group by folder** mantém as pastas acima dos arquivos
+
+Por padrão, a árvore é ordenada alfabeticamente em ordem crescente, com as pastas agrupadas primeiro. Itens cujo nome começa com ponto aparecem antes dos outros.
+
+## Arrastar e soltar
+
+A árvore de arquivos permite organizar arquivos e pastas arrastando e soltando.
+
+<AccordionGroup>
+  <Accordion icon="file-import" title="Mover arquivos ou pastas">
+    1. Arraste o arquivo ou a pasta
+    2. Leve-o até a pasta de destino
+    3. Solte para concluir a movimentação
+  </Accordion>
+
+  <Accordion icon="upload" title="Importar arquivos de fora">
+    Arraste arquivos ou pastas do gerenciador de arquivos do sistema para uma pasta da árvore, ou para a área vazia no caso da raiz do espaço de trabalho, para copiá-los para o espaço de trabalho. Um arquivo solto substitui o arquivo de mesmo nome naquela pasta. Uma breve linha de status na parte de baixo da árvore informa quantos arquivos foram adicionados.
+  </Accordion>
+
+  <Accordion icon="home" title="Soltar na raiz">
+    Solte itens na área vazia da árvore para movê-los para a raiz do espaço de trabalho.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Durante o arrasto, a pasta de destino fica destacada. Se você mantiver o ponteiro sobre uma pasta fechada por cerca de 600 ms, ela se expande automaticamente. Arrastar perto da borda superior ou inferior da lista faz a lista rolar.
+</Tip>
+
+## Menus de contexto
+
+Arquivos e pastas têm menus de contexto completos. Você também pode abrir o mesmo menu pelo botão **…** que aparece quando você passa o ponteiro sobre um item.
+
+### Menu de contexto de arquivo
+
+| Item | O que faz |
+| --- | --- |
+| **Open** | Abre o arquivo no painel esquerdo |
+| **Open in Right Split** | Abre o arquivo no painel direito |
+| **Rename** | Renomeia o arquivo |
+| **Copy** | Copia o arquivo para a área de transferência |
+| **Cut** | Recorta o arquivo para a área de transferência |
+| **Paste** | Indisponível em arquivos; cole em uma pasta ou na raiz do espaço de trabalho |
+| **Open in Folder** | Mostra o arquivo no gerenciador de arquivos do sistema |
+| **Copy File Path** | Copia o caminho completo do arquivo para a área de transferência |
+| **Save As** | Salva uma cópia do arquivo em um local que você escolher neste computador |
+| **Delete** | Exclui o arquivo |
+
+### Menu de contexto de pasta
+
+Os menus de pasta têm **Rename**, **Copy**, **Cut**, **Paste**, **Open in Folder**, **Copy File Path** e **Delete**, além de:
+
+| Item | O que faz |
+| --- | --- |
+| **New File** | Cria um arquivo nessa pasta |
+| **New Folder** | Cria uma subpasta |
+
+### Menu de contexto da raiz
+
+Clique com o botão direito na área vazia da árvore de arquivos para abrir o menu da raiz do espaço de trabalho:
+
+- **New File** e **New Folder**, para criar itens na raiz
+- **Paste**, para colar na raiz o item copiado ou recortado
+- **Refresh**, para examinar de novo o espaço de trabalho
+- **Collapse All**, para recolher as pastas expandidas
+- **Open in Folder**, para abrir o espaço de trabalho no gerenciador de arquivos do sistema
+- **Copy File Path**, para copiar o caminho do espaço de trabalho
+
+## Gerenciamento de espaços de trabalho
+
+O espaço de trabalho é a pasta cujos arquivos a árvore mostra. Em uma aba vazia, você também pode escolher **Open Workspace** para abrir uma pasta existente ou **New Workspace** para criar uma pasta vazia e abri-la.
+
+### Trocar de espaço de trabalho
+
+1. Clique no nome do espaço de trabalho no topo da árvore de arquivos
+2. Escolha um espaço de trabalho no menu, ou escolha **Open Directory** para selecionar uma pasta no seletor de pastas do sistema
+3. O Zditor carrega o novo espaço de trabalho
+
+Se houver abas do agente abertas, o Zditor pede que você confirme a troca, porque as conexões delas com o espaço de trabalho atual são fechadas. Suas abas e o histórico de sessões são mantidos e se reconectam quando você volta a esse espaço de trabalho.
+
+<Tip>
+  Cada espaço de trabalho pode ter a própria janela. Escolha **Open Folder in New Window…** ou clique em um espaço de trabalho no menu com `Cmd` pressionado (`Ctrl` no Windows e no Linux) para abri-lo em uma nova janela. Se um espaço de trabalho já estiver aberto em outra janela, escolhê-lo traz essa janela para a frente.
+</Tip>
+
+### Espaços de trabalho remotos
+
+Os espaços de trabalho não precisam estar neste computador. Adicione uma conexão em **Settings → Integrations → Connections**:
+
+- Armazenamentos **S3**, servidores **WebDAV** e pastas em hosts **SSH** aparecem como grupos próprios no menu de espaços de trabalho e no painel **⋮**.
+- Uma conexão **Git** mantém um clone local do repositório e o abre como qualquer outra pasta.
+
+Em espaços de trabalho S3, WebDAV e SSH, **Open in Folder** não está disponível, e a árvore não se atualiza sozinha quando os arquivos mudam no servidor. Use **Refresh** para ver os arquivos mais recentes.
+
+### Pastas recentes
+
+O menu de espaços de trabalho lista suas pastas locais recentes. O painel **⋮** da barra inferior também as lista e permite gerenciá-las:
+
+<AccordionGroup>
+  <Accordion icon="thumbtack" title="Fixar pastas">
+    Clique no ícone de alfinete para manter uma pasta importante no topo da lista de recentes.
+  </Accordion>
+
+  <Accordion icon="trash" title="Remover entradas recentes">
+    Em pastas não fixadas, clique no ícone de lixeira para remover a entrada da lista de recentes.
+  </Accordion>
+</AccordionGroup>
+
+A lista guarda até cinco pastas, e as pastas fixadas sempre permanecem nela. Ao iniciar, o Zditor reabre o último espaço de trabalho usado; para iniciar sem nenhum, desative **Reopen previous workspace** em **Settings → Personal → General**.
+
+### Atualização automática
+
+Em um espaço de trabalho local, a árvore de arquivos monitora a raiz do espaço de trabalho e todas as pastas expandidas:
+
+- Criar, excluir ou renomear um arquivo, no Zditor ou em outro app, atualiza a árvore
+- Uma pasta expandida de novo é examinada outra vez, então as alterações feitas enquanto ela estava recolhida aparecem
+
+## Dicas avançadas
+
+<CardGroup cols={2}>
+  <Card title="Lado a lado" icon="bolt">
+    Use **Open in Right Split** para ler um arquivo enquanto edita outro.
+  </Card>
+
+  <Card title="Mova recortando e colando" icon="layer-group">
+    Recortar e colar move um arquivo ou uma pasta para uma pasta distante na árvore, sem um longo arrasto.
+  </Card>
+
+  <Card title="Copie caminhos" icon="clipboard">
+    Use **Copy File Path** quando precisar compartilhar ou citar o caminho de um arquivo em outro lugar.
+  </Card>
+</CardGroup>
+
+## Perguntas frequentes
+
+<AccordionGroup>
+  <Accordion title="Por que alguns arquivos não aparecem na árvore?" icon="question">
+    Verifique se há um filtro por tipo de arquivo ativo: o botão **More** mostra um ponto quando há. Volte **More → Filter** para **All**. Enquanto qualquer outro filtro estiver ativo, arquivos e pastas cujo nome começa com ponto ficam ocultos, a menos que você também selecione **Hidden**.
+  </Accordion>
+
+  <Accordion title="Por que o arrasto não funciona?" icon="question">
+    Mantenha o ponteiro sobre uma pasta fechada por tempo suficiente para ela se expandir. Não é possível mover um item para dentro dele mesmo, para uma das suas subpastas ou para a pasta em que ele já está, e a movimentação é recusada se o destino já tiver um item com o mesmo nome.
+  </Accordion>
+
+  <Accordion title="Como encontro rapidamente os arquivos alterados recentemente?" icon="question">
+    No painel **⋮**, escolha **Sort by modification time** e defina a direção como decrescente.
+  </Accordion>
+
+  <Accordion title="Posso abrir vários arquivos ao mesmo tempo?" icon="question">
+    Sim. Cada arquivo abre na própria aba quando você clica nele. Use **Open in Right Split** para ver dois arquivos lado a lado.
+  </Accordion>
+
+  <Accordion title="Por que Open in Folder está indisponível?" icon="question">
+    Espaços de trabalho S3, WebDAV e SSH não ficam neste computador, então não há pasta local para mostrar no gerenciador de arquivos do sistema.
+  </Accordion>
+</AccordionGroup>

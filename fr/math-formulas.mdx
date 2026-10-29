@@ -1,0 +1,246 @@
+---
+title: "Guide des formules mathématiques"
+description: "Écrivez des formules en ligne et en bloc dans Zditor, avec un aide-mémoire des formules courantes."
+icon: "square-root-variable"
+---
+
+Zditor prend en charge les formules en ligne et les formules en bloc : vous pouvez placer de courtes formules dans le texte ou donner aux expressions plus longues leur propre bloc.
+
+## Démonstration vidéo
+
+<Frame>
+  <video
+    controls
+    style={{ width: '100%', height: '500px', borderRadius: '0.5rem' }}
+    src="https://download.zditor.com/zditor-com/math_en_small.mov"
+  >
+    Votre navigateur ne prend pas en charge la balise vidéo.
+  </video>
+</Frame>
+
+## Vue d’ensemble
+
+<CardGroup cols={2}>
+  <Card title="Formules en ligne" icon="code">
+    Utilisez `$...$` pour de courtes expressions qui restent dans une phrase.
+  </Card>
+
+  <Card title="Formules en bloc" icon="square-root-variable">
+    Utilisez `$$...$$` pour les formules plus grandes, les matrices et les développements sur plusieurs lignes.
+  </Card>
+
+  <Card title="Syntaxe de type LaTeX" icon="code">
+    Écrivez vos formules avec les commandes mathématiques LaTeX habituelles.
+  </Card>
+
+  <Card title="Aide-mémoire" icon="list">
+    Gardez à portée de main les formules les plus courantes d’analyse, d’algèbre, de probabilités et d’optimisation.
+  </Card>
+</CardGroup>
+
+## Types de formules
+
+<AccordionGroup>
+  <Accordion title="Formules en ligne" icon="code" defaultOpen>
+    Utilisez une formule en ligne lorsque l’expression doit rester dans une phrase.
+
+    ```markdown
+    Einstein's equation is $E=mc^2$.
+    ```
+  </Accordion>
+
+  <Accordion title="Formules en bloc" icon="square-root-variable">
+    Utilisez une formule en bloc pour les formules plus grandes qui méritent leur propre bloc.
+
+    ```latex
+    $$
+    \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+    $$
+    ```
+
+    La formule peut aussi partager une ligne avec ses délimiteurs, comme dans `$$E=mc^2$$`.
+  </Accordion>
+
+  <Accordion title="Délimiteurs LaTeX entre parenthèses et crochets" icon="code">
+    Zditor lit aussi `\(...\)` comme une formule en ligne et `\[...\]` comme une formule en bloc :
+
+    ```latex
+    The area is \(\pi r^2\).
+
+    \[
+    a^2 + b^2 = c^2
+    \]
+    ```
+
+    Cela nécessite le plugin **Bracket math delimiters** dans **Settings → Integrations → Plugins**. Les formules elles-mêmes nécessitent **Math formulas**, au même endroit. Les deux sont activés par défaut, et une modification s’applique après la réouverture de l’éditeur Markdown.
+  </Accordion>
+
+  <Accordion title="Insérer et modifier des formules dans l’éditeur" icon="pen-to-square">
+    - Tapez `$E=mc^2$` en texte enrichi : la formule se forme lorsque vous tapez le `$` de fermeture.
+    - Sur une ligne vide, tapez `$$` suivi d’un espace pour commencer une formule en bloc.
+    - Appuyez sur `Mod-Shift-E` pour une formule en ligne ou sur `Mod-Shift-D` pour une formule en bloc. Le menu `/` propose aussi **Math display (LaTeX)** dans son groupe **Code Block**.
+    - Cliquez sur une formule en ligne pour modifier sa source. Cliquez sur une formule en bloc pour la sélectionner, puis appuyez sur `Enter` ou choisissez **Edit formula** dans sa barre d’outils.
+    - La barre d’outils des formules propose **Convert to block formula**, **Convert to inline formula**, **Convert to text** et **Convert to paragraph**. Pendant la modification, `Mod-M` bascule entre formule en ligne et formule en bloc.
+
+    Voir [Raccourcis clavier](/fr/keyboard-shortcuts#formules-mathématiques) pour les touches utilisables dans une formule.
+  </Accordion>
+
+  <Accordion title="Signes dollar dans le texte courant" icon="lightbulb">
+    Lorsque Zditor lit du Markdown, un `$` ouvrant ne doit pas être suivi d’un espace, et un `$` fermant ne doit ni suivre un espace ni précéder directement un chiffre. Ainsi, des prix comme `$5 and $10` restent du texte brut. Écrivez `\$` pour obtenir un signe dollar littéral.
+
+    Si une formule se forme par accident pendant la saisie, appuyez immédiatement sur `Backspace` pour annuler la conversion.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Gardez les formules en ligne compactes. Si l’expression contient de grandes fractions, des matrices ou plusieurs étapes alignées, passez à une formule en bloc.
+</Tip>
+
+## Bases de l’analyse
+
+### Limites
+
+$$
+\lim_{x \to 0}\frac{\sin x}{x} = 1
+$$
+
+$$
+\lim_{x \to 0}\frac{e^x - 1}{x} = 1
+$$
+
+$$
+\lim_{x \to 0}\frac{\ln(1+x)}{x} = 1
+$$
+
+$$
+\lim_{x \to \infty}\left(1+\frac{1}{x}\right)^x = e
+$$
+
+### Dérivées
+
+$$
+f'(x) = \lim_{h \to 0}\frac{f(x+h)-f(x)}{h}
+$$
+
+| Fonction | Dérivée |
+| --- | --- |
+| $c$ | $0$ |
+| $x^n$ | $nx^{n-1}$ |
+| $e^x$ | $e^x$ |
+| $\ln x$ | $\frac{1}{x}$ |
+| $\sin x$ | $\cos x$ |
+| $\cos x$ | $-\sin x$ |
+
+$$
+\frac{d}{dx}[f(x)g(x)] = f'(x)g(x) + f(x)g'(x)
+$$
+
+$$
+\frac{d}{dx}f(g(x)) = f'(g(x))g'(x)
+$$
+
+### Intégrales
+
+$$
+\int f(x)\,dx = F(x) + C
+$$
+
+| Fonction | Intégrale |
+| --- | --- |
+| $x^n$ | $\frac{x^{n+1}}{n+1}+C,\; n \ne -1$ |
+| $\frac{1}{x}$ | $\ln\lvert x\rvert+C$ |
+| $e^x$ | $e^x+C$ |
+| $\sin x$ | $-\cos x + C$ |
+| $\cos x$ | $\sin x + C$ |
+
+$$
+\int u\,dv = uv - \int v\,du
+$$
+
+$$
+\int f(g(x))g'(x)\,dx = \int f(u)\,du
+$$
+
+## Algèbre linéaire
+
+### Vecteurs et produits scalaires
+
+$$
+\|\mathbf{x}\|_2 = \sqrt{\sum_{i=1}^{n}x_i^2}
+$$
+
+$$
+\mathbf{x}^T\mathbf{y} = \sum_{i=1}^{n}x_i y_i
+$$
+
+$$
+\cos\theta = \frac{\mathbf{x}^T\mathbf{y}}{\|\mathbf{x}\|_2\|\mathbf{y}\|_2}
+$$
+
+### Matrices
+
+$$
+c_{ij} = \sum_{k=1}^{n} a_{ik}b_{kj}
+$$
+
+$$
+\mathbf{A} =
+\begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}
+$$
+
+$$
+\det(\mathbf{A}) = ad - bc
+$$
+
+$$
+\mathbf{A}^{-1} = \frac{1}{ad-bc}
+\begin{bmatrix}
+d & -b \\
+-c & a
+\end{bmatrix}
+$$
+
+### Valeurs propres
+
+$$
+\mathbf{A}\mathbf{v} = \lambda \mathbf{v}
+$$
+
+$$
+\det(\mathbf{A} - \lambda \mathbf{I}) = 0
+$$
+
+## Probabilités et statistiques
+
+$$
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}
+$$
+
+$$
+P(A \mid B) = \frac{P(B \mid A)P(A)}{P(B)}
+$$
+
+$$
+\mathbb{E}[X] = \sum_x xP(X=x)
+$$
+
+$$
+\mathrm{Var}(X) = \mathbb{E}[(X-\mu)^2]
+$$
+
+$$
+f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+$$
+
+## Optimisation
+
+$$
+\theta_{t+1} = \theta_t - \eta \nabla J(\theta_t)
+$$
+
+$$
+f(x) \approx f(x_0) + f'(x_0)(x-x_0) + \frac{1}{2}f''(x_0)(x-x_0)^2
+$$

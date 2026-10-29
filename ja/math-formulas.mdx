@@ -1,0 +1,246 @@
+---
+title: "数式ガイド"
+description: "Zditor でインライン数式とディスプレイ数式を書く方法と、よく使う数式の簡単なリファレンス。"
+icon: "square-root-variable"
+---
+
+Zditor はインライン数式とディスプレイ数式の両方に対応しているので、短い数式を文中に置いたり、大きな数式を独立したブロックとして表示したりできます。
+
+## デモ動画
+
+<Frame>
+  <video
+    controls
+    style={{ width: '100%', height: '500px', borderRadius: '0.5rem' }}
+    src="https://download.zditor.com/zditor-com/math_en_small.mov"
+  >
+    お使いのブラウザーは video タグに対応していません。
+  </video>
+</Frame>
+
+## 概要
+
+<CardGroup cols={2}>
+  <Card title="インライン数式" icon="code">
+    文中に収まる短い式には `$...$` を使います。
+  </Card>
+
+  <Card title="ディスプレイ数式" icon="square-root-variable">
+    大きな数式、行列、複数行にわたる式の展開には `$$...$$` を使います。
+  </Card>
+
+  <Card title="LaTeX 形式の構文" icon="code">
+    おなじみの LaTeX の数式コマンドで数式を書けます。
+  </Card>
+
+  <Card title="クイックリファレンス" icon="list">
+    微積分、代数、確率、最適化でよく使う数式をすぐに参照できます。
+  </Card>
+</CardGroup>
+
+## 数式の種類
+
+<AccordionGroup>
+  <Accordion title="インライン数式" icon="code" defaultOpen>
+    式を文の中に収めたいときは、インライン数式を使います。
+
+    ```markdown
+    Einstein's equation is $E=mc^2$.
+    ```
+  </Accordion>
+
+  <Accordion title="ディスプレイ数式" icon="square-root-variable">
+    独立したブロックで見せたい大きな数式には、ディスプレイ数式を使います。
+
+    ```latex
+    $$
+    \int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}
+    $$
+    ```
+
+    `$$E=mc^2$$` のように、数式と区切り記号を同じ行に書くこともできます。
+  </Accordion>
+
+  <Accordion title="LaTeX の括弧による区切り" icon="code">
+    Zditor は、`\(...\)` をインライン数式、`\[...\]` をディスプレイ数式としても読み取ります。
+
+    ```latex
+    The area is \(\pi r^2\).
+
+    \[
+    a^2 + b^2 = c^2
+    \]
+    ```
+
+    これには **Settings → Integrations → Plugins** の **Bracket math delimiters** が必要です。数式そのものには、同じ場所にある **Math formulas** が必要です。どちらも既定でオンで、設定の変更は Markdown エディターを開き直すと反映されます。
+  </Accordion>
+
+  <Accordion title="エディターでの数式の挿入と編集" icon="pen-to-square">
+    - リッチテキストで `$E=mc^2$` と入力すると、閉じる `$` を入力した時点で数式になります。
+    - 空の行で `$$` に続けてスペースを入力すると、ディスプレイ数式を開始できます。
+    - `Mod-Shift-E` でインライン数式、`Mod-Shift-D` でディスプレイ数式を挿入します。`/` メニューの **Code Block** グループにも **Math display (LaTeX)** があります。
+    - インライン数式をクリックすると、そのソースを編集できます。ディスプレイ数式はクリックして選択してから、`Enter` を押すか、ツールバーの **Edit formula** を選びます。
+    - 数式ツールバーでは、**Convert to block formula**、**Convert to inline formula**、**Convert to text**、**Convert to paragraph** を実行できます。編集中は、`Mod-M` でインラインとディスプレイを切り替えられます。
+
+    数式の中で使うキーについては、[キーボードショートカット](/ja/keyboard-shortcuts#数式の編集)を参照してください。
+  </Accordion>
+
+  <Accordion title="通常のテキスト中のドル記号" icon="lightbulb">
+    Zditor が Markdown を読み取るときは、開始の `$` の直後にスペースがあってはならず、終了の `$` は直前がスペースであっても、直後が数字であってもいけません。そのため、`$5 and $10` のような金額は通常のテキストのまま扱われます。ドル記号そのものを書くには `\$` と入力します。
+
+    入力中に意図せず数式に変換されたときは、すぐに `Backspace` を押すと変換を取り消せます。
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  インライン数式は短くまとめましょう。大きな分数、行列、揃えて並べる複数の式を含む場合は、ディスプレイ数式に切り替えてください。
+</Tip>
+
+## 微積分の基本
+
+### 極限
+
+$$
+\lim_{x \to 0}\frac{\sin x}{x} = 1
+$$
+
+$$
+\lim_{x \to 0}\frac{e^x - 1}{x} = 1
+$$
+
+$$
+\lim_{x \to 0}\frac{\ln(1+x)}{x} = 1
+$$
+
+$$
+\lim_{x \to \infty}\left(1+\frac{1}{x}\right)^x = e
+$$
+
+### 導関数
+
+$$
+f'(x) = \lim_{h \to 0}\frac{f(x+h)-f(x)}{h}
+$$
+
+| 関数 | 導関数 |
+| --- | --- |
+| $c$ | $0$ |
+| $x^n$ | $nx^{n-1}$ |
+| $e^x$ | $e^x$ |
+| $\ln x$ | $\frac{1}{x}$ |
+| $\sin x$ | $\cos x$ |
+| $\cos x$ | $-\sin x$ |
+
+$$
+\frac{d}{dx}[f(x)g(x)] = f'(x)g(x) + f(x)g'(x)
+$$
+
+$$
+\frac{d}{dx}f(g(x)) = f'(g(x))g'(x)
+$$
+
+### 積分
+
+$$
+\int f(x)\,dx = F(x) + C
+$$
+
+| 関数 | 積分 |
+| --- | --- |
+| $x^n$ | $\frac{x^{n+1}}{n+1}+C,\; n \ne -1$ |
+| $\frac{1}{x}$ | $\ln\lvert x\rvert+C$ |
+| $e^x$ | $e^x+C$ |
+| $\sin x$ | $-\cos x + C$ |
+| $\cos x$ | $\sin x + C$ |
+
+$$
+\int u\,dv = uv - \int v\,du
+$$
+
+$$
+\int f(g(x))g'(x)\,dx = \int f(u)\,du
+$$
+
+## 線形代数
+
+### ベクトルと内積
+
+$$
+\|\mathbf{x}\|_2 = \sqrt{\sum_{i=1}^{n}x_i^2}
+$$
+
+$$
+\mathbf{x}^T\mathbf{y} = \sum_{i=1}^{n}x_i y_i
+$$
+
+$$
+\cos\theta = \frac{\mathbf{x}^T\mathbf{y}}{\|\mathbf{x}\|_2\|\mathbf{y}\|_2}
+$$
+
+### 行列
+
+$$
+c_{ij} = \sum_{k=1}^{n} a_{ik}b_{kj}
+$$
+
+$$
+\mathbf{A} =
+\begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}
+$$
+
+$$
+\det(\mathbf{A}) = ad - bc
+$$
+
+$$
+\mathbf{A}^{-1} = \frac{1}{ad-bc}
+\begin{bmatrix}
+d & -b \\
+-c & a
+\end{bmatrix}
+$$
+
+### 固有値
+
+$$
+\mathbf{A}\mathbf{v} = \lambda \mathbf{v}
+$$
+
+$$
+\det(\mathbf{A} - \lambda \mathbf{I}) = 0
+$$
+
+## 確率と統計
+
+$$
+P(A \mid B) = \frac{P(A \cap B)}{P(B)}
+$$
+
+$$
+P(A \mid B) = \frac{P(B \mid A)P(A)}{P(B)}
+$$
+
+$$
+\mathbb{E}[X] = \sum_x xP(X=x)
+$$
+
+$$
+\mathrm{Var}(X) = \mathbb{E}[(X-\mu)^2]
+$$
+
+$$
+f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+$$
+
+## 最適化
+
+$$
+\theta_{t+1} = \theta_t - \eta \nabla J(\theta_t)
+$$
+
+$$
+f(x) \approx f(x_0) + f'(x_0)(x-x_0) + \frac{1}{2}f''(x_0)(x-x_0)^2
+$$

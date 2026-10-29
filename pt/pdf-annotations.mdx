@@ -1,0 +1,566 @@
+---
+title: "Guia de anotações em PDF"
+description: "Anote PDFs no Zditor com traços à mão livre, destaques de área, camadas e referências em cartões no Markdown."
+icon: "file-text"
+---
+
+O Zditor tem um visualizador de PDF integrado para leitura e anotação. Você pode desenhar nas páginas, marcar regiões com destaques de área que têm título e comentário, separar conjuntos de anotações em camadas e citar destaques nas suas notas Markdown. As anotações ficam salvas em um arquivo separado, então o PDF em si nunca muda.
+
+<Frame>
+  <img src="/images/pdf-annotations.webp" alt="Um PDF no Zditor com destaques, a barra de ferramentas de anotação e a barra lateral Layers" style={{ borderRadius: '0.5rem' }} />
+</Frame>
+
+## Visão geral
+
+<CardGroup cols={2}>
+  <Card title="Ferramentas de anotação" icon="pen">
+    Caneta, marca-texto, borracha, linha, retângulo, laço, laser e destaque de área, cada um com um atalho de uma letra.
+  </Card>
+
+  <Card title="Destaques de área" icon="vector-square">
+    Marque uma região com uma cor, um título e um comentário. O Zditor guarda uma miniatura da região.
+  </Card>
+
+  <Card title="Camadas" icon="layer-group">
+    Separe conjuntos de anotações e mostre, oculte, renomeie ou exclua cada camada.
+  </Card>
+
+  <Card title="Busca e marcadores" icon="search">
+    Busque no texto do PDF e nos comentários dos seus destaques, e navegue pelos marcadores do próprio PDF.
+  </Card>
+
+  <Card title="Cartões de PDF no Markdown" icon="link">
+    Insira um destaque em uma nota com `@` e volte a ele no PDF.
+  </Card>
+
+  <Card title="Suporte ao agente" icon="robot">
+    O Native Agent integrado pode ler, buscar e anotar os PDFs do seu espaço de trabalho.
+  </Card>
+</CardGroup>
+
+## Como os dados de anotação são salvos
+
+As anotações nunca são gravadas no arquivo PDF. O Zditor as salva em um arquivo JSON separado, na mesma pasta, com o nome do PDF:
+
+```text
+example.pdf.zditor-pdf-annotation.json
+```
+
+O Zditor cria esse arquivo na primeira vez que você anota o PDF e salva cada alteração automaticamente. Ele guarda:
+
+- As camadas, com nomes e visibilidade
+- Os traços, com página, camada, pontos, cor, largura e configurações de traço
+- Os destaques de área, com página, camada, região, cor, título, comentário e uma referência à miniatura
+- No caso de destaques que o agente cria a partir de uma citação, o texto citado
+
+<Tip>
+  Como o PDF em si nunca é modificado, suas anotações são fáceis de sincronizar, de copiar em backup e de manter sob controle de versão.
+</Tip>
+
+## Layout da interface
+
+No app para desktop, o visualizador de PDF tem quatro áreas.
+
+### Barra de título
+
+A barra de título acima do PDF tem:
+
+- **Undo** e **Redo** à esquerda
+- **Print**, **Search**, **Bookmarks**, **Layers** e **Clear Page** à direita
+
+Quando a aba é estreita, **Bookmarks**, **Layers** e **Clear Page** passam para um menu **More**. Durante a busca, o campo de busca ocupa o lugar desses botões.
+
+### Barra de ferramentas de anotação
+
+Uma barra de ferramentas arredondada flutua sobre o topo das páginas. Da esquerda para a direita, ela tem:
+
+- **Keep tool active**
+- As ferramentas de anotação
+- Seis cores
+- O controle deslizante **Width**
+- **Stroke Parameters**
+
+Quando a aba é estreita demais para tudo isso, o controle de largura e depois as cores passam para o botão de parâmetros de traço, que então mostra a cor atual e se chama **Brush settings**. Se ainda assim não couber, as ferramentas passam para um menu **More**, começando pelas menos usadas, como **Laser** e **Line**. O menu mostra a letra de atalho de cada ferramenta.
+
+### Controles de zoom e de página
+
+O canto inferior esquerdo tem **Zoom Out**, a porcentagem de zoom, **Zoom In** e o número da página atual.
+
+### Barra lateral esquerda
+
+**Bookmarks**, **Layers** e **Search** abrem uma barra lateral à esquerda das páginas. Ela mostra um destes conteúdos:
+
+- Os marcadores do PDF
+- As camadas, com a lista de destaques de área
+- Os resultados da busca
+
+Clique de novo em **Bookmarks** ou **Layers** para fechá-la.
+
+## Ferramentas de anotação
+
+Escolha uma ferramenta na barra de ferramentas de anotação ou pressione a letra dela.
+
+### Seleção
+
+Atalho: `V`. A ferramenta de seleção (**Select**) seleciona e move anotações em vez de desenhar. Um PDF abre com essa ferramenta ativa.
+
+Com a ferramenta de seleção, você pode:
+
+- Clicar em um traço para selecioná-lo e clicar em traços com `Shift` pressionado para adicioná-los à seleção ou removê-los dela
+- Arrastar um traço selecionado, ou qualquer ponto dentro de uma seleção, para movê-lo
+- Clicar em um destaque de área para mostrar o cartão dele, arrastá-lo para movê-lo ou arrastar uma alça de canto para redimensioná-lo
+
+Clicar em um espaço vazio limpa a seleção.
+
+### Caneta
+
+Atalho: `P`. A caneta (**Pen**) serve para desenhar à mão livre, incluindo anotações manuscritas, círculos, setas e traçados livres. Escolha uma das seis cores e ajuste a largura em **Width**.
+
+**Stroke Parameters** define a forma de cada traço:
+
+- **Pressure sensitivity**: varia a largura conforme a pressão da caneta. Não tem efeito com mouse.
+- **Smoothing**: suaviza o contorno de cada traço
+- **Stabilization**: faz a linha seguir a caneta com um leve atraso, para que traços rápidos saiam mais firmes
+- **Taper Start** e **Taper End**: afinam o traço até uma ponta no início ou no fim
+- **Cap Start** e **Cap End**: arredondam o início ou o fim de um traço sem afinamento
+- **Reset**: restaura os parâmetros de traço padrão
+
+<Tip>
+  A largura e os parâmetros de traço valem para traços novos; os traços existentes mantêm as configurações com que foram desenhados. O Zditor lembra suas escolhas como padrões de desenho, que você também pode definir em **Settings → Editor → PDF Editor**.
+</Tip>
+
+### Marca-texto
+
+Atalho: `M`. O marca-texto (**Highlighter**) também é à mão livre, mas se comporta de forma diferente da caneta:
+
+- É semitransparente, então o texto por baixo continua legível
+- Mistura-se à página como uma caneta fluorescente
+- A largura não muda com a pressão da caneta
+
+### Borracha
+
+Atalho: `E`. Passe a borracha (**Eraser**) sobre os traços que você quer remover.
+
+- Ela remove por inteiro todos os traços que o trajeto dela toca, incluindo linhas e retângulos
+- O tamanho dela segue a configuração **Width**
+- Os traços somem enquanto você arrasta, e a alteração é salva quando você solta
+- Ela age sobre os traços de todas as camadas visíveis
+
+<Warning>
+  A borracha não remove destaques de área. Exclua-os pelo cartão, pelo editor deles ou pela lista Annotations na barra lateral Layers.
+</Warning>
+
+### Linha e retângulo
+
+Para marcações mais estruturadas, use:
+
+- **Line** (`L`), para desenhar um segmento reto do ponto em que você pressiona até o ponto em que solta
+- **Rectangle** (`R`), para desenhar o contorno de um retângulo entre dois cantos
+
+Depois que você desenha uma forma, o Zditor volta para **Select** com a nova forma selecionada, para que você possa movê-la na hora. Para desenhar várias seguidas, ative **Keep tool active**.
+
+### Laço
+
+Atalho: `S`. Com o laço (**Lasso**), desenhe uma curva fechada em volta dos traços para selecioná-los. Todo traço com algum ponto dentro da curva é selecionado. Depois, você pode usar a barra de ferramentas de seleção ou arrastar a seleção, como descrito em [Seleção e operações em lote](#seleção-e-operações-em-lote).
+
+<Tip>
+  O laço seleciona apenas traços. Ele não seleciona destaques de área nem o texto do PDF.
+</Tip>
+
+### Laser
+
+Atalho: `K`. O laser é um ponteiro temporário para apresentações, aulas ou compartilhamento de tela:
+
+- Um ponto na cor atual substitui o cursor e deixa um rastro que some em menos de um segundo
+- Nada é salvo nos dados de anotação
+- Trocar de ferramenta apaga o rastro na hora
+
+### Deslocamento
+
+Atalho: `H`. Com a ferramenta de deslocamento (**Pan**), arraste para rolar as páginas em qualquer direção em vez de anotar. Isso é especialmente útil depois de aumentar o zoom.
+
+### Manter a ferramenta ativa
+
+Atalho: `Q`. Depois que você desenha uma linha, um retângulo ou um destaque de área, o Zditor normalmente volta para **Select**. Com **Keep tool active** ativado, a ferramenta continua selecionada. A caneta, o marca-texto, a borracha, o laço, o laser e a ferramenta de deslocamento sempre continuam ativos.
+
+### Atalhos de teclado
+
+| Tecla | Ação |
+| --- | --- |
+| `V` | Seleção |
+| `H` | Deslocamento |
+| `P` | Caneta |
+| `M` | Marca-texto |
+| `A` | Destaque de área |
+| `E` | Borracha |
+| `L` | Linha |
+| `R` | Retângulo |
+| `S` | Laço |
+| `K` | Laser |
+| `Q` | Ativar ou desativar **Keep tool active** |
+| `Cmd/Ctrl + Z` | Desfazer |
+| `Shift + Cmd/Ctrl + Z` | Refazer (`Ctrl + Y` também funciona no Windows e no Linux) |
+| `Delete` ou `Backspace` | Excluir os traços selecionados |
+| `Cmd/Ctrl + F` | Buscar no PDF |
+
+As letras das ferramentas e as teclas de desfazer e refazer funcionam depois que você clica no visualizador de PDF, e nunca enquanto você digita em um campo.
+
+## Destaques de área
+
+Os destaques de área são o tipo de anotação mais estruturado do visualizador de PDF: um retângulo na página com cor, título, comentário e uma miniatura da região.
+
+### Criar um destaque de área
+
+<Steps>
+  <Step title="Mude para a ferramenta de destaque de área">
+    Escolha **Area Highlight** na barra de ferramentas de anotação ou pressione `A`.
+  </Step>
+
+  <Step title="Arraste um retângulo no PDF">
+    Arraste sobre a região que você quer anotar.
+  </Step>
+
+  <Step title="Adicione um título e um comentário">
+    Quando você solta o ponteiro, um pequeno editor abre ao lado da região. Escolha uma de cinco cores (amarelo, por padrão) e digite um título e um comentário, ambos opcionais. Pressionar `Enter` no título leva ao comentário.
+  </Step>
+
+  <Step title="Confirme">
+    Clique em **Confirm** ou pressione `Cmd/Ctrl + Enter` para salvar o destaque na camada ativa. **Cancel** ou `Esc` o descarta.
+  </Step>
+</Steps>
+
+Depois da confirmação, o Zditor volta para **Select** com o novo destaque selecionado, a menos que **Keep tool active** esteja ativado. Um destaque com comentário mostra um pequeno ponto no canto superior direito.
+
+### Editar um destaque de área
+
+#### Com a ferramenta de seleção
+
+Clique em um destaque para mostrar o cartão dele, com título e comentário. Clique em **Edit Annotation** (o lápis) ou no texto do cartão para abrir o editor, ou em **Delete Annotation** (a lixeira) para excluir o destaque. A barra lateral Layers também abre, com o destaque marcado na lista Annotations.
+
+#### Com a ferramenta de destaque de área
+
+Clique em um destaque existente para abrir o editor dele diretamente.
+
+#### No editor
+
+- Uma nova cor é aplicada na hora
+- Depois de alterar o título ou o comentário, clique em **Save** ou pressione `Cmd/Ctrl + Enter`
+- **Close** ou `Esc` sai sem salvar o título e o comentário
+- A lixeira exclui o destaque
+
+### Mover e redimensionar um destaque de área
+
+Com a ferramenta de seleção, arraste um destaque para movê-lo. Um destaque selecionado mostra uma alça em cada canto; arraste uma delas para redimensionar o destaque.
+
+Com o editor aberto, oito alças aparecem em volta do retângulo:
+
+- Superior esquerda, superior, superior direita
+- Esquerda, direita
+- Inferior esquerda, inferior, inferior direita
+
+Isso permite redimensionar com precisão, em vez de excluir e desenhar de novo.
+
+### Excluir um destaque de área
+
+Você pode remover um destaque:
+
+- Clicando em **Delete Annotation** no cartão dele
+- Clicando na lixeira no editor dele
+- Clicando em **Delete Annotation** ao lado dele na lista Annotations da barra lateral Layers
+- Clicando nele com o botão direito enquanto a ferramenta de destaque de área estiver ativa
+
+Desfazer traz de volta um destaque excluído.
+
+### Miniaturas dos destaques
+
+Quando você salva um destaque de área, o Zditor captura uma imagem da região e a salva no local escolhido em **Settings → Editor → PDF Editor → Highlight thumbnails**. A mesma opção está disponível em **Settings → Integrations → Image hosting & uploads**. O local pode ser uma pasta local ou um armazenamento compatível com S3, WebDAV ou GitHub que você tenha configurado.
+
+Se um destaque estiver sem miniatura, passe o ponteiro sobre ele na lista Annotations da barra lateral Layers e clique em **Regenerate missing thumbnails**.
+
+## Citar cartões de PDF no Markdown
+
+Os destaques de área não se limitam ao visualizador de PDF. Você pode inseri-los em documentos Markdown como cartões de PDF, o que é útil para transformar anotações de leitura em notas reutilizáveis.
+
+Quando você digita `@` em um documento Markdown, o Zditor abre uma lista de referências. Essa lista inclui:
+
+- Os arquivos Markdown do seu espaço de trabalho
+- Os PDFs que você anotou
+
+Quando você escolhe um PDF que tem destaques de área, o Zditor abre um menu de segundo nível com dois tipos de entrada:
+
+- **O próprio PDF**, que insere um link para o PDF inteiro
+- **Cada um dos destaques de área**, que insere um cartão de PDF dessa região
+
+Um PDF sem destaques de área é inserido como link na hora. Os destaques aparecem pelo título, ou pela página e pelo comentário se não tiverem título. Continue digitando depois de `@` para buscar nomes de arquivo, títulos de destaques, comentários e números de página (por exemplo, `page 3`).
+
+Um cartão de PDF mostra o título do destaque, se houver, e o nome do arquivo PDF.
+
+### Fluxo de trabalho típico
+
+<Steps>
+  <Step title="Crie primeiro os destaques de área no PDF">
+    Adicione destaques de área às regiões importantes, de preferência com título ou comentário, para reconhecê-los facilmente na lista depois.
+  </Step>
+
+  <Step title="Volte a um documento Markdown e digite @">
+    Isso abre a lista de referências do espaço de trabalho.
+  </Step>
+
+  <Step title="Escolha o PDF">
+    Selecione o PDF na lista de primeiro nível para abrir o menu de segundo nível dele.
+  </Step>
+
+  <Step title="Escolha o PDF inteiro ou um destaque">
+    Selecione o próprio PDF para ter um link para o arquivo inteiro, ou um destaque específico para ter um cartão que aponta para aquela região.
+  </Step>
+
+  <Step title="Insira no Markdown">
+    O Zditor insere o link ou o cartão de PDF no documento Markdown atual.
+  </Step>
+</Steps>
+
+### Clicar em um cartão de PDF no Markdown
+
+Clique em um cartão de PDF para selecioná-lo e abrir a barra de ferramentas dele. A barra liga o que você escreve ao PDF original:
+
+- **ASK AI**: abre o cartão no agente, junto com a página, o título e o comentário do destaque
+- **O nome do arquivo PDF**: abre o PDF, rola até o destaque e o seleciona
+- **Open with Default App**, **Open Containing Folder** e **Copy File Path**: agem sobre o arquivo PDF (app para desktop)
+- O número da página do destaque
+- **Edit Title**: altera o título que este cartão mostra na nota
+- **Refresh**: recarrega os detalhes e a miniatura do destaque
+- **More Options**: mostra a página, o título, o comentário e a miniatura do destaque. Clique na miniatura para vê-la em tamanho real.
+
+Ou seja, um cartão de PDF não é só uma referência estática. Você pode escrever a partir da nota resumida em Markdown e voltar ao PDF de origem sempre que precisar conferir o contexto original.
+
+<Tip>
+  Esse fluxo é especialmente útil para ler artigos e fazer notas de pesquisa. O lado do Markdown guarda um cartão reutilizável, e o lado do PDF guarda a região anotada original.
+</Tip>
+
+Esse padrão é útil para:
+
+- Transformar destaques de artigos em notas
+- Manter no Markdown a miniatura do PDF e o contexto do comentário
+- Montar notas de pesquisa estruturadas durante a leitura
+
+## Gerenciamento de camadas
+
+As camadas são um dos principais recursos de organização das anotações em PDF. Clique em **Layers** na barra de título para abri-las na barra lateral. Todo PDF começa com uma **Default Layer**.
+
+### Ações com camadas
+
+Na barra lateral de camadas, você pode:
+
+- Clicar em **Add Layer** (o sinal de mais) para criar uma camada, que se torna a camada ativa
+- Clicar em uma camada para torná-la ativa. Clicar em uma camada oculta também a mostra de novo.
+- Dar um clique duplo no nome de uma camada para renomeá-la. `Enter` confirma e `Esc` cancela.
+- Passar o ponteiro sobre uma camada e clicar no olho para ocultá-la ou mostrá-la
+- Passar o ponteiro sobre uma camada e clicar na lixeira para excluí-la. A última camada restante não pode ser excluída.
+
+<Warning>
+  Excluir uma camada também exclui os traços e os destaques de área guardados nela. Desfazer os traz de volta enquanto o PDF estiver aberto.
+</Warning>
+
+Abaixo das camadas, a lista **Annotations** mostra todos os destaques de área com página, camada, título e comentário. Clique em um deles para ir à página dele.
+
+### O que a camada ativa determina
+
+A camada ativa determina:
+
+- Onde os novos traços são criados
+- Onde os novos destaques de área são criados
+- Para onde vão os traços colados
+- Quais traços **Clear Page** remove
+
+A borracha, o laço e a ferramenta de seleção agem em todas as camadas visíveis. Se você ocultar a camada ativa, a primeira camada visível se torna a ativa.
+
+### Visibilidade das camadas
+
+Cada camada pode ser ocultada ou exibida de forma independente. Quando uma camada está oculta:
+
+- Os traços e os destaques de área dela somem das páginas
+- Eles ficam de fora da impressão
+- Os dados continuam existindo, e a lista Annotations continua mostrando os destaques da camada
+
+Isso é útil para:
+
+- Separar temas de anotação
+- Separar as marcações pessoais das da equipe
+- Concentrar-se temporariamente em uma categoria de anotação
+
+## Seleção e operações em lote
+
+Depois que você seleciona traços com a ferramenta de seleção ou com o laço, o Zditor mostra uma barra de ferramentas vertical à esquerda da seleção.
+
+As ações disponíveis incluem:
+
+- **Delete**
+- **Copy**
+- **Cut**
+- **Paste**, que aparece depois que você copia ou recorta. Adiciona os traços copiados a esta página, levemente deslocados, na camada ativa.
+- **Move to Layer**, que aparece quando o PDF tem mais de uma camada
+
+Você também pode arrastar dentro da seleção para mover os traços selecionados em grupo.
+
+Copiar e recortar guardam os traços para colar no mesmo PDF; não usam a área de transferência do sistema.
+
+### Atalho para excluir
+
+Com a ferramenta de seleção ou o laço, se houver traços selecionados, você pode pressionar:
+
+- `Delete`
+- `Backspace`
+
+para removê-los.
+
+## Desfazer, refazer e limpar
+
+### Desfazer e refazer
+
+**Undo** e **Redo** ficam na barra de título. Eles percorrem todas as alterações nas anotações do PDF, em todas as páginas e camadas:
+
+- Desenhar, apagar, mover, colar e excluir traços, e movê-los para outra camada
+- Criar, editar, mover, redimensionar e excluir destaques de área
+- Adicionar, renomear, ocultar, mostrar e excluir camadas
+- **Clear Page**
+- Alterações que o agente faz enquanto o PDF está aberto
+
+O histórico dura enquanto o PDF ficar aberto. Quando você abre o PDF de novo, o histórico começa do zero.
+
+### Limpar a página atual
+
+**Clear Page** (a lixeira na barra de título, ou em **More** quando a aba é estreita) remove todos os traços que estão:
+
+- Na página atual, a indicada pelo número de página no canto inferior esquerdo
+- Na camada ativa
+
+<Warning>
+  **Clear Page** afeta apenas traços. Os destaques de área e os traços de outras camadas permanecem. Desfazer traz de volta os traços apagados.
+</Warning>
+
+## Marcadores, busca e navegação
+
+### Marcadores do PDF
+
+Se o PDF tiver estrutura ou marcadores próprios, clique em **Bookmarks** na barra de título para mostrá-los na barra lateral.
+
+Você pode:
+
+- Expandir ou recolher marcadores aninhados
+- Clicar em um marcador para ir à página dele, mostrada ao lado do título
+- Ver a página atual refletida na barra lateral: o marcador dela fica destacado
+
+Um PDF sem estrutura mostra **No bookmarks**.
+
+### Buscar texto e comentários de anotações
+
+Clique em **Search** na barra de título ou pressione `Cmd/Ctrl + F`. O campo de busca ocupa o lugar dos botões da barra de título, e os resultados abrem na barra lateral.
+
+A busca no PDF não se limita ao texto do corpo do PDF. Ela também procura nos comentários dos destaques de área.
+
+Como a busca funciona:
+
+- Os resultados se atualizam logo depois que você para de digitar, e o visualizador vai para o primeiro
+- A busca não diferencia maiúsculas de minúsculas
+- `Enter`, ou o botão de seta para baixo, vai para o próximo resultado
+- `Shift + Enter`, ou o botão de seta para cima, vai para o resultado anterior
+- `Esc`, ou o botão de fechar, fecha a busca e os resultados
+
+### Como os resultados aparecem
+
+Quando há uma correspondência:
+
+- A página marca as regiões correspondentes
+- O campo de busca mostra em qual resultado você está, como `2/7`
+- A barra lateral lista todos os resultados; clique em um para ir até ele
+
+Há dois tipos de resultado:
+
+- **Correspondências no texto** são agrupadas por página: cada página com correspondências conta como um resultado
+- **Correspondências em comentários de destaques** aparecem uma por destaque, com a cor, a página e o comentário do destaque
+
+## Zoom e leitura
+
+O visualizador de PDF permite:
+
+- Usar **Zoom In** e **Zoom Out** no canto inferior esquerdo
+- Clicar na porcentagem de zoom para ajustar a página à largura do visualizador
+- Fazer o gesto de pinça no trackpad do Mac
+- Manter `Ctrl` pressionado e rolar
+- Usar níveis de zoom de 40% a 400%
+- Clicar no número da página, digitar uma página e pressionar `Enter` para ir até ela
+
+### Impressão
+
+**Print**, na barra de título, imprime todas as páginas do PDF com as anotações das camadas visíveis. As camadas ocultas não são impressas.
+
+### Modo escuro
+
+Quando o Zditor usa a aparência escura, as páginas do PDF são invertidas para uma leitura mais confortável, com texto claro em páginas escuras.
+
+<Tip>
+  A inversão vale apenas para as páginas do PDF. As anotações são desenhadas em uma camada separada acima delas e mantêm as cores.
+</Tip>
+
+## Trabalhar com o agente
+
+O Native Agent integrado pode trabalhar com qualquer PDF do seu espaço de trabalho, esteja ele aberto em uma aba ou não. Você pode pedir que ele:
+
+- Leia um PDF página por página, junto com a estrutura dele e os destaques que você já fez
+- Encontre um trecho
+- Examine uma página ou parte dela, como uma figura, uma tabela ou uma página digitalizada
+- Destaque um trecho com título e comentário, sublinhe-o, risque-o ou desenhe um retângulo em volta dele
+- Desenhe à mão livre, edite ou exclua destaques e exclua traços
+
+O que esperar:
+
+- As novas anotações vão para uma camada chamada **Agent**, a menos que o agente seja instruído a usar uma das suas camadas; assim, você pode ocultar ou excluir o trabalho dele de uma só vez
+- Se o PDF estiver aberto, as alterações do agente aparecem na hora, e **Undo** desfaz cada lote de alterações de uma vez
+- Para cada destaque que cria, o agente recebe um link de cartão de PDF pronto, para poder citar o destaque em uma nota Markdown
+- As miniaturas dos destaques do agente são geradas enquanto o PDF está aberto. Para os destaques que ele fez com o PDF fechado, abra o PDF e use **Regenerate missing thumbnails** na lista Annotations.
+- Ler, buscar e examinar páginas não exigem aprovação. Adicionar, alterar ou excluir anotações segue o **Permission mode** do agente.
+
+Para conectar o agente a um serviço de IA, abra **Settings → AI → Agents**.
+
+## Notas de desempenho
+
+A lista de páginas só renderiza as páginas próximas da área visível:
+
+- As páginas visíveis, mais uma antes e uma depois, são renderizadas por completo
+- As outras páginas são substituídas por espaços reservados que preservam a altura de rolagem
+
+Isso reduz o custo de renderização, principalmente em PDFs longos, níveis de zoom maiores e monitores de alta resolução.
+
+A primeira busca em um PDF lê o texto de todas as páginas, então pode demorar um pouco em um documento longo. As buscas seguintes no mesmo PDF reaproveitam esse texto.
+
+## Perguntas frequentes
+
+<AccordionGroup>
+  <Accordion title="Onde ficam os dados de anotação?" icon="question">
+    Em um arquivo separado ao lado do PDF: as anotações de `paper.pdf` ficam em `paper.pdf.zditor-pdf-annotation.json`. O Zditor nunca as grava no próprio PDF.
+  </Accordion>
+
+  <Accordion title="Por que algumas anotações sumiram?" icon="question">
+    Primeiro, verifique se a camada delas está oculta na barra lateral Layers. Uma camada oculta mantém os dados, e os destaques de área dela continuam aparecendo na lista Annotations. Lembre também que a camada ativa só determina para onde vão as novas anotações; os dados das outras camadas continuam lá.
+  </Accordion>
+
+  <Accordion title="Por que a busca não encontra minhas anotações à mão?" icon="question">
+    A busca abrange o texto do PDF e os comentários dos destaques de área. Ela não busca em escrita à mão nem em títulos de destaques, e não faz OCR; por isso, um PDF digitalizado sem camada de texto não pode ser pesquisado.
+  </Accordion>
+
+  <Accordion title="E se uma miniatura não foi gerada?" icon="question">
+    Abra o PDF, abra a barra lateral Layers, passe o ponteiro sobre o destaque na lista Annotations e clique em **Regenerate missing thumbnails**. Se continuar falhando, verifique o local de armazenamento em **Settings → Editor → PDF Editor → Highlight thumbnails**.
+  </Accordion>
+
+  <Accordion title="O que acontece quando excluo uma camada?" icon="question">
+    Excluir uma camada remove os traços e os destaques de área guardados nela. Desfazer os traz de volta enquanto o PDF estiver aberto. Para manter alguns traços, mova-os antes para outra camada com **Move to Layer**; os destaques de área não podem ser movidos entre camadas.
+  </Accordion>
+
+  <Accordion title="Posso desfazer alterações depois de fechar o PDF?" icon="question">
+    Não. O histórico de desfazer só dura enquanto o PDF está aberto. Para desfazer o trabalho de um agente mais tarde, oculte ou exclua a camada **Agent** dele.
+  </Accordion>
+
+  <Accordion title="Qual é a diferença entre um destaque de área e o marca-texto comum?" icon="question">
+    O marca-texto desenha um traço semitransparente à mão livre. Um destaque de área é um retângulo estruturado com título, comentário, cor e miniatura. Você pode movê-lo e redimensioná-lo, encontrá-lo pelo comentário na busca e citá-lo no Markdown como cartão de PDF.
+  </Accordion>
+</AccordionGroup>

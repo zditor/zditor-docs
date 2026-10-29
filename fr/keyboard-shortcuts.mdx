@@ -1,0 +1,280 @@
+---
+title: "Raccourcis clavier"
+description: "Découvrez les principaux raccourcis clavier de Zditor pour éditer plus vite."
+icon: "keyboard"
+---
+
+Zditor prend largement en charge les raccourcis clavier pour l’édition, la mise en forme, la structure et la navigation. Les tableaux ci-dessous listent les raccourcis par défaut de l’éditeur Markdown et de l’application.
+
+<Warning>
+  `Mod` désigne `Ctrl` sous Windows et Linux, et `Command` sous macOS. `Alt` correspond à la touche `Option` sous macOS.
+</Warning>
+
+## Sommaire
+
+- [Raccourcis globaux](#raccourcis-globaux)
+- [Édition générale](#édition-générale)
+- [Mise en forme du texte](#mise-en-forme-du-texte)
+- [Titres](#titres)
+- [Listes](#listes)
+- [Blocs de code](#blocs-de-code)
+- [Formules mathématiques](#formules-mathématiques)
+- [Tableaux](#tableaux)
+- [Autres opérations](#autres-opérations)
+- [Personnaliser les raccourcis](#personnaliser-les-raccourcis)
+
+## Raccourcis globaux
+
+### Recherche et enregistrement
+
+| Raccourci | Action |
+| --- | --- |
+| `Mod-K` | Ouvrir la recherche |
+| `Mod-S` | Enregistrer le document actuel |
+| `Mod-F` | Rechercher dans le document actuel |
+
+### Modes d’affichage
+
+Ces raccourcis agissent sur le document Markdown actif. Appuyez de nouveau sur le même raccourci pour revenir au texte enrichi.
+
+| Raccourci | Action |
+| --- | --- |
+| `Mod-E` | Basculer entre le mode édition et le mode lecture seule |
+| `Mod-/` | Basculer entre le texte enrichi et la vue source |
+| `Mod-\` | Basculer entre le texte enrichi et la vue côte à côte |
+
+### Zoom de l’affichage
+
+| Raccourci | Action |
+| --- | --- |
+| `Mod-=` | Zoom avant |
+| `Mod--` | Zoom arrière |
+| `Mod-0` | Réinitialiser le zoom |
+
+## Édition générale
+
+### Édition de base
+
+| Raccourci | Action |
+| --- | --- |
+| `Mod-A` | Sélectionner tout le document |
+| `Escape` | Retirer le focus de l’éditeur |
+| `Shift-Enter` | Insérer un saut de ligne sans commencer de nouveau paragraphe |
+
+### Annuler et rétablir
+
+| Raccourci | Action |
+| --- | --- |
+| `Mod-Z` | Annuler |
+| `Mod-Y` | Rétablir |
+| `Mod-Shift-Z` | Rétablir (autre raccourci) |
+| `Backspace` | Juste après une conversion automatique de votre saisie, par exemple `## ` en titre, annuler cette conversion |
+
+## Mise en forme du texte
+
+### Activer et désactiver les styles
+
+| Raccourci | Action |
+| --- | --- |
+| `Mod-B` | Activer ou désactiver le gras |
+| `Mod-I` | Activer ou désactiver l’italique |
+| `Mod-D` | Activer ou désactiver le barré |
+| `Mod-H` | Activer ou désactiver le surlignage |
+| `Mod-Shift-C` | Activer ou désactiver le code en ligne |
+| `Mod-R` | Activer ou désactiver une marque de révision (voir [Marques de texte](/fr/text-marks)) |
+
+### Insérer des éléments
+
+| Raccourci | Action |
+| --- | --- |
+| `Mod-Shift-E` | Insérer une formule en ligne |
+| `Mod-Shift-D` | Insérer une formule en bloc |
+| `Mod-Shift-H` | Insérer un séparateur (ligne horizontale) |
+| `Mod-P` | Insérer un saut de page |
+| `Mod-T` | Insérer un tableau 3 × 3 |
+
+<Note>
+  Les raccourcis des marques de révision et des formules nécessitent les plugins **Track changes** et **Math formulas**, activés par défaut dans **Settings → Integrations → Plugins**.
+</Note>
+
+## Titres
+
+| Raccourci | Action |
+| --- | --- |
+| `Mod-1` | Titre 1 |
+| `Mod-2` | Titre 2 |
+| `Mod-3` | Titre 3 |
+| `Mod-4` | Titre 4 |
+| `Mod-5` | Titre 5 |
+| `Mod-6` | Titre 6 |
+| `Mod-Shift-P` | Convertir en paragraphe |
+| `Backspace` | Au début d’un titre, le reconvertir en paragraphe |
+
+Appuyer sur le raccourci d’un niveau de titre dans un titre de ce niveau le reconvertit en paragraphe.
+
+## Listes
+
+### Créer des listes
+
+| Raccourci | Action |
+| --- | --- |
+| `Mod-Shift-8` | Activer ou désactiver la liste à puces |
+| `Mod-Shift-7` | Activer ou désactiver la liste numérotée |
+| `Mod-Shift-9` | Activer ou désactiver la liste de cases à cocher |
+| `Mod-Shift-B` | Activer ou désactiver la citation |
+
+### Éléments de liste
+
+| Raccourci | Action |
+| --- | --- |
+| `Enter` | Scinder un élément de liste |
+| `Tab` | Augmenter le retrait d’un élément de liste |
+| `Shift-Tab` | Diminuer le retrait d’un élément de liste |
+| `Mod-Shift-Enter` | Commencer un nouveau paragraphe dans l’élément de liste ou la citation en cours |
+| `Alt-ArrowUp` | Monter l’élément |
+| `Alt-ArrowDown` | Descendre l’élément |
+
+### Cases à cocher
+
+| Raccourci | Action |
+| --- | --- |
+| `Mod-Enter` | Cocher ou décocher la case |
+| `Enter` | Scinder un élément à cocher |
+| `Tab` | Augmenter le retrait d’un élément à cocher |
+| `Shift-Tab` | Diminuer le retrait d’un élément à cocher |
+
+## Blocs de code
+
+### Créer un bloc de code
+
+| Raccourci | Action |
+| --- | --- |
+| `Mod-Shift-\` | Activer ou désactiver un bloc de code |
+
+### Modifier un bloc de code et s’y déplacer
+
+| Raccourci | Action |
+| --- | --- |
+| `ArrowUp` | Monter, ou sortir du bloc de code depuis sa première ligne |
+| `ArrowDown` | Descendre, ou sortir du bloc de code depuis sa dernière ligne |
+| `ArrowLeft` | Aller à gauche, ou sortir du bloc de code depuis son début |
+| `ArrowRight` | Aller à droite, ou sortir du bloc de code depuis sa fin |
+| `Tab` | Augmenter le retrait |
+| `Shift-Tab` | Diminuer le retrait |
+| `Mod-Enter` | Sortir du bloc de code et continuer dans un nouveau paragraphe en dessous |
+| `Backspace` | Tout au début du bloc de code, le reconvertir en paragraphe |
+
+### Mettre en forme un bloc de code
+
+| Raccourci | Action |
+| --- | --- |
+| `Mod-Shift-F` | Mettre en forme le bloc de code |
+| `Alt-Shift-F` | Autre raccourci de mise en forme du code |
+
+## Formules mathématiques
+
+### Dans une formule
+
+| Raccourci | Action |
+| --- | --- |
+| `Tab` | Insérer une tabulation |
+| `Enter` | Dans une formule en bloc, commencer une nouvelle ligne ; dans une formule en ligne, sortir de la formule |
+| `Mod-Enter` | Sortir de la formule |
+| `Backspace` | Dans une formule vide, la supprimer |
+| `Mod-Backspace` | Supprimer la formule et revenir au texte |
+| `Mod-A` | Sélectionner tout le contenu de la formule |
+| `Mod-M` | Basculer entre formule en ligne et formule en bloc |
+| `Mod-P` | Convertir la formule en texte brut |
+
+### Se déplacer dans une formule
+
+| Raccourci | Action |
+| --- | --- |
+| `ArrowLeft` | Aller à gauche, ou sortir de la formule depuis son début |
+| `ArrowRight` | Aller à droite, ou sortir de la formule depuis sa fin |
+| `ArrowUp` | Monter, ou sortir de la formule depuis sa première ligne |
+| `ArrowDown` | Descendre, ou sortir de la formule depuis sa dernière ligne |
+
+Lorsqu’une formule en bloc est sélectionnée, appuyez sur `Enter` pour la modifier. Voir [Formules mathématiques](/fr/math-formulas).
+
+## Tableaux
+
+### Se déplacer dans un tableau
+
+| Raccourci | Action |
+| --- | --- |
+| `Tab` | Passer à la cellule suivante ; dans la dernière cellule, ajouter une ligne |
+| `Shift-Tab` | Passer à la cellule précédente |
+
+### Modifier un tableau
+
+| Raccourci | Action |
+| --- | --- |
+| `Mod-Enter` | Ajouter une ligne en dessous et s’y placer |
+| `Mod-Shift-Enter` | Ajouter une colonne à droite et s’y placer |
+| `Mod-Backspace` | Supprimer la ligne actuelle |
+| `Mod-Shift-Backspace` | Supprimer la colonne actuelle |
+
+## Autres opérations
+
+### Autres éléments
+
+| Raccourci | Action |
+| --- | --- |
+| `Mod-Shift-M` | Ajouter un bloc frontmatter, depuis le premier paragraphe d’un document qui n’en a pas (voir [Frontmatter](/fr/frontmatter)) |
+| `Mod-Shift-V` | Activer ou désactiver un bloc HTML |
+
+### Menus de suggestions
+
+Ces touches fonctionnent dans les menus `/`, `@` et `#`.
+
+| Raccourci | Action |
+| --- | --- |
+| `ArrowUp` | Monter dans la liste |
+| `ArrowDown` | Descendre dans la liste |
+| `Tab` / `Shift-Tab` | Passer à l’élément suivant ou précédent |
+| `ArrowRight` | Ouvrir le groupe en surbrillance |
+| `ArrowLeft` | Quitter un groupe |
+| `Enter` | Choisir l’élément en surbrillance, ou ouvrir le groupe en surbrillance |
+| `Escape` | Quitter un groupe, ou fermer le menu |
+| `Backspace` | Supprimer un caractère et mettre à jour le filtre |
+
+Dans le sélecteur d’emoji qu’ouvre `:`, les touches fléchées permettent de se déplacer dans la grille, `Enter` insère l’emoji en surbrillance, et `Mod-ArrowLeft` / `Mod-ArrowRight` changent de catégorie tant que vous n’avez pas saisi de filtre.
+
+## Personnaliser les raccourcis
+
+Dans l’application de bureau, ouvrez **Settings → Personal → Keyboard shortcuts**.
+
+<Steps>
+  <Step title="Trouver le raccourci">
+    Cherchez par nom, choisissez une catégorie, ou basculez entre **All Bindings**, **Commands** et **Semantic Intents**.
+  </Step>
+  <Step title="Saisir de nouvelles touches">
+    Cliquez dans le champ de touches du raccourci et appuyez sur la nouvelle combinaison. Appuyez sur `Escape` pour annuler.
+  </Step>
+  <Step title="Vérifier les conflits">
+    Un raccourci qui entre en conflit avec un autre de la même catégorie affiche un badge **Conflict**. **Conflicts only** n’affiche que ceux-là.
+  </Step>
+</Steps>
+
+Les raccourcis modifiés affichent un badge **Customized** et un bouton **Reset to default**. **Reset All** rétablit tous les raccourcis par défaut.
+
+<Tip>
+  Les raccourcis marqués **Readonly** ne peuvent pas être modifiés. C’est le cas de la recherche, de l’enregistrement et du zoom, des touches à l’intérieur des blocs de code et des formules, et des touches sémantiques comme `Enter`, `Tab` et `Backspace`. Les modifications prennent effet immédiatement.
+</Tip>
+
+## Questions fréquentes
+
+<AccordionGroup>
+  <Accordion title="Pourquoi un raccourci ne fonctionne-t-il pas ?" icon="question">
+    Vérifiez que l’éditeur a le focus, que le type de nœud actuel prend en charge cette action, que vous n’avez pas modifié le raccourci dans **Settings → Personal → Keyboard shortcuts**, et que le système d’exploitation n’a pas intercepté le raccourci avant.
+  </Accordion>
+
+  <Accordion title="Les raccourcis sont-ils différents sous macOS ?" icon="question">
+    Les raccourcis sont les mêmes. Remplacez `Mod` par `Command` sous macOS et par `Ctrl` ailleurs, et appuyez sur `Option` là où un raccourci indique `Alt`.
+  </Accordion>
+
+  <Accordion title="Puis-je tout personnaliser ?" icon="question">
+    Non. Les raccourcis marqués **Readonly** dans les paramètres conservent leur valeur par défaut, et certains raccourcis sont réservés par le système d’exploitation.
+  </Accordion>
+</AccordionGroup>

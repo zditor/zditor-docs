@@ -30,7 +30,7 @@ This page collects the highest-frequency interactions in Zditor. If you are just
 
 ### Five drag-and-drop patterns
 
-ZDItor supports more than one drag-and-drop workflow.
+Zditor supports more than one drag-and-drop workflow.
 
 #### 1. Dragging inside the file tree
 
@@ -46,11 +46,14 @@ This is useful for:
 
 Files from the left file tree can be dragged directly into a Markdown document.
 
-By default, the dropped file is inserted as an **attachment node**. After insertion, you can click that node to open its toolbar and convert it into a more suitable node type, such as:
+The dropped file is inserted as an **attachment node** that links to the file where it already is in your workspace. Zditor does not make a copy.
 
-- An image node
-- A video node
-- Another display type that better matches the file
+To show the file as an image, video, audio player, or canvas instead:
+
+1. Click the attachment, open its **More** menu, and choose **Convert to Link**.
+2. Click the new link and use the matching button in the link toolbar: **Convert to image**, **Convert to video**, **Convert to audio**, or **Convert to canvas**. Only the buttons that fit the file type appear.
+
+For a canvas file (`.excalidraw`), the attachment's **More** menu also offers **Convert to Canvas** directly.
 
 This is useful when you want to insert first and decide the final presentation after that.
 
@@ -58,13 +61,15 @@ This is useful when you want to insert first and decide the final presentation a
 
 You can drag files from the system file manager directly into a Markdown document.
 
-ZDItor inserts them according to file type:
+Zditor inserts them according to file type:
 
 - Image files -> image nodes
 - Video files -> video nodes
+- Audio files -> audio nodes
+- Canvas files (`.excalidraw`) -> canvas nodes
 - Other files -> attachment nodes
 
-This is the fastest way to bring local assets into notes or documents.
+Zditor stores a copy of each dropped file in the place set in **Settings → Integrations → Image hosting & uploads**. This is the fastest way to bring local assets into notes or documents.
 
 #### 4. Dragging nodes across Markdown documents
 
@@ -92,19 +97,23 @@ This is useful for:
 
 ### Drag handles inside the editor
 
-When you hover near block content in the editor, ZDItor shows a drag handle. Dragging this handle reorders the block directly.
+When you hover over a block while editing, Zditor shows a drag handle in the left margin. The handle shows the block's type (`H1` to `H6` for headings) next to a grip. Dragging it moves the whole block.
 
-Common node types generally support drag and drop, including:
+Every top-level block has this handle, including:
 
 - Paragraphs
 - Headings
 - Lists
+- Blockquotes
 - Images
 - Videos
-- Code
+- Code blocks
 - Attachments
-- Admonitions
+- Callouts
 - Tables
+- Display math
+
+A list moves as a whole. To move a single list item, use `Alt-ArrowUp` and `Alt-ArrowDown`.
 
 <Warning>
   **Drag-and-drop feedback**
@@ -120,10 +129,10 @@ Common node types generally support drag and drop, including:
 
 ### Where drag handles usually appear
 
-Drag handles do not always appear on the same side:
+You can start a drag from two places:
 
-- **Left side**: common for paragraphs and similar block content
-- **Right side**: common for some nodes such as lists, videos, and images
+- **Left margin**: the hover handle, for any top-level block
+- **Toolbar**: the **Drag** button in the toolbar of a selected image, video, audio file, attachment, canvas, embed, code block, table, HTML block, or formula
 
 <Tip>
   The core value of drag and drop is structural editing. It is much faster than cut and paste when you are reorganizing long notes, drafts, or outlines.
@@ -151,6 +160,8 @@ Common scenarios include:
 | --- | --- |
 | `Mod-K` | Open search |
 | `Mod-S` | Save the current document |
+| `Mod-F` | Search in the current document |
+| `Mod-/` | Switch between rich text and source view |
 | `Mod-B` | Toggle bold |
 | `Mod-I` | Toggle italic |
 | `Mod-H` | Toggle highlight |
@@ -159,7 +170,7 @@ Common scenarios include:
 | `Mod-Shift-8` | Toggle bullet list |
 | `Mod-Shift-7` | Toggle ordered list |
 | `Mod-Shift-9` | Toggle checkbox list |
-| `Mod-Shift-\`` | Toggle code block |
+| `Mod-Shift-\` | Toggle code block |
 | `Mod-T` | Create a table |
 
 <Warning>
@@ -178,7 +189,7 @@ Shortcuts are especially useful when:
 - You do not want to break flow by reaching for the mouse
 - You are repeating the same operation many times
 
-For the full list, see [Keyboard Shortcuts](/en/keyboard-shortcuts).
+For the full list, and for changing bindings in **Settings → Personal → Keyboard shortcuts**, see [Keyboard Shortcuts](/en/keyboard-shortcuts).
 
 ## Trigger menus
 
@@ -186,12 +197,17 @@ Trigger menus are the fastest way to open structured actions from the keyboard.
 
 ### `/` command menu
 
-In supported inputs, typing `/` opens a command menu. You can continue typing to filter the list and insert the selected command into the input field.
+In a Markdown document, type `/` at the start of a line or after a space to open the command menu. Keep typing to filter it; the filter searches inside every group. Use the arrow keys and `Enter` to choose an item.
 
-The source of the list depends on the mode:
+The menu contains:
 
-- **Chat mode**: reusable prompt-style commands
-- **Agent mode**: commands exposed by the current Agent session
+- **Heading 1** to **Heading 3**, and **Heading 4-6**
+- **List**: checklist, bulleted list, and numbered list
+- **Media**: image, video, audio, canvas, and file attachment, each chosen with a file picker
+- **MetaInfo**: a frontmatter block at the top of the document
+- **Code Block**: table, HTML, quote, code block, display math, divider, page break, and a Mermaid diagram
+- **Info**: info, note, warning, tip, and error callouts
+- **Templates**: shown when you have documents with `template: true` in their frontmatter. Choosing one replaces the current document's content with the template.
 
 This helps you:
 
@@ -199,21 +215,25 @@ This helps you:
 - Discover available commands quickly
 - Use more structured workflows
 
+In the agent's message box, `/` lists conversation commands instead: `/share`, `/export`, `/goal`, `/compact`, and `/side`. There, `@` mentions a workspace file and `$` picks a skill. See the [Agent Guide](/en/agent-guide).
+
 ### Other trigger menus in the editor
 
 Besides `/`, the editor also exposes several common trigger menus:
 
-- `@`: reference workspace resources such as Markdown and PDF files
+- `@`: link to a Markdown or PDF file in the workspace. For a PDF with highlights, you can also choose a highlight to insert it as a PDF card.
 - `#`: insert or create SuperTag items
-- `:`: open the emoji toolbar or emoji suggestion menu
+- `:`: open the emoji picker; keep typing to filter emoji by name
+
+Each menu can be turned off in **Settings → Editor → Markdown Editor**, under **Command menu (/)**, **Link menu (@)**, **Object menu (#)**, and **Emoji menu (:)**.
 
 <Tip>
-  If you rely on repeated editor or AI actions often, trigger menus are usually faster and more stable than rewriting the same intent every time.
+  If you rely on repeated editor actions often, trigger menus are usually faster and more stable than retyping the same syntax every time.
 </Tip>
 
 ## Toolbars
 
-ZDItor does not rely on one fixed toolbar. Instead, it shows context-sensitive toolbars based on what you selected.
+Zditor does not rely on one fixed formatting toolbar. Instead, it shows context-sensitive toolbars based on what you selected.
 
 ### Selection toolbars
 
@@ -221,18 +241,25 @@ When you select text or a node, the editor can show a matching toolbar, for exam
 
 - Text formatting toolbar
 - Link toolbar
-- Image toolbar
-- Footnote toolbar
+- Image, video, and audio toolbars
+- Attachment toolbar
+- Canvas toolbar
+- Embed toolbar
+- Code block and HTML block toolbars
+- Formula toolbar
 - Table toolbar
+- Callout toolbar
+- Footnote toolbar
+- Tip and revision toolbar
 - SuperTag toolbar
 - PDF card toolbar
-- Code toolbar
-- Attachment toolbar
 
 That means you often do not have to remember all syntax in advance. A common pattern is:
 
 1. Select the content first
 2. Use the toolbar to apply or adjust the action
+
+To hide these toolbars, turn off **Selection toolbar** in **Settings → Editor → Markdown Editor**.
 
 ### Toolbar behavior
 
@@ -247,6 +274,10 @@ That means you often do not have to remember all syntax in advance. A common pat
 
   <Accordion title="Supports in-place editing" icon="pen-to-square">
     Toolbars appear near the selected content so you can keep your eyes close to the editing context.
+  </Accordion>
+
+  <Accordion title="Can hand the selection to the agent" icon="sparkles">
+    Many toolbars include an **ASK AI** button, which opens the agent beside the document with your selection attached. Prompts you add in **Settings → AI → AI Toolbar Prompts** appear as extra buttons in the toolbars.
   </Accordion>
 </AccordionGroup>
 

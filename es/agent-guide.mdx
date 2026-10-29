@@ -1,0 +1,280 @@
+---
+title: "Guía del agente"
+description: "Configura el agente integrado de Zditor, encárgale tareas y decide qué puede hacer."
+icon: "robot"
+---
+
+Zditor incluye un agente. Trabaja con los archivos de tu espacio de trabajo: lee y edita notas, anota PDF, crea lienzos, ejecuta comandos y puede manejar el propio Zditor. Tú eliges el servicio de IA que lo impulsa, ya sea Zditor AI a través de tu cuenta de Zditor o un proveedor propio, y decides qué puede hacer sin preguntar.
+
+<Frame>
+  <img src="/images/agent.webp" alt="Una conversación del agente en Zditor a la espera de aprobación para editar un archivo, con Allow once, Always allow y Reject, y el modo de permisos Always ask bajo el cuadro de mensaje" style={{ borderRadius: '0.5rem' }} />
+</Frame>
+
+<Warning>
+  El agente puede cambiar archivos, ejecutar comandos y, en un Mac, manejar otras aplicaciones. Lee cada solicitud antes de aprobarla y mantén el modo de permisos **Always ask**, salvo que confíes en la tarea.
+</Warning>
+
+## Qué puede hacer el agente
+
+<CardGroup cols={2}>
+  <Card title="Trabajar con tus archivos" icon="folder-open">
+    Leer, buscar, crear y editar los archivos de tu espacio de trabajo, y ver imágenes.
+  </Card>
+
+  <Card title="Ejecutar comandos" icon="terminal">
+    Ejecutar comandos de terminal y usar Git a través del Git integrado de Zditor, así que no hace falta tener Git instalado.
+  </Card>
+
+  <Card title="Anotar PDF" icon="file-pdf">
+    Leer PDF y buscar en ellos, examinar páginas y añadir resaltados con comentarios, subrayados y dibujos. Consulta la [guía de anotaciones en PDF](/es/pdf-annotations).
+  </Card>
+
+  <Card title="Crear lienzos" icon="diagram-project">
+    Convertir una nota Markdown en un lienzo (un mapa lógico, un mapa mental o un organigrama), editar lienzos y cambiar su estilo, y volver a convertir un lienzo en Markdown.
+  </Card>
+
+  <Card title="Manejar Zditor" icon="window-restore">
+    Ver tu espacio de trabajo y las pestañas abiertas, abrir archivos, cambiar de pestaña o cerrarlas, y cambiar ajustes y conexiones.
+  </Card>
+
+  <Card title="Usar la web" icon="globe">
+    Llamar a servicios web y descargar archivos. Se rechazan las solicitudes a direcciones locales o de redes privadas.
+  </Card>
+
+  <Card title="Usar tu Mac" icon="computer-mouse">
+    Ver otras aplicaciones y hacer clic, escribir y desplazarse en ellas. Consulta Control del equipo en un Mac, más abajo.
+  </Card>
+
+  <Card title="Añadir herramientas y habilidades" icon="plug">
+    Conectar servidores MCP para tener más herramientas y añadir habilidades: instrucciones escritas para tipos concretos de tareas.
+  </Card>
+</CardGroup>
+
+También puede repartir partes de una tarea grande entre subagentes que trabajan en paralelo, hacerte una pregunta cuando necesita que decidas algo y abrir lo que crea, como una página HTML, una imagen o un vídeo, en una pestaña de Zditor.
+
+<Note>
+  En iPhone y iPad, y en los espacios de trabajo remotos (SSH, S3, WebDAV o Git), el agente lee y escribe archivos a través de Zditor, pero no puede ejecutar comandos de terminal ni manejar otras aplicaciones. En los espacios de trabajo remotos tampoco puede usar Git.
+</Note>
+
+## Configurar un servicio de IA
+
+El agente necesita un servicio de IA antes de poder hacer nada. Abre **Settings → AI → Agents** y, en **Provider**, pon **AI service** en **Zditor** o en **Custom provider**.
+
+<Tabs>
+<Tab title="Zditor AI">
+  Zditor AI no necesita clave de API. Está disponible cuando has iniciado sesión con tu cuenta de Zditor y tienes Pro, que incluye un saldo mensual de uso de IA, o tokens de IA gratuitos en tu cuenta. Los tokens gratuitos se usan con Claude Haiku 5.5.
+
+  1. Abre **Settings → AI → Agents**.
+  2. Si no has iniciado sesión, haz clic en **Sign in** y termina de iniciar sesión en el navegador.
+  3. Pon **AI service** en **Zditor**.
+
+  Zditor carga los modelos disponibles y sus ajustes cada vez que se inicia; **Update**, en **Service configuration**, los carga al momento. Tu consumo aparece en **AI usage**, en **Settings → Personal → Account**.
+</Tab>
+
+<Tab title="Custom provider">
+  Conecta un servicio compatible con la API OpenAI Responses o con la API Claude Messages (Anthropic), incluso uno que se ejecute en tu propio equipo.
+
+  <Steps>
+    <Step title="Elige el protocolo">
+      Pon **AI service** en **Custom provider** y elige el **API protocol** que admite tu servicio: **OpenAI Responses** o **Claude Messages (Anthropic)**.
+    </Step>
+
+    <Step title="Introduce la dirección y la clave">
+      Introduce la **Base URL**, la dirección raíz de la API del servicio, que suele terminar en `/v1` (por ejemplo, `https://api.openai.com/v1` o `https://api.anthropic.com/v1`). Después, introduce tu **API key**; los proveedores locales pueden no necesitarla. La clave se guarda en este dispositivo y solo se envía a esa dirección.
+    </Step>
+
+    <Step title="Añade modelos">
+      En **Model and generation**, haz clic en **Fetch models**. Los modelos del proveedor aparecen como **Not enabled**: abre cada uno de los que quieras usar y activa su interruptor **Enable**. Para añadir un modelo que el proveedor no muestra, escribe su ID en **Add model** y pulsa Enter. Un modelo añadido así queda activado.
+    </Step>
+
+    <Step title="Revisa los límites de tokens">
+      Cada modelo activado necesita **Context window tokens** y **Maximum output tokens**. Si el proveedor los indica, Zditor los rellena (**Server-reported**). Si no, elige **Enter manually** y usa las cifras de la documentación del proveedor.
+    </Step>
+
+    <Step title="Guarda">
+      Haz clic en **Save**. **Test connection** comprueba la dirección y la clave obteniendo la lista de modelos.
+    </Step>
+  </Steps>
+</Tab>
+</Tabs>
+
+### Ajustes del modelo
+
+Abre un modelo en **Model and generation** para ajustarlo. Con Zditor AI puedes ver estos ajustes, pero no cambiarlos.
+
+| Ajuste | Qué hace |
+| :--- | :--- |
+| **Reasoning effort** | Cuánto razona el modelo antes de responder. **Automatic** usa el valor predeterminado del modelo; los niveles más altos llevan más tiempo y consumen más tokens. |
+| **Temperature** | Los valores bajos dan respuestas más previsibles, y los altos, más variadas. Déjalo vacío para que decida el servicio. |
+| **Context window tokens**, **Maximum output tokens** | Los límites del modelo, indicados por el servicio o introducidos por ti. |
+| **Automatic compaction threshold** | Cuando una conversación alcanza este número de tokens, Zditor resume el contexto anterior para hacer sitio. El valor predeterminado es el 90 % de la ventana de contexto. |
+
+En una conversación, el menú de modelos de la parte superior (**Model and reasoning effort**) muestra tus modelos activados y el esfuerzo de razonamiento. Puedes cambiar de modelo durante una conversación, y las conversaciones nuevas empiezan con el último modelo que elegiste.
+
+## Iniciar una conversación
+
+### En una pestaña de agente
+
+Haz clic en **+** en la barra de pestañas para abrir una pestaña nueva. Las pestañas nuevas son pestañas de agente. El agente trabaja en el espacio de trabajo abierto en Zditor, así que abre uno primero: una pestaña de agente vacía ofrece **Open Workspace** y **New Workspace**. Sin espacio de trabajo, el agente trabaja en una carpeta provisional dentro de los datos de la aplicación de Zditor.
+
+### Junto a un documento
+
+En una nota Markdown, haz clic en **Document sidebar** en la barra de título y elige la pestaña **Chat**. El chat empieza con la nota adjunta, así que puedes preguntar sobre ella de inmediato. Los lienzos tienen la misma pestaña **Chat** en su barra lateral.
+
+Para preguntar sobre una parte de una nota, selecciónala y haz clic en el botón de los destellos (**ASK AI**) de la barra de herramientas de selección. Se abre la pestaña **Chat** con la selección adjunta. Las indicaciones que configures en **Settings → AI → AI Toolbar Prompts** aparecen como botones adicionales en la barra de herramientas y envían sus instrucciones con la selección al momento.
+
+<Note>
+  Los chats de la barra lateral del documento son temporales y no se guardan en tu historial de conversaciones. Usa una pestaña de agente para el trabajo que quieras conservar.
+</Note>
+
+### Escribir una solicitud
+
+Escribe en el cuadro de mensaje y haz clic en **Send message**. Mientras el agente trabaja, **Stop current turn** lo detiene, y lo que envíes entretanto espera en una cola hasta que termine el turno actual.
+
+- Escribe `/` para ejecutar un comando (consulta la tabla siguiente).
+- Escribe `@` para adjuntar un archivo del espacio de trabajo.
+- Escribe `$` para usar una habilidad.
+- Haz clic en **Upload file** (el clip) o arrastra archivos al cuadro de mensaje para adjuntarlos. Las imágenes, el audio y los archivos de texto se incluyen en el mensaje; los demás archivos, como los PDF y los documentos de Office, se pasan por su ruta para que el agente los abra por sí mismo.
+
+En iPhone y iPad, los botones **Commands**, **Files** y **Skills**, bajo el cuadro de mensaje, abren las mismas listas que `/`, `@` y `$`.
+
+La primera vez que envías un mensaje a un servicio de IA, Zditor te pide permiso para compartir datos con él. Consulta Privacidad, más abajo.
+
+### Comandos
+
+| Comando | Qué hace |
+| :--- | :--- |
+| `/goal` | Da a la conversación un objetivo hacia el que el agente sigue trabajando, turno tras turno, hasta cumplirlo o quedar bloqueado. Escribe `/goal` y el objetivo para fijarlo, `/goal` solo para verlo, o `/goal edit`, `/goal pause`, `/goal resume` o `/goal clear`. No está disponible en los chats temporales. |
+| `/side` | Abre una conversación paralela temporal que parte del contexto actual. Puedes añadir una pregunta después del comando. |
+| `/compact` | Resume la conversación hasta el momento para liberar contexto, conservando la información clave. |
+| `/export` | Guarda la conversación en Markdown, o en JSON con `/export json`. |
+| `/share` | Guarda la conversación como imagen PNG. |
+
+<Tip>
+  Un objetivo activo hace que el agente siga trabajando sin nuevos mensajes tuyos, y cada turno consume tokens. Pausa o borra el objetivo cuando quieras que se detenga.
+</Tip>
+
+### Mientras trabaja
+
+El agente muestra su trabajo a medida que avanza: los archivos que lee y edita, los comandos que ejecuta y su respuesta. Cuando termina un turno, sus pasos se pliegan en **Work details**, que puedes desplegar.
+
+- Tras un turno que ha cambiado archivos, una tarjeta como **Changed 2 files** los muestra; despliega un archivo para ver qué ha cambiado. En un espacio de trabajo local, **Undo** revierte los cambios de texto de ese turno. Si los archivos han cambiado desde entonces, no se deshace nada.
+- **Usage**, bajo el cuadro de mensaje, muestra qué parte de la ventana de contexto del modelo ocupa la conversación. Zditor compacta automáticamente el contexto anterior al llegar al umbral de compactación del modelo, y `/compact` lo hace cuando quieras.
+- En una pestaña de agente, abre el menú **More** de un mensaje y elige **Branch in new chat** para continuar desde ese punto en una conversación nueva. La original no cambia.
+- Si tu espacio de trabajo tiene un archivo `AGENTS.md`, el agente lo sigue como instrucciones del proyecto.
+
+## Permisos y aprobaciones
+
+Elige un **Permission mode** bajo el cuadro de mensaje. Zditor recuerda tu elección.
+
+| Modo | Qué ocurre |
+| :--- | :--- |
+| **Always ask** | El agente te pregunta antes de cada acción restringida. Es la opción predeterminada. |
+| **AI review** | Una solicitud aparte a tu modelo comprueba cada acción restringida frente a tu tarea y la permite o la rechaza. En caso de duda, la rechaza. No se te pregunta, y cada comprobación es una solicitud más al modelo. |
+| **Full Access** | Todas las acciones de herramientas se ejecutan sin preguntar. |
+
+En **Always ask**, el agente pregunta antes de ejecutar un comando (en el escritorio, incluidos los que solo leen archivos), editar un archivo, usar Git, enviar una solicitud web, cambiar las pestañas o los ajustes de Zditor, anotar un PDF, editar un lienzo, llamar a una herramienta MCP, o abrir una aplicación o hacer clic, escribir o desplazarse en ella. Leer PDF y lienzos, consultar tus pestañas abiertas y hacer capturas de pantalla no requiere aprobación.
+
+Cuando pregunta, la solicitud muestra la acción y tres opciones:
+
+- **Allow once** ejecuta esta acción.
+- **Always allow** la ejecuta y permite la misma acción sin volver a preguntar durante el resto de la conversación, como el mismo comando o más ediciones de los mismos archivos. Las demás acciones siguen preguntando.
+- **Reject** no la ejecuta, y se le indica al agente que la has rechazado.
+
+<Tip>
+  Las tareas de escritorio suelen implicar muchos comandos. Si aprobar cada uno se vuelve tedioso, **AI review** es un término medio. Usa **Full Access** solo en un espacio de trabajo que puedas restaurar, por ejemplo uno con control de versiones.
+</Tip>
+
+## Control del equipo en un Mac
+
+En un Mac, en un espacio de trabajo local, el agente puede manejar otras aplicaciones cuando una tarea lo requiere. Ve sus ventanas mediante capturas de pantalla y su información de accesibilidad, y puede abrir aplicaciones, hacer clic, escribir, desplazarse y pulsar teclas.
+
+- La primera vez, macOS te pide que concedas a Zditor los permisos de **Grabación de pantalla** (Screen Recording) y **Accesibilidad** (Accessibility). Si falta alguno, el paso de control del equipo en la conversación muestra «macOS is blocking computer use:» con un botón para cada permiso que falta, **Open Accessibility** u **Open Screen Recording**, que abre la página correspondiente de Ajustes del Sistema. Puedes desactivar cualquiera de los dos permisos allí en cualquier momento.
+- En **Always ask**, abrir aplicaciones, hacer clic, escribir, desplazarse y pulsar teclas requieren aprobación; las capturas de pantalla, no. **Always allow** en una de estas acciones cubre más acciones del mismo tipo en esa conversación.
+- Mientras el agente trabaja, un panel muestra la aplicación que está manejando. Si cierras el panel, **Show computer use window** (el botón del monitor, bajo el cuadro de mensaje) lo vuelve a mostrar.
+
+## Servidores MCP y habilidades
+
+### Servidores MCP
+
+Los servidores MCP conectan el agente con otras aplicaciones y servicios, como un gestor de incidencias o una base de datos. Añádelos en **Settings → AI → MCP Servers**; cada servidor activado está disponible en todas las conversaciones de agente. Consulta la [guía de MCP](/es/mcp-guide).
+
+### Habilidades
+
+Una habilidad es un conjunto de instrucciones escritas para un tipo de tarea, guardado en un archivo `SKILL.md`. El agente conoce el nombre y la descripción de cada habilidad y lee las instrucciones completas cuando una tarea encaja con ella. Para usar una habilidad a propósito, escribe `$` en el cuadro de mensaje y elígela.
+
+- **Habilidades integradas.** **Canvas**, **Markdown** y **Settings and tabs** vienen con Zditor. Aparecen en **Installed skills**, en **Settings → AI → Skills**.
+- **Tus propias habilidades.** En **Settings → AI → Skills**, haz clic en **Add skill**, rellena **Name** (letras, números, guiones o guiones bajos), **Description** (para qué sirve la habilidad) y **Skill instructions (Markdown)**, y haz clic en **Save**. Zditor guarda la habilidad en los datos de la aplicación, y queda disponible en todos tus espacios de trabajo locales.
+- **Habilidades del proyecto.** Una carpeta de habilidad que contenga un `SKILL.md`, colocada en `.zditor/skills` dentro de un espacio de trabajo, solo está disponible en ese espacio de trabajo.
+- **Habilidades de otros agentes.** Zditor también detecta las habilidades de las carpetas de habilidades de otros agentes, como `.agents/skills`, `.claude/skills` y `.codex/skills`, en el espacio de trabajo o en tu carpeta personal. No aparecen en Settings; modifícalas donde están.
+- **Instalar desde GitHub.** En el escritorio, puedes pedir al agente que instale una habilidad desde una carpeta de GitHub que contenga un `SKILL.md`. Como los demás cambios, necesita tu aprobación en **Always ask**.
+
+## Historial de conversaciones
+
+Las conversaciones de las pestañas de agente se guardan automáticamente y reciben un título. Para encontrar una, haz clic en **AI conversations** (el icono de los destellos) en la barra lateral izquierda, busca por título o por espacio de trabajo y haz clic en una conversación para abrirla en una pestaña.
+
+Pasa el puntero sobre una conversación para ver **Export session** (JSON), **Export as text**, **Copy session ID** y **Delete session**. **Clear History** elimina todas tus conversaciones.
+
+## Privacidad
+
+- **Zditor pregunta antes.** La primera vez que envías algo a un servicio de IA, Zditor muestra **Allow data sharing with AI?** con el destinatario, la dirección del servicio y lo que se va a enviar. No se envía nada hasta que haces clic en **Allow and continue**; **Not now** cancela. Zditor vuelve a preguntar con cada nueva dirección de servicio.
+- **Qué se envía.** Tus mensajes, el historial de la conversación, el texto seleccionado, las imágenes, el audio y los adjuntos que añadas, y los archivos del espacio de trabajo, los nombres de archivo y los resultados de herramientas que el agente lee para hacer la tarea.
+- **Adónde va.** Con un proveedor personalizado, las solicitudes van directamente de tu dispositivo a la **Base URL** que introdujiste, y tu clave de API se guarda en este dispositivo y solo se envía allí. Con Zditor AI, las solicitudes pasan por el servicio de Zditor, cuyos registros de uso guardan el modelo, el número de tokens y el coste de cada solicitud, no tus mensajes. Los servidores MCP reciben lo que el agente envía a sus herramientas.
+- **Dónde se guardan las conversaciones.** En este dispositivo, en los datos de la aplicación de Zditor. Las copias de seguridad hechas en **Settings → Personal → Sync** no las incluyen.
+- **Retirar el permiso.** En **Settings → AI → Agents**, en **AI data privacy**, haz clic en **Withdraw permission**. A partir de entonces, Zditor vuelve a preguntar antes de enviar nada más. Los datos ya enviados no se pueden retirar.
+
+## Solución de problemas
+
+<AccordionGroup>
+  <Accordion title="El envío falla con «No AI service is configured»" icon="circle-xmark">
+    El agente todavía no tiene un servicio de IA. En **Settings → AI → Agents**, inicia sesión y elige **Zditor**, o configura un **Custom provider**.
+  </Accordion>
+
+  <Accordion title="Falla Fetch models o Test connection" icon="plug">
+    Comprueba que **API protocol** corresponde al servicio, que **Base URL** es la raíz de su API (suele terminar en `/v1`) y que la clave de API es correcta. Zditor necesita la API OpenAI Responses o la API Claude Messages; un servicio que solo ofrezca la antigua API Chat Completions no funcionará. Si el proveedor no muestra ningún modelo, escribe el ID del modelo en **Add model**.
+  </Accordion>
+
+  <Accordion title="Save pide los tokens de ventana de contexto y de salida" icon="ruler">
+    Cada modelo activado necesita ambos límites. Abre el modelo, elige **Enter manually** e introduce **Context window tokens** y **Maximum output tokens** según la documentación del proveedor.
+  </Accordion>
+
+  <Accordion title="«This response is incomplete»" icon="scissors">
+    El modelo ha alcanzado su límite de salida en una sola respuesta. Aumenta **Maximum output tokens** para el modelo o divide la tarea en partes más pequeñas.
+  </Accordion>
+
+  <Accordion title="«Your input exceeds this model's context window»" icon="triangle-exclamation">
+    Acorta el mensaje o sus adjuntos, ejecuta `/compact` o cambia a un modelo con una ventana de contexto mayor.
+  </Accordion>
+
+  <Accordion title="«Model response timed out»" icon="hourglass-half">
+    El servicio ha tardado demasiado en empezar a responder. Vuelve a intentarlo; si sigue ocurriendo, revisa el servicio o inténtalo más tarde.
+  </Accordion>
+
+  <Accordion title="El agente no puede ejecutar comandos ni usar otras aplicaciones" icon="terminal">
+    Los comandos necesitan la aplicación de escritorio y un espacio de trabajo local, y el control del equipo necesita además un Mac. En iPhone y iPad, y en los espacios de trabajo remotos, el agente trabaja con los archivos a través de Zditor. En un Mac, comprueba que Zditor tiene los permisos de **Grabación de pantalla** y **Accesibilidad** en Ajustes del Sistema.
+  </Accordion>
+
+  <Accordion title="Las solicitudes de aprobación interrumpen constantemente" icon="shield-halved">
+    En **Always ask**, cada comando necesita aprobación. Elige **Always allow** para un comando que esperes repetir, o cambia a **AI review**. Usa **Full Access** solo donde puedas deshacer los errores.
+  </Accordion>
+</AccordionGroup>
+
+## Consejos
+
+<CardGroup cols={2}>
+  <Card title="Concreta tu petición" icon="bullseye">
+    Di qué quieres que se haga y cómo debe ser el resultado.
+  </Card>
+
+  <Card title="Divide las tareas grandes" icon="list-ol">
+    Divide los trabajos complejos en pasos más pequeños y comprueba el resultado de cada uno.
+  </Card>
+
+  <Card title="Dale contexto" icon="file-import">
+    Adjunta los archivos importantes con `@`, o empieza desde la pestaña **Chat** de una nota.
+  </Card>
+
+  <Card title="Intervén pronto" icon="hand">
+    Detén un turno y reorienta al agente en cuanto vaya por mal camino.
+  </Card>
+</CardGroup>

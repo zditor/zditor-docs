@@ -1,0 +1,78 @@
+---
+title: "빠른 시작"
+description: "Zditor를 설치하고 파일을 둘 위치를 정한 다음 글쓰기를 시작하세요."
+icon: "rocket"
+---
+
+이 페이지를 따라 하면 다운로드부터 첫 노트 작성까지 몇 분이면 충분합니다. 글을 쓰는 데는 계정이 필요 없으며, 로그인은 Zditor AI와 멤버십 기능을 쓸 때만 하면 됩니다.
+
+<Steps>
+  <Step title="Zditor 설치">
+    [다운로드 페이지](https://zditor.com/download)에서 사용 중인 시스템에 맞는 버전을 다운로드하세요.
+
+    <Tabs>
+      <Tab title="macOS">
+        M 시리즈 칩이 탑재된 Mac이라면 **Apple silicon**을, 이전 Mac이라면 **Intel**을 선택하세요. `.dmg` 디스크 이미지를 열고 Zditor를 응용 프로그램 폴더로 드래그한 다음, 그 폴더에서 실행하세요.
+      </Tab>
+
+      <Tab title="Windows">
+        `.exe` 설치 프로그램을 실행하세요. `.msi` 패키지는 일괄 배포용입니다.
+      </Tab>
+
+      <Tab title="Linux">
+        `chmod +x`로 AppImage에 실행 권한을 준 뒤 실행하거나, 패키지 관리자로 `.deb` 또는 `.rpm` 패키지를 설치하세요.
+      </Tab>
+    </Tabs>
+  </Step>
+
+  <Step title="초기 설정">
+    Zditor를 처음 열면 간단한 설정 과정이 다음 네 단계를 안내합니다.
+
+    - **Welcome**: **Set up Zditor**를 클릭합니다.
+    - **Interface**: 보기 편한 **Interface size**(인터페이스 크기)를 고릅니다.
+    - **Workspace**: 다음 단계에서 설명하는 대로 작업을 보관할 위치를 고릅니다.
+    - **Agent**: 내장 에이전트가 사용할 AI 서비스를 연결합니다. 나중에 하려면 **Skip and finish**를 클릭하세요.
+
+    이 설정은 모두 나중에 바꿀 수 있습니다. 설정 과정을 다시 보려면 **Settings → Personal → General**에서 **Restart tour**를 클릭하세요.
+  </Step>
+
+  <Step title="작업 공간 선택">
+    작업 공간은 Zditor가 작업하는 폴더입니다. 그 안의 파일이 사이드바에 표시되며, Zditor는 파일을 원래 형식 그대로 유지합니다.
+
+    - **Local folder**: **Choose folder**를 클릭하고 컴퓨터의 폴더를 고릅니다.
+    - **S3**, **WebDAV** 또는 **SSH**: 다른 곳에 저장된 파일로 작업하려면 연결 정보를 입력합니다.
+
+    나중에는 **Files** 패널 맨 위의 작업 공간 메뉴로 작업 공간을 전환할 수 있고, 빈 Agent 탭에서도 **Open Workspace**와 **New Workspace**를 사용할 수 있습니다. Git 저장소를 포함한 원격 연결은 **Settings → Integrations → Connections**에서 관리합니다. 자세한 내용은 [파일 트리 가이드](/ko/file-tree)를 참고하세요.
+  </Step>
+
+  <Step title="첫 노트 작성">
+    파일 트리 맨 위의 **New File**을 클릭하고 이름을 입력한 다음 `Enter`를 누르세요. 기본값을 바꾸지 않았다면 새 파일의 확장자는 `.md`입니다.
+
+    이제 입력을 시작하세요. Markdown 문법은 입력하는 즉시 서식으로 바뀝니다. 예를 들어 줄 첫머리에 `## `를 입력하면 제목이 됩니다. 줄 첫머리에서 `/`를 입력하면 명령 메뉴가 열리고, `@` 기호로 다른 파일을 링크하며, `:` 기호로 이모지를 넣을 수 있습니다. Zditor는 변경 사항을 파일에 자동으로 저장합니다.
+  </Step>
+
+  <Step title="에이전트 연결(선택 사항)">
+    내장 에이전트를 쓰려면 AI 서비스가 필요합니다. **Settings → AI → Agents**를 열고 **AI service**를 다음 중 하나로 설정하세요.
+
+    - **Zditor**: Zditor 계정에 로그인합니다. 계정에 Pro 멤버십이나 무료 AI 토큰이 있어야 합니다.
+    - **Custom provider**: **API protocol**(OpenAI Responses 또는 Claude Messages)을 고르고 **Base URL**과 **API key**를 입력한 다음, **Fetch models**를 클릭하고 모델을 활성화한 뒤 **Save**를 클릭합니다.
+
+    그런 다음 탭 표시줄의 **+**를 클릭해 Agent 탭을 열고 메시지를 보내세요. 자세한 내용은 [에이전트 가이드](/ko/agent-guide)를 참고하세요.
+  </Step>
+</Steps>
+
+## 다음 단계
+
+<CardGroup cols={3}>
+  <Card title="빠른 작업" icon="bolt" href="/ko/quick-actions">
+    드래그 앤 드롭, 트리거 메뉴, 도구 모음, 그리고 처음 익힐 단축키.
+  </Card>
+
+  <Card title="파일 트리" icon="folder-tree" href="/ko/file-tree">
+    파일을 정리하고 작업 공간을 전환하세요.
+  </Card>
+
+  <Card title="에이전트" icon="robot" href="/ko/agent-guide">
+    에이전트를 설정하고 허용할 작업을 정하세요.
+  </Card>
+</CardGroup>

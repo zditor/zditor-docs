@@ -1,0 +1,327 @@
+---
+title: "Guida all’albero dei file nella barra laterale"
+description: "Gestisci file e cartelle in modo efficiente con l’albero dei file nella barra laterale di Zditor."
+icon: "folder-tree"
+---
+
+L’albero dei file nella barra laterale è una delle parti centrali di Zditor. Ti permette di sfogliare, creare, rinominare, spostare e organizzare direttamente i file dello spazio di lavoro corrente.
+
+## Panoramica dell’interfaccia
+
+L’albero dei file è il pannello **Files** della barra laterale. Per mostrarlo, fai clic sull’icona della cartella in cima alla barra di navigazione a sinistra. Senza filtri attivi, mostra tutti i file e le cartelle dello spazio di lavoro, compresi quelli il cui nome inizia con un punto.
+
+### Barra degli strumenti superiore
+
+In cima all’albero dei file compare il nome dello spazio di lavoro corrente. Fai clic su di esso per cambiare spazio di lavoro (vedi [Gestione degli spazi di lavoro](#gestione-degli-spazi-di-lavoro)). Accanto ci sono tre pulsanti:
+
+- **New File** crea un file nella radice dello spazio di lavoro
+- **New Folder** crea una cartella nella radice dello spazio di lavoro
+- **More** apre un menu con:
+  - **Filter**, per mostrare solo determinati tipi di file
+  - **Refresh**, per ripetere la scansione dello spazio di lavoro
+  - **Collapse**, per chiudere tutte le cartelle espanse
+  - **Clear clipboard**, per annullare una copia o un taglio in sospeso (compare solo mentre qualcosa è copiato o tagliato)
+  - **Open Folder**, per aprire lo spazio di lavoro nel gestore di file del sistema
+
+Una sottile barra di avanzamento compare sotto la barra degli strumenti mentre l’albero carica, aggiorna o importa file.
+
+### Elenco dei file
+
+L’elenco principale mostra file e cartelle con un rientro che riflette la gerarchia attuale. Passa il puntatore su un elemento per vederne il percorso completo.
+
+### Barra inferiore
+
+La barra in fondo al pannello ha tre parti:
+
+- Il pulsante **+** a sinistra crea un file Markdown vuoto chiamato `untitled1.md` (o con il primo numero libero successivo) nella radice dello spazio di lavoro e lo apre.
+- Il nome dello spazio di lavoro al centro apre il selettore di cartelle del sistema, così puoi passare a un’altra cartella locale.
+- Il pulsante **⋮** a destra apre un pannello con le opzioni di ordinamento, le cartelle recenti e gli eventuali spazi di lavoro remoti che hai configurato.
+
+## Operazioni di base
+
+<AccordionGroup>
+  <Accordion title="Clic singolo" icon="mouse">
+    - Fai clic su un file per aprirlo in una scheda
+    - Fai clic su una cartella per espanderla o comprimerla
+  </Accordion>
+
+  <Accordion title="Menu contestuali" icon="bars">
+    - Fai clic con il pulsante destro su un file per azioni come **Open in Right Split**, **Rename** e **Copy**
+    - Fai clic con il pulsante destro su una cartella per creare elementi al suo interno o incollarvi qualcosa
+    - Fai clic con il pulsante destro nell’area vuota sotto l’elenco per aprire il menu della radice dello spazio di lavoro
+  </Accordion>
+</AccordionGroup>
+
+### Selezionare elementi
+
+Fai clic su un file o una cartella per selezionarlo. L’elemento selezionato viene evidenziato.
+
+### Rinominare
+
+<AccordionGroup>
+  <Accordion title="Come rinominare" icon="pen">
+    1. Fai clic con il pulsante destro su un file o una cartella e scegli **Rename**
+    2. Oppure passa il puntatore sull’elemento, fai clic sul suo pulsante **…** e scegli **Rename**
+    3. Premi `Enter` per confermare o `Esc` per annullare. Anche un clic altrove conferma il nuovo nome.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Quando rinomini un file, viene selezionata solo la parte del nome prima dell’estensione, così puoi digitare un nuovo nome mantenendo l’estensione.
+</Tip>
+
+## Gestione di file e cartelle
+
+### Creare file e cartelle
+
+<AccordionGroup>
+  <Accordion icon="plus" title="Metodo 1: barra degli strumenti superiore">
+    Fai clic su **New File** o **New Folder** nella barra degli strumenti per creare l’elemento nella radice dello spazio di lavoro.
+  </Accordion>
+
+  <Accordion icon="folder-plus" title="Metodo 2: pulsanti al passaggio del puntatore">
+    Quando passi il puntatore su una cartella, compaiono dei pulsanti di azione rapida.
+
+    - `+` crea un nuovo file in quella cartella
+    - L’icona della cartella crea una sottocartella
+  </Accordion>
+
+  <Accordion icon="computer-mouse" title="Metodo 3: menu del pulsante destro">
+    Fai clic con il pulsante destro sulla cartella di destinazione, o sull’area vuota sotto l’elenco per la radice dello spazio di lavoro, e scegli **New File** o **New Folder**.
+  </Accordion>
+</AccordionGroup>
+
+Quando crei un file, Zditor mostra un campo per il nome seguito da un campo per l’estensione. L’estensione iniziale è quella predefinita (`.md`, se non la cambi):
+
+- Premi `↑` o `↓` per passare a un’altra estensione del tuo elenco
+- Digita alla fine del nome un’estensione del tuo elenco, ad esempio `notes.txt`, per passare a quella
+- Premi `→` alla fine del nome per spostarti nel campo dell’estensione
+
+Puoi cambiare l’estensione predefinita e l’elenco delle estensioni in **Settings → Personal → General → File types**.
+
+### Eliminare file e cartelle
+
+1. Fai clic con il pulsante destro sul file o sulla cartella
+2. Scegli **Delete**
+
+Se il file, o qualcosa all’interno della cartella, è aperto in una scheda, Zditor ti chiede prima se chiudere quelle schede ed eliminare. Altrimenti l’elemento viene eliminato subito.
+
+<Warning>
+  L’eliminazione non sposta gli elementi nel Cestino del sistema e non si può annullare. Controlla con attenzione prima di rimuovere file o cartelle.
+</Warning>
+
+### Copiare, tagliare e incollare
+
+<AccordionGroup>
+  <Accordion icon="copy" title="Copiare">
+    1. Fai clic con il pulsante destro su un file o una cartella e scegli **Copy**
+    2. L’elemento riceve un contorno giallo e l’etichetta **Copy**
+  </Accordion>
+
+  <Accordion icon="scissors" title="Tagliare">
+    1. Fai clic con il pulsante destro su un file o una cartella e scegli **Cut**
+    2. L’elemento riceve un contorno verde acqua e l’etichetta **Cut**
+  </Accordion>
+
+  <Accordion icon="paste" title="Incollare">
+    1. Fai clic con il pulsante destro sulla cartella di destinazione, o sull’area vuota sotto l’elenco per la radice dello spazio di lavoro
+    2. Scegli **Paste**
+    3. L’elemento viene copiato o spostato in quella posizione
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Gli appunti contengono un solo elemento alla volta e vengono svuotati dopo che hai incollato. Non puoi incollare un elemento in sé stesso, spostarlo in una delle sue sottocartelle o incollarlo in una cartella che contiene già un elemento con lo stesso nome.
+</Tip>
+
+## Ordinamento e filtri
+
+### Filtri per tipo di file
+
+Apri **More → Filter** nella barra degli strumenti superiore per mostrare solo determinati tipi di file:
+
+| Filtro | Mostra |
+| --- | --- |
+| **All** | Tutti i file e le cartelle |
+| **Markdown** | `.md`, `.mdx`, `.markdown` |
+| **Documents** | `.pdf`, `.doc`, `.docx`, `.txt`, `.csv`, `.xls`, `.xlsx`, `.ppt`, `.pptx` |
+| **Assets** | Immagini, video e file audio |
+| **Code** | File sorgente, web e di configurazione, come `.ts`, `.js`, `.py`, `.json`, `.yaml`, `.html` e `.css` |
+| **Excalidraw** | File di lavagna (`.excalidraw`) |
+| **Hidden** | File e cartelle il cui nome inizia con un punto |
+| **Other** | File che non rientrano in nessuna delle categorie precedenti |
+
+Puoi attivare più filtri contemporaneamente. Scegliendo **All** disattivi gli altri. Mentre un filtro è attivo, la voce **Filter** indica quanti tipi sono selezionati e il pulsante **More** mostra un punto.
+
+Le cartelle restano sempre nell’elenco, così puoi raggiungere i file corrispondenti al loro interno. Gli elementi il cui nome inizia con un punto sono nascosti ogni volta che un filtro è attivo, a meno che **Hidden** non sia tra i filtri selezionati.
+
+### Opzioni di ordinamento
+
+Fai clic sul pulsante **⋮** nella barra inferiore. I pulsanti di ordinamento si trovano in cima al pannello:
+
+#### Criterio di ordinamento
+
+- **Sort alphabetically** ordina per nome
+- **Sort by creation time** ordina in base a quando è stato creato ciascun file
+- **Sort by modification time** ordina in base all’ultima modifica di ciascun file
+
+#### Direzione dell’ordinamento
+
+- Il pulsante freccia alterna **Sort ascending** e **Sort descending**
+
+#### Raggruppamento delle cartelle
+
+- **Group by folder** mantiene le cartelle sopra i file
+
+Per impostazione predefinita l’albero è ordinato alfabeticamente in ordine crescente, con le cartelle raggruppate in cima. Gli elementi il cui nome inizia con un punto sono elencati prima degli altri.
+
+## Trascinamento
+
+L’albero dei file supporta la gestione tramite trascinamento.
+
+<AccordionGroup>
+  <Accordion icon="file-import" title="Spostare file o cartelle">
+    1. Trascina il file o la cartella
+    2. Portalo sulla cartella di destinazione
+    3. Rilascia per completare lo spostamento
+  </Accordion>
+
+  <Accordion icon="upload" title="Importare file dall’esterno">
+    Trascina file o cartelle dal gestore di file del sistema su una cartella dell’albero, o sull’area vuota per la radice dello spazio di lavoro, per copiarli nello spazio di lavoro. Un file rilasciato sostituisce l’eventuale file con lo stesso nome in quella cartella. Una breve riga di stato in fondo all’albero indica quanti file sono stati aggiunti.
+  </Accordion>
+
+  <Accordion icon="home" title="Rilasciare nella radice">
+    Rilascia gli elementi sull’area vuota dell’albero per spostarli nella radice dello spazio di lavoro.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Durante il trascinamento, la cartella di destinazione viene evidenziata. Se ti soffermi su una cartella chiusa per circa 600 ms, questa si espande automaticamente. Trascinando vicino al bordo superiore o inferiore dell’elenco, l’elenco scorre.
+</Tip>
+
+## Menu contestuali
+
+File e cartelle offrono menu contestuali completi. Puoi aprire lo stesso menu anche dal pulsante **…** che compare quando passi il puntatore su un elemento.
+
+### Menu contestuale dei file
+
+| Voce | Cosa fa |
+| --- | --- |
+| **Open** | Apre il file nel riquadro sinistro |
+| **Open in Right Split** | Apre il file nel riquadro destro |
+| **Rename** | Rinomina il file |
+| **Copy** | Copia il file negli appunti |
+| **Cut** | Taglia il file negli appunti |
+| **Paste** | Non disponibile sui file; incolla invece in una cartella o nella radice dello spazio di lavoro |
+| **Open in Folder** | Mostra il file nel gestore di file del sistema |
+| **Copy File Path** | Copia negli appunti il percorso completo del file |
+| **Save As** | Salva una copia del file in una posizione a tua scelta su questo computer |
+| **Delete** | Elimina il file |
+
+### Menu contestuale delle cartelle
+
+I menu delle cartelle hanno **Rename**, **Copy**, **Cut**, **Paste**, **Open in Folder**, **Copy File Path** e **Delete**, oltre a:
+
+| Voce | Cosa fa |
+| --- | --- |
+| **New File** | Crea un file in quella cartella |
+| **New Folder** | Crea una sottocartella |
+
+### Menu contestuale della radice
+
+Fai clic con il pulsante destro nell’area vuota dell’albero dei file per aprire il menu della radice dello spazio di lavoro:
+
+- **New File** e **New Folder** per creare elementi nella radice
+- **Paste** per incollare nella radice l’elemento copiato o tagliato
+- **Refresh** per ripetere la scansione dello spazio di lavoro
+- **Collapse All** per chiudere le cartelle espanse
+- **Open in Folder** per aprire lo spazio di lavoro nel gestore di file del sistema
+- **Copy File Path** per copiare il percorso dello spazio di lavoro
+
+## Gestione degli spazi di lavoro
+
+Uno spazio di lavoro è la cartella i cui file sono mostrati nell’albero. In una scheda vuota puoi anche scegliere **Open Workspace** per aprire una cartella esistente, oppure **New Workspace** per creare una cartella vuota e aprirla.
+
+### Cambiare spazio di lavoro
+
+1. Fai clic sul nome dello spazio di lavoro in cima all’albero dei file
+2. Scegli uno spazio di lavoro dal menu, oppure scegli **Open Directory** per selezionare una cartella con il selettore di cartelle del sistema
+3. Zditor carica il nuovo spazio di lavoro
+
+Se ci sono schede Agent aperte, Zditor ti chiede di confermare il cambio, perché le loro connessioni allo spazio di lavoro corrente vengono chiuse. Le schede e la cronologia delle sessioni vengono conservate e si ricollegano quando torni a quello spazio di lavoro.
+
+<Tip>
+  Ogni spazio di lavoro può avere una finestra propria. Per aprirlo in una nuova finestra, scegli **Open Folder in New Window…** oppure fai clic su uno spazio di lavoro nel menu tenendo premuto `Cmd` (`Ctrl` su Windows e Linux). Se uno spazio di lavoro è già aperto in un’altra finestra, sceglierlo porta quella finestra in primo piano.
+</Tip>
+
+### Spazi di lavoro remoti
+
+Gli spazi di lavoro non devono per forza trovarsi su questo computer. Aggiungi una connessione in **Settings → Integrations → Connections**:
+
+- Gli archivi **S3**, i server **WebDAV** e le cartelle sugli host **SSH** compaiono come gruppi separati nel menu degli spazi di lavoro e nel pannello **⋮**.
+- Una connessione **Git** mantiene un clone locale del repository e lo apre come qualsiasi altra cartella.
+
+Negli spazi di lavoro S3, WebDAV e SSH, **Open in Folder** non è disponibile e l’albero non si aggiorna da solo quando i file cambiano sul server. Usa **Refresh** per vedere i file più recenti.
+
+### Cartelle recenti
+
+Il menu degli spazi di lavoro elenca le cartelle locali recenti. Le elenca anche il pannello **⋮** della barra inferiore, che ti permette di gestirle:
+
+<AccordionGroup>
+  <Accordion icon="thumbtack" title="Fissare le cartelle">
+    Fai clic sull’icona della puntina per tenere una cartella importante in cima all’elenco dei recenti.
+  </Accordion>
+
+  <Accordion icon="trash" title="Rimuovere voci recenti">
+    Per le cartelle non fissate, fai clic sull’icona del cestino per rimuovere la voce dall’elenco dei recenti.
+  </Accordion>
+</AccordionGroup>
+
+L’elenco conserva fino a cinque cartelle, e quelle fissate vi restano sempre. All’avvio Zditor riapre l’ultimo spazio di lavoro usato; per avviarlo senza, disattiva **Reopen previous workspace** in **Settings → Personal → General**.
+
+### Aggiornamento automatico
+
+In uno spazio di lavoro locale, l’albero dei file tiene sotto controllo la radice dello spazio di lavoro e ogni cartella espansa:
+
+- Creare, eliminare o rinominare un file, in Zditor o in un’altra app, aggiorna l’albero
+- Una cartella che espandi di nuovo viene analizzata di nuovo, così compaiono le modifiche fatte mentre era compressa
+
+## Suggerimenti avanzati
+
+<CardGroup cols={2}>
+  <Card title="Affiancati" icon="bolt">
+    Usa **Open in Right Split** per leggere un file mentre ne modifichi un altro.
+  </Card>
+
+  <Card title="Sposta con taglia e incolla" icon="layer-group">
+    Taglia e incolla sposta un file o una cartella in una cartella lontana nell’albero, senza un lungo trascinamento.
+  </Card>
+
+  <Card title="Copia i percorsi" icon="clipboard">
+    Usa **Copy File Path** quando devi condividere o citare altrove il percorso di un file.
+  </Card>
+</CardGroup>
+
+## Domande frequenti
+
+<AccordionGroup>
+  <Accordion title="Perché alcuni file non compaiono nell’albero?" icon="question">
+    Controlla se è attivo un filtro per tipo di file: in quel caso il pulsante **More** mostra un punto. Reimposta **More → Filter** su **All**. Finché è attivo un altro filtro, i file e le cartelle il cui nome inizia con un punto restano nascosti, a meno che tu non selezioni anche **Hidden**.
+  </Accordion>
+
+  <Accordion title="Perché il trascinamento non funziona?" icon="question">
+    Soffermati su una cartella chiusa abbastanza a lungo perché si espanda. Non puoi spostare un elemento in sé stesso, in una delle sue sottocartelle o nella cartella in cui si trova già, e lo spostamento viene rifiutato se la destinazione contiene già un elemento con lo stesso nome.
+  </Accordion>
+
+  <Accordion title="Come trovo rapidamente i file modificati di recente?" icon="question">
+    Nel pannello **⋮**, scegli **Sort by modification time** e imposta la direzione decrescente.
+  </Accordion>
+
+  <Accordion title="Posso aprire più file contemporaneamente?" icon="question">
+    Sì. Ogni file si apre in una scheda propria quando fai clic su di esso. Usa **Open in Right Split** per vedere due file affiancati.
+  </Accordion>
+
+  <Accordion title="Perché Open in Folder non è disponibile?" icon="question">
+    Gli spazi di lavoro S3, WebDAV e SSH non si trovano su questo computer, quindi non c’è una cartella locale da mostrare nel gestore di file del sistema.
+  </Accordion>
+</AccordionGroup>

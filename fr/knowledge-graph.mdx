@@ -1,0 +1,435 @@
+---
+title: "Guide du graphe de connaissances"
+description: "Visualisez les relations entre vos fichiers dans un graphe interactif à forces dirigées."
+icon: "diagram-project"
+---
+
+Le graphe de connaissances est l’une des fonctionnalités phares de Zditor. Il transforme les fichiers de votre espace de travail et les liens qui les relient en un graphe interactif à forces dirigées : vous voyez d’un coup d’œil la structure, les références et les groupes de fichiers.
+
+## Vue d’ensemble
+
+Ouvrez le graphe avec le bouton **Graph** de la barre de navigation, à gauche. Il s’ouvre dans un onglet et affiche l’espace de travail actuel.
+
+Chaque fichier Markdown (`.md`) devient un nœud, tout comme chaque fichier vers lequel ces notes pointent. Chaque lien devient une relation orientée, du fichier qui le contient vers le fichier ciblé. La disposition place les nœuds automatiquement et garde le graphe lisible pendant que vous déplacez la vue, zoomez et examinez les relations. Les points les plus gros correspondent aux fichiers qui ont le plus de connexions.
+
+### Pourquoi utiliser le graphe de connaissances ?
+
+<CardGroup cols={2}>
+  <Card title="Visualiser les relations" icon="network-wired">
+    Voyez directement les références et les dépendances, au lieu de parcourir les fichiers un par un.
+  </Card>
+
+  <Card title="Naviguer plus vite" icon="compass">
+    Double-cliquez sur un nœud pour ouvrir le fichier directement depuis le graphe.
+  </Card>
+
+  <Card title="Comprendre le projet" icon="chart-network">
+    Repérez rapidement les groupes de notes liées, les fichiers centraux et les fichiers isolés.
+  </Card>
+
+  <Card title="Disposition intelligente" icon="atom">
+    La disposition écarte automatiquement les nœuds et se stabilise d’elle-même.
+  </Card>
+</CardGroup>
+
+## Analyse des liens
+
+Le graphe est construit à partir des liens contenus dans les fichiers Markdown de votre espace de travail.
+
+### Syntaxe des liens Markdown
+
+Zditor reconnaît les liens et les images Markdown standard :
+
+```markdown
+[Link Text](file/path.md)
+![Alt text](images/diagram.png)
+```
+
+Les liens que Zditor écrit pour le contenu intégré, comme l’audio, la vidéo, les cartes PDF, les canevas et les références SuperTag (`[text](path|mode=...)`), comptent également.
+
+<AccordionGroup>
+  <Accordion title="Parties d’un lien" icon="link" defaultOpen>
+    **Texte du lien**
+    - Le contenu entre `[]`
+    - Sert d’étiquette à la relation dans le graphe
+    - Décrit la nature de la relation
+
+    **Chemin du lien**
+    - Le contenu entre `()`
+    - Pointe vers le fichier cible
+    - Détermine le nœud cible
+  </Accordion>
+
+  <Accordion title="Des liens aux relations" icon="diagram-project">
+    Chaque lien devient une relation orientée :
+
+    - Le fichier qui contient le lien est la **source**
+    - Le fichier lié est la **cible**
+    - La relation va de la source vers la cible
+    - Le texte du lien sert d’étiquette à la relation
+  </Accordion>
+
+  <Accordion title="Voir le sens des liens" icon="arrow-right">
+    Sélectionnez un fichier ou une relation pour voir dans quel sens pointent les liens. Lorsque **Show directional flow** est activé, de petits points se déplacent le long des relations sélectionnées, de la source vers la cible.
+
+    Le panneau de détails d’un fichier liste ses liens sortants sous **References** et ses liens entrants sous **Referenced by**. Cela vous aide à repérer les fichiers centraux, les ressources très référencées et les fichiers qui pointent l’un vers l’autre.
+  </Accordion>
+
+  <Accordion title="Types de relations" icon="tags">
+    Les relations sont regroupées selon le type de lien : **Images**, **Audio**, **Videos**, **PDF Card**, **Attachment**, **Embed**, **Excalidraw**, **Supertag**, **Data Table**, et **Other** pour les liens simples. Certains types sont tracés en tirets ou en pointillés.
+
+    Les enregistrements SuperTag reçoivent aussi une relation **Data Table** vers le fichier de schéma de leur classe, étiquetée avec le nom de la classe.
+  </Accordion>
+</AccordionGroup>
+
+### Plusieurs liens entre les mêmes fichiers
+
+<AccordionGroup>
+  <Accordion title="Plusieurs liens dans le même sens" icon="arrows-turn-right">
+    Si le fichier A pointe plusieurs fois vers le fichier B avec des textes de lien différents, le graphe trace chaque relation sur sa propre courbe, pour qu’elles restent visibles au lieu de se confondre en une seule ligne. Le même lien répété avec le même texte dans un fichier ne compte qu’une fois.
+  </Accordion>
+
+  <Accordion title="Liens dans les deux sens" icon="arrows-left-right">
+    Lorsque A pointe vers B et que B pointe vers A, les deux relations sont tracées sur des courbes distinctes pour ne pas se superposer. Un lien d’un fichier vers lui-même est tracé sous forme de boucle.
+  </Accordion>
+</AccordionGroup>
+
+### Règles d’analyse et limites
+
+<Warning>
+  Règles d’analyse actuelles :
+
+  - Seuls les fichiers se terminant par `.md` sont analysés à la recherche de liens. Les autres fichiers, y compris les fichiers `.mdx` et `.markdown`, n’apparaissent que si une note pointe vers eux
+  - Les liens standard `[text](path)` et les images `![alt](path)` sont analysés
+  - Les liens web commençant par `http://` ou `https://` sont ignorés
+  - Les liens wiki comme `[[page]]`, les liens de style référence et les balises HTML comme `<a>` ne sont pas analysés
+  - Un chemin commençant par `/` est résolu depuis la racine de l’espace de travail ; les autres chemins sont résolus depuis le dossier du fichier qui contient le lien
+  - Une partie `#heading` à la fin d’un chemin est ignorée : un lien vers un titre compte comme un lien vers le fichier
+  - Les fichiers et dossiers masqués ne sont pas analysés, pas plus que les fichiers exclus par un fichier `.ignore` ou, dans un dépôt Git, par `.gitignore`
+</Warning>
+
+<Tip>
+  Utilisez des textes de lien courts et descriptifs pour que les étiquettes des relations restent utiles et lisibles dans le graphe.
+</Tip>
+
+Un lien vers un fichier inexistant crée tout de même un nœud. Ces nœuds sont dessinés sous forme de cercles creux en tirets, et la barre de titre indique combien sont visibles, par exemple **2 missing**.
+
+Le graphe couvre les espaces de travail locaux. À son ouverture, Zditor met à jour son index de l’espace de travail. Tant que **Watch workspace files** est activé dans **Settings → Personal → General** (c’est le cas par défaut), les modifications de vos notes apparaissent dans le graphe dès que vous les enregistrez. Cliquez sur **Refresh file index** dans la barre de titre pour relancer l’analyse à tout moment.
+
+### Exemple
+
+```markdown
+<!-- docs/README.md -->
+- [Quickstart](./quickstart.md)
+- [API Docs](./api.md)
+
+<!-- docs/quickstart.md -->
+Read [README](./README.md) first
+See [API Docs](./api.md)
+```
+
+On obtient ainsi des relations comme celles-ci :
+
+```text
+README.md ----[Quickstart]----> quickstart.md
+README.md ----[API Docs]-----> api.md
+quickstart.md --[README]-----> README.md
+quickstart.md --[API Docs]---> api.md
+```
+
+## Organisation de l’interface
+
+La vue du graphe comprend les parties suivantes :
+
+### Barre de titre
+
+La barre de titre affiche **Graph** et le nombre de fichiers et de relations actuellement visibles, par exemple **42 files · 57 relations**, ainsi que le nombre de fichiers manquants s’il y en a. À droite se trouvent **Search** et **Refresh file index**.
+
+### Zone principale
+
+La zone principale affiche les nœuds et les relations, et permet de déplacer la vue et de zoomer librement.
+
+### Commandes de zoom
+
+Le coin inférieur gauche comporte **Zoom out**, le niveau de zoom actuel, **Zoom in** et **Fit to view**. Cliquez sur le niveau de zoom pour revenir à 100 %.
+
+### Commandes du graphe
+
+Le coin inférieur droit comporte trois panneaux :
+
+- **Filters** pour les types de fichiers, les types de relations et les fichiers isolés
+- **Color legend** pour les couleurs utilisées, avec leurs effectifs
+- **Display** pour les couleurs, les étiquettes, le flux directionnel, l’opacité des lignes et la disposition
+
+### Panneau de détails
+
+Sélectionner un fichier ou une relation ouvre un panneau de détails dans le coin supérieur droit.
+
+<Tip>
+  Le graphe gagne en détail à mesure que vous zoomez : davantage d’étiquettes de fichiers apparaissent, en commençant par les fichiers les plus connectés, puis les étiquettes des relations, et les nœuds grossissent et affichent une icône correspondant à leur type de fichier.
+</Tip>
+
+## Reconnaissance des types de fichiers
+
+Par défaut, les nœuds sont colorés selon le type de fichier. Ouvrez **Color legend** pour voir la couleur de chaque type.
+
+| Type | Extensions |
+| --- | --- |
+| **Markdown** | `.md`, `.mdx`, `.markdown` |
+| **Images** | `.png`, `.jpg`, `.jpeg`, `.gif`, `.svg`, `.webp`, `.avif`, `.heic`, `.bmp`, `.tiff` et d’autres formats d’image |
+| **Videos** | `.mp4`, `.mov`, `.avi`, `.mkv`, `.webm`, `.flv`, `.wmv` |
+| **Audio** | `.mp3`, `.wav`, `.ogg`, `.flac`, `.aac`, `.m4a`, `.wma` |
+| **Code** | Les fichiers source, web, de configuration et de texte brut, comme `.js`, `.ts`, `.py`, `.json`, `.yaml`, `.html`, `.css` et `.txt` |
+| **PDF** | `.pdf` |
+| **Documents** | `.doc`, `.docx`, `.rtf`, `.odt`, `.xls`, `.xlsx`, `.ppt`, `.pptx`, `.csv` |
+| **Other** | Tout le reste, y compris les canevas (`.excalidraw`) |
+
+Vous pouvez aussi colorer les nœuds par communauté. Voir la section [Affichage](#affichage).
+
+## Interactions de base
+
+### Contrôle de la vue
+
+<AccordionGroup>
+  <Accordion title="Déplacer la vue" icon="hand">
+    Faites glisser dans un espace vide du graphe pour déplacer toute la vue.
+  </Accordion>
+
+  <Accordion title="Zoomer" icon="magnifying-glass">
+    Faites défiler avec la molette de la souris ou le trackpad pour zoomer et dézoomer autour du pointeur, ou utilisez les commandes de zoom du coin inférieur gauche. **Fit to view** fait entrer tous les nœuds visibles dans la vue.
+  </Accordion>
+</AccordionGroup>
+
+### Interactions avec les nœuds
+
+<AccordionGroup>
+  <Accordion title="Cliquer sur un nœud" icon="mouse-pointer" defaultOpen>
+    Cliquer sur un nœud le sélectionne, met en évidence ses relations, estompe le reste du graphe et ouvre ses détails : **Open file**, **Locate in graph**, et ses liens sous **References** et **Referenced by**. Cliquez sur un fichier lié dans la liste pour afficher ses détails, et utilisez la flèche de retour pour revenir.
+  </Accordion>
+
+  <Accordion title="Double-cliquer sur un nœud" icon="hand-pointer">
+    Un double-clic ouvre le fichier correspondant dans l’éditeur.
+  </Accordion>
+
+  <Accordion title="Faire glisser un nœud" icon="arrows-alt">
+    Faire glisser un nœud le déplace manuellement. Lorsque vous le relâchez, ce nœud reste épinglé à sa nouvelle position pendant que les fichiers qui l’entourent se stabilisent.
+  </Accordion>
+</AccordionGroup>
+
+### Interactions avec les relations
+
+<AccordionGroup>
+  <Accordion title="Cliquer sur une relation" icon="link">
+    Cliquer sur une relation la sélectionne, met la ligne en évidence, affiche son étiquette et ouvre ses détails : le type de relation et ses fichiers **Source** et **Target**, chacun avec un bouton pour l’ouvrir.
+  </Accordion>
+
+  <Accordion title="Survoler pour voir l’étiquette" icon="tag">
+    Survolez une relation pour la mettre en évidence et afficher son texte de lien dans une infobulle.
+  </Accordion>
+</AccordionGroup>
+
+## Recherche
+
+### Comment rechercher
+
+1. Cliquez sur **Search** dans la barre de titre, ou appuyez sur `/`
+2. Saisissez une partie d’un nom de fichier, d’un dossier ou d’un texte de lien
+3. Choisissez un résultat avec la souris, ou avec `↑`, `↓` et `Enter`
+
+Choisir un résultat le sélectionne et ouvre ses détails. Cliquez sur **Locate in graph** pour le centrer dans la vue.
+
+### Portée de la recherche
+
+<AccordionGroup>
+  <Accordion title="Recherche de fichiers" icon="circle-nodes">
+    Cherchez par nom de fichier ou par un dossier de son chemin, par exemple `README` ou `projects`.
+  </Accordion>
+
+  <Accordion title="Recherche de relations" icon="link">
+    Cherchez par texte de lien ou par chemin des fichiers liés.
+  </Accordion>
+</AccordionGroup>
+
+La recherche couvre tout le graphe, y compris les éléments masqués par les filtres actuels, et affiche jusqu’à 30 résultats. Si vous choisissez un élément masqué, le panneau de détails propose **Adjust filters to show this item**.
+
+## Filtrage
+
+Utilisez les filtres pour réduire le graphe au contenu utile à la tâche en cours. Ouvrez **Filters** dans le coin inférieur droit.
+
+### Options de filtrage
+
+- **File types** : Markdown, Images, Videos, Audio, Code, PDF, Documents, Other
+- **Relation types** : Images, Audio, Videos, PDF Card, Attachment, Embed, Excalidraw, Supertag, Data Table, Other
+- **Show isolated files**, pour afficher ou masquer les fichiers sans aucun lien
+- **Reset filters**, pour tout afficher à nouveau
+
+<Tip>
+  Chaque type indique combien de fichiers ou de relations il compte, et vous pouvez désactiver plusieurs types à la fois. Le bouton **Filters** indique combien sont masqués. Dans **Color legend**, cliquer sur un type de fichier l’affiche ou le masque également.
+</Tip>
+
+<Warning>
+  Après filtrage, une relation n’est affichée que si son fichier source et son fichier cible sont tous deux encore visibles.
+</Warning>
+
+## Configuration
+
+### Affichage
+
+Ouvrez **Display** dans le coin inférieur droit.
+
+<AccordionGroup>
+  <Accordion title="Color" icon="palette">
+    **By file type** colore chaque nœud selon son type. **By community** colore les groupes de fichiers étroitement liés entre eux. Les communautés sont détectées automatiquement à partir des liens ; **Color legend** les liste, de la plus grande à la plus petite, sous le nom de leur fichier le plus connecté. Les fichiers sans lien sont regroupés sous **Ungrouped**. Cliquez sur une communauté dans la légende pour n’afficher qu’elle.
+  </Accordion>
+
+  <Accordion title="Show file and relation labels" icon="text-size">
+    Affiche ou masque le nom des fichiers et le texte de lien des relations. Activé par défaut.
+  </Accordion>
+
+  <Accordion title="Show directional flow" icon="arrow-right">
+    Anime le sens des relations sélectionnées, ou de toutes les relations du fichier sélectionné. Activé par défaut.
+  </Accordion>
+
+  <Accordion title="Edge opacity" icon="minus">
+    Règle l’intensité du tracé des lignes de relation, de 5 % à 80 %. La valeur par défaut est de 28 %.
+  </Accordion>
+</AccordionGroup>
+
+### Disposition
+
+<AccordionGroup>
+  <Accordion title="Pause layout / Resume layout" icon="pause">
+    Arrête ou relance le calcul de la disposition. Celui-ci s’arrête aussi de lui-même une fois le graphe stabilisé.
+  </Accordion>
+
+  <Accordion title="Reset layout and pinned positions" icon="arrows-rotate">
+    Libère tous les nœuds épinglés et recalcule la disposition du graphe depuis le début.
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  **Resume layout** remet les nœuds en mouvement jusqu’à ce qu’ils se stabilisent, tout comme le fait de faire glisser un nœud lorsque la disposition n’est pas en pause. Les filtres et les réglages d’affichage appartiennent à l’onglet du graphe et ne sont pas enregistrés lorsque vous le fermez.
+</Note>
+
+## Statistiques
+
+Le graphe affiche ces chiffres :
+
+| Emplacement | Ce qu’il indique |
+| --- | --- |
+| **Barre de titre** | Fichiers et relations visibles, et fichiers manquants |
+| **Commandes de zoom** | Niveau de zoom actuel |
+| **Filters** | Nombre de fichiers ou de relations de chaque type |
+| **Color legend** | Nombre de fichiers de chaque type ou de chaque communauté |
+| **Panneau de détails** | Nombre de **References** et de **Referenced by** du fichier sélectionné |
+
+## Astuces avancées
+
+<CardGroup cols={2}>
+  <Card title="Explorer le voisinage" icon="project-diagram">
+    Sélectionnez d’abord un nœud pour faire clairement apparaître son voisinage immédiat.
+  </Card>
+
+  <Card title="Épingler les nœuds importants" icon="hand-sparkles">
+    Faites glisser les fichiers essentiels vers le centre et laissez-les épinglés pour créer une disposition de lecture personnalisée.
+  </Card>
+
+  <Card title="Parcourir par communauté" icon="filter">
+    Colorez par communauté, puis cliquez sur une communauté dans la légende pour examiner un groupe isolément.
+  </Card>
+
+  <Card title="Repérer les fichiers centraux" icon="star">
+    Les gros nœuds ont de nombreuses connexions et représentent généralement des index, des vues d’ensemble ou des ressources partagées.
+  </Card>
+</CardGroup>
+
+## Cas d’usage courants
+
+<AccordionGroup>
+  <Accordion title="Découvrir un espace de travail" icon="folder-tree">
+    Après avoir ouvert un nouvel espace de travail, utilisez le graphe pour repérer rapidement les principaux groupes, les notes d’index et les ressources partagées.
+  </Accordion>
+
+  <Accordion title="Voir ce qui dépend d’une note" icon="code-branch">
+    Avant de renommer ou de réécrire une note, sélectionnez-la et consultez **Referenced by** pour voir quelles notes pointent vers elle.
+  </Accordion>
+
+  <Accordion title="Trouver les fichiers orphelins" icon="unlink">
+    Les fichiers isolés sont des notes qui ne pointent vers aucun autre fichier et vers lesquelles aucun fichier ne pointe. Ils doivent peut-être encore être reliés au reste de vos notes.
+  </Accordion>
+
+  <Accordion title="Cartographier une documentation" icon="book">
+    Dans les espaces de travail riches en documentation, le graphe vous aide à examiner les groupes d’articles et à améliorer le maillage interne.
+  </Accordion>
+</AccordionGroup>
+
+## Conseils de performance
+
+<Steps>
+  <Step title="Masquer ce dont vous n’avez pas besoin">
+    Désactivez des types de fichiers, des types de relations ou les fichiers isolés dans **Filters** pour que le graphe n’affiche que ce sur quoi vous travaillez.
+  </Step>
+
+  <Step title="Mettre la disposition en pause">
+    Une fois l’agencement satisfaisant, choisissez **Pause layout** dans **Display** pour que les nœuds cessent de bouger.
+  </Step>
+
+  <Step title="Épingler des nœuds d’ancrage">
+    Fixer quelques nœuds importants limite les mouvements de la disposition et améliore la lisibilité.
+  </Step>
+
+  <Step title="Désactiver les étiquettes">
+    Désactivez **Show file and relation labels** pour ne dessiner que des points et des lignes dans un très grand graphe.
+  </Step>
+</Steps>
+
+## Questions fréquentes
+
+<AccordionGroup>
+  <Accordion title="Pourquoi le graphe est-il vide ?" icon="question">
+    Le graphe indexe les fichiers `.md` des espaces de travail locaux. Vérifiez qu’un espace de travail local est ouvert, que vos notes se terminent par `.md` et qu’elles ne se trouvent pas dans des dossiers masqués ou ignorés, puis cliquez sur **Refresh file index**. Si la vue indique **No files match these filters**, choisissez **Reset filters**.
+  </Accordion>
+
+  <Accordion title="Pourquoi certains nœuds sont-ils hors de la zone visible ?" icon="question">
+    Cliquez sur **Fit to view**, dézoomez, ou recherchez le fichier et cliquez sur **Locate in graph**.
+  </Accordion>
+
+  <Accordion title="Comment réinitialiser la position des nœuds épinglés ?" icon="question">
+    Ouvrez **Display** et choisissez **Reset layout and pinned positions**.
+  </Accordion>
+
+  <Accordion title="Pourquoi le double-clic n’ouvre-t-il pas le fichier ?" icon="question">
+    Le fichier n’existe peut-être pas : les fichiers manquants sont dessinés sous forme de cercles creux en tirets et ne peuvent pas être ouverts. Vérifiez aussi que vous n’avez pas déplacé le nœud entre les deux clics.
+  </Accordion>
+
+  <Accordion title="Pourquoi les relations se superposent-elles ?" icon="question">
+    Zoomez, sélectionnez d’abord le fichier, ou écartez les nœuds en les faisant glisser. Réduire **Edge opacity** rend aussi les zones chargées plus lisibles.
+  </Accordion>
+
+  <Accordion title="Puis-je exporter ou partager le graphe ?" icon="question">
+    Il n’existe pas encore d’export intégré. Utilisez l’outil de capture d’écran de votre système si vous devez capturer la vue actuelle.
+  </Accordion>
+
+  <Accordion title="Pourquoi le graphe ne cesse-t-il de bouger ?" icon="question">
+    La disposition évolue jusqu’à se stabiliser, et faire glisser un nœud la relance. Choisissez **Pause layout** dans **Display** pour l’arrêter, et épinglez quelques nœuds d’ancrage pour garder un agencement stable.
+  </Accordion>
+</AccordionGroup>
+
+## Raccourcis clavier
+
+Cliquez d’abord dans le graphe pour qu’il reçoive le focus clavier.
+
+| Raccourci | Effet |
+| --- | --- |
+| `/` | Ouvrir la recherche |
+| `Esc` | Effacer la sélection du nœud ou de la relation |
+| `+` ou `=` | Zoom avant |
+| `-` | Zoom arrière |
+| `Enter` | Ouvrir le fichier sélectionné |
+| Touches fléchées | Décaler légèrement le nœud sélectionné, ce qui l’épingle |
+
+## Notes techniques
+
+<Note>
+  Le graphe est dessiné par votre carte graphique, et sa disposition est calculée en arrière-plan pour ne pas ralentir l’édition. Si votre système est réglé pour réduire les animations, la disposition démarre en pause et le flux directionnel n’est pas animé. Si le graphe ne peut pas être dessiné, la vue affiche **Unable to load the graph. Please retry.** avec un bouton **Retry**.
+</Note>

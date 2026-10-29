@@ -1,0 +1,148 @@
+---
+title: "文本标记使用指南"
+description: "Zditor 中的基础行内格式，以及注释和修订两类评审语法。"
+icon: "highlighter"
+---
+
+Zditor 支持粗体、斜体、高亮和行内代码等标准行内格式，还提供了更适合评审场景的注释和修订标记。
+
+<Frame>
+  <img src="/images/case2_zh.png" alt="Zditor 中文修订与扩展语法示例" style={{ borderRadius: '0.5rem' }} />
+</Frame>
+
+## 功能概览
+
+<CardGroup cols={2}>
+  <Card title="基础格式" icon="highlighter">
+    用粗体、斜体和高亮为正文增加强调和层次。
+  </Card>
+
+  <Card title="行内代码" icon="code">
+    用反引号标记命令、标识符和简短代码片段。
+  </Card>
+
+  <Card title="注释" icon="lightbulb">
+    用 `mode=tip` 给术语或短语补充说明，不改原文。
+  </Card>
+
+  <Card title="修订" icon="pen-to-square">
+    用 `mode=revision` 给出替换建议，之后可以直接接受。
+  </Card>
+</CardGroup>
+
+## 基础行内标记
+
+| 标记 | 语法 | 常见用途 |
+| --- | --- | --- |
+| 粗体 | `**text**` | 关键结论、重点术语 |
+| 斜体 | `*text*` | 轻度强调、外来词、特殊术语 |
+| 删除线 | `~~text~~` | 已删除或过时的说法 |
+| 高亮 | `==text==` | 重要定义和要点 |
+| 行内代码 | `` `code` `` | 命令、变量、标识符 |
+| 链接 | `[text](url)` | 跳转和引用 |
+
+你也可以在选中文字后出现的格式工具栏中添加这些标记，或者使用 [快捷键指南](/zh/keyboard-shortcuts) 中的快捷键。
+
+<Tip>
+  格式点到为止。文本标记的作用是帮助读者更快理解结构，而不是把一段话变成样式堆叠区。
+</Tip>
+
+## 评审型标记
+
+<AccordionGroup>
+  <Accordion title="注释：mode=tip" icon="lightbulb" defaultOpen>
+    当原文本身没问题、只是需要补充背景时，用注释最合适。
+
+    ```md
+    [text](explanation|mode=tip)
+    ```
+
+    完整写法示例：
+
+    ```md
+    [term](explanation%20goes%20here|mode=tip|style=teal)
+    ```
+
+    适合场景：
+
+    - 解释术语
+    - 给读者留阅读提示
+    - 不改写句子，只附上简短的背景说明
+  </Accordion>
+
+  <Accordion title="修订：mode=revision" icon="pen-to-square">
+    当你希望原文被替换成更合适的说法时，用修订。
+
+    ```md
+    [original text](reason|mode=revision|advice=replacement)
+    ```
+
+    完整写法示例：
+
+    ```md
+    [original text](why%20it%20should%20change|mode=revision|style=indigo|advice=replacement%20text)
+    ```
+
+    适合场景：
+
+    - 修正错别字
+    - 优化措辞
+    - 把模糊时间改成明确时间
+  </Accordion>
+
+  <Accordion title="在编辑器中创建和审阅标记" icon="mouse-pointer">
+    - **创建标记**：选中文字，点击格式工具栏中的 **修订**，再选择一种颜色。`Mod-R` 会添加一个 teal 色的标记。新建的标记是一条修订，既没有描述，也没有建议文本。
+    - **打开标记**：点击被标记的文字。它的工具栏会显示 **描述**（注释显示为 **提示内容**），修订还会显示 **建议文本**。
+    - **编辑**：在 **修订类型** 下修改颜色，修改描述和建议文本，然后点击 **保存更改**。
+    - **提示 / 修订** 切换：切换标记的模式。把修订切换为提示后，它的建议文本会被清空。
+    - **接受修订**：用建议文本替换被标记的文字。注释没有接受操作。
+    - **删除**：移除标记，保留文字。
+
+    文档中有标记时，标题栏中的 **移除所有修订** 会一次移除全部注释和修订标记，并保留文字。注释以波浪下划线显示；修订使用文档主题的下划线样式。
+  </Accordion>
+
+  <Accordion title="什么时候要把空格写成 %20" icon="code">
+    如果你直接手写 Markdown 源码，`tip` 和 `revision` 括号里的空格需要编码成 `%20`。普通空格会让链接提前结束，这段源码就会显示为普通文本。
+
+    这适用于：
+
+    - 说明文字
+    - `advice` 的值
+
+    Zditor 保存文档时会自动完成这种编码，并把这些值中的 `|`、`(` 和 `)` 分别编码为 `%7C`、`%28` 和 `%29`。
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  注释和修订标记需要开启 **设置 → 集成 → 插件** 中的 **修订** 插件，它默认开启。更改这个设置后，重新打开 Markdown 编辑器才会生效。
+</Note>
+
+## 颜色建议
+
+`style` 支持五种颜色：`red`、`indigo`、`teal`、`yellow` 和 `green`。没有 `style` 的标记显示为 teal。下表的含义只是一种约定，Zditor 对每种颜色的处理都一样。
+
+| 颜色 | 适合场景 |
+| --- | --- |
+| `red` | 错误、删除、时间模糊、拼写问题 |
+| `indigo` | 措辞优化、语气调整、风格统一 |
+| `teal` | 中性说明、一般建议 |
+| `yellow` | 警示、需要额外关注的地方 |
+| `green` | 正向确认，或建议保持原样 |
+
+## 可直接复用的模板
+
+### 注释模板
+
+```md
+This sentence includes a [term](explain%20the%20meaning%20here|mode=tip|style=teal).
+```
+
+### 修订模板
+
+```md
+Please change [the original phrase](explain%20why%20it%20should%20change|mode=revision|style=indigo|advice=the%20revised%20phrase).
+```
+
+<Warning>
+  `revision` 需要带上 `advice` 值才能给出替换内容。没有 `advice` 时，**接受修订** 会删除被标记的文字，所以只有在建议删除时才把 `advice` 留空。
+</Warning>

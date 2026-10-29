@@ -1,0 +1,226 @@
+---
+title: "Frontmatter ガイド"
+description: "YAML の Frontmatter を使って、Zditor の Markdown ドキュメントに構造化されたメタデータを追加します。"
+icon: "table"
+---
+
+Frontmatter は、ドキュメントの先頭に置く YAML のメタデータブロックです。Zditor では、**Document properties** ダイアログの表で視覚的に編集できるので、すべてのフィールドを手で管理する必要はありません。また、プロパティはドキュメントの上部にヘッダーとして表示されます。
+
+## 概要
+
+<CardGroup cols={2}>
+  <Card title="視覚的な編集" icon="table">
+    YAML を手書きする代わりに、表でフィールドを編集します。
+  </Card>
+
+  <Card title="11 種類のフィールド" icon="list-check">
+    テキスト、数値、日付、チェックボックス、進捗、選択などに対応しています。
+  </Card>
+
+  <Card title="カバー画像" icon="image">
+    ドキュメントのヘッダーにカバー画像を設定し、暖色トーンと寒色トーンを切り替えられます。
+  </Card>
+
+  <Card title="データベースとの連携" icon="database">
+    `class` フィールドを通じて、Frontmatter のフィールドを SuperTag のテーブルの仕組みと結び付けます。
+  </Card>
+</CardGroup>
+
+## 基本の構文
+
+Frontmatter は、ファイルの一番先頭で `---` に囲んで書きます。
+
+```yaml
+---
+title: "My document"
+date: 2024-01-15
+tags: [product, notes]
+draft: true
+---
+
+Document content starts here...
+```
+
+## 対応している形式
+
+<AccordionGroup>
+  <Accordion title="簡易形式" icon="bolt" defaultOpen>
+    キーと値の単純なペアを書くと、エディターがフィールドの型を推測します。
+
+    ```yaml
+    ---
+    title: "Document title"
+    count: 42
+    done: true
+    tags: [tag-1, tag-2]
+    ---
+    ```
+
+    **推測のルール**
+    - `[a, b]` のようなリストは `array` になります
+    - `true` と `false` は `checkbox` になります
+    - 数値は `number` になります
+    - `2024-01-15` のような日付は `text` のままです。日付フィールドにするには、完全形式で `type: date` を指定します
+    - その他の文字列は `text` になります
+    - 値のないキーは無視されます
+  </Accordion>
+
+  <Accordion title="完全形式" icon="sliders">
+    フィールドの型、ラベル、説明、値を明示的に定義します。`select` と `multiselect` のフィールドでは、選択肢も定義します。
+
+    ```yaml
+    ---
+    status:
+      type: select
+      label: "Status"
+      description: "Current document status"
+      value: "In Progress"
+      options: [Todo, In Progress, Done]
+    priority:
+      type: number
+      label: "Priority"
+      value: 3
+    ---
+    ```
+
+    完全形式のフィールドには、下の表にあるいずれかの型が必要です。`type` がないか、不明な型が指定された入れ子のエントリは無視されます。
+  </Accordion>
+</AccordionGroup>
+
+## フィールドの型
+
+| 型 | エディターでの表示 | 説明 | 例 |
+|------|------|------|--------|
+| `text` | Text | 文字列 | `"Hello"` |
+| `number` | Number | 数値 | `42` |
+| `checkbox` | Toggle | 真偽値 | `true` / `false` |
+| `date` | Date | 日付 | `2024-01-15` |
+| `datetime` | Date and time | 日付と時刻 | `2024-01-15T10:30` |
+| `time` | Time | 時刻 | `10:30` |
+| `array` | List | 文字列の配列 | `[tag-1, tag-2]` |
+| `select` | Select | `options` から 1 つを選択 | `"Option A"` |
+| `multiselect` | Multi-select | `options` から複数を選択 | `[Option A, Option B]` |
+| `progress` | Progress | 0〜100 の進捗 | `75` |
+| `asset` | Image | 画像のパスまたは URL | `"cover.png"` |
+
+## ビジュアルエディター
+
+Zditor には表形式の Frontmatter エディターがあるので、変更のたびに YAML を手で書く必要はありません。開くには、リッチテキスト表示または分割表示の Markdown ドキュメントで、タイトルバーの **Edit properties**（タグのアイコン）をクリックします。ドキュメントが編集可能な状態である必要があります。
+
+### プロパティの表
+
+**Document properties** の **Properties** タブには、フィールドが次の列を持つ表で表示されます。
+
+- **Property**：フィールドの表示名。キーと異なる場合は、その下にキーも表示されます
+- **Type**：フィールドの型
+- **Value**：現在の値。型に合ったコントロールで編集します
+
+行の末尾にある歯車ボタンをクリックすると、プロパティの設定が開きます。
+
+- **Property key**：フィールド名。名前を変えるには **Update key** をクリックします
+- **Display name**：エディターに表示されるラベル
+- **Field description**：補足の説明
+- **Options**：`select` と `multiselect` の選択肢
+- **Delete property**：フィールドを削除します
+
+表の上では、プロパティを検索したり、**Export CSV** をクリックしたりできます。**Layout fields** をクリックすると、既定では非表示になっているヘッダーの設定 `row`、`col`、`warm`、`warmDark`、`display` も表示されます。
+
+フィールドの型を変更したときに値を変換できない場合は、**Keep value** と **Reset value and change type** のどちらにするかを確認されます。
+
+変更が保存されるのは、**Apply** をクリックするか、`Cmd + Enter`（Windows と Linux では `Ctrl + Enter`）を押したときだけです。**Cancel** をクリックすると、変更は破棄されます。
+
+### フィールドの追加
+
+<AccordionGroup>
+  <Accordion title="カスタムフィールドを追加する" icon="plus" defaultOpen>
+    **Add property** をクリックし、**Property key** を入力して **Type** を選びます。必要に応じて **Display name** と **Field description** も入力します。最後に、パネル内の **Add property** をクリックします。
+  </Accordion>
+
+  <Accordion title="定義済みのフィールドを追加する" icon="ellipsis">
+    同じパネルで **Property preset** を選ぶと、よく使うフィールドのキーと型が入力されます。ドキュメントにすでにあるプリセットは表示されません。
+
+    **Text**
+    - Title、Subject、Description、Author
+
+    **Image**
+    - Avatar、Cover、`coverDark`
+
+    **Date**
+    - Created、Updated
+
+    **List**
+    - Tags
+    - Information row（`row`）と Title area（`col`）
+
+    **Toggle**
+    - Favorite、Template
+    - Show property summary（`display`）、Warm tone（`warm`）、`warmDark`
+  </Accordion>
+</AccordionGroup>
+
+### ヘッダーのレイアウト
+
+**Header layout** タブでは、ドキュメントの上部にプロパティをどう表示するかを決めます。
+
+- **Cover image**：ヘッダーの背景になる画像。設定しない場合、ヘッダーはテキストだけのシンプルなレイアウトになります。
+- **Title area**：**Eyebrow**、**Title**、**Description** として表示するプロパティ。`col` に保存されます。
+- **Information row**：タイトルの下に 1 行で、設定した順に表示するプロパティ。ドラッグするか矢印ボタンで並べ替え、**Add to information row…** で追加します。`row` に保存されます。
+- **Show property summary** と **Warm tone** のスイッチ。それぞれ `display` と `warm` に保存されます。
+
+設定するまでは、値があれば、タイトルエリアに `subject`、`title`、`description` が、情報行に `avatar`、`author`、`updated`、`created`、`tags` が表示されます。値のあるその他のプロパティは、最大 4 つまでヘッダーの下に概要として表示されます。
+
+## カバー画像
+
+`cover` フィールドを使って、ドキュメントにカバー画像を追加します。
+
+<Steps>
+  <Step title="cover フィールドを追加する">
+    **Document properties** を開いて **Header layout** に移動し、**Cover image** の下にある **Choose image** をクリックします。入力欄にパスや URL を直接入力することもできます。Zditor はこれを `asset` 型の `cover` フィールドに保存します。
+  </Step>
+  <Step title="画像を選ぶ">
+    画像の選択画面には 3 つのタブがあります。**Upload** ではパソコンから画像を追加し、**Library** ではワークスペース内の画像を検索します。**Link** では画像の URL を貼り付けて **Apply** をクリックします。
+  </Step>
+  <Step title="テーマを調整する">
+    カバーにポインターを合わせると、ツールバーが表示されます。**Toggle Tone** をクリックすると、暖色トーンと寒色トーンが切り替わります。暖色トーンは明るい画像向けで文字が暗い色になり、寒色トーンは暗い画像向けで文字が白になります。同じツールバーには、**Change Cover**、**Edit properties**、**Copy Meta Information**、**Refresh**、**Delete Meta Information** もあります。
+  </Step>
+</Steps>
+
+<Tip>
+  ダークモードで別のカバーを使うには、`coverDark` プリセットを追加します。そのトーンは `warmDark` に保存されます。
+</Tip>
+
+## 特別なフィールド
+
+| フィールド | 意味 |
+|------|------|
+| `class` | SuperTag で使うカテゴリ名またはテーブル名。テキストフィールドである必要があります |
+| `field` | SuperTag のスキーマファイルで、そのクラスのレコードが持つフィールドのリスト |
+| `row` | ヘッダーの情報行に表示するフィールド |
+| `col` | ヘッダーのタイトルエリアに表示するフィールド（最大 3 つ） |
+| `cover` | カバー画像のパスまたは URL |
+| `coverDark` | ダークモードで使うカバー画像 |
+| `warm` | カバーのトーン。`true` で暖色、`false` で寒色 |
+| `warmDark` | `coverDark` のトーン |
+| `display` | `false` にすると、ヘッダーの下のプロパティの概要が非表示になります |
+| `template` | `true` にすると、そのドキュメントが `/` メニューと **Calendar** サイドバーの **Templates** に表示されます。`/` メニューでテンプレートを選ぶと、現在のドキュメントがそのテンプレートのコピーに置き換わります |
+| `favorites` | `true` にすると、そのドキュメントが **Calendar** サイドバーの **Favorites** タブに表示されます。複数形である点に注意してください。**Favorite** プリセットが追加するのは `favorite` で、このタブでは読み取られません |
+
+## よくある質問
+
+<AccordionGroup>
+  <Accordion title="Frontmatter はドキュメントの本文に表示されますか？">
+    リッチテキスト表示では表示されません。YAML ブロックは非表示になり、代わりにプロパティがドキュメントの上部にヘッダーとして表示されます。ソース表示では YAML がそのまま表示され、そこで編集することもできます。
+  </Accordion>
+
+  <Accordion title="Frontmatter のデータを書き出すには？">
+    **Document properties** で **Export CSV** をクリックすると、現在のドキュメントのプロパティが、Property、Type、Value、Label、Description、Options の列を持つ CSV ファイルとして保存されます。
+  </Accordion>
+
+  <Accordion title="簡易形式と完全形式を混ぜて使えますか？">
+    はい。Zditor は同じドキュメント内の両方の形式を読み取り、簡易形式のフィールドの型は自動的に推測します。**Document properties** やカバーのツールバーから変更を適用すると、ブロック全体が完全形式で書き直され、値のないキーなど読み取れなかったエントリは削除されます。
+  </Accordion>
+
+  <Accordion title="Frontmatter をすべて削除するには？">
+    ソース表示で、開始と終了の `---` 行に挟まれた YAML ブロックを削除します。ドキュメントにカバー画像がある場合は、カバーのツールバーで **Delete Meta Information** をクリックしても削除できます。
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,93 @@
+---
+title: "Emplacements de la configuration et des journaux"
+description: "Trouvez les dossiers de configuration et de journaux de Zditor sous macOS, Windows et Linux."
+icon: "folder-open"
+---
+
+Cette page indique les emplacements par défaut de la configuration et des journaux de Zditor selon le système d’exploitation. Elle vous sera utile pour migrer vos paramètres, recueillir des journaux en cas de problème ou ouvrir rapidement le bon dossier.
+
+<Warning>
+  Ce sont les emplacements par défaut. Sous Linux, ils suivent la variable d’environnement `XDG_DATA_HOME` lorsqu’elle est définie.
+</Warning>
+
+## Emplacements par défaut
+
+Zditor conserve ses paramètres et ses autres données d’application dans un dossier nommé d’après son identifiant d’application, `com.zditor.ai`, et écrit ses fichiers journaux dans un dossier distinct.
+
+| Système | Dossier de configuration | Dossier des journaux |
+| :--- | :--- | :--- |
+| macOS | `~/Library/Application Support/com.zditor.ai` | `~/Library/Logs/com.zditor.ai` |
+| Windows | `%APPDATA%\com.zditor.ai` | `%LOCALAPPDATA%\com.zditor.ai\logs` |
+| Linux | `~/.local/share/com.zditor.ai` | `~/.local/share/com.zditor.ai/logs` |
+
+Le dossier de configuration contient vos paramètres, la configuration des modèles de l’agent, les compétences que vous ajoutez pour tous les espaces de travail, les conversations de l’agent et les informations des connexions enregistrées, y compris leurs mots de passe, clés et jetons.
+
+Le journal en cours s’appelle `zditor.log`. Lorsqu’il devient trop volumineux, Zditor en commence un nouveau et renomme l’ancien fichier en `zditor_` suivi de la date et de l’heure. Zditor supprime ces anciens fichiers journaux dès qu’ils ont plus de 30 jours.
+
+<Tip>
+  Pour ouvrir rapidement le journal en cours, cliquez sur l’icône de Zditor dans la barre des menus (macOS) ou dans la zone de notification (Windows et Linux), puis choisissez **Open log file**.
+</Tip>
+
+## Ouvrir rapidement les dossiers
+
+<Tabs>
+<Tab title="mac/linux">
+  ```bash
+  # macOS config directory
+  open ~/Library/Application\ Support/com.zditor.ai
+
+  # macOS log directory
+  open ~/Library/Logs/com.zditor.ai
+
+  # Linux config directory
+  xdg-open ~/.local/share/com.zditor.ai
+
+  # Linux log directory
+  xdg-open ~/.local/share/com.zditor.ai/logs
+  ```
+</Tab>
+
+<Tab title="windows">
+  ```powershell
+  # Config directory
+  explorer "$env:APPDATA\com.zditor.ai"
+
+  # Log directory
+  explorer "$env:LOCALAPPDATA\com.zditor.ai\logs"
+  ```
+</Tab>
+</Tabs>
+
+## Conseils de sauvegarde
+
+1. Quittez complètement Zditor avant de copier le dossier de configuration, pour éviter les conflits d’écriture. Fermer la fenêtre peut laisser Zditor tourner en arrière-plan ; choisissez **Quit zditor** dans le menu de son icône, dans la barre des menus ou la zone de notification.
+2. Les journaux servent surtout au dépannage et n’ont généralement pas besoin d’être sauvegardés intégralement sur le long terme.
+3. Sauvegardez le dossier de configuration avant une mise à jour ou une réinstallation.
+4. Gardez pour vous les copies du dossier de configuration, car il contient les identifiants de vos connexions enregistrées. Pour signaler un problème, envoyez les fichiers journaux plutôt que le dossier de configuration.
+
+<Tip>
+  Pour voir l’espace occupé par les données d’application de Zditor et vider les caches, ouvrez **Settings → Personal → Storage & data** dans l’application de bureau.
+</Tip>
+
+## Questions fréquentes
+
+### Je ne trouve pas le dossier
+
+- Lancez Zditor une fois ; les dossiers sont créés au premier lancement
+- Sous Windows, collez `%APPDATA%` ou `%LOCALAPPDATA%` directement dans la barre d’adresse de l’Explorateur de fichiers
+- Sous macOS, le dossier `~/Library` est masqué dans le Finder. Appuyez sur `Cmd + Shift + G` dans le Finder et saisissez le chemin, par exemple `~/Library/Logs/com.zditor.ai`
+
+### Je veux vérifier le chemin réel sur ma machine
+
+Sous Linux, les chemins suivent `XDG_DATA_HOME` si vous avez défini cette variable. Affichez-la d’abord dans un terminal :
+
+```bash
+# Linux
+echo $XDG_DATA_HOME
+```
+
+Si la sortie est vide, Zditor utilise `~/.local/share`. Sous macOS et Windows, aucune variable d’environnement ne modifie ces chemins : utilisez ceux du tableau.
+
+### Pourquoi y a-t-il aussi un dossier dans ~/.config sous Linux ?
+
+Zditor enregistre la taille et la position de sa fenêtre dans `~/.config/com.zditor.ai` (ou sous `XDG_CONFIG_HOME` si vous avez défini cette variable). Tout le reste se trouve dans `~/.local/share/com.zditor.ai`.

@@ -1,0 +1,280 @@
+---
+title: "Atalhos de teclado"
+description: "Aprenda os principais atalhos de teclado do Zditor para editar mais rápido."
+icon: "keyboard"
+---
+
+O Zditor tem amplo suporte a atalhos de teclado para edição, formatação, mudanças de estrutura e navegação. As tabelas abaixo listam os atalhos padrão do editor de Markdown e do app.
+
+<Warning>
+  `Mod` significa `Ctrl` no Windows e no Linux, e `Command` no macOS. `Alt` é a tecla `Option` no macOS.
+</Warning>
+
+## Conteúdo
+
+- [Atalhos globais](#atalhos-globais)
+- [Operações do editor](#operações-do-editor)
+- [Formatação de texto](#formatação-de-texto)
+- [Controle de títulos](#controle-de-títulos)
+- [Operações com listas](#operações-com-listas)
+- [Edição de blocos de código](#edição-de-blocos-de-código)
+- [Edição de fórmulas](#edição-de-fórmulas)
+- [Operações com tabelas](#operações-com-tabelas)
+- [Outras operações](#outras-operações)
+- [Personalização de atalhos](#personalização-de-atalhos)
+
+## Atalhos globais
+
+### Busca e salvamento
+
+| Atalho | Ação |
+| --- | --- |
+| `Mod-K` | Abrir a busca |
+| `Mod-S` | Salvar o documento atual |
+| `Mod-F` | Buscar no documento atual |
+
+### Modos de visualização
+
+Funcionam no documento Markdown ativo. Pressione o mesmo atalho de novo para voltar ao texto formatado.
+
+| Atalho | Ação |
+| --- | --- |
+| `Mod-E` | Alternar entre o modo de edição e o modo somente leitura |
+| `Mod-/` | Alternar entre texto formatado e visualização de código |
+| `Mod-\` | Alternar entre texto formatado e visualização dividida |
+
+### Zoom da visualização
+
+| Atalho | Ação |
+| --- | --- |
+| `Mod-=` | Aumentar o zoom |
+| `Mod--` | Diminuir o zoom |
+| `Mod-0` | Redefinir o zoom |
+
+## Operações do editor
+
+### Edição básica
+
+| Atalho | Ação |
+| --- | --- |
+| `Mod-A` | Selecionar o documento inteiro |
+| `Escape` | Tirar o foco do editor |
+| `Shift-Enter` | Inserir uma quebra de linha sem começar um novo parágrafo |
+
+### Desfazer e refazer
+
+| Atalho | Ação |
+| --- | --- |
+| `Mod-Z` | Desfazer |
+| `Mod-Y` | Refazer |
+| `Mod-Shift-Z` | Refazer (atalho alternativo) |
+| `Backspace` | Logo depois que o Zditor converte o que você digitou, por exemplo `## ` em título, desfazer essa conversão |
+
+## Formatação de texto
+
+### Estilos
+
+| Atalho | Ação |
+| --- | --- |
+| `Mod-B` | Alternar negrito |
+| `Mod-I` | Alternar itálico |
+| `Mod-D` | Alternar tachado |
+| `Mod-H` | Alternar destaque |
+| `Mod-Shift-C` | Alternar código inline |
+| `Mod-R` | Alternar uma marca de revisão (veja [Marcas de texto](/pt/text-marks)) |
+
+### Inserir elementos
+
+| Atalho | Ação |
+| --- | --- |
+| `Mod-Shift-E` | Inserir uma fórmula inline |
+| `Mod-Shift-D` | Inserir uma fórmula em bloco |
+| `Mod-Shift-H` | Inserir um divisor (linha horizontal) |
+| `Mod-P` | Inserir uma quebra de página |
+| `Mod-T` | Inserir uma tabela 3 × 3 |
+
+<Note>
+  Os atalhos de marca de revisão e de fórmulas precisam dos plugins **Track changes** e **Math formulas**, que vêm ativados por padrão em **Settings → Integrations → Plugins**.
+</Note>
+
+## Controle de títulos
+
+| Atalho | Ação |
+| --- | --- |
+| `Mod-1` | Título 1 |
+| `Mod-2` | Título 2 |
+| `Mod-3` | Título 3 |
+| `Mod-4` | Título 4 |
+| `Mod-5` | Título 5 |
+| `Mod-6` | Título 6 |
+| `Mod-Shift-P` | Converter em parágrafo |
+| `Backspace` | No início de um título, convertê-lo de volta em parágrafo |
+
+Pressionar o atalho de um nível de título em um título desse mesmo nível o transforma de volta em parágrafo.
+
+## Operações com listas
+
+### Criar listas
+
+| Atalho | Ação |
+| --- | --- |
+| `Mod-Shift-8` | Alternar lista com marcadores |
+| `Mod-Shift-7` | Alternar lista numerada |
+| `Mod-Shift-9` | Alternar lista de tarefas |
+| `Mod-Shift-B` | Alternar citação |
+
+### Itens de lista
+
+| Atalho | Ação |
+| --- | --- |
+| `Enter` | Dividir um item de lista |
+| `Tab` | Aumentar o recuo de um item de lista |
+| `Shift-Tab` | Diminuir o recuo de um item de lista |
+| `Mod-Shift-Enter` | Começar um novo parágrafo dentro do item de lista ou da citação atual |
+| `Alt-ArrowUp` | Mover o item para cima |
+| `Alt-ArrowDown` | Mover o item para baixo |
+
+### Listas de tarefas
+
+| Atalho | Ação |
+| --- | --- |
+| `Mod-Enter` | Marcar ou desmarcar a caixa de seleção |
+| `Enter` | Dividir um item da lista de tarefas |
+| `Tab` | Aumentar o recuo de um item da lista de tarefas |
+| `Shift-Tab` | Diminuir o recuo de um item da lista de tarefas |
+
+## Edição de blocos de código
+
+### Criar blocos de código
+
+| Atalho | Ação |
+| --- | --- |
+| `Mod-Shift-\` | Alternar um bloco de código |
+
+### Editar e navegar em blocos de código
+
+| Atalho | Ação |
+| --- | --- |
+| `ArrowUp` | Subir, ou sair do bloco de código a partir da primeira linha |
+| `ArrowDown` | Descer, ou sair do bloco de código a partir da última linha |
+| `ArrowLeft` | Ir para a esquerda, ou sair do bloco de código a partir do início |
+| `ArrowRight` | Ir para a direita, ou sair do bloco de código a partir do fim |
+| `Tab` | Aumentar o recuo |
+| `Shift-Tab` | Diminuir o recuo |
+| `Mod-Enter` | Sair do bloco de código e continuar em um novo parágrafo abaixo |
+| `Backspace` | Bem no início do bloco de código, convertê-lo de volta em parágrafo |
+
+### Formatar blocos de código
+
+| Atalho | Ação |
+| --- | --- |
+| `Mod-Shift-F` | Formatar o bloco de código |
+| `Alt-Shift-F` | Atalho alternativo para formatar o código |
+
+## Edição de fórmulas
+
+### Dentro de uma fórmula
+
+| Atalho | Ação |
+| --- | --- |
+| `Tab` | Inserir uma tabulação |
+| `Enter` | Em uma fórmula em bloco, começar uma nova linha; em uma fórmula inline, sair da fórmula |
+| `Mod-Enter` | Sair da fórmula |
+| `Backspace` | Em uma fórmula vazia, excluí-la |
+| `Mod-Backspace` | Excluir a fórmula e voltar ao texto |
+| `Mod-A` | Selecionar tudo na fórmula |
+| `Mod-M` | Alternar entre fórmula inline e em bloco |
+| `Mod-P` | Converter a fórmula em texto simples |
+
+### Navegação em fórmulas
+
+| Atalho | Ação |
+| --- | --- |
+| `ArrowLeft` | Ir para a esquerda, ou sair da fórmula a partir do início |
+| `ArrowRight` | Ir para a direita, ou sair da fórmula a partir do fim |
+| `ArrowUp` | Subir, ou sair da fórmula a partir da primeira linha |
+| `ArrowDown` | Descer, ou sair da fórmula a partir da última linha |
+
+Com uma fórmula em bloco selecionada, pressione `Enter` para editá-la. Veja [Fórmulas matemáticas](/pt/math-formulas).
+
+## Operações com tabelas
+
+### Navegação em tabelas
+
+| Atalho | Ação |
+| --- | --- |
+| `Tab` | Ir para a próxima célula; na última célula, adicionar uma linha |
+| `Shift-Tab` | Ir para a célula anterior |
+
+### Edição de tabelas
+
+| Atalho | Ação |
+| --- | --- |
+| `Mod-Enter` | Adicionar uma linha abaixo e ir para ela |
+| `Mod-Shift-Enter` | Adicionar uma coluna à direita e ir para ela |
+| `Mod-Backspace` | Excluir a linha atual |
+| `Mod-Shift-Backspace` | Excluir a coluna atual |
+
+## Outras operações
+
+### Outros elementos
+
+| Atalho | Ação |
+| --- | --- |
+| `Mod-Shift-M` | Adicionar um bloco de frontmatter, a partir do primeiro parágrafo de um documento que não tenha um (veja [Frontmatter](/pt/frontmatter)) |
+| `Mod-Shift-V` | Alternar um bloco HTML |
+
+### Menu de sugestões
+
+Estas teclas funcionam nos menus `/`, `@` e `#`.
+
+| Atalho | Ação |
+| --- | --- |
+| `ArrowUp` | Subir na lista |
+| `ArrowDown` | Descer na lista |
+| `Tab` / `Shift-Tab` | Ir para o item seguinte ou anterior |
+| `ArrowRight` | Abrir o grupo destacado |
+| `ArrowLeft` | Voltar de um grupo |
+| `Enter` | Escolher o item destacado ou abrir o grupo destacado |
+| `Escape` | Voltar de um grupo ou fechar o menu |
+| `Backspace` | Apagar um caractere e atualizar o filtro |
+
+No seletor de emojis aberto por `:`, as setas movem a seleção pela grade, `Enter` insere o emoji destacado e `Mod-ArrowLeft` / `Mod-ArrowRight` trocam de categoria antes de você digitar um filtro.
+
+## Personalização de atalhos
+
+No desktop, abra **Settings → Personal → Keyboard shortcuts**.
+
+<Steps>
+  <Step title="Encontre o atalho">
+    Busque pelo nome, escolha uma categoria ou alterne entre **All Bindings**, **Commands** e **Semantic Intents**.
+  </Step>
+  <Step title="Grave as novas teclas">
+    Clique no campo de teclas do atalho e pressione a nova combinação. Pressione `Escape` para cancelar.
+  </Step>
+  <Step title="Verifique os conflitos">
+    Um atalho que conflita com outro da mesma categoria mostra o selo **Conflict**. **Conflicts only** lista apenas esses.
+  </Step>
+</Steps>
+
+Os atalhos alterados mostram o selo **Customized** e um botão **Reset to default**. **Reset All** restaura todos os padrões.
+
+<Tip>
+  Os atalhos marcados como **Readonly** não podem ser alterados. Entre eles estão os de busca, salvamento e zoom, as teclas dentro de blocos de código e de fórmulas e as teclas semânticas, como `Enter`, `Tab` e `Backspace`. As alterações valem na hora.
+</Tip>
+
+## Perguntas frequentes
+
+<AccordionGroup>
+  <Accordion title="Por que um atalho não funciona?" icon="question">
+    Verifique se o editor está com o foco, se o tipo de nó atual permite essa ação, se você alterou o atalho em **Settings → Personal → Keyboard shortcuts** e se o sistema operacional interceptou o atalho antes.
+  </Accordion>
+
+  <Accordion title="Os atalhos são diferentes no macOS?" icon="question">
+    Os atalhos são os mesmos. Substitua `Mod` por `Command` no macOS e por `Ctrl` nos outros sistemas, e pressione `Option` onde um atalho indicar `Alt`.
+  </Accordion>
+
+  <Accordion title="Posso personalizar tudo?" icon="question">
+    Não. Os atalhos marcados como **Readonly** nas configurações mantêm os padrões, e alguns atalhos são reservados pelo sistema operacional.
+  </Accordion>
+</AccordionGroup>

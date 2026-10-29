@@ -4,7 +4,7 @@ description: "Use YAML Frontmatter to add structured metadata to Markdown docume
 icon: "table"
 ---
 
-Frontmatter is the YAML metadata block at the top of a document. In Zditor, it can be edited through a visual table UI, so you do not need to manage every field by hand.
+Frontmatter is the YAML metadata block at the top of a document. In Zditor, you can edit it in a visual table, the **Document properties** dialog, so you do not need to manage every field by hand. Zditor also shows the properties as a header above the document.
 
 ## Overview
 
@@ -18,7 +18,7 @@ Frontmatter is the YAML metadata block at the top of a document. In Zditor, it c
   </Card>
 
   <Card title="Cover image support" icon="image">
-    Use a cover image field and switch between warm and cool themes.
+    Give the document header a cover image and switch between a warm and a cool tone.
   </Card>
 
   <Card title="Database integration" icon="database">
@@ -57,14 +57,16 @@ Document content starts here...
     ```
 
     **Inference rules**
-    - Arrays such as `[a, b]` become `array`
+    - Lists such as `[a, b]` become `array`
     - `true` and `false` become `checkbox`
     - Numbers become `number`
+    - Dates such as `2024-01-15` stay `text`; use the full format with `type: date` for a date field
     - Other strings become `text`
+    - Keys without a value are ignored
   </Accordion>
 
   <Accordion title="Full format" icon="sliders">
-    Explicitly define a field's type, label, description, value, and options.
+    Explicitly define a field's type, label, description, and value, plus options for `select` and `multiselect` fields.
 
     ```yaml
     ---
@@ -78,66 +80,94 @@ Document content starts here...
       type: number
       label: "Priority"
       value: 3
-      default: 1
     ---
     ```
+
+    A field in the full format needs one of the types listed below. Zditor ignores a nested entry without a `type` or with an unknown one.
   </Accordion>
 </AccordionGroup>
 
 ## Field types
 
-| Type | Description | Example |
-|------|------|--------|
-| `text` | Text string | `"Hello"` |
-| `number` | Numeric value | `42` |
-| `checkbox` | Boolean value | `true` / `false` |
-| `date` | Date | `2024-01-15` |
-| `datetime` | Date and time | `2024-01-15T10:30:00` |
-| `time` | Time | `10:30` |
-| `array` | String array | `[tag-1, tag-2]` |
-| `select` | Single choice | `"Option A"` |
-| `multiselect` | Multiple choice | `[Option A, Option B]` |
-| `progress` | Progress from 0 to 100 | `75` |
-| `asset` | File path or URL | `"cover.png"` |
+| Type | Shown in the editor as | Description | Example |
+|------|------|------|--------|
+| `text` | Text | Text string | `"Hello"` |
+| `number` | Number | Numeric value | `42` |
+| `checkbox` | Toggle | Boolean value | `true` / `false` |
+| `date` | Date | Date | `2024-01-15` |
+| `datetime` | Date and time | Date and time | `2024-01-15T10:30` |
+| `time` | Time | Time | `10:30` |
+| `array` | List | String array | `[tag-1, tag-2]` |
+| `select` | Select | Single choice from `options` | `"Option A"` |
+| `multiselect` | Multi-select | Multiple choices from `options` | `[Option A, Option B]` |
+| `progress` | Progress | Progress from 0 to 100 | `75` |
+| `asset` | Image | Image path or URL | `"cover.png"` |
 
 ## Visual editor
 
-Zditor provides a table-style Frontmatter editor so you do not need to hand-author YAML for every change.
+Zditor provides a table-style Frontmatter editor so you do not need to hand-author YAML for every change. To open it, click **Edit properties** (the tag icon) in the title bar of a Markdown document in rich text or split view. The document must be editable.
 
-### Table editor
+### Properties table
 
-When a document contains Frontmatter, the editor shows a structured table above the document body with columns such as:
+The **Properties** tab of **Document properties** lists the fields in a table with these columns:
 
-- `Property` for the field name
-- `Type` for the field kind
-- `Value` for the current value
-- `Label` for the UI label
-- `Description` for extra context
-- `Default` for the fallback value
-- `Options` for select and multiselect values
+- **Property** for the field's display name, with its key underneath when they differ
+- **Type** for the field kind
+- **Value** for the current value, edited with a control that suits the type
+
+The gear button at the end of a row opens the property settings:
+
+- **Property key** for the field name; click **Update key** to rename it
+- **Display name** for the label shown in the editor
+- **Field description** for extra context
+- **Options** for `select` and `multiselect` values
+- **Delete property** to remove the field
+
+Above the table you can search the properties, click **Export CSV**, and click **Layout fields** to also show the header settings `row`, `col`, `warm`, `warmDark`, and `display`, which are hidden by default.
+
+If you change a field's type and its value cannot be converted, Zditor asks whether to **Keep value** or **Reset value and change type**.
+
+Changes are saved only when you click **Apply**, or press `Cmd + Enter` (`Ctrl + Enter` on Windows and Linux). **Cancel** discards them.
 
 ### Add fields
 
 <AccordionGroup>
   <Accordion title="Add a custom field" icon="plus" defaultOpen>
-    Click the `+` button at the bottom of the table to create a new text field, then rename it and switch the type if needed.
+    Click **Add property**, enter a **Property key**, pick a **Type**, and optionally a **Display name** and **Field description**. Then click **Add property** in the panel.
   </Accordion>
 
   <Accordion title="Add predefined fields" icon="ellipsis">
-    Use the more menu to insert common predefined fields quickly.
+    In the same panel, choose a **Property preset** to fill in the key and type of a common field. Presets that the document already has are not offered.
 
-    **Structure fields**
-    - `row` for row layout field lists
-    - `col` for column layout field lists
+    **Text**
+    - Title, Subject, Description, Author
 
-    **Metadata fields**
-    - `favorite`
-    - `warm`
-    - `display`
-    - `cover`
-    - `template`
+    **Image**
+    - Avatar, Cover, `coverDark`
+
+    **Date**
+    - Created, Updated
+
+    **List**
+    - Tags
+    - Information row (`row`) and Title area (`col`)
+
+    **Toggle**
+    - Favorite, Template
+    - Show property summary (`display`), Warm tone (`warm`), `warmDark`
   </Accordion>
 </AccordionGroup>
+
+### Header layout
+
+The **Header layout** tab decides how the properties appear above the document:
+
+- **Cover image**: the image behind the header. Without one, the header uses a plain text layout.
+- **Title area**: the properties shown as **Eyebrow**, **Title**, and **Description**. They are saved in `col`.
+- **Information row**: the properties shown in a row below the title, in the order you set. Drag them or use the arrow buttons to reorder them, and use **Add to information row…** to add more. They are saved in `row`.
+- **Show property summary** and **Warm tone** switches, saved in `display` and `warm`.
+
+Until you set them, the title area shows `subject`, `title`, and `description`, and the information row shows `avatar`, `author`, `updated`, `created`, and `tags` when they have values. Up to four other properties with values appear as a summary under the header.
 
 ## Cover image
 
@@ -145,46 +175,52 @@ Use the `cover` field to add a document cover image.
 
 <Steps>
   <Step title="Add the cover field">
-    Add a `cover` field in Frontmatter and set its type to `asset`.
+    Open **Document properties**, go to **Header layout**, and click **Choose image** under **Cover image**. You can also type a path or URL into the field. Zditor stores it in a `cover` field of type `asset`.
   </Step>
   <Step title="Choose an image">
-    Click the field value to open the image picker. You can upload a local file, search images in the workspace, or paste an external URL.
+    The image picker has three tabs: **Upload** to add an image from your computer, **Library** to search images in the workspace, and **Link** to paste an image URL and click **Apply**.
   </Step>
   <Step title="Adjust the theme">
-    Use the toolbar above the cover image to switch between warm and cool visual themes for the overlay.
+    Hover over the cover to show its toolbar, then click **Toggle Tone** to switch between a warm and a cool tone. The warm tone uses dark text for light images; the cool tone uses white text for dark images. The same toolbar has **Change Cover**, **Edit properties**, **Copy Meta Information**, **Refresh**, and **Delete Meta Information**.
   </Step>
 </Steps>
+
+<Tip>
+  To use a different cover in dark mode, add the `coverDark` preset. Its tone is stored in `warmDark`.
+</Tip>
 
 ## Special fields
 
 | Field | Meaning |
 |------|------|
-| `class` | Category or table name used by SuperTag |
-| `field` | Array-based field definitions for table schemas |
-| `row` | Fields shown in row layouts |
-| `col` | Fields shown in column layouts |
-| `cover` | Cover image path |
-| `warm` | Cover theme switch, `true` for warm and `false` for cool |
-| `display` | Whether to show the property panel |
-| `favorite` | Favorite marker |
-| `template` | Template marker |
+| `class` | Category or table name used by SuperTag; must be a text field |
+| `field` | In a SuperTag schema file, the list of fields that records of the class have |
+| `row` | Fields shown in the header's information row |
+| `col` | Fields shown in the header's title area, up to three |
+| `cover` | Cover image path or URL |
+| `coverDark` | Cover image used in dark mode |
+| `warm` | Cover tone, `true` for warm and `false` for cool |
+| `warmDark` | Tone for `coverDark` |
+| `display` | `false` hides the property summary under the header |
+| `template` | `true` lists the document under **Templates** in the `/` menu and in the **Calendar** sidebar. Choosing a template in the `/` menu replaces the current document with a copy of it |
+| `favorites` | `true` lists the document on the **Favorites** tab of the **Calendar** sidebar. Note the plural: the **Favorite** preset adds `favorite`, which that tab does not read |
 
 ## FAQ
 
 <AccordionGroup>
   <Accordion title="Does Frontmatter appear in the document body?">
-    No. Frontmatter is managed separately from the main body and is shown through the editor UI above the document content.
+    Not in the rich text view: Zditor hides the YAML block and shows the properties as a header above the document instead. The source view shows the raw YAML, and you can edit it there.
   </Accordion>
 
   <Accordion title="How do I export Frontmatter data?">
-    Open the table editor's more menu and choose the CSV export action to export the current document's Frontmatter.
+    In **Document properties**, click **Export CSV** to save the current document's properties as a CSV file with the columns Property, Type, Value, Label, Description, and Options.
   </Accordion>
 
   <Accordion title="Can shorthand and full format be mixed?">
-    Yes. Zditor can detect both formats in the same document and infer shorthand field types automatically.
+    Yes. Zditor reads both formats in the same document and infers shorthand field types automatically. When you apply changes in **Document properties** or from the cover toolbar, Zditor rewrites the whole block in the full format, and entries it could not read, such as keys without a value, are removed.
   </Accordion>
 
   <Accordion title="How do I remove all Frontmatter?">
-    Delete the YAML block between the opening and closing `---` lines, or remove it from the cover toolbar when applicable.
+    Delete the YAML block between the opening and closing `---` lines in source view. If the document has a cover image, you can also click **Delete Meta Information** in the cover toolbar.
   </Accordion>
 </AccordionGroup>

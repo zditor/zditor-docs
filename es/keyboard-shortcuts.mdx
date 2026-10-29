@@ -1,0 +1,280 @@
+---
+title: "Atajos de teclado"
+description: "Aprende los atajos de teclado esenciales de Zditor para editar más rápido."
+icon: "keyboard"
+---
+
+Zditor ofrece atajos de teclado para editar, dar formato, cambiar la estructura y navegar. Las tablas siguientes recogen las asignaciones predeterminadas del editor de Markdown y de la aplicación.
+
+<Warning>
+  `Mod` equivale a `Ctrl` en Windows y Linux, y a `Command` en macOS. `Alt` es la tecla `Option` en macOS.
+</Warning>
+
+## Contenido
+
+- [Atajos globales](#atajos-globales)
+- [Operaciones del editor](#operaciones-del-editor)
+- [Formato de texto](#formato-de-texto)
+- [Niveles de título](#niveles-de-título)
+- [Operaciones con listas](#operaciones-con-listas)
+- [Edición de bloques de código](#edición-de-bloques-de-código)
+- [Edición de fórmulas](#edición-de-fórmulas)
+- [Operaciones con tablas](#operaciones-con-tablas)
+- [Otras operaciones](#otras-operaciones)
+- [Personalizar atajos](#personalizar-atajos)
+
+## Atajos globales
+
+### Buscar y guardar
+
+| Atajo | Acción |
+| --- | --- |
+| `Mod-K` | Abrir la búsqueda |
+| `Mod-S` | Guardar el documento actual |
+| `Mod-F` | Buscar en el documento actual |
+
+### Modos de vista
+
+Funcionan en el documento Markdown activo. Pulsa de nuevo el mismo atajo para volver al texto con formato.
+
+| Atajo | Acción |
+| --- | --- |
+| `Mod-E` | Cambiar entre el modo de edición y el modo de solo lectura |
+| `Mod-/` | Cambiar entre texto con formato y vista de código |
+| `Mod-\` | Cambiar entre texto con formato y vista dividida |
+
+### Zoom de la vista
+
+| Atajo | Acción |
+| --- | --- |
+| `Mod-=` | Acercar |
+| `Mod--` | Alejar |
+| `Mod-0` | Restablecer el zoom |
+
+## Operaciones del editor
+
+### Edición básica
+
+| Atajo | Acción |
+| --- | --- |
+| `Mod-A` | Seleccionar todo el documento |
+| `Escape` | Quitar el foco del editor |
+| `Shift-Enter` | Insertar un salto de línea sin empezar un párrafo nuevo |
+
+### Deshacer y rehacer
+
+| Atajo | Acción |
+| --- | --- |
+| `Mod-Z` | Deshacer |
+| `Mod-Y` | Rehacer |
+| `Mod-Shift-Z` | Rehacer (atajo alternativo) |
+| `Backspace` | Justo después de que Zditor convierta lo que has escrito, por ejemplo `## ` en un título, deshacer esa conversión |
+
+## Formato de texto
+
+### Activar y desactivar estilos
+
+| Atajo | Acción |
+| --- | --- |
+| `Mod-B` | Activar o desactivar la negrita |
+| `Mod-I` | Activar o desactivar la cursiva |
+| `Mod-D` | Activar o desactivar el tachado |
+| `Mod-H` | Activar o desactivar el resaltado |
+| `Mod-Shift-C` | Activar o desactivar el código en línea |
+| `Mod-R` | Activar o desactivar una marca de revisión (consulta [Marcas de texto](/es/text-marks)) |
+
+### Insertar elementos
+
+| Atajo | Acción |
+| --- | --- |
+| `Mod-Shift-E` | Insertar una fórmula en línea |
+| `Mod-Shift-D` | Insertar una fórmula en bloque |
+| `Mod-Shift-H` | Insertar un separador (línea horizontal) |
+| `Mod-P` | Insertar un salto de página |
+| `Mod-T` | Insertar una tabla de 3 × 3 |
+
+<Note>
+  Los atajos de marcas de revisión y de fórmulas necesitan los complementos **Track changes** y **Math formulas**, que están activados de forma predeterminada en **Settings → Integrations → Plugins**.
+</Note>
+
+## Niveles de título
+
+| Atajo | Acción |
+| --- | --- |
+| `Mod-1` | Título 1 |
+| `Mod-2` | Título 2 |
+| `Mod-3` | Título 3 |
+| `Mod-4` | Título 4 |
+| `Mod-5` | Título 5 |
+| `Mod-6` | Título 6 |
+| `Mod-Shift-P` | Convertir en párrafo |
+| `Backspace` | Pulsado al principio de un título, volver a convertirlo en párrafo |
+
+Si pulsas el atajo de un nivel en un título de ese mismo nivel, vuelve a ser un párrafo.
+
+## Operaciones con listas
+
+### Crear listas
+
+| Atajo | Acción |
+| --- | --- |
+| `Mod-Shift-8` | Activar o desactivar la lista con viñetas |
+| `Mod-Shift-7` | Activar o desactivar la lista numerada |
+| `Mod-Shift-9` | Activar o desactivar la lista de tareas |
+| `Mod-Shift-B` | Activar o desactivar la cita |
+
+### Elementos de lista
+
+| Atajo | Acción |
+| --- | --- |
+| `Enter` | Dividir un elemento de lista |
+| `Tab` | Aumentar la sangría de un elemento de lista |
+| `Shift-Tab` | Reducir la sangría de un elemento de lista |
+| `Mod-Shift-Enter` | Empezar un párrafo nuevo dentro del elemento de lista o de la cita actual |
+| `Alt-ArrowUp` | Subir el elemento |
+| `Alt-ArrowDown` | Bajar el elemento |
+
+### Casillas de verificación
+
+| Atajo | Acción |
+| --- | --- |
+| `Mod-Enter` | Marcar o desmarcar la casilla |
+| `Enter` | Dividir un elemento con casilla |
+| `Tab` | Aumentar la sangría de un elemento con casilla |
+| `Shift-Tab` | Reducir la sangría de un elemento con casilla |
+
+## Edición de bloques de código
+
+### Crear bloques de código
+
+| Atajo | Acción |
+| --- | --- |
+| `Mod-Shift-\` | Activar o desactivar un bloque de código |
+
+### Editar y recorrer bloques de código
+
+| Atajo | Acción |
+| --- | --- |
+| `ArrowUp` | Subir, o salir del bloque de código desde su primera línea |
+| `ArrowDown` | Bajar, o salir del bloque de código desde su última línea |
+| `ArrowLeft` | Moverse a la izquierda, o salir del bloque de código desde su inicio |
+| `ArrowRight` | Moverse a la derecha, o salir del bloque de código desde su final |
+| `Tab` | Aumentar la sangría |
+| `Shift-Tab` | Reducir la sangría |
+| `Mod-Enter` | Salir del bloque de código y seguir en un párrafo nuevo debajo |
+| `Backspace` | Al principio del bloque de código, volver a convertirlo en párrafo |
+
+### Dar formato a bloques de código
+
+| Atajo | Acción |
+| --- | --- |
+| `Mod-Shift-F` | Dar formato al bloque de código |
+| `Alt-Shift-F` | Atajo alternativo para dar formato al código |
+
+## Edición de fórmulas
+
+### Dentro de una fórmula
+
+| Atajo | Acción |
+| --- | --- |
+| `Tab` | Insertar una tabulación |
+| `Enter` | En una fórmula en bloque, empezar una línea nueva; en una fórmula en línea, salir de la fórmula |
+| `Mod-Enter` | Salir de la fórmula |
+| `Backspace` | En una fórmula vacía, eliminarla |
+| `Mod-Backspace` | Eliminar la fórmula y volver al texto |
+| `Mod-A` | Seleccionar todo el contenido de la fórmula |
+| `Mod-M` | Cambiar entre fórmula en línea y fórmula en bloque |
+| `Mod-P` | Convertir la fórmula en texto sin formato |
+
+### Navegación en fórmulas
+
+| Atajo | Acción |
+| --- | --- |
+| `ArrowLeft` | Moverse a la izquierda, o salir de la fórmula desde su inicio |
+| `ArrowRight` | Moverse a la derecha, o salir de la fórmula desde su final |
+| `ArrowUp` | Subir, o salir de la fórmula desde su primera línea |
+| `ArrowDown` | Bajar, o salir de la fórmula desde su última línea |
+
+Con una fórmula en bloque seleccionada, pulsa `Enter` para editarla. Consulta [Fórmulas matemáticas](/es/math-formulas).
+
+## Operaciones con tablas
+
+### Navegación en tablas
+
+| Atajo | Acción |
+| --- | --- |
+| `Tab` | Ir a la celda siguiente; en la última celda, añadir una fila |
+| `Shift-Tab` | Ir a la celda anterior |
+
+### Edición de tablas
+
+| Atajo | Acción |
+| --- | --- |
+| `Mod-Enter` | Añadir una fila debajo y pasar a ella |
+| `Mod-Shift-Enter` | Añadir una columna a la derecha y pasar a ella |
+| `Mod-Backspace` | Eliminar la fila actual |
+| `Mod-Shift-Backspace` | Eliminar la columna actual |
+
+## Otras operaciones
+
+### Otros elementos
+
+| Atajo | Acción |
+| --- | --- |
+| `Mod-Shift-M` | Añadir un bloque de frontmatter, a partir del primer párrafo de un documento que no lo tenga (consulta [Frontmatter](/es/frontmatter)) |
+| `Mod-Shift-V` | Activar o desactivar un bloque HTML |
+
+### Menú de sugerencias
+
+Estas teclas funcionan en los menús `/`, `@` y `#`.
+
+| Atajo | Acción |
+| --- | --- |
+| `ArrowUp` | Subir en la lista |
+| `ArrowDown` | Bajar en la lista |
+| `Tab` / `Shift-Tab` | Ir al elemento siguiente o al anterior |
+| `ArrowRight` | Abrir el grupo resaltado |
+| `ArrowLeft` | Salir de un grupo |
+| `Enter` | Elegir el elemento resaltado o abrir el grupo resaltado |
+| `Escape` | Salir de un grupo o cerrar el menú |
+| `Backspace` | Borrar un carácter y actualizar el filtro |
+
+En el selector de emojis que abre `:`, las flechas recorren la cuadrícula, `Enter` inserta el emoji resaltado y `Mod-ArrowLeft` / `Mod-ArrowRight` cambian de categoría antes de que escribas un filtro.
+
+## Personalizar atajos
+
+En la versión de escritorio, abre **Settings → Personal → Keyboard shortcuts**.
+
+<Steps>
+  <Step title="Busca la asignación">
+    Busca por nombre, elige una categoría o cambia entre **All Bindings**, **Commands** y **Semantic Intents**.
+  </Step>
+  <Step title="Graba las teclas nuevas">
+    Haz clic en el campo de teclas de la asignación y pulsa la nueva combinación. Pulsa `Escape` para cancelar.
+  </Step>
+  <Step title="Revisa los conflictos">
+    Una asignación que choca con otra de la misma categoría muestra la etiqueta **Conflict**. **Conflicts only** muestra solo esas asignaciones.
+  </Step>
+</Steps>
+
+Las asignaciones modificadas muestran la etiqueta **Customized** y un botón **Reset to default**. **Reset All** restablece todos los valores predeterminados.
+
+<Tip>
+  Las asignaciones marcadas como **Readonly** no se pueden cambiar. Entre ellas están la búsqueda, el guardado y el zoom, las teclas dentro de los bloques de código y las fórmulas, y las teclas semánticas como `Enter`, `Tab` y `Backspace`. Los cambios se aplican al instante.
+</Tip>
+
+## Preguntas frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Por qué no funciona un atajo?" icon="question">
+    Comprueba si el editor tiene el foco, si el tipo de nodo actual admite esa acción, si cambiaste la asignación en **Settings → Personal → Keyboard shortcuts** y si el sistema operativo capturó el atajo antes.
+  </Accordion>
+
+  <Accordion title="¿Los atajos son distintos en macOS?" icon="question">
+    Las asignaciones son las mismas. Sustituye `Mod` por `Command` en macOS y por `Ctrl` en los demás sistemas, y pulsa `Option` donde un atajo indique `Alt`.
+  </Accordion>
+
+  <Accordion title="¿Puedo personalizarlo todo?" icon="question">
+    No. Las asignaciones marcadas como **Readonly** en los ajustes conservan sus valores predeterminados, y el sistema operativo reserva algunos atajos.
+  </Accordion>
+</AccordionGroup>

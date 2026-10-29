@@ -1,0 +1,148 @@
+---
+title: "텍스트 서식과 표시 가이드"
+description: "Zditor의 기본 인라인 서식과 주석 및 수정 표시 문법."
+icon: "highlighter"
+---
+
+Zditor는 굵게, 기울임꼴, 하이라이트, 인라인 코드 같은 표준 인라인 서식을 지원하며, 주석과 수정을 위한 더 풍부한 검토용 표시도 제공합니다.
+
+<Frame>
+  <img src="/images/case2_en.png" alt="Zditor의 수정 표시와 확장 문법 예시" style={{ borderRadius: '0.5rem' }} />
+</Frame>
+
+## 한눈에 보기
+
+<CardGroup cols={2}>
+  <Card title="기본 서식" icon="highlighter">
+    굵게, 기울임꼴, 하이라이트로 글에 강조와 구조를 더하세요.
+  </Card>
+
+  <Card title="인라인 코드" icon="code">
+    명령, 식별자, 짧은 코드 조각을 백틱으로 표시하세요.
+  </Card>
+
+  <Card title="주석" icon="lightbulb">
+    `mode=tip`으로 원문을 바꾸지 않고 용어나 구절을 설명하세요.
+  </Card>
+
+  <Card title="수정 표시" icon="pen-to-square">
+    `mode=revision`으로 나중에 수락할 수 있는 대체 문구를 제안하세요.
+  </Card>
+</CardGroup>
+
+## 기본 인라인 서식
+
+| 서식 | 문법 | 주요 용도 |
+| --- | --- | --- |
+| 굵게 | `**text**` | 핵심 결론과 중요한 용어 |
+| 기울임꼴 | `*text*` | 가벼운 강조, 외국어, 특수 용어 |
+| 취소선 | `~~text~~` | 삭제했거나 더 이상 유효하지 않은 문구 |
+| 하이라이트 | `==text==` | 중요한 정의와 요점 |
+| 인라인 코드 | `` `code` `` | 명령, 변수, 식별자 |
+| 링크 | `[text](url)` | 이동과 참조 |
+
+이 서식은 텍스트를 선택하면 나타나는 서식 도구 모음이나 [키보드 단축키](/ko/keyboard-shortcuts)에 정리된 단축키로도 적용할 수 있습니다.
+
+<Tip>
+  서식은 가볍게 쓰세요. 텍스트 서식과 표시는 서로 시선을 끌려고 다투기보다 구조를 더 분명하게 만들 때 가장 효과적입니다.
+</Tip>
+
+## 검토 표시
+
+<AccordionGroup>
+  <Accordion title="mode=tip 주석" icon="lightbulb" defaultOpen>
+    원문은 맞지만 맥락이 더 필요할 때 주석을 사용하세요.
+
+    ```md
+    [text](explanation|mode=tip)
+    ```
+
+    확장형:
+
+    ```md
+    [term](explanation%20goes%20here|mode=tip|style=teal)
+    ```
+
+    주요 사용 사례:
+
+    - 전문 용어 설명
+    - 읽기 도움말 추가
+    - 문장을 고쳐 쓰지 않고 짧은 맥락 덧붙이기
+  </Accordion>
+
+  <Accordion title="mode=revision 수정 표시" icon="pen-to-square">
+    현재 문구를 다른 문구로 바꿔야 할 때 수정 표시를 사용하세요.
+
+    ```md
+    [original text](reason|mode=revision|advice=replacement)
+    ```
+
+    확장형:
+
+    ```md
+    [original text](why%20it%20should%20change|mode=revision|style=indigo|advice=replacement%20text)
+    ```
+
+    주요 사용 사례:
+
+    - 오타 수정
+    - 문구 다듬기
+    - 모호한 날짜를 구체적인 날짜로 바꾸기
+  </Accordion>
+
+  <Accordion title="편집기에서 표시 만들기와 검토" icon="mouse-pointer">
+    - **표시 만들기**: 텍스트를 선택하고 서식 도구 모음에서 **Revision**을 클릭한 다음 색상을 고릅니다. `Mod-R`을 누르면 청록색 표시가 추가됩니다. 새 표시는 설명과 제안 텍스트가 없는 수정 표시입니다.
+    - **표시 열기**: 표시된 텍스트를 클릭합니다. 도구 모음에 **Description**(팁 표시는 **Tip Content**)이 표시되고, 수정 표시라면 **Suggested Text**도 함께 표시됩니다.
+    - **편집**: **Revision Type**에서 색상을, 그리고 설명과 제안 텍스트를 바꾼 다음 **Save Changes**를 클릭합니다.
+    - **Tip / Revision** 전환: 모드를 바꿉니다. 수정 표시를 팁 표시로 바꾸면 제안 텍스트가 지워집니다.
+    - **Accept Revision**: 표시된 텍스트를 제안 텍스트로 바꿉니다. 팁 표시에는 수락 기능이 없습니다.
+    - **Delete**: 표시를 제거하고 텍스트는 그대로 둡니다.
+
+    문서에 표시가 있으면 제목 표시줄의 **Remove All Revisions**로 모든 팁 표시와 수정 표시를 한 번에 제거하고 텍스트는 유지할 수 있습니다. 팁 표시는 물결 밑줄로, 수정 표시는 문서 테마의 밑줄로 그려집니다.
+  </Accordion>
+
+  <Accordion title="공백을 %20으로 인코딩해야 하는 경우" icon="code">
+    Markdown 원본 소스를 직접 작성한다면 `tip`과 `revision`의 괄호 안에 있는 공백은 `%20`으로 인코딩해야 합니다. 일반 공백은 링크를 끝내 버리므로 소스가 평범한 텍스트로 표시됩니다.
+
+    인코딩이 필요한 값은 다음과 같습니다.
+
+    - 설명
+    - `advice` 값
+
+    Zditor가 문서를 저장할 때는 이 인코딩을 자동으로 처리합니다. 이 값 안의 `|`, `(`, `)`도 각각 `%7C`, `%28`, `%29`로 인코딩합니다.
+  </Accordion>
+</AccordionGroup>
+
+<Note>
+  팁 표시와 수정 표시를 쓰려면 **Settings → Integrations → Plugins**의 **Track changes** 플러그인이 필요합니다. 이 플러그인은 기본적으로 켜져 있습니다. 설정을 바꾸면 Markdown 편집기를 다시 연 뒤에 적용됩니다.
+</Note>
+
+## 색상별 권장 의미
+
+`style`에는 `red`, `indigo`, `teal`, `yellow`, `green` 다섯 가지 색상을 쓸 수 있습니다. `style`이 없는 표시는 청록색(teal)입니다. 아래 의미는 관례일 뿐이며, Zditor는 모든 색상을 똑같이 처리합니다.
+
+| 색상 | 주요 용도 |
+| --- | --- |
+| `red` | 오류, 삭제, 모호한 날짜, 맞춤법 문제 |
+| `indigo` | 표현 개선, 어조 정리, 문체 통일 |
+| `teal` | 중립적인 설명과 일반적인 제안 |
+| `yellow` | 경고와 각별한 주의 |
+| `green` | 긍정적인 확인 또는 그대로 유지하라는 안내 |
+
+## 바로 쓰는 템플릿
+
+### 주석 템플릿
+
+```md
+This sentence includes a [term](explain%20the%20meaning%20here|mode=tip|style=teal).
+```
+
+### 수정 표시 템플릿
+
+```md
+Please change [the original phrase](explain%20why%20it%20should%20change|mode=revision|style=indigo|advice=the%20revised%20phrase).
+```
+
+<Warning>
+  `revision`이 대체 문구를 제안하려면 `advice` 값이 필요합니다. 값이 없으면 **Accept Revision**이 표시된 텍스트를 삭제하므로, 삭제를 제안할 때만 `advice`를 비워 두세요.
+</Warning>

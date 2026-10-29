@@ -1,0 +1,566 @@
+---
+title: "Guide des annotations PDF"
+description: "Annotez vos PDF dans Zditor avec des traits à main levée, des annotations de zone, des calques et des cartes PDF dans vos notes Markdown."
+icon: "file-text"
+---
+
+Zditor intègre une visionneuse PDF pour lire et annoter. Vous pouvez dessiner sur les pages, marquer des régions avec des annotations de zone dotées d’un titre et d’un commentaire, séparer des ensembles d’annotations dans des calques, et citer vos annotations de zone dans vos notes Markdown. Les annotations sont enregistrées dans un fichier distinct : le PDF lui-même ne change jamais.
+
+<Frame>
+  <img src="/images/pdf-annotations.webp" alt="Un PDF dans Zditor avec des surlignages, la barre d’outils d’annotation et la barre latérale des calques" style={{ borderRadius: '0.5rem' }} />
+</Frame>
+
+## Vue d’ensemble
+
+<CardGroup cols={2}>
+  <Card title="Outils d’annotation" icon="pen">
+    Stylo, surligneur, gomme, ligne, rectangle, lasso, laser et annotation de zone, chacun avec un raccourci d’une lettre.
+  </Card>
+
+  <Card title="Annotations de zone" icon="vector-square">
+    Marquez une région avec une couleur, un titre et un commentaire. Zditor conserve une miniature de la région.
+  </Card>
+
+  <Card title="Calques" icon="layer-group">
+    Séparez des ensembles d’annotations, et affichez, masquez, renommez ou supprimez chaque calque.
+  </Card>
+
+  <Card title="Recherche et signets" icon="search">
+    Cherchez dans le texte du PDF et dans les commentaires de vos annotations de zone, et naviguez grâce aux signets du PDF.
+  </Card>
+
+  <Card title="Cartes PDF dans Markdown" icon="link">
+    Insérez une annotation de zone dans une note avec `@`, et retrouvez-la ensuite dans le PDF.
+  </Card>
+
+  <Card title="Prise en charge de l’agent" icon="robot">
+    L’agent intégré (Native Agent) peut lire les PDF de votre espace de travail, y faire des recherches et les annoter.
+  </Card>
+</CardGroup>
+
+## Enregistrement des annotations
+
+Les annotations PDF ne sont jamais écrites dans le fichier PDF. Zditor les enregistre dans un fichier JSON distinct, dans le même dossier, nommé d’après le PDF :
+
+```text
+example.pdf.zditor-pdf-annotation.json
+```
+
+Zditor crée ce fichier la première fois que vous annotez le PDF et y enregistre automatiquement chaque modification. Il contient :
+
+- Les calques, avec leur nom et leur visibilité
+- Les traits, avec leur page, leur calque, leurs points, leur couleur, leur épaisseur et leurs paramètres de tracé
+- Les annotations de zone, avec leur page, leur calque, leur région, leur couleur, leur titre, leur commentaire et une référence à leur miniature
+- Pour les annotations de zone que l’agent crée à partir d’une citation, le texte cité
+
+<Tip>
+  Comme le PDF lui-même n’est jamais modifié, vos annotations sont faciles à synchroniser, à sauvegarder et à placer sous gestion de versions.
+</Tip>
+
+## Organisation de l’interface
+
+Dans l’application de bureau, la visionneuse PDF comporte quatre zones.
+
+### Barre de titre
+
+La barre de titre au-dessus du PDF contient :
+
+- **Undo** et **Redo** à gauche
+- **Print**, **Search**, **Bookmarks**, **Layers** et **Clear Page** à droite
+
+Lorsque l’onglet est étroit, **Bookmarks**, **Layers** et **Clear Page** passent dans un menu **More**. Pendant une recherche, le champ de recherche prend la place de ces boutons.
+
+### Barre d’outils d’annotation
+
+Une barre d’outils arrondie flotte en haut des pages. De gauche à droite, elle contient :
+
+- **Keep tool active**
+- Les outils d’annotation
+- Six couleurs
+- Le curseur **Width**
+- **Stroke Parameters**
+
+Lorsque l’onglet est trop étroit pour tout afficher, le curseur d’épaisseur puis les couleurs passent dans le bouton des paramètres de tracé, qui affiche alors la couleur actuelle et s’appelle **Brush settings**. Si cela ne suffit toujours pas, des outils passent dans un menu **More**, en commençant par les moins utilisés, comme **Laser** et **Line**. Le menu affiche la lettre de raccourci de chaque outil.
+
+### Zoom et pages
+
+Le coin inférieur gauche contient **Zoom Out**, le pourcentage de zoom, **Zoom In** et le numéro de la page actuelle.
+
+### Barre latérale gauche
+
+**Bookmarks**, **Layers** et **Search** ouvrent une barre latérale à gauche des pages. Elle affiche au choix :
+
+- Les signets du PDF
+- Les calques, avec la liste des annotations de zone
+- Les résultats de recherche
+
+Cliquez de nouveau sur **Bookmarks** ou **Layers** pour la fermer.
+
+## Outils d’annotation
+
+Choisissez un outil dans la barre d’outils d’annotation, ou appuyez sur sa lettre.
+
+### Sélection
+
+Raccourci : `V`. L’outil **Select** sélectionne et déplace les annotations au lieu de dessiner. Un PDF s’ouvre avec cet outil actif.
+
+Avec l’outil **Select**, vous pouvez :
+
+- Cliquer sur un trait pour le sélectionner, et cliquer sur des traits en maintenant `Shift` pour les ajouter à la sélection ou les en retirer
+- Faire glisser un trait sélectionné, ou n’importe quel point à l’intérieur d’une sélection, pour la déplacer
+- Cliquer sur une annotation de zone pour afficher sa carte, la faire glisser pour la déplacer, ou faire glisser une poignée d’angle pour la redimensionner
+
+Cliquer dans un espace vide annule la sélection.
+
+### Stylo
+
+Raccourci : `P`. Le stylo sert au dessin à main levée : notes manuscrites, cercles, flèches et tracés libres. Choisissez l’une des six couleurs et réglez l’épaisseur avec le curseur **Width**.
+
+**Stroke Parameters** façonne chaque trait :
+
+- **Pressure sensitivity** : fait varier l’épaisseur selon la pression du stylet. Sans effet avec une souris.
+- **Smoothing** : adoucit le contour de chaque trait
+- **Stabilization** : laisse la ligne suivre le stylet avec un léger retard, pour que les traits rapides soient plus réguliers
+- **Taper Start** et **Taper End** : affinent le trait en pointe au début ou à la fin
+- **Cap Start** et **Cap End** : arrondissent le début ou la fin d’un trait non effilé
+- **Reset** : rétablit les paramètres de tracé par défaut
+
+<Tip>
+  L’épaisseur et les paramètres de tracé s’appliquent aux nouveaux traits ; les traits existants conservent les réglages avec lesquels ils ont été dessinés. Zditor mémorise vos choix comme réglages de dessin par défaut, que vous pouvez aussi définir dans **Settings → Editor → PDF Editor**.
+</Tip>
+
+### Surligneur
+
+Raccourci : `M`. Le surligneur sert lui aussi au dessin à main levée, mais se comporte différemment du stylo :
+
+- Il est semi-transparent : le texte en dessous reste lisible
+- Il se fond dans la page comme un marqueur fluorescent
+- Son épaisseur ne varie pas avec la pression du stylet
+
+### Gomme
+
+Raccourci : `E`. Faites glisser la gomme sur les traits à effacer.
+
+- Elle efface entièrement chaque trait touché par son passage, y compris les lignes et les rectangles
+- Sa taille suit le réglage **Width**
+- Les traits disparaissent pendant que vous faites glisser la gomme, et la modification est enregistrée lorsque vous relâchez
+- Elle agit sur les traits de tous les calques visibles
+
+<Warning>
+  La gomme n’efface pas les annotations de zone. Supprimez-les depuis leur carte, leur éditeur ou la liste des annotations de la barre latérale des calques.
+</Warning>
+
+### Ligne et rectangle
+
+Pour un marquage plus structuré, utilisez :
+
+- **Line** (`L`) pour tracer un segment droit entre l’endroit où vous appuyez et celui où vous relâchez
+- **Rectangle** (`R`) pour tracer le contour d’un rectangle entre deux coins
+
+Une fois la forme tracée, Zditor revient à **Select** avec la nouvelle forme sélectionnée, pour que vous puissiez la déplacer immédiatement. Pour en tracer plusieurs d’affilée, activez **Keep tool active**.
+
+### Lasso
+
+Raccourci : `S`. Tracez une boucle autour de traits pour les sélectionner. Chaque trait dont un point se trouve dans la boucle est sélectionné. Vous pouvez ensuite utiliser la barre d’outils de sélection ou faire glisser la sélection, comme décrit dans [Sélection et opérations groupées](#sélection-et-opérations-groupées).
+
+<Tip>
+  Le lasso ne sélectionne que des traits. Il ne sélectionne ni les annotations de zone ni le texte du PDF.
+</Tip>
+
+### Laser
+
+Raccourci : `K`. Le laser est un pointeur temporaire pour les présentations, l’enseignement ou le partage d’écran :
+
+- Un point de la couleur actuelle remplace le curseur et laisse une traînée qui s’estompe en moins d’une seconde
+- Rien n’est enregistré dans les données d’annotation
+- Passer à un autre outil efface aussitôt la traînée
+
+### Déplacement
+
+Raccourci : `H`. Faites glisser pour faire défiler les pages dans n’importe quelle direction au lieu d’annoter. C’est particulièrement utile après un zoom avant.
+
+### Garder l’outil actif
+
+Raccourci : `Q`. Après avoir tracé une ligne, un rectangle ou une annotation de zone, Zditor revient normalement à **Select**. Lorsque **Keep tool active** est activé, l’outil reste sélectionné. Le stylo, le surligneur, la gomme, le lasso, le laser et l’outil de déplacement restent toujours actifs.
+
+### Raccourcis clavier
+
+| Touche | Action |
+| --- | --- |
+| `V` | Sélection |
+| `H` | Déplacement |
+| `P` | Stylo |
+| `M` | Surligneur |
+| `A` | Annotation de zone |
+| `E` | Gomme |
+| `L` | Ligne |
+| `R` | Rectangle |
+| `S` | Lasso |
+| `K` | Laser |
+| `Q` | Activer ou désactiver **Keep tool active** |
+| `Cmd/Ctrl + Z` | Annuler |
+| `Shift + Cmd/Ctrl + Z` | Rétablir (`Ctrl + Y` fonctionne aussi sous Windows et Linux) |
+| `Delete` ou `Backspace` | Supprimer les traits sélectionnés |
+| `Cmd/Ctrl + F` | Rechercher dans le PDF |
+
+Les lettres des outils et les touches d’annulation et de rétablissement fonctionnent une fois que vous avez cliqué dans la visionneuse PDF, et jamais pendant la saisie dans un champ.
+
+## Annotations de zone
+
+Les annotations de zone sont le type d’annotation le plus structuré de la visionneuse PDF : un rectangle sur la page, avec une couleur, un titre, un commentaire et une miniature de la région.
+
+### Créer une annotation de zone
+
+<Steps>
+  <Step title="Passer à l’outil Area Highlight">
+    Choisissez **Area Highlight** dans la barre d’outils d’annotation, ou appuyez sur `A`.
+  </Step>
+
+  <Step title="Tracer un rectangle sur le PDF">
+    Faites glisser le pointeur sur la région à annoter.
+  </Step>
+
+  <Step title="Ajouter un titre et un commentaire">
+    Lorsque vous relâchez le pointeur, un petit éditeur s’ouvre à côté de la région. Choisissez l’une des cinq couleurs (jaune par défaut) et saisissez, si vous le souhaitez, un titre et un commentaire. Appuyer sur `Enter` dans le titre fait passer au commentaire.
+  </Step>
+
+  <Step title="Valider">
+    Cliquez sur **Confirm** ou appuyez sur `Cmd/Ctrl + Enter` pour enregistrer l’annotation de zone dans le calque actif. **Cancel** ou `Esc` l’abandonne.
+  </Step>
+</Steps>
+
+Après validation, Zditor revient à **Select** avec la nouvelle annotation de zone sélectionnée, sauf si **Keep tool active** est activé. Une annotation de zone dotée d’un commentaire affiche un petit point dans son coin supérieur droit.
+
+### Modifier une annotation de zone
+
+#### Avec l’outil Select
+
+Cliquez sur une annotation de zone pour afficher sa carte, avec son titre et son commentaire. Cliquez sur **Edit Annotation** (le crayon) ou sur le texte de la carte pour ouvrir l’éditeur, ou sur **Delete Annotation** (la corbeille) pour supprimer l’annotation. La barre latérale des calques s’ouvre aussi, avec l’annotation mise en évidence dans sa liste des annotations.
+
+#### Avec l’outil Area Highlight
+
+Cliquez sur une annotation de zone existante pour ouvrir directement son éditeur.
+
+#### Dans l’éditeur
+
+- Une nouvelle couleur s’applique immédiatement
+- Après avoir modifié le titre ou le commentaire, cliquez sur **Save** ou appuyez sur `Cmd/Ctrl + Enter`
+- **Close** ou `Esc` ferme l’éditeur sans enregistrer le titre et le commentaire
+- La corbeille supprime l’annotation de zone
+
+### Déplacer et redimensionner une annotation de zone
+
+Avec l’outil **Select**, faites glisser une annotation de zone pour la déplacer. Une annotation sélectionnée affiche une poignée à chaque coin ; faites-en glisser une pour la redimensionner.
+
+Lorsque l’éditeur est ouvert, huit poignées apparaissent autour du cadre :
+
+- En haut à gauche, en haut, en haut à droite
+- À gauche, à droite
+- En bas à gauche, en bas, en bas à droite
+
+Vous pouvez ainsi la redimensionner avec précision au lieu de la supprimer puis de la redessiner.
+
+### Supprimer une annotation de zone
+
+Vous pouvez supprimer une annotation de zone :
+
+- En cliquant sur **Delete Annotation** dans sa carte
+- En cliquant sur la corbeille dans son éditeur
+- En cliquant sur **Delete Annotation** à côté d’elle dans la liste des annotations de la barre latérale des calques
+- En faisant un clic droit dessus lorsque l’outil **Area Highlight** est actif
+
+Une annulation fait réapparaître l’annotation de zone supprimée.
+
+### Miniatures des annotations de zone
+
+Lorsque vous enregistrez une annotation de zone, Zditor capture une image de la région et l’enregistre à l’emplacement choisi sous **Settings → Editor → PDF Editor → Highlight thumbnails**. Le même choix est disponible sous **Settings → Integrations → Image hosting & uploads**. L’emplacement peut être un dossier local ou un stockage compatible S3, WebDAV ou GitHub que vous avez configuré.
+
+Si une annotation de zone n’a pas de miniature, survolez-la dans la liste des annotations de la barre latérale des calques et cliquez sur **Regenerate missing thumbnails**.
+
+## Citer des cartes PDF dans Markdown
+
+Les annotations de zone ne se limitent pas à la visionneuse PDF. Vous pouvez les insérer dans des documents Markdown sous forme de cartes PDF, ce qui est utile pour transformer vos annotations de lecture en notes réutilisables.
+
+Lorsque vous tapez `@` dans un document Markdown, Zditor ouvre une liste de références. Cette liste comprend :
+
+- Les fichiers Markdown de votre espace de travail
+- Les PDF que vous avez annotés
+
+Lorsque vous choisissez un PDF qui contient des annotations de zone, Zditor ouvre un sous-menu avec deux types d’entrées :
+
+- **Le PDF lui-même**, qui insère un lien vers l’ensemble du PDF
+- **Chacune de ses annotations de zone**, qui insère une carte PDF pour cette région
+
+Un PDF sans annotation de zone est inséré directement sous forme de lien. Les annotations de zone sont listées par titre, ou par page et commentaire si elles n’ont pas de titre. Continuez à taper après `@` pour rechercher dans les noms de fichiers, les titres et commentaires des annotations de zone, et les numéros de page (par exemple `page 3`).
+
+Une carte PDF affiche le titre de l’annotation de zone, s’il y en a un, et le nom de fichier du PDF.
+
+### Déroulement type
+
+<Steps>
+  <Step title="Créer d’abord des annotations de zone dans le PDF">
+    Ajoutez des annotations de zone sur les régions importantes, idéalement avec un titre ou un commentaire pour les reconnaître facilement plus tard dans la liste.
+  </Step>
+
+  <Step title="Revenir à un document Markdown et taper @">
+    Cela ouvre la liste des références de l’espace de travail.
+  </Step>
+
+  <Step title="Choisir le PDF cible">
+    Sélectionnez le PDF dans la liste de premier niveau pour ouvrir son sous-menu.
+  </Step>
+
+  <Step title="Choisir le PDF entier ou une annotation de zone">
+    Sélectionnez le PDF lui-même pour obtenir un lien vers l’ensemble du fichier, ou une annotation de zone précise pour obtenir une carte qui pointe vers cette région.
+  </Step>
+
+  <Step title="L’insérer dans le Markdown">
+    Zditor insère le lien ou la carte PDF dans le document Markdown actuel.
+  </Step>
+</Steps>
+
+### Cliquer sur une carte PDF dans Markdown
+
+Cliquez sur une carte PDF pour la sélectionner et ouvrir sa barre d’outils. Cette barre d’outils relie votre texte au PDF d’origine :
+
+- **ASK AI** : ouvre la carte dans l’agent, avec la page, le titre et le commentaire de l’annotation de zone
+- **Le nom de fichier du PDF** : ouvre le PDF, fait défiler jusqu’à l’annotation de zone et la sélectionne
+- **Open with Default App**, **Open Containing Folder** et **Copy File Path** : agissent sur le fichier PDF (application de bureau)
+- Le numéro de page de l’annotation de zone
+- **Edit Title** : modifie le titre que cette carte affiche dans la note
+- **Refresh** : recharge les détails et la miniature de l’annotation de zone
+- **More Options** : affiche la page, le titre, le commentaire et la miniature de l’annotation de zone. Cliquez sur la miniature pour l’afficher en taille réelle.
+
+Une carte PDF n’est donc pas une simple référence statique. Vous pouvez rédiger à partir de la note de synthèse en Markdown et revenir au PDF source chaque fois que vous devez vérifier le contexte d’origine.
+
+<Tip>
+  Cette méthode est particulièrement utile pour la lecture d’articles et les notes de recherche. Le côté Markdown conserve une carte réutilisable, tandis que le côté PDF conserve la région annotée d’origine.
+</Tip>
+
+Cette approche est utile pour :
+
+- Transformer les passages surlignés d’articles en notes
+- Conserver la miniature et le commentaire du PDF dans le Markdown
+- Construire des notes de recherche structurées au fil de la lecture
+
+## Gestion des calques
+
+Les calques sont l’une des principales fonctions d’organisation des annotations PDF. Cliquez sur **Layers** dans la barre de titre pour les ouvrir dans la barre latérale. Chaque PDF commence avec un calque **Default Layer**.
+
+### Actions disponibles sur les calques
+
+La barre latérale des calques permet de :
+
+- Cliquer sur **Add Layer** (le signe plus) pour créer un calque, qui devient le calque actif
+- Cliquer sur un calque pour le rendre actif. Cliquer sur un calque masqué l’affiche aussi de nouveau.
+- Double-cliquer sur le nom d’un calque pour le renommer. `Enter` valide et `Esc` annule.
+- Survoler un calque et cliquer sur l’œil pour le masquer ou l’afficher
+- Survoler un calque et cliquer sur la corbeille pour le supprimer. Le dernier calque restant ne peut pas être supprimé.
+
+<Warning>
+  Supprimer un calque supprime aussi les traits et les annotations de zone qu’il contient. Une annulation les restaure tant que le PDF est ouvert.
+</Warning>
+
+Sous les calques, la liste **Annotations** affiche chaque annotation de zone avec sa page, son calque, son titre et son commentaire. Cliquez sur l’une d’elles pour aller à sa page.
+
+### Rôle du calque actif
+
+Le calque actif détermine :
+
+- Où sont créés les nouveaux traits
+- Où sont créées les nouvelles annotations de zone
+- Où vont les traits collés
+- Quels traits **Clear Page** supprime
+
+La gomme, le lasso et l’outil **Select** agissent sur tous les calques visibles. Si vous masquez le calque actif, le premier calque visible devient actif.
+
+### Visibilité des calques
+
+Chaque calque peut être masqué ou affiché indépendamment des autres. Lorsqu’un calque est masqué :
+
+- Ses traits et ses annotations de zone disparaissent des pages
+- Ils ne sont pas imprimés
+- Les données existent toujours, et la liste des annotations affiche toujours les annotations de zone du calque
+
+C’est utile pour :
+
+- Séparer des thèmes d’annotation
+- Distinguer vos annotations personnelles de celles de l’équipe
+- Vous concentrer temporairement sur une catégorie d’annotations
+
+## Sélection et opérations groupées
+
+Après avoir sélectionné des traits avec l’outil **Select** ou le lasso, Zditor affiche une barre d’outils verticale à gauche de la sélection.
+
+Les actions disponibles sont notamment :
+
+- **Delete**
+- **Copy**
+- **Cut**
+- **Paste**, qui apparaît après une copie ou une coupe. Il ajoute les traits copiés à cette page, légèrement décalés, sur le calque actif.
+- **Move to Layer**, qui apparaît lorsque le PDF comporte plus d’un calque
+
+Vous pouvez aussi faire glisser à l’intérieur de la sélection pour déplacer ensemble les traits sélectionnés.
+
+Copier et couper conservent les traits pour les coller dans le même PDF ; ces actions n’utilisent pas le presse-papiers du système.
+
+### Raccourci de suppression
+
+Avec l’outil **Select** ou le lasso, si des traits sont sélectionnés, vous pouvez appuyer sur :
+
+- `Delete`
+- `Backspace`
+
+pour les supprimer.
+
+## Annuler, rétablir et effacer
+
+### Annuler et rétablir
+
+**Undo** et **Redo** se trouvent dans la barre de titre. Ils parcourent toutes les modifications des annotations du PDF, sur toutes les pages et dans tous les calques :
+
+- Dessiner, effacer, déplacer, coller et supprimer des traits, et les déplacer vers un autre calque
+- Créer, modifier, déplacer, redimensionner et supprimer des annotations de zone
+- Ajouter, renommer, masquer, afficher et supprimer des calques
+- **Clear Page**
+- Les modifications apportées par l’agent pendant que le PDF est ouvert
+
+L’historique dure tant que le PDF reste ouvert. Lorsque vous rouvrez le PDF, l’historique repart de zéro.
+
+### Effacer la page actuelle
+
+**Clear Page** (la corbeille dans la barre de titre, ou dans **More** lorsque l’onglet est étroit) supprime tous les traits :
+
+- De la page actuelle, celle dont le numéro s’affiche en bas à gauche
+- Du calque actif
+
+<Warning>
+  **Clear Page** ne concerne que les traits. Les annotations de zone et les traits des autres calques sont conservés. Une annulation restaure les traits effacés.
+</Warning>
+
+## Signets, recherche et navigation
+
+### Signets du PDF
+
+Si le PDF comporte son propre plan ou des signets, cliquez sur **Bookmarks** dans la barre de titre pour les afficher dans la barre latérale.
+
+Vous pouvez :
+
+- Déplier ou replier les signets imbriqués
+- Cliquer sur un signet pour aller à sa page, indiquée à côté de son titre
+- Voir la page actuelle reflétée dans la barre latérale : son signet est mis en évidence
+
+Un PDF sans plan affiche **No bookmarks**.
+
+### Rechercher dans le texte et les commentaires
+
+Cliquez sur **Search** dans la barre de titre ou appuyez sur `Cmd/Ctrl + F`. Le champ de recherche prend la place des boutons de la barre de titre, et les résultats s’ouvrent dans la barre latérale.
+
+La recherche PDF ne porte pas seulement sur le texte du PDF. Elle porte aussi sur les commentaires des annotations de zone.
+
+Fonctionnement de la recherche :
+
+- Les résultats se mettent à jour peu après que vous arrêtez de taper, et la visionneuse passe au premier
+- La recherche ne tient pas compte de la casse
+- `Enter`, ou le bouton flèche vers le bas, pour le résultat suivant
+- `Shift + Enter`, ou le bouton flèche vers le haut, pour le résultat précédent
+- `Esc`, ou le bouton de fermeture, pour fermer la recherche et ses résultats
+
+### Affichage des résultats
+
+Lorsqu’une correspondance est trouvée :
+
+- La page marque les régions correspondantes
+- Le champ de recherche indique sur quel résultat vous vous trouvez, par exemple `2/7`
+- La barre latérale liste tous les résultats ; cliquez sur l’un d’eux pour y aller
+
+Il existe deux types de résultats :
+
+- Les **correspondances dans le texte** sont regroupées par page : chaque page contenant des correspondances compte comme un résultat
+- Les **correspondances dans les commentaires** sont listées une par annotation de zone, avec la couleur, la page et le commentaire de l’annotation
+
+## Zoom et lecture
+
+Dans la visionneuse PDF, vous pouvez :
+
+- Utiliser **Zoom In** et **Zoom Out** en bas à gauche
+- Cliquer sur le pourcentage de zoom pour ajuster la page à la largeur de la visionneuse
+- Pincer sur le trackpad d’un Mac
+- Maintenir `Ctrl` en faisant défiler
+- Zoomer de 40 % à 400 %
+- Cliquer sur le numéro de page, saisir une page et appuyer sur `Enter` pour y aller
+
+### Impression
+
+**Print**, dans la barre de titre, imprime toutes les pages du PDF avec les annotations des calques visibles. Les calques masqués ne sont pas imprimés.
+
+### Mode sombre
+
+Lorsque Zditor utilise une apparence sombre, les pages du PDF sont inversées pour une lecture plus confortable, avec un texte clair sur des pages sombres.
+
+<Tip>
+  L’inversion ne s’applique qu’aux pages du PDF. Les annotations sont dessinées sur une couche distincte, au-dessus des pages, et conservent leurs couleurs.
+</Tip>
+
+## Travailler avec l’agent
+
+L’agent intégré (Native Agent) peut travailler avec n’importe quel PDF de votre espace de travail, qu’il soit ouvert dans un onglet ou non. Vous pouvez lui demander de :
+
+- Lire un PDF page par page, avec son plan et vos annotations de zone existantes
+- Trouver un passage
+- Examiner une page ou une partie de page, comme une figure, un tableau ou une page numérisée
+- Surligner un passage avec un titre et un commentaire, le souligner, le barrer ou l’encadrer
+- Dessiner à main levée, modifier ou supprimer des annotations de zone, et supprimer des traits
+
+À quoi vous attendre :
+
+- Les nouvelles annotations vont sur un calque nommé **Agent**, sauf si vous demandez à l’agent d’utiliser l’un de vos calques : vous pouvez ainsi masquer ou supprimer son travail en une seule fois
+- Si le PDF est ouvert, les modifications de l’agent apparaissent aussitôt, et **Undo** annule chaque lot de modifications en une seule fois
+- Pour chaque annotation de zone qu’il crée, l’agent reçoit un lien de carte PDF prêt à l’emploi : il peut ainsi citer l’annotation dans une note Markdown
+- Les miniatures des annotations de zone de l’agent sont créées pendant que le PDF est ouvert. Pour celles qu’il a créées pendant que le PDF était fermé, ouvrez le PDF et utilisez **Regenerate missing thumbnails** dans la liste des annotations.
+- La lecture, la recherche et l’examen des pages ne nécessitent pas d’approbation. L’ajout, la modification ou la suppression d’annotations suit le mode d’autorisation de l’agent (**Permission mode**).
+
+Pour connecter l’agent à un service d’IA, ouvrez **Settings → AI → Agents**.
+
+## Notes sur les performances
+
+La liste des pages n’affiche que les pages proches de la zone visible :
+
+- Les pages visibles, plus une page avant et une après, sont rendues entièrement
+- Les autres pages sont remplacées par des espaces réservés qui conservent la hauteur de défilement
+
+Cela réduit le coût de rendu, en particulier pour les longs PDF, les niveaux de zoom élevés et les écrans haute résolution.
+
+La première recherche dans un PDF lit le texte de chaque page : elle peut donc prendre un moment dans un long document. Les recherches suivantes dans le même PDF réutilisent ce texte.
+
+## Questions fréquentes
+
+<AccordionGroup>
+  <Accordion title="Où sont stockées les données d’annotation ?" icon="question">
+    Dans un fichier distinct à côté du PDF : les annotations de `paper.pdf` se trouvent dans `paper.pdf.zditor-pdf-annotation.json`. Zditor ne les écrit jamais dans le PDF lui-même.
+  </Accordion>
+
+  <Accordion title="Pourquoi certaines annotations sont-elles introuvables ?" icon="question">
+    Vérifiez d’abord si leur calque est masqué dans la barre latérale des calques. Un calque masqué conserve ses données, et ses annotations de zone apparaissent toujours dans la liste des annotations. N’oubliez pas non plus que le calque actif détermine seulement où vont les nouvelles annotations ; les données des autres calques sont toujours là.
+  </Accordion>
+
+  <Accordion title="Pourquoi la recherche ne trouve-t-elle pas mes annotations manuscrites ?" icon="question">
+    La recherche porte sur le texte du PDF et sur les commentaires des annotations de zone. Elle ne cherche ni dans l’écriture manuscrite ni dans les titres des annotations de zone, et elle n’effectue pas de reconnaissance de caractères (OCR) : un PDF numérisé sans couche de texte ne peut donc pas faire l’objet d’une recherche.
+  </Accordion>
+
+  <Accordion title="Que faire si une miniature n’a pas été générée ?" icon="question">
+    Ouvrez le PDF, ouvrez la barre latérale des calques, survolez l’annotation de zone dans la liste des annotations et cliquez sur **Regenerate missing thumbnails**. Si l’échec persiste, vérifiez l’emplacement de stockage sous **Settings → Editor → PDF Editor → Highlight thumbnails**.
+  </Accordion>
+
+  <Accordion title="Que se passe-t-il quand je supprime un calque ?" icon="question">
+    Supprimer un calque supprime les traits et les annotations de zone qu’il contient. Une annulation les restaure tant que le PDF est ouvert. Pour conserver certains traits, déplacez-les d’abord vers un autre calque avec **Move to Layer** ; les annotations de zone ne peuvent pas être déplacées d’un calque à l’autre.
+  </Accordion>
+
+  <Accordion title="Puis-je annuler des modifications après avoir fermé le PDF ?" icon="question">
+    Non. L’historique d’annulation ne dure que tant que le PDF est ouvert. Pour revenir plus tard sur le travail de l’agent, masquez ou supprimez son calque **Agent**.
+  </Accordion>
+
+  <Accordion title="Quelle est la différence entre une annotation de zone et le surligneur ?" icon="question">
+    Le surligneur trace un trait semi-transparent à main levée. Une annotation de zone est un rectangle structuré, avec un titre, un commentaire, une couleur et une miniature. Vous pouvez la déplacer et la redimensionner, la retrouver par son commentaire dans la recherche, et la citer dans Markdown sous forme de carte PDF.
+  </Accordion>
+</AccordionGroup>

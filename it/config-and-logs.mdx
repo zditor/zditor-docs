@@ -1,0 +1,93 @@
+---
+title: "Percorsi di configurazione e log"
+description: "Trova le cartelle di configurazione e dei log di Zditor su macOS, Windows e Linux."
+icon: "folder-open"
+---
+
+Questa pagina elenca i percorsi predefiniti di configurazione e dei log usati da Zditor nei vari sistemi operativi. Ti è utile quando vuoi trasferire le impostazioni, raccogliere i log per risolvere un problema o aprire rapidamente la cartella giusta.
+
+<Warning>
+  Questi sono i percorsi predefiniti. Su Linux seguono la variabile d’ambiente `XDG_DATA_HOME`, se è impostata.
+</Warning>
+
+## Percorsi predefiniti
+
+Zditor conserva le impostazioni e gli altri dati dell’app in un’unica cartella, che prende il nome dal suo identificatore `com.zditor.ai`, e scrive i file di log in una cartella separata.
+
+| Sistema | Percorso di configurazione | Percorso dei log |
+| :--- | :--- | :--- |
+| macOS | `~/Library/Application Support/com.zditor.ai` | `~/Library/Logs/com.zditor.ai` |
+| Windows | `%APPDATA%\com.zditor.ai` | `%LOCALAPPDATA%\com.zditor.ai\logs` |
+| Linux | `~/.local/share/com.zditor.ai` | `~/.local/share/com.zditor.ai/logs` |
+
+La cartella di configurazione contiene le tue impostazioni, la configurazione dei modelli dell’agente, le skill che aggiungi per tutti gli spazi di lavoro, le conversazioni con l’agente e i dati delle connessioni salvate, comprese password, chiavi e token.
+
+Il log corrente è `zditor.log`. Quando diventa troppo grande, Zditor ne avvia uno nuovo e rinomina il vecchio file in `zditor_` seguito da data e ora. Zditor elimina questi log più vecchi quando superano i 30 giorni.
+
+<Tip>
+  Per aprire rapidamente il log corrente, fai clic sull’icona di Zditor nella barra dei menu (macOS) o nell’area di notifica (Windows e Linux) e scegli **Open log file**.
+</Tip>
+
+## Aprire rapidamente le cartelle
+
+<Tabs>
+<Tab title="mac/linux">
+  ```bash
+  # macOS config directory
+  open ~/Library/Application\ Support/com.zditor.ai
+
+  # macOS log directory
+  open ~/Library/Logs/com.zditor.ai
+
+  # Linux config directory
+  xdg-open ~/.local/share/com.zditor.ai
+
+  # Linux log directory
+  xdg-open ~/.local/share/com.zditor.ai/logs
+  ```
+</Tab>
+
+<Tab title="windows">
+  ```powershell
+  # Config directory
+  explorer "$env:APPDATA\com.zditor.ai"
+
+  # Log directory
+  explorer "$env:LOCALAPPDATA\com.zditor.ai\logs"
+  ```
+</Tab>
+</Tabs>
+
+## Consigli per il backup
+
+1. Chiudi completamente Zditor prima di copiare la cartella di configurazione, per evitare conflitti di scrittura. Chiudere la finestra può lasciare Zditor in esecuzione in background: scegli **Quit zditor** dalla sua icona nella barra dei menu o nell’area di notifica.
+2. I log servono soprattutto per risolvere i problemi e di solito non richiedono backup completi a lungo termine.
+3. Fai un backup della cartella di configurazione prima di un aggiornamento o di una reinstallazione.
+4. Tieni private le copie della cartella di configurazione, perché contiene le credenziali delle connessioni salvate. Quando segnali un problema, invia i file di log, non la cartella di configurazione.
+
+<Tip>
+  Per vedere quanto spazio occupano i dati dell’app Zditor e per svuotare le cache, apri **Settings → Personal → Storage & data** nell’app desktop.
+</Tip>
+
+## Domande frequenti
+
+### Non trovo la cartella
+
+- Avvia Zditor una volta: le cartelle vengono create al primo avvio
+- Su Windows, incolla `%APPDATA%` o `%LOCALAPPDATA%` direttamente nella barra degli indirizzi di Esplora file
+- Su macOS la cartella `~/Library` è nascosta nel Finder. Premi `Cmd + Shift + G` nel Finder e inserisci il percorso, ad esempio `~/Library/Logs/com.zditor.ai`
+
+### Voglio verificare il percorso effettivo sul mio computer
+
+Su Linux i percorsi seguono `XDG_DATA_HOME`, se l’hai impostata. Per prima cosa visualizzane il valore in un terminale:
+
+```bash
+# Linux
+echo $XDG_DATA_HOME
+```
+
+Se l’output è vuoto, Zditor usa `~/.local/share`. Su macOS e Windows nessuna variabile d’ambiente modifica questi percorsi: usa quelli della tabella.
+
+### Perché su Linux c’è anche una cartella in ~/.config?
+
+Zditor salva la dimensione e la posizione della finestra in `~/.config/com.zditor.ai` (oppure in `XDG_CONFIG_HOME`, se l’hai impostata). Tutto il resto si trova in `~/.local/share/com.zditor.ai`.

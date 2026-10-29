@@ -9,13 +9,30 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "tabs": [
+    "languages": [
       {
-        "tab": "English",
+        "language": "en",
+        "navbar": {
+          "links": [
+            {
+              "label": "Feedback",
+              "href": "https://github.com/zditor/zditor-docs/issues"
+            }
+          ],
+          "primary": {
+            "type": "button",
+            "label": "Download Zditor",
+            "href": "https://zditor.com/en/download"
+          }
+        },
         "groups": [
           {
             "group": "Getting Started",
-            "pages": ["en/introduction", "en/quickstart", "en/quick-actions"]
+            "pages": [
+              "en/introduction",
+              "en/quickstart",
+              "en/quick-actions"
+            ]
           },
           {
             "group": "Core Features",
@@ -30,7 +47,6 @@
               "en/frontmatter",
               "en/keyboard-shortcuts",
               "en/agent-guide",
-              "en/openclaw-guide",
               "en/mcp-guide",
               "en/config-and-logs"
             ]
@@ -38,15 +54,345 @@
         ]
       },
       {
-        "tab": "Chinese",
+        "language": "zh",
+        "navbar": {
+          "links": [
+            {
+              "label": "反馈",
+              "href": "https://github.com/zditor/zditor-docs/issues"
+            }
+          ],
+          "primary": {
+            "type": "button",
+            "label": "下载 Zditor",
+            "href": "https://zditor.com/zh/download"
+          }
+        },
         "groups": [
           {
-            "group": "Getting Started",
-            "pages": ["zh/quickstart", "zh/快捷操作"]
+            "group": "入门",
+            "pages": [
+              "zh/introduction",
+              "zh/quick-actions"
+            ]
           },
           {
-            "group": "Core Features",
-            "pages": ["zh/文件树", "zh/知识图谱", "zh/文本标记", "zh/数学公式", "zh/脚注", "zh/PDF批注使用指南", "zh/SuperTag", "zh/Frontmatter", "zh/快捷键指南", "zh/Agent智能体使用指南", "zh/OpenClaw配置指南", "zh/MCP服务使用指南", "zh/配置与日志路径"]
+            "group": "核心功能",
+            "pages": [
+              "zh/file-tree",
+              "zh/knowledge-graph",
+              "zh/text-marks",
+              "zh/math-formulas",
+              "zh/footnotes",
+              "zh/pdf-annotations",
+              "zh/supertag",
+              "zh/frontmatter",
+              "zh/keyboard-shortcuts",
+              "zh/agent-guide",
+              "zh/mcp-guide",
+              "zh/config-and-logs"
+            ]
+          }
+        ]
+      },
+      {
+        "language": "ja",
+        "navbar": {
+          "links": [
+            {
+              "label": "フィードバック",
+              "href": "https://github.com/zditor/zditor-docs/issues"
+            }
+          ],
+          "primary": {
+            "type": "button",
+            "label": "Zditor をダウンロード",
+            "href": "https://zditor.com/ja/download"
+          }
+        },
+        "groups": [
+          {
+            "group": "はじめに",
+            "pages": [
+              "ja/introduction",
+              "ja/quickstart",
+              "ja/quick-actions"
+            ]
+          },
+          {
+            "group": "主な機能",
+            "pages": [
+              "ja/file-tree",
+              "ja/knowledge-graph",
+              "ja/text-marks",
+              "ja/math-formulas",
+              "ja/footnotes",
+              "ja/pdf-annotations",
+              "ja/supertag",
+              "ja/frontmatter",
+              "ja/keyboard-shortcuts",
+              "ja/agent-guide",
+              "ja/mcp-guide",
+              "ja/config-and-logs"
+            ]
+          }
+        ]
+      },
+      {
+        "language": "fr",
+        "navbar": {
+          "links": [
+            {
+              "label": "Commentaires",
+              "href": "https://github.com/zditor/zditor-docs/issues"
+            }
+          ],
+          "primary": {
+            "type": "button",
+            "label": "Télécharger Zditor",
+            "href": "https://zditor.com/fr/download"
+          }
+        },
+        "groups": [
+          {
+            "group": "Premiers pas",
+            "pages": [
+              "fr/introduction",
+              "fr/quickstart",
+              "fr/quick-actions"
+            ]
+          },
+          {
+            "group": "Fonctionnalités",
+            "pages": [
+              "fr/file-tree",
+              "fr/knowledge-graph",
+              "fr/text-marks",
+              "fr/math-formulas",
+              "fr/footnotes",
+              "fr/pdf-annotations",
+              "fr/supertag",
+              "fr/frontmatter",
+              "fr/keyboard-shortcuts",
+              "fr/agent-guide",
+              "fr/mcp-guide",
+              "fr/config-and-logs"
+            ]
+          }
+        ]
+      },
+      {
+        "language": "ko",
+        "navbar": {
+          "links": [
+            {
+              "label": "피드백",
+              "href": "https://github.com/zditor/zditor-docs/issues"
+            }
+          ],
+          "primary": {
+            "type": "button",
+            "label": "Zditor 다운로드",
+            "href": "https://zditor.com/ko/download"
+          }
+        },
+        "groups": [
+          {
+            "group": "시작하기",
+            "pages": [
+              "ko/introduction",
+              "ko/quickstart",
+              "ko/quick-actions"
+            ]
+          },
+          {
+            "group": "핵심 기능",
+            "pages": [
+              "ko/file-tree",
+              "ko/knowledge-graph",
+              "ko/text-marks",
+              "ko/math-formulas",
+              "ko/footnotes",
+              "ko/pdf-annotations",
+              "ko/supertag",
+              "ko/frontmatter",
+              "ko/keyboard-shortcuts",
+              "ko/agent-guide",
+              "ko/mcp-guide",
+              "ko/config-and-logs"
+            ]
+          }
+        ]
+      },
+      {
+        "language": "it",
+        "navbar": {
+          "links": [
+            {
+              "label": "Feedback",
+              "href": "https://github.com/zditor/zditor-docs/issues"
+            }
+          ],
+          "primary": {
+            "type": "button",
+            "label": "Scarica Zditor",
+            "href": "https://zditor.com/it/download"
+          }
+        },
+        "groups": [
+          {
+            "group": "Primi passi",
+            "pages": [
+              "it/introduction",
+              "it/quickstart",
+              "it/quick-actions"
+            ]
+          },
+          {
+            "group": "Funzionalità",
+            "pages": [
+              "it/file-tree",
+              "it/knowledge-graph",
+              "it/text-marks",
+              "it/math-formulas",
+              "it/footnotes",
+              "it/pdf-annotations",
+              "it/supertag",
+              "it/frontmatter",
+              "it/keyboard-shortcuts",
+              "it/agent-guide",
+              "it/mcp-guide",
+              "it/config-and-logs"
+            ]
+          }
+        ]
+      },
+      {
+        "language": "es",
+        "navbar": {
+          "links": [
+            {
+              "label": "Comentarios",
+              "href": "https://github.com/zditor/zditor-docs/issues"
+            }
+          ],
+          "primary": {
+            "type": "button",
+            "label": "Descargar Zditor",
+            "href": "https://zditor.com/es/download"
+          }
+        },
+        "groups": [
+          {
+            "group": "Primeros pasos",
+            "pages": [
+              "es/introduction",
+              "es/quickstart",
+              "es/quick-actions"
+            ]
+          },
+          {
+            "group": "Funciones",
+            "pages": [
+              "es/file-tree",
+              "es/knowledge-graph",
+              "es/text-marks",
+              "es/math-formulas",
+              "es/footnotes",
+              "es/pdf-annotations",
+              "es/supertag",
+              "es/frontmatter",
+              "es/keyboard-shortcuts",
+              "es/agent-guide",
+              "es/mcp-guide",
+              "es/config-and-logs"
+            ]
+          }
+        ]
+      },
+      {
+        "language": "pt",
+        "navbar": {
+          "links": [
+            {
+              "label": "Feedback",
+              "href": "https://github.com/zditor/zditor-docs/issues"
+            }
+          ],
+          "primary": {
+            "type": "button",
+            "label": "Baixar o Zditor",
+            "href": "https://zditor.com/pt/download"
+          }
+        },
+        "groups": [
+          {
+            "group": "Primeiros passos",
+            "pages": [
+              "pt/introduction",
+              "pt/quickstart",
+              "pt/quick-actions"
+            ]
+          },
+          {
+            "group": "Recursos",
+            "pages": [
+              "pt/file-tree",
+              "pt/knowledge-graph",
+              "pt/text-marks",
+              "pt/math-formulas",
+              "pt/footnotes",
+              "pt/pdf-annotations",
+              "pt/supertag",
+              "pt/frontmatter",
+              "pt/keyboard-shortcuts",
+              "pt/agent-guide",
+              "pt/mcp-guide",
+              "pt/config-and-logs"
+            ]
+          }
+        ]
+      },
+      {
+        "language": "ru",
+        "navbar": {
+          "links": [
+            {
+              "label": "Обратная связь",
+              "href": "https://github.com/zditor/zditor-docs/issues"
+            }
+          ],
+          "primary": {
+            "type": "button",
+            "label": "Скачать Zditor",
+            "href": "https://zditor.com/ru/download"
+          }
+        },
+        "groups": [
+          {
+            "group": "Начало работы",
+            "pages": [
+              "ru/introduction",
+              "ru/quickstart",
+              "ru/quick-actions"
+            ]
+          },
+          {
+            "group": "Возможности",
+            "pages": [
+              "ru/file-tree",
+              "ru/knowledge-graph",
+              "ru/text-marks",
+              "ru/math-formulas",
+              "ru/footnotes",
+              "ru/pdf-annotations",
+              "ru/supertag",
+              "ru/frontmatter",
+              "ru/keyboard-shortcuts",
+              "ru/agent-guide",
+              "ru/mcp-guide",
+              "ru/config-and-logs"
+            ]
           }
         ]
       }
@@ -70,19 +416,6 @@
     "light": "/logo/light.svg",
     "dark": "/logo/dark.svg"
   },
-  "navbar": {
-    "links": [
-      {
-        "label": "Feedback",
-        "href": "https://github.com/zditor/zditor-docs/issues"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Download Zditor",
-      "href": "https://zditor.com"
-    }
-  },
   "contextual": {
     "options": [
       "copy",
@@ -100,5 +433,119 @@
       "github": "https://github.com/zditor/zditor-docs",
       "website": "https://zditor.com"
     }
-  }
+  },
+  "redirects": [
+    {
+      "source": "/zh/快捷操作",
+      "destination": "/zh/quick-actions"
+    },
+    {
+      "source": "/zh/%E5%BF%AB%E6%8D%B7%E6%93%8D%E4%BD%9C",
+      "destination": "/zh/quick-actions"
+    },
+    {
+      "source": "/zh/文件树",
+      "destination": "/zh/file-tree"
+    },
+    {
+      "source": "/zh/%E6%96%87%E4%BB%B6%E6%A0%91",
+      "destination": "/zh/file-tree"
+    },
+    {
+      "source": "/zh/知识图谱",
+      "destination": "/zh/knowledge-graph"
+    },
+    {
+      "source": "/zh/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1",
+      "destination": "/zh/knowledge-graph"
+    },
+    {
+      "source": "/zh/文本标记",
+      "destination": "/zh/text-marks"
+    },
+    {
+      "source": "/zh/%E6%96%87%E6%9C%AC%E6%A0%87%E8%AE%B0",
+      "destination": "/zh/text-marks"
+    },
+    {
+      "source": "/zh/数学公式",
+      "destination": "/zh/math-formulas"
+    },
+    {
+      "source": "/zh/%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F",
+      "destination": "/zh/math-formulas"
+    },
+    {
+      "source": "/zh/脚注",
+      "destination": "/zh/footnotes"
+    },
+    {
+      "source": "/zh/%E8%84%9A%E6%B3%A8",
+      "destination": "/zh/footnotes"
+    },
+    {
+      "source": "/zh/PDF批注使用指南",
+      "destination": "/zh/pdf-annotations"
+    },
+    {
+      "source": "/zh/PDF%E6%89%B9%E6%B3%A8%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97",
+      "destination": "/zh/pdf-annotations"
+    },
+    {
+      "source": "/zh/SuperTag",
+      "destination": "/zh/supertag"
+    },
+    {
+      "source": "/zh/Frontmatter",
+      "destination": "/zh/frontmatter"
+    },
+    {
+      "source": "/zh/快捷键指南",
+      "destination": "/zh/keyboard-shortcuts"
+    },
+    {
+      "source": "/zh/%E5%BF%AB%E6%8D%B7%E9%94%AE%E6%8C%87%E5%8D%97",
+      "destination": "/zh/keyboard-shortcuts"
+    },
+    {
+      "source": "/zh/Agent智能体使用指南",
+      "destination": "/zh/agent-guide"
+    },
+    {
+      "source": "/zh/Agent%E6%99%BA%E8%83%BD%E4%BD%93%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97",
+      "destination": "/zh/agent-guide"
+    },
+    {
+      "source": "/zh/OpenClaw配置指南",
+      "destination": "/zh/agent-guide"
+    },
+    {
+      "source": "/zh/OpenClaw%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97",
+      "destination": "/zh/agent-guide"
+    },
+    {
+      "source": "/zh/MCP服务使用指南",
+      "destination": "/zh/mcp-guide"
+    },
+    {
+      "source": "/zh/MCP%E6%9C%8D%E5%8A%A1%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97",
+      "destination": "/zh/mcp-guide"
+    },
+    {
+      "source": "/zh/配置与日志路径",
+      "destination": "/zh/config-and-logs"
+    },
+    {
+      "source": "/zh/%E9%85%8D%E7%BD%AE%E4%B8%8E%E6%97%A5%E5%BF%97%E8%B7%AF%E5%BE%84",
+      "destination": "/zh/config-and-logs"
+    },
+    {
+      "source": "/zh/quickstart",
+      "destination": "/zh/introduction"
+    },
+    {
+      "source": "/en/openclaw-guide",
+      "destination": "/en/agent-guide"
+    }
+  ]
 }

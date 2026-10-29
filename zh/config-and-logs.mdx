@@ -1,0 +1,93 @@
+---
+title: "配置与日志路径"
+description: "查看 Zditor 在 macOS、Windows、Linux 的配置目录和日志目录。"
+icon: "folder-open"
+---
+
+本文整理了 Zditor 在不同系统下的默认配置路径和日志路径，方便你迁移配置、收集日志排查问题，或快速打开对应目录。
+
+<Warning>
+  以下为默认路径。在 Linux 上，如果设置了 `XDG_DATA_HOME` 环境变量，路径会随之变化。
+</Warning>
+
+## 默认路径
+
+Zditor 把设置和其他应用数据保存在同一个文件夹中，这个文件夹以应用标识符 `com.zditor.ai` 命名；日志文件则写入另一个文件夹。
+
+| 系统 | 配置路径 | 日志路径 |
+| :--- | :--- | :--- |
+| macOS | `~/Library/Application Support/com.zditor.ai` | `~/Library/Logs/com.zditor.ai` |
+| Windows | `%APPDATA%\com.zditor.ai` | `%LOCALAPPDATA%\com.zditor.ai\logs` |
+| Linux | `~/.local/share/com.zditor.ai` | `~/.local/share/com.zditor.ai/logs` |
+
+配置文件夹中保存着你的设置、智能体的模型配置、你为所有工作区添加的技能、智能体对话，以及已保存连接的详细信息，包括它们的密码、密钥和令牌。
+
+当前的日志文件是 `zditor.log`。文件变大后，Zditor 会新建一个日志文件，并把旧文件重命名为 `zditor_` 加上日期和时间。这些旧日志文件超过 30 天后，Zditor 会把它们删除。
+
+<Tip>
+  要快速打开当前日志，点击菜单栏（macOS）或系统托盘（Windows 和 Linux）中的 Zditor 图标，选择 **打开日志文件**。
+</Tip>
+
+## 快速打开目录
+
+<Tabs>
+<Tab title="mac/linux">
+  ```bash
+  # macOS config directory
+  open ~/Library/Application\ Support/com.zditor.ai
+
+  # macOS log directory
+  open ~/Library/Logs/com.zditor.ai
+
+  # Linux config directory
+  xdg-open ~/.local/share/com.zditor.ai
+
+  # Linux log directory
+  xdg-open ~/.local/share/com.zditor.ai/logs
+  ```
+</Tab>
+
+<Tab title="windows">
+  ```powershell
+  # Config directory
+  explorer "$env:APPDATA\com.zditor.ai"
+
+  # Log directory
+  explorer "$env:LOCALAPPDATA\com.zditor.ai\logs"
+  ```
+</Tab>
+</Tabs>
+
+## 备份建议
+
+1. 先完全退出 Zditor，再复制配置目录，避免文件写入冲突。关闭窗口后 Zditor 可能仍在后台运行，请在它的菜单栏或托盘图标菜单中选择 **退出 zditor**。
+2. 日志主要用于排障，通常不需要长期全量备份。
+3. 升级或重装前，先备份配置目录。
+4. 配置目录的副本要妥善保管、不要外传，因为其中包含已保存连接的凭据。反馈问题时，请发送日志文件，而不是配置目录。
+
+<Tip>
+  要查看 Zditor 应用数据占用的空间并清理缓存，请在桌面版中打开 **设置 → 个人 → 存储与数据**。
+</Tip>
+
+## 常见问题
+
+### 找不到目录
+
+- 先启动一次 Zditor，目录会在首次运行时创建
+- Windows 下可在文件资源管理器的地址栏直接粘贴 `%APPDATA%` 或 `%LOCALAPPDATA%`
+- macOS 的访达默认隐藏 `~/Library` 文件夹。在访达中按 `Cmd + Shift + G` 并输入路径即可，例如 `~/Library/Logs/com.zditor.ai`
+
+### 想确认本机的实际路径
+
+在 Linux 上，如果你设置了 `XDG_DATA_HOME`，路径会随之变化。先在终端中输出它：
+
+```bash
+# Linux
+echo $XDG_DATA_HOME
+```
+
+如果输出为空，Zditor 使用 `~/.local/share`。在 macOS 和 Windows 上，这些路径不受环境变量影响，以表格中的路径为准。
+
+### 为什么 Linux 上的 ~/.config 中也有一个文件夹？
+
+Zditor 会把窗口大小和位置保存在 `~/.config/com.zditor.ai` 中（如果你设置了 `XDG_CONFIG_HOME`，则保存在它下面）。其他数据都在 `~/.local/share/com.zditor.ai` 中。

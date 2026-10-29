@@ -4,320 +4,337 @@ description: "Annotate PDFs in Zditor with freehand strokes, area highlights, la
 icon: "file-text"
 ---
 
-Zditor includes built-in PDF annotation support. It covers both freehand markup and structured area highlights, so you can draw directly on a PDF, add comments, organize annotations by layer, and save everything as a separate annotation file.
+Zditor has a built-in PDF viewer for reading and annotating. You can draw on pages, mark regions with area highlights that carry a title and a comment, keep sets of annotations apart in layers, and cite highlights in your Markdown notes. Annotations are saved in a separate file, so the PDF itself never changes.
 
 <Frame>
-  <img src="/images/case3_en.png" alt="PDF annotation workflow in Zditor" style={{ borderRadius: '0.5rem' }} />
+  <img src="/images/pdf-annotations.webp" alt="A PDF in Zditor with highlights, the annotation toolbar and the Layers sidebar" style={{ borderRadius: '0.5rem' }} />
 </Frame>
 
 ## Overview
 
 <CardGroup cols={2}>
-  <Card title="Multiple annotation tools" icon="pen">
-    Use pen, highlighter, eraser, line, rectangle, lasso, laser pointer, and area highlight tools.
+  <Card title="Annotation tools" icon="pen">
+    Pen, highlighter, eraser, line, rectangle, lasso, laser, and area highlight, each with a one-letter shortcut.
   </Card>
 
-  <Card title="Structured area comments" icon="text-select">
-    Add titles, comments, colors, and thumbnails to highlighted PDF regions.
+  <Card title="Area highlights" icon="vector-square">
+    Mark a region with a color, a title, and a comment. Zditor keeps a thumbnail of the region.
   </Card>
 
-  <Card title="Layer management" icon="layers">
-    Organize annotations with multiple layers, visibility toggles, renaming, and deletion.
+  <Card title="Layers" icon="layer-group">
+    Keep sets of annotations apart, and show, hide, rename, or delete each layer.
   </Card>
 
   <Card title="Search and bookmarks" icon="search">
-    Search both PDF text and highlight comments, and jump with the PDF's native bookmarks.
+    Search the PDF's text and your highlight comments, and jump with the PDF's own bookmarks.
+  </Card>
+
+  <Card title="PDF cards in Markdown" icon="link">
+    Insert a highlight into a note with `@`, and jump back to it in the PDF.
+  </Card>
+
+  <Card title="Agent support" icon="robot">
+    The built-in Native Agent can read, search, and annotate the PDFs in your workspace.
   </Card>
 </CardGroup>
 
 ## How annotation data is saved
 
-PDF annotations are not written back into the original PDF file. Instead, they are saved in a sidecar JSON file with the same base name in the same directory:
+PDF annotations are never written into the PDF file. Zditor saves them in a separate JSON file in the same folder, named after the PDF:
 
 ```text
 example.pdf.zditor-pdf-annotation.json
 ```
 
-This file stores:
+Zditor creates this file the first time you annotate the PDF and saves every change automatically. It stores:
 
-- Layer definitions
-- Freehand strokes
-- Area highlights
-- Colors, widths, titles, comments, and related metadata
+- Layers, with their names and visibility
+- Strokes, with their page, layer, points, color, width, and stroke settings
+- Area highlights, with their page, layer, region, color, title, comment, and a reference to their thumbnail
+- For highlights the agent makes from a quotation, the quoted text
 
 <Tip>
-  The sidecar approach avoids modifying the source PDF directly and makes sync, backup, and version control much safer.
+  Because the PDF itself is never modified, your annotations are easy to sync, back up, and keep under version control.
 </Tip>
 
 ## Interface layout
 
-The PDF annotation interface has three main areas.
+In the desktop app, the PDF viewer has four areas.
 
-### Main annotation toolbar
+### Title bar
 
-Use the top toolbar to:
+The title bar above the PDF holds:
 
-- Switch tools
-- Pick colors
-- Adjust line width
-- Tune stroke parameters
-- Undo the last stroke
-- Clear the current page in the current layer
+- **Undo** and **Redo** on the left
+- **Print**, **Search**, **Bookmarks**, **Layers**, and **Clear Page** on the right
 
-### Secondary toolbar
+When the tab is narrow, **Bookmarks**, **Layers**, and **Clear Page** move into a **More** menu. While you search, the search field takes the place of these buttons.
 
-Use the second toolbar to:
+### Annotation toolbar
 
-- Open the bookmarks sidebar
-- Open the layers and annotations sidebar
-- Open the search sidebar
-- Zoom in and out
-- Jump by page number
+A rounded toolbar floats over the top of the pages. From left to right, it holds:
+
+- **Keep tool active**
+- The annotation tools
+- Six colors
+- The **Width** slider
+- **Stroke Parameters**
+
+When the tab is too narrow for all of it, the width slider and then the colors move into the stroke parameters button, which then shows the current color and is called **Brush settings**. If that is still not enough, tools move into a **More** menu, starting with the less frequently used ones such as **Laser** and **Line**. The menu shows each tool's shortcut letter.
+
+### Zoom and page controls
+
+The bottom-left corner holds **Zoom Out**, the zoom percentage, **Zoom In**, and the current page number.
 
 ### Left sidebar
 
-The left sidebar switches between:
+**Bookmarks**, **Layers**, and **Search** open a sidebar on the left of the pages. It shows one of:
 
-- PDF bookmarks
-- Layers and annotations
+- The PDF's bookmarks
+- Layers, with the list of area highlights
 - Search results
+
+Click **Bookmarks** or **Layers** again to close it.
 
 ## Annotation tools
 
-### Pointer
+Choose a tool in the annotation toolbar, or press its letter.
 
-The pointer tool is used for selection instead of drawing.
+### Select
 
-With the pointer tool, you can:
+Shortcut: `V`. The Select tool selects and moves annotations instead of drawing. A PDF opens with this tool active.
 
-- Select existing strokes
-- Select an existing area highlight
-- Open the lightweight highlight popover
-- Resize an existing area highlight
+With the Select tool, you can:
 
-Clicking empty space clears the current selection.
+- Click a stroke to select it, and `Shift`-click strokes to add them to the selection or remove them
+- Drag a selected stroke, or anywhere inside a selection, to move it
+- Click an area highlight to show its card, drag it to move it, or drag a corner handle to resize it
+
+Clicking empty space clears the selection.
 
 ### Pen
 
-The pen tool is for freehand drawing, including handwritten notes, circles, arrows, and arbitrary paths.
+Shortcut: `P`. The pen is for freehand drawing, including handwritten notes, circles, arrows, and arbitrary paths. Choose one of the six colors and set the **Width**.
 
-Adjustable parameters include:
+**Stroke Parameters** shapes each stroke:
 
-- Color
-- Line width
-- Thickness variation
-- Smoothing
-- Path simplification
-- Start taper
-- End taper
-- Start cap
-- End cap
+- **Pressure sensitivity**: varies the width with pen pressure. It has no effect with a mouse.
+- **Smoothing**: softens the outline of each stroke
+- **Stabilization**: lets the line lag slightly behind the pen, so quick strokes come out steadier
+- **Taper Start** and **Taper End**: narrow the stroke to a point as it starts or ends
+- **Cap Start** and **Cap End**: round the start or end of an untapered stroke
+- **Reset**: restores the default stroke parameters
 
 <Tip>
-  These settings control stroke shape, smoothness, and start and end behavior, which is useful when tuning the feel for a stylus or mouse workflow.
+  Width and stroke parameters apply to new strokes; existing strokes keep the settings they were drawn with. Zditor remembers your choices as drawing defaults, which you can also set in **Settings → Editor → PDF Editor**.
 </Tip>
 
 ### Highlighter
 
-The highlighter is also freehand, but behaves differently from the pen:
+Shortcut: `M`. The highlighter is also freehand, but behaves differently from the pen:
 
-- It renders semi-transparently
-- It is better for marking source text
-- Visually it behaves more like a fluorescent highlighter
+- It is semi-transparent, so the text underneath stays readable
+- It blends with the page like a fluorescent marker
+- Its width does not change with pen pressure
 
 ### Eraser
 
-The eraser removes strokes that intersect the erasing path.
+Shortcut: `E`. Drag the eraser across the strokes you want to remove.
 
-Characteristics:
-
-- It targets saved strokes
-- Its effective range depends on the current width
-- It is meant for handwritten or drawn markup
+- It removes every stroke its path touches, as a whole, including lines and rectangles
+- Its size follows the **Width** setting
+- Strokes disappear as you drag, and the change is saved when you release
+- It works on strokes in every visible layer
 
 <Warning>
-  The eraser does not directly remove area highlights. Area highlights are deleted from their own toolbar, context action, or sidebar entry.
+  The eraser does not remove area highlights. Delete those from their card, their editor, or the Annotations list in the Layers sidebar.
 </Warning>
 
 ### Line and rectangle
 
 For more structured markup, use:
 
-- **Line** to create a straight segment from start to end
-- **Rectangle** to draw a boxed outline from two diagonal points
+- **Line** (`L`) to draw a straight segment from where you press to where you release
+- **Rectangle** (`R`) to draw a box outline between two corners
 
-These are useful for framing content or creating clean visual guides.
+After you draw one, Zditor switches back to **Select** with the new shape selected, so you can move it right away. To draw several in a row, turn on **Keep tool active**.
 
 ### Lasso
 
-The lasso tool selects existing strokes by drawing a selection shape around them.
-
-After selection, you can:
-
-- Delete
-- Copy
-- Cut
-- Paste
-- Move the selection to another layer
-- Drag the selected strokes to a new position
+Shortcut: `S`. Draw a loop around strokes to select them. Every stroke with a point inside the loop is selected. You can then use the selection toolbar or drag the selection, as described in [Selection and batch operations](#selection-and-batch-operations).
 
 <Tip>
-  The lasso only targets strokes. It is not used to select native PDF text.
+  The lasso selects strokes only. It does not select area highlights or the PDF's text.
 </Tip>
 
-### Laser pointer
+### Laser
 
-The laser pointer is a temporary visual indicator:
+Shortcut: `K`. The laser is a temporary pointer for presentations, teaching, or screen sharing:
 
-- It shows a glowing trail while you move
-- It fades out automatically
-- It is not saved into annotation data
+- A dot in the current color replaces the cursor and leaves a trail that fades within a second
+- Nothing is saved into the annotation data
+- Switching to another tool clears the trail at once
 
-This is mainly useful for presentations, teaching, or screen sharing.
+### Pan
 
-### Hand pan
+Shortcut: `H`. Drag to scroll the pages in any direction instead of annotating. This is especially useful after zooming in.
 
-Use the hand tool when you want to pan the page instead of annotating it.
+### Keep tool active
 
-This is especially useful:
+Shortcut: `Q`. After you draw a line, a rectangle, or an area highlight, Zditor normally switches back to **Select**. With **Keep tool active** turned on, the tool stays selected. The pen, highlighter, eraser, lasso, laser, and pan tools always stay active.
 
-- After zooming in
-- When navigating a large page with a trackpad or stylus
+### Keyboard shortcuts
+
+| Key | Action |
+| --- | --- |
+| `V` | Select |
+| `H` | Pan |
+| `P` | Pen |
+| `M` | Highlighter |
+| `A` | Area Highlight |
+| `E` | Eraser |
+| `L` | Line |
+| `R` | Rectangle |
+| `S` | Lasso |
+| `K` | Laser |
+| `Q` | Turn **Keep tool active** on or off |
+| `Cmd/Ctrl + Z` | Undo |
+| `Shift + Cmd/Ctrl + Z` | Redo (`Ctrl + Y` also works on Windows and Linux) |
+| `Delete` or `Backspace` | Delete the selected strokes |
+| `Cmd/Ctrl + F` | Search the PDF |
+
+The tool letters and the undo and redo keys work once you have clicked in the PDF viewer, and never while you are typing in a field.
 
 ## Area highlights
 
-Area highlights are the most structured annotation type in the PDF viewer.
+Area highlights are the most structured annotation type in the PDF viewer: a rectangle on the page with a color, a title, a comment, and a thumbnail of the region.
 
 ### Create an area highlight
 
 <Steps>
-  <Step title="Switch to the area highlight tool">
-    Choose the area highlight tool from the toolbar.
+  <Step title="Switch to the Area Highlight tool">
+    Choose **Area Highlight** in the annotation toolbar, or press `A`.
   </Step>
 
   <Step title="Drag a rectangle on the PDF">
     Drag over the region you want to annotate.
   </Step>
 
-  <Step title="Add a title and comment">
-    After you release the pointer, a small editor opens so you can add a title, comment, and color.
+  <Step title="Add a title and a comment">
+    When you release the pointer, a small editor opens beside the region. Choose one of five colors (yellow by default) and type an optional title and comment. Pressing `Enter` in the title moves to the comment.
   </Step>
 
   <Step title="Confirm">
-    Save the highlight to the current layer.
+    Click **Confirm** or press `Cmd/Ctrl + Enter` to save the highlight to the active layer. **Cancel** or `Esc` discards it.
   </Step>
 </Steps>
 
-Area highlights support:
-
-- A title
-- A comment
-- A color
-- An automatically generated region thumbnail
+After you confirm, Zditor switches back to **Select** with the new highlight selected, unless **Keep tool active** is on. A highlight with a comment shows a small dot in its top-right corner.
 
 ### Edit an area highlight
 
-Once created, area highlights support two common interaction modes.
+#### With the Select tool
 
-#### Edit in area highlight mode
+Click a highlight to show its card, with its title and comment. Click **Edit Annotation** (the pencil) or the card's text to open the editor, or **Delete Annotation** (the trash can) to delete the highlight. The Layers sidebar also opens, with the highlight marked in its Annotations list.
 
-Click an existing highlight while the area highlight tool is active to open the full editor. You can update:
+#### With the Area Highlight tool
 
-- Title
-- Comment
-- Color
+Click an existing highlight to open its editor directly.
 
-#### Quick view in pointer mode
+#### In the editor
 
-Click a highlight in pointer mode to open a lighter popover for quick inspection and follow-up actions.
+- A new color applies at once
+- After changing the title or comment, click **Save** or press `Cmd/Ctrl + Enter`
+- **Close** or `Esc` leaves without saving the title and comment
+- The trash can deletes the highlight
 
-### Resize an area highlight
+### Move and resize an area highlight
 
-When a highlight enters editing state, eight resize handles appear around the box.
+With the Select tool, drag a highlight to move it. A selected highlight shows a handle at each corner; drag one to resize the highlight.
 
-You can drag from:
+While the editor is open, eight handles appear around the box:
 
 - Top-left, top, top-right
 - Left, right
 - Bottom-left, bottom, bottom-right
 
-This allows precise resizing instead of forcing you to delete and redraw.
+This allows precise resizing instead of deleting and redrawing.
 
 ### Delete an area highlight
 
 You can remove a highlight by:
 
-- Clicking delete from its popover
-- Clicking delete from its editor toolbar
-- Deleting it from the annotation list in the sidebar
-- Right-clicking it while using the area highlight tool
+- Clicking **Delete Annotation** on its card
+- Clicking the trash can in its editor
+- Clicking **Delete Annotation** next to it in the Annotations list in the Layers sidebar
+- Right-clicking it while the Area Highlight tool is active
+
+Undo brings a deleted highlight back.
 
 ### Highlight thumbnails
 
-Each saved area highlight attempts to capture a thumbnail of the PDF region and pass it through the editor's upload flow.
+When you save an area highlight, Zditor captures an image of the region and saves it to the location chosen under **Settings → Editor → PDF Editor → Highlight thumbnails**. The same choice is available under **Settings → Integrations → Image hosting & uploads**. The location can be a local folder or an S3-compatible, WebDAV, or GitHub storage that you have set up.
 
-The resulting thumbnail may be stored as:
-
-- A local absolute file path
-- A GitHub-hosted image URL
-- An S3-hosted image URL
-
-If a highlight is missing its thumbnail, you can regenerate it from the annotation list in the sidebar.
+If a highlight is missing its thumbnail, hover over it in the Annotations list in the Layers sidebar and click **Regenerate missing thumbnails**.
 
 ## Referencing PDF cards in Markdown
 
-Area highlights are not limited to the PDF sidebar. They can also be referenced into Markdown documents as PDF cards, which is useful when turning reading annotations into reusable notes.
+Area highlights are not limited to the PDF viewer. You can insert them into Markdown documents as PDF cards, which is useful when turning reading annotations into reusable notes.
 
-When you type `@` in a Markdown document, Zditor opens a reference list. That list includes workspace documents such as:
+When you type `@` in a Markdown document, Zditor opens a reference list. That list includes:
 
-- Markdown files
-- PDF files
+- The Markdown files in your workspace
+- The PDFs you have annotated
 
-When you choose a PDF from the first-level list, Zditor opens a second-level menu containing two kinds of entries:
+When you choose a PDF that has area highlights, Zditor opens a second-level menu containing two kinds of entries:
 
-- **The PDF document itself**, for referencing the whole PDF
-- **The individual highlight cards under that PDF**, for referencing a specific annotated region
+- **The PDF itself**, which inserts a link to the whole PDF
+- **Each of its area highlights**, which inserts a PDF card for that region
 
-If you choose one of the highlight cards, that PDF card is inserted directly into the current Markdown document.
+A PDF without area highlights is inserted as a link right away. Highlights are listed by title, or by page and comment if they have no title. Keep typing after `@` to search file names, highlight titles, comments, and page numbers (for example, `page 3`).
+
+A PDF card shows the highlight's title, if it has one, and the PDF's file name.
 
 ### Typical workflow
 
 <Steps>
   <Step title="Create area highlights in the PDF first">
-    Add area highlights to the important regions, ideally with a title or comment so the later card list is easy to recognize.
+    Add area highlights to the important regions, ideally with a title or comment so they are easy to recognize in the list later.
   </Step>
 
   <Step title="Return to a Markdown document and type @">
-    This opens the workspace document reference menu.
+    This opens the workspace reference list.
   </Step>
 
   <Step title="Choose the target PDF">
     Select the PDF in the first-level list to open its second-level menu.
   </Step>
 
-  <Step title="Choose the full PDF or a highlight card">
-    Select the PDF itself if you want a whole-file reference, or choose a specific highlight card if you want a focused excerpt.
+  <Step title="Choose the full PDF or a highlight">
+    Select the PDF itself for a link to the whole file, or a specific highlight for a card that points at that region.
   </Step>
 
   <Step title="Insert it into Markdown">
-    The selected PDF highlight card is inserted into the current Markdown document.
+    Zditor inserts the link or the PDF card into the current Markdown document.
   </Step>
 </Steps>
 
 ### Click a PDF card inside Markdown
 
-After a PDF highlight card has been inserted into a Markdown document, clicking it opens a floating toolbar. This toolbar is meant to bridge your writing context and the original PDF context.
+Click a PDF card to select it and open its toolbar. The toolbar connects your writing with the original PDF:
 
-Common actions include:
+- **ASK AI**: opens the card in the agent, along with the highlight's page, title, and comment
+- **The PDF's file name**: opens the PDF, scrolls to the highlight, and selects it
+- **Open with Default App**, **Open Containing Folder**, and **Copy File Path**: act on the PDF file (desktop app)
+- The page number of the highlight
+- **Edit Title**: changes the title this card shows in the note
+- **Refresh**: reloads the highlight's details and thumbnail
+- **More Options**: shows the highlight's page, title, comment, and thumbnail. Click the thumbnail to view it at full size.
 
-- **Jump to the PDF**
-- **View details**
-- **View the thumbnail**
-
-That means a PDF card is not just a static reference block. You can write from the summarized note in Markdown and jump back to the source PDF whenever you need to verify the original context.
+That means a PDF card is not just a static reference. You can write from the summarized note in Markdown and jump back to the source PDF whenever you need to check the original context.
 
 <Tip>
-  This workflow is especially useful for paper reading and research notes. The Markdown side keeps a reusable card, while the PDF side keeps the original annotated source region.
+  This workflow is especially useful for paper reading and research notes. The Markdown side keeps a reusable card, while the PDF side keeps the original annotated region.
 </Tip>
 
 This pattern is useful when:
@@ -328,40 +345,42 @@ This pattern is useful when:
 
 ## Layer management
 
-Layers are one of the core organizational features of PDF annotations.
+Layers are one of the core organizational features of PDF annotations. Click **Layers** in the title bar to open them in the sidebar. Every PDF starts with a **Default Layer**.
 
 ### Supported layer actions
 
-The layers panel supports:
+The layers sidebar supports:
 
-- Creating a new layer
-- Setting the active layer
-- Double-clicking a layer name to rename it
-- Clicking the visibility button to hide or show it
-- Clicking the delete button to remove it
+- Clicking **Add Layer** (the plus) to create a layer, which becomes the active layer
+- Clicking a layer to make it active. Clicking a hidden layer also shows it again.
+- Double-clicking a layer name to rename it. `Enter` confirms and `Esc` cancels.
+- Hovering over a layer and clicking the eye to hide or show it
+- Hovering over a layer and clicking the trash can to delete it. The last remaining layer cannot be deleted.
 
 <Warning>
-  Deleting a layer also deletes the strokes stored in that layer.
+  Deleting a layer also deletes the strokes and area highlights stored in that layer. Undo brings them back while the PDF is open.
 </Warning>
+
+Below the layers, the **Annotations** list shows every area highlight with its page, layer, title, and comment. Click one to jump to its page.
 
 ### What the active layer means
 
-The currently active layer affects:
+The active layer decides:
 
 - Where new strokes are created
 - Where new area highlights are created
-- Which strokes are affected by undo
-- Which strokes are affected by clear-page
+- Where pasted strokes go
+- Which strokes **Clear Page** removes
 
-For example, **Clear current page** only clears strokes on the current page in the current active layer.
+The eraser, the lasso, and the Select tool work on every visible layer. If you hide the active layer, the first visible layer becomes active.
 
 ### Layer visibility
 
 Each layer can be hidden or shown independently. When a layer is hidden:
 
-- Its strokes are hidden
-- Its area highlights are hidden
-- The data still exists
+- Its strokes and area highlights disappear from the pages
+- They are left out when you print
+- The data still exists, and the Annotations list still shows the layer's highlights
 
 This is useful for:
 
@@ -369,136 +388,179 @@ This is useful for:
 - Splitting personal and team markup
 - Temporarily focusing on one annotation category
 
-## Lasso selection and batch operations
+## Selection and batch operations
 
-After you lasso-select strokes, Zditor shows a vertical action toolbar near the selection.
+After you select strokes with the Select tool or the lasso, Zditor shows a vertical toolbar to the left of the selection.
 
 Available actions include:
 
 - **Delete**
 - **Copy**
 - **Cut**
-- **Paste**
-- **Move to layer**
+- **Paste**, which appears after you copy or cut. It adds the copied strokes to this page, slightly offset, on the active layer.
+- **Move to Layer**, which appears when the PDF has more than one layer
 
-You can also drag the selected strokes directly to reposition them as a group.
+You can also drag inside the selection to move the selected strokes as a group.
+
+Copy and cut keep strokes for pasting within the same PDF; they do not use the system clipboard.
 
 ### Delete shortcut
 
-In pointer mode or lasso mode, if strokes are currently selected, you can press:
+With the Select tool or the lasso, if strokes are currently selected, you can press:
 
 - `Delete`
 - `Backspace`
 
 to remove them.
 
-## Undo and clear
+## Undo, redo, and clear
 
-### Undo
+### Undo and redo
 
-The undo button removes the last stroke from:
+**Undo** and **Redo** are in the title bar. They step through every change to the PDF's annotations, on every page and layer:
 
-- The current page
-- The current active layer
+- Drawing, erasing, moving, pasting, and deleting strokes, and moving them to another layer
+- Creating, editing, moving, resizing, and deleting area highlights
+- Adding, renaming, hiding, showing, and deleting layers
+- **Clear Page**
+- Changes the agent makes while the PDF is open
+
+The history lasts while the PDF stays open. When you open the PDF again, the history starts fresh.
 
 ### Clear current page
 
-The clear button removes all strokes from:
+**Clear Page** (the trash can in the title bar, or in **More** when the tab is narrow) removes all strokes from:
 
-- The current page
-- The current active layer
+- The current page, the one shown in the page number at the bottom left
+- The active layer
 
 <Warning>
-  In the current implementation, clear-page affects strokes, not saved area highlights.
+  **Clear Page** affects strokes only. Area highlights and strokes on other layers stay. Undo brings the cleared strokes back.
 </Warning>
 
 ## Bookmarks, search, and navigation
 
 ### PDF bookmarks
 
-If the PDF includes its own outline or bookmarks, Zditor extracts them automatically and shows them in the bookmarks sidebar.
+If the PDF includes its own outline or bookmarks, click **Bookmarks** in the title bar to show them in the sidebar.
 
 You can:
 
 - Expand or collapse nested bookmarks
-- Click a bookmark to jump to a page
-- See the current page reflected in the sidebar state
+- Click a bookmark to jump to its page, which is shown next to its title
+- See the current page reflected in the sidebar: its bookmark is highlighted
+
+A PDF without an outline shows **No bookmarks**.
 
 ### Search text and annotation comments
 
-PDF search does not only search the PDF body text. It also searches the comment content of area highlights.
+Click **Search** in the title bar or press `Cmd/Ctrl + F`. The search field takes the place of the title bar buttons, and the results open in the sidebar.
 
-There are two result types:
-
-- **Text matches**
-- **Highlight comment matches**
+PDF search does not only search the PDF body text. It also searches the comments of area highlights.
 
 Search behavior includes:
 
-- `Cmd/Ctrl + F` to open search
-- Debounced search while typing
-- `Enter` for the next result
-- `Shift + Enter` for the previous result
-- `Esc` to close search
+- Results update shortly after you stop typing, and the viewer jumps to the first one
+- Search ignores case
+- `Enter`, or the down-arrow button, for the next result
+- `Shift + Enter`, or the up-arrow button, for the previous result
+- `Esc`, or the close button, to close search and its results
 
 ### How search results are shown
 
 When a match is found:
 
-- The page highlights the matching region
-- The search sidebar lists all results
-- Highlight-comment matches show the highlight color and comment summary
+- The page marks the matching regions
+- The search field shows which result you are on, such as `2/7`
+- The sidebar lists every result; click one to jump to it
+
+There are two result types:
+
+- **Text matches** are grouped by page: each page with matches counts as one result
+- **Highlight comment matches** are listed one per highlight, with the highlight's color, page, and comment
 
 ## Zoom and reading
 
 The PDF viewer supports:
 
-- Toolbar zoom buttons
-- `Ctrl/Cmd + wheel` zoom
-- Pinch zoom on Safari and WKWebView
-- Direct page-number input for jumping
+- **Zoom In** and **Zoom Out** at the bottom left
+- Clicking the zoom percentage to fit the page to the width of the viewer
+- Pinching on a Mac trackpad
+- Holding `Ctrl` and scrolling
+- Zoom levels from 40% to 400%
+- Clicking the page number, typing a page, and pressing `Enter` to jump there
+
+### Print
+
+**Print** in the title bar prints every page of the PDF with the annotations on visible layers. Hidden layers are not printed.
 
 ### Dark mode
 
-In dark mode, the underlying PDF page is inverted for more comfortable reading.
+When Zditor uses a dark appearance, the PDF pages are inverted for more comfortable reading, with light text on dark pages.
 
 <Tip>
-  The inversion is applied only to the PDF rendering layer. Annotation overlays stay readable and keep their intended colors.
+  The inversion is applied only to the PDF pages. Annotations are drawn on a separate layer above them and keep their colors.
 </Tip>
+
+## Working with the agent
+
+The built-in Native Agent can work with any PDF in your workspace, whether or not it is open in a tab. You can ask it to:
+
+- Read a PDF page by page, along with its outline and your existing highlights
+- Find a passage
+- Look at a page or part of one, such as a figure, a table, or a scanned page
+- Highlight a passage with a title and a comment, underline it, strike it through, or draw a box around it
+- Draw freehand, edit or delete highlights, and delete strokes
+
+What to expect:
+
+- New annotations go on a layer named **Agent**, unless the agent is asked to use one of your layers, so you can hide or delete its work in one step
+- If the PDF is open, the agent's changes appear at once, and **Undo** takes back each batch of changes in one step
+- For each highlight it creates, the agent gets a ready-made PDF card link, so it can cite the highlight in a Markdown note
+- Thumbnails for the agent's highlights are made while the PDF is open. For highlights it made while the PDF was closed, open the PDF and use **Regenerate missing thumbnails** in the Annotations list.
+- Reading, searching, and looking at pages need no approval. Adding, changing, or deleting annotations follows the agent's **Permission mode**.
+
+To connect the agent to an AI service, open **Settings → AI → Agents**.
 
 ## Performance notes
 
-The page list uses a virtualized-style rendering strategy:
+The page list only renders the pages around the viewport:
 
-- Pages near the viewport are rendered fully
-- Pages outside the viewport are replaced with placeholders that preserve scroll height
+- The visible pages, plus one page before and one after, are rendered fully
+- Other pages are replaced with placeholders that preserve the scroll height
 
 This reduces rendering cost, especially for long PDFs, larger zoom levels, and high-resolution displays.
+
+The first search in a PDF reads the text of every page, so it can take a moment in a long document. Later searches in the same PDF reuse that text.
 
 ## FAQ
 
 <AccordionGroup>
   <Accordion title="Where is annotation data stored?" icon="question">
-    It is stored in a sibling `.zditor-pdf-annotation.json` file next to the PDF, not inside the PDF file itself.
+    In a separate file next to the PDF: annotations for `paper.pdf` are in `paper.pdf.zditor-pdf-annotation.json`. Zditor never writes them into the PDF itself.
   </Accordion>
 
   <Accordion title="Why are some annotations missing?" icon="question">
-    First check whether their layer is hidden. Also remember that the active layer affects creation and some operations, but does not mean the other layer data is gone.
+    First check whether their layer is hidden in the Layers sidebar. A hidden layer keeps its data, and its area highlights still appear in the Annotations list. Also remember that the active layer only decides where new annotations go; the other layers' data is still there.
   </Accordion>
 
   <Accordion title="Why can't search find my handwritten annotations?" icon="question">
-    Search currently covers PDF text and the comment text of area highlights. It does not OCR or index freehand stroke visuals.
+    Search covers the PDF's text and the comments of area highlights. It does not search handwriting or highlight titles, and it does not run OCR, so a scanned PDF without a text layer cannot be searched.
   </Accordion>
 
   <Accordion title="What if a thumbnail was not generated?" icon="question">
-    Use the regenerate-thumbnail action in the annotation list. Thumbnail generation depends on page capture and image upload configuration.
+    Open the PDF, open the Layers sidebar, hover over the highlight in the Annotations list, and click **Regenerate missing thumbnails**. If it keeps failing, check the storage location under **Settings → Editor → PDF Editor → Highlight thumbnails**.
   </Accordion>
 
   <Accordion title="What happens when I delete a layer?" icon="question">
-    Deleting a layer removes the strokes stored in that layer. Move anything important to another layer first if needed.
+    Deleting a layer removes the strokes and area highlights stored in it. Undo brings them back while the PDF is open. To keep some strokes, move them to another layer first with **Move to Layer**; area highlights cannot be moved between layers.
+  </Accordion>
+
+  <Accordion title="Can I undo changes after closing the PDF?" icon="question">
+    No. The undo history lasts only while the PDF is open. To take back an agent's work later, hide or delete its **Agent** layer.
   </Accordion>
 
   <Accordion title="What is the difference between an area highlight and the normal highlighter?" icon="question">
-    The normal highlighter is a freehand transparent stroke. An area highlight is a structured rectangular annotation with title, comment, thumbnail, color, and resize support.
+    The highlighter draws a freehand, semi-transparent stroke. An area highlight is a structured rectangle with a title, a comment, a color, and a thumbnail. You can move and resize it, find it by its comment in search, and cite it in Markdown as a PDF card.
   </Accordion>
 </AccordionGroup>

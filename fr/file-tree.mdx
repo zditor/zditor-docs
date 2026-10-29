@@ -1,0 +1,327 @@
+---
+title: "Guide de l’arborescence des fichiers"
+description: "Gérez efficacement vos fichiers et dossiers avec l’arborescence de la barre latérale de Zditor."
+icon: "folder-tree"
+---
+
+L’arborescence des fichiers de la barre latérale est l’un des éléments essentiels de Zditor. Elle vous permet de parcourir, créer, renommer, déplacer et organiser directement les fichiers de l’espace de travail actuel.
+
+## Présentation de l’interface
+
+L’arborescence des fichiers correspond au panneau **Files** de la barre latérale. Cliquez sur l’icône de dossier en haut de la barre de navigation, à gauche, pour l’afficher. Sans filtre actif, elle affiche tous les fichiers et dossiers de l’espace de travail, y compris ceux dont le nom commence par un point.
+
+### Barre d’outils supérieure
+
+Le haut de l’arborescence affiche le nom de l’espace de travail actuel. Cliquez dessus pour changer d’espace de travail (voir [Gestion des espaces de travail](#gestion-des-espaces-de-travail)). À côté se trouvent trois boutons :
+
+- **New File** crée un fichier à la racine de l’espace de travail
+- **New Folder** crée un dossier à la racine de l’espace de travail
+- **More** ouvre un menu contenant :
+  - **Filter**, pour n’afficher que certains types de fichiers
+  - **Refresh**, pour analyser à nouveau l’espace de travail
+  - **Collapse**, pour replier tous les dossiers dépliés
+  - **Clear clipboard**, pour annuler un copier ou un couper en attente (affiché uniquement lorsqu’un élément a été copié ou coupé)
+  - **Open Folder**, pour ouvrir l’espace de travail dans le gestionnaire de fichiers de votre système
+
+Une fine barre de progression apparaît sous la barre d’outils pendant que l’arborescence se charge, s’actualise ou importe des fichiers.
+
+### Liste des fichiers
+
+La liste principale affiche les fichiers et les dossiers avec un retrait qui reflète la hiérarchie. Survolez un élément pour voir son chemin complet.
+
+### Barre inférieure
+
+La barre en bas du panneau comporte trois parties :
+
+- Le bouton **+** à gauche crée un fichier Markdown vide nommé `untitled1.md` (ou avec le prochain numéro libre) à la racine de l’espace de travail et l’ouvre.
+- Le nom de l’espace de travail, au milieu, ouvre le sélecteur de dossiers de votre système pour passer à un autre dossier local.
+- Le bouton **⋮** à droite ouvre un panneau contenant les options de tri, vos dossiers récents et les espaces de travail distants que vous avez configurés.
+
+## Opérations de base
+
+<AccordionGroup>
+  <Accordion title="Clic simple" icon="mouse">
+    - Cliquez sur un fichier pour l’ouvrir dans un onglet
+    - Cliquez sur un dossier pour le déplier ou le replier
+  </Accordion>
+
+  <Accordion title="Menus contextuels" icon="bars">
+    - Faites un clic droit sur un fichier pour accéder à des actions comme **Open in Right Split**, **Rename** et **Copy**
+    - Faites un clic droit sur un dossier pour y créer des éléments ou y coller
+    - Faites un clic droit dans la zone vide sous la liste pour ouvrir le menu de la racine de l’espace de travail
+  </Accordion>
+</AccordionGroup>
+
+### Sélectionner des éléments
+
+Cliquez sur un fichier ou un dossier pour le sélectionner. L’élément sélectionné est mis en évidence.
+
+### Renommer
+
+<AccordionGroup>
+  <Accordion title="Comment renommer" icon="pen">
+    1. Faites un clic droit sur un fichier ou un dossier et choisissez **Rename**
+    2. Ou survolez l’élément, cliquez sur son bouton **…** et choisissez **Rename**
+    3. Appuyez sur `Enter` pour valider ou sur `Esc` pour annuler. Cliquer ailleurs valide aussi le nouveau nom.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Lorsque vous renommez un fichier, seule la partie du nom située avant l’extension est sélectionnée : vous pouvez saisir un nouveau nom tout en conservant l’extension.
+</Tip>
+
+## Gestion des fichiers et des dossiers
+
+### Créer des fichiers et des dossiers
+
+<AccordionGroup>
+  <Accordion icon="plus" title="Méthode 1 : barre d’outils supérieure">
+    Cliquez sur **New File** ou **New Folder** dans la barre d’outils pour créer l’élément à la racine de l’espace de travail.
+  </Accordion>
+
+  <Accordion icon="folder-plus" title="Méthode 2 : boutons au survol">
+    Lorsque vous survolez un dossier, des boutons d’action rapide apparaissent.
+
+    - `+` crée un nouveau fichier dans ce dossier
+    - L’icône de dossier crée un sous-dossier
+  </Accordion>
+
+  <Accordion icon="computer-mouse" title="Méthode 3 : menu du clic droit">
+    Faites un clic droit sur le dossier cible, ou dans la zone vide sous la liste pour la racine de l’espace de travail, et choisissez **New File** ou **New Folder**.
+  </Accordion>
+</AccordionGroup>
+
+Lorsque vous créez un fichier, Zditor affiche un champ pour le nom suivi d’un champ pour l’extension. L’extension proposée au départ est votre extension par défaut (`.md`, sauf si vous la changez) :
+
+- Appuyez sur `↑` ou `↓` pour passer à une autre extension de votre liste
+- Saisissez une extension de votre liste à la fin du nom, comme `notes.txt`, pour passer à celle-ci
+- Appuyez sur `→` à la fin du nom pour passer dans le champ de l’extension
+
+Vous pouvez changer l’extension par défaut et la liste des extensions dans **Settings → Personal → General → File types**.
+
+### Supprimer des fichiers et des dossiers
+
+1. Faites un clic droit sur le fichier ou le dossier cible
+2. Choisissez **Delete**
+
+Si le fichier, ou un élément du dossier, est ouvert dans un onglet, Zditor vous demande d’abord s’il faut fermer ces onglets et supprimer. Sinon, l’élément est supprimé immédiatement.
+
+<Warning>
+  La suppression ne place pas les éléments dans la corbeille du système et ne peut pas être annulée. Vérifiez bien avant de supprimer des fichiers ou des dossiers.
+</Warning>
+
+### Copier, couper et coller
+
+<AccordionGroup>
+  <Accordion icon="copy" title="Copier">
+    1. Faites un clic droit sur un fichier ou un dossier et choisissez **Copy**
+    2. L’élément reçoit un contour jaune et une étiquette **Copy**
+  </Accordion>
+
+  <Accordion icon="scissors" title="Couper">
+    1. Faites un clic droit sur un fichier ou un dossier et choisissez **Cut**
+    2. L’élément reçoit un contour bleu canard et une étiquette **Cut**
+  </Accordion>
+
+  <Accordion icon="paste" title="Coller">
+    1. Faites un clic droit sur le dossier de destination, ou dans la zone vide sous la liste pour la racine de l’espace de travail
+    2. Choisissez **Paste**
+    3. L’élément est copié ou déplacé à cet emplacement
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Le presse-papiers contient un seul élément à la fois et se vide après le collage. Vous ne pouvez pas coller un élément dans lui-même, le déplacer dans l’un de ses propres sous-dossiers, ni le coller dans un dossier qui contient déjà un élément du même nom.
+</Tip>
+
+## Tri et filtrage
+
+### Filtres par type de fichier
+
+Ouvrez **More → Filter** dans la barre d’outils supérieure pour n’afficher que certains types de fichiers :
+
+| Filtre | Affiche |
+| --- | --- |
+| **All** | Tous les fichiers et dossiers |
+| **Markdown** | `.md`, `.mdx`, `.markdown` |
+| **Documents** | `.pdf`, `.doc`, `.docx`, `.txt`, `.csv`, `.xls`, `.xlsx`, `.ppt`, `.pptx` |
+| **Assets** | Les images, les vidéos et les fichiers audio |
+| **Code** | Les fichiers source, web et de configuration, comme `.ts`, `.js`, `.py`, `.json`, `.yaml`, `.html` et `.css` |
+| **Excalidraw** | Les fichiers de canevas (`.excalidraw`) |
+| **Hidden** | Les fichiers et dossiers dont le nom commence par un point |
+| **Other** | Les fichiers qui n’entrent dans aucune des catégories ci-dessus |
+
+Vous pouvez activer plusieurs filtres à la fois. Choisir **All** désactive les autres. Lorsqu’un filtre est actif, l’élément **Filter** indique combien de types sont sélectionnés, et le bouton **More** affiche un point.
+
+Les dossiers restent toujours dans la liste pour que vous puissiez atteindre les fichiers correspondants qu’ils contiennent. Les éléments dont le nom commence par un point sont masqués dès qu’un filtre est actif, sauf si **Hidden** fait partie des filtres sélectionnés.
+
+### Options de tri
+
+Cliquez sur le bouton **⋮** de la barre inférieure. Les boutons de tri se trouvent en haut du panneau :
+
+#### Mode de tri
+
+- **Sort alphabetically** trie par nom
+- **Sort by creation time** trie selon la date de création de chaque fichier
+- **Sort by modification time** trie selon la date de dernière modification de chaque fichier
+
+#### Sens du tri
+
+- Le bouton fléché bascule entre **Sort ascending** et **Sort descending**
+
+#### Regroupement des dossiers
+
+- **Group by folder** place les dossiers au-dessus des fichiers
+
+Par défaut, l’arborescence est triée par ordre alphabétique croissant, avec les dossiers regroupés en premier. Les éléments dont le nom commence par un point sont listés avant les autres.
+
+## Glisser-déposer
+
+L’arborescence des fichiers permet de tout gérer par glisser-déposer.
+
+<AccordionGroup>
+  <Accordion icon="file-import" title="Déplacer des fichiers ou des dossiers">
+    1. Faites glisser le fichier ou le dossier
+    2. Amenez-le sur le dossier de destination
+    3. Relâchez pour terminer le déplacement
+  </Accordion>
+
+  <Accordion icon="upload" title="Importer des fichiers depuis l’extérieur">
+    Faites glisser des fichiers ou des dossiers depuis le gestionnaire de fichiers de votre système sur un dossier de l’arborescence, ou sur la zone vide pour la racine de l’espace de travail, afin de les copier dans l’espace de travail. Un fichier déposé remplace le fichier du même nom dans ce dossier. Une courte ligne d’état, en bas de l’arborescence, indique combien de fichiers ont été ajoutés.
+  </Accordion>
+
+  <Accordion icon="home" title="Déposer à la racine">
+    Déposez des éléments dans la zone vide de l’arborescence pour les déplacer à la racine de l’espace de travail.
+  </Accordion>
+</AccordionGroup>
+
+<Tip>
+  Pendant que vous faites glisser un élément, le dossier de destination est mis en évidence. Si vous survolez un dossier fermé pendant environ 600 ms, il se déplie automatiquement. Faire glisser un élément près du bord supérieur ou inférieur de la liste la fait défiler.
+</Tip>
+
+## Menus contextuels
+
+Les fichiers et les dossiers disposent de menus contextuels complets. Vous pouvez aussi ouvrir le même menu avec le bouton **…** qui apparaît lorsque vous survolez un élément.
+
+### Menu contextuel d’un fichier
+
+| Élément | Effet |
+| --- | --- |
+| **Open** | Ouvre le fichier dans le volet de gauche |
+| **Open in Right Split** | Ouvre le fichier dans le volet de droite |
+| **Rename** | Renomme le fichier |
+| **Copy** | Copie le fichier dans le presse-papiers |
+| **Cut** | Coupe le fichier dans le presse-papiers |
+| **Paste** | Indisponible sur les fichiers ; collez plutôt dans un dossier ou à la racine de l’espace de travail |
+| **Open in Folder** | Affiche le fichier dans le gestionnaire de fichiers de votre système |
+| **Copy File Path** | Copie le chemin complet du fichier dans le presse-papiers |
+| **Save As** | Enregistre une copie du fichier à l’emplacement de votre choix sur cet ordinateur |
+| **Delete** | Supprime le fichier |
+
+### Menu contextuel d’un dossier
+
+Les menus des dossiers proposent **Rename**, **Copy**, **Cut**, **Paste**, **Open in Folder**, **Copy File Path** et **Delete**, ainsi que :
+
+| Élément | Effet |
+| --- | --- |
+| **New File** | Crée un fichier dans ce dossier |
+| **New Folder** | Crée un sous-dossier |
+
+### Menu contextuel de la racine
+
+Faites un clic droit dans la zone vide de l’arborescence pour ouvrir le menu de la racine de l’espace de travail :
+
+- **New File** et **New Folder** pour créer des éléments à la racine
+- **Paste** pour coller à la racine l’élément copié ou coupé
+- **Refresh** pour analyser à nouveau l’espace de travail
+- **Collapse All** pour replier les dossiers dépliés
+- **Open in Folder** pour ouvrir l’espace de travail dans le gestionnaire de fichiers de votre système
+- **Copy File Path** pour copier le chemin de l’espace de travail
+
+## Gestion des espaces de travail
+
+Un espace de travail est le dossier dont l’arborescence affiche les fichiers. Dans un onglet vide, vous pouvez aussi choisir **Open Workspace** pour ouvrir un dossier existant, ou **New Workspace** pour créer un dossier vide et l’ouvrir.
+
+### Changer d’espace de travail
+
+1. Cliquez sur le nom de l’espace de travail en haut de l’arborescence
+2. Choisissez un espace de travail dans le menu, ou choisissez **Open Directory** pour sélectionner un dossier dans le sélecteur de dossiers du système
+3. Zditor charge le nouvel espace de travail
+
+Si des onglets Agent sont ouverts, Zditor vous demande de confirmer le changement, car leurs connexions à l’espace de travail actuel se ferment. Vos onglets et l’historique des sessions sont conservés et se reconnectent lorsque vous revenez à cet espace de travail.
+
+<Tip>
+  Chaque espace de travail peut avoir sa propre fenêtre. Choisissez **Open Folder in New Window…**, ou cliquez sur un espace de travail dans le menu en maintenant `Cmd` (`Ctrl` sous Windows et Linux), pour l’ouvrir dans une nouvelle fenêtre. Si un espace de travail est déjà ouvert dans une autre fenêtre, le choisir amène cette fenêtre au premier plan.
+</Tip>
+
+### Espaces de travail distants
+
+Les espaces de travail ne sont pas forcément sur cet ordinateur. Ajoutez une connexion dans **Settings → Integrations → Connections** :
+
+- Les stockages **S3**, les serveurs **WebDAV** et les dossiers situés sur des hôtes **SSH** apparaissent dans leurs propres groupes, dans le menu des espaces de travail et dans le panneau **⋮**.
+- Une connexion **Git** conserve un clone local du dépôt et l’ouvre comme n’importe quel autre dossier.
+
+Dans les espaces de travail S3, WebDAV et SSH, **Open in Folder** n’est pas disponible, et l’arborescence ne s’actualise pas d’elle-même lorsque des fichiers changent sur le serveur. Utilisez **Refresh** pour voir les derniers fichiers.
+
+### Dossiers récents
+
+Le menu des espaces de travail liste vos dossiers locaux récents. Le panneau **⋮** de la barre inférieure les liste aussi et vous permet de les gérer :
+
+<AccordionGroup>
+  <Accordion icon="thumbtack" title="Épingler des dossiers">
+    Cliquez sur l’icône d’épingle pour garder un dossier important en haut de la liste des dossiers récents.
+  </Accordion>
+
+  <Accordion icon="trash" title="Retirer des entrées récentes">
+    Pour les dossiers non épinglés, cliquez sur l’icône de corbeille pour retirer l’entrée de la liste des dossiers récents.
+  </Accordion>
+</AccordionGroup>
+
+La liste conserve jusqu’à cinq dossiers, et les dossiers épinglés y restent toujours. Au démarrage, Zditor rouvre le dernier espace de travail utilisé ; pour démarrer sans espace de travail, désactivez **Reopen previous workspace** dans **Settings → Personal → General**.
+
+### Actualisation automatique
+
+Dans un espace de travail local, l’arborescence surveille la racine de l’espace de travail et chaque dossier déplié :
+
+- Créer, supprimer ou renommer un fichier, dans Zditor ou dans une autre application, met à jour l’arborescence
+- Un dossier que vous dépliez de nouveau est réanalysé, de sorte que les modifications faites pendant qu’il était replié apparaissent
+
+## Astuces avancées
+
+<CardGroup cols={2}>
+  <Card title="Côte à côte" icon="bolt">
+    Utilisez **Open in Right Split** pour lire un fichier pendant que vous en modifiez un autre.
+  </Card>
+
+  <Card title="Déplacer par couper-coller" icon="layer-group">
+    Le couper-coller déplace un fichier ou un dossier vers un dossier éloigné dans l’arborescence, sans long glisser.
+  </Card>
+
+  <Card title="Copier des chemins" icon="clipboard">
+    Utilisez **Copy File Path** lorsque vous devez partager un chemin de fichier ou y faire référence ailleurs.
+  </Card>
+</CardGroup>
+
+## Questions fréquentes
+
+<AccordionGroup>
+  <Accordion title="Pourquoi certains fichiers manquent-ils dans l’arborescence ?" icon="question">
+    Vérifiez si un filtre par type de fichier est actif : le bouton **More** affiche alors un point. Remettez **More → Filter** sur **All**. Tant qu’un autre filtre est actif, les fichiers et dossiers dont le nom commence par un point restent masqués, sauf si vous sélectionnez aussi **Hidden**.
+  </Accordion>
+
+  <Accordion title="Pourquoi le glisser-déposer ne fonctionne-t-il pas ?" icon="question">
+    Survolez un dossier fermé assez longtemps pour qu’il se déplie. Vous ne pouvez pas déplacer un élément dans lui-même, dans l’un de ses sous-dossiers ni dans le dossier où il se trouve déjà, et le déplacement est refusé si la destination contient déjà un élément du même nom.
+  </Accordion>
+
+  <Accordion title="Comment retrouver rapidement les fichiers modifiés récemment ?" icon="question">
+    Dans le panneau **⋮**, choisissez **Sort by modification time** et réglez le sens du tri sur décroissant.
+  </Accordion>
+
+  <Accordion title="Puis-je ouvrir plusieurs fichiers à la fois ?" icon="question">
+    Oui. Chaque fichier s’ouvre dans son propre onglet lorsque vous cliquez dessus. Utilisez **Open in Right Split** pour afficher deux fichiers côte à côte.
+  </Accordion>
+
+  <Accordion title="Pourquoi Open in Folder est-il indisponible ?" icon="question">
+    Les espaces de travail S3, WebDAV et SSH ne sont pas sur cet ordinateur : il n’y a donc pas de dossier local à afficher dans le gestionnaire de fichiers de votre système.
+  </Accordion>
+</AccordionGroup>

@@ -1,0 +1,226 @@
+---
+title: "Guide du Frontmatter"
+description: "Utilisez le Frontmatter YAML pour ajouter des métadonnées structurées aux documents Markdown dans Zditor."
+icon: "table"
+---
+
+Le Frontmatter est le bloc de métadonnées YAML placé en tête d’un document. Dans Zditor, vous pouvez le modifier dans un tableau visuel, la boîte de dialogue **Document properties**, sans avoir à gérer chaque champ à la main. Zditor affiche aussi les propriétés sous forme d’en-tête au-dessus du document.
+
+## Vue d’ensemble
+
+<CardGroup cols={2}>
+  <Card title="Édition visuelle" icon="table">
+    Modifiez les champs dans un tableau au lieu d’écrire le YAML à la main.
+  </Card>
+
+  <Card title="11 types de champs" icon="list-check">
+    Zditor prend en charge le texte, le nombre, la date, la case à cocher, la progression, la sélection, et plus encore.
+  </Card>
+
+  <Card title="Image de couverture" icon="image">
+    Ajoutez une image de couverture à l’en-tête du document et basculez entre une tonalité chaude et une tonalité froide.
+  </Card>
+
+  <Card title="Intégration aux bases de données" icon="database">
+    Reliez les champs du Frontmatter au système de tables SuperTag grâce au champ `class`.
+  </Card>
+</CardGroup>
+
+## Syntaxe de base
+
+Le Frontmatter est encadré par `---` tout en haut du fichier :
+
+```yaml
+---
+title: "My document"
+date: 2024-01-15
+tags: [product, notes]
+draft: true
+---
+
+Document content starts here...
+```
+
+## Formats pris en charge
+
+<AccordionGroup>
+  <Accordion title="Format abrégé" icon="bolt" defaultOpen>
+    Écrivez de simples paires clé-valeur et laissez l’éditeur déduire le type de chaque champ.
+
+    ```yaml
+    ---
+    title: "Document title"
+    count: 42
+    done: true
+    tags: [tag-1, tag-2]
+    ---
+    ```
+
+    **Règles de déduction**
+    - Les listes comme `[a, b]` deviennent `array`
+    - `true` et `false` deviennent `checkbox`
+    - Les nombres deviennent `number`
+    - Les dates comme `2024-01-15` restent `text` ; utilisez le format complet avec `type: date` pour un champ de date
+    - Les autres chaînes deviennent `text`
+    - Les clés sans valeur sont ignorées
+  </Accordion>
+
+  <Accordion title="Format complet" icon="sliders">
+    Définissez explicitement le type, le libellé, la description et la valeur d’un champ, ainsi que les options des champs `select` et `multiselect`.
+
+    ```yaml
+    ---
+    status:
+      type: select
+      label: "Status"
+      description: "Current document status"
+      value: "In Progress"
+      options: [Todo, In Progress, Done]
+    priority:
+      type: number
+      label: "Priority"
+      value: 3
+    ---
+    ```
+
+    Un champ au format complet doit avoir l’un des types listés ci-dessous. Zditor ignore une entrée imbriquée sans `type` ou avec un type inconnu.
+  </Accordion>
+</AccordionGroup>
+
+## Types de champs
+
+| Type | Libellé dans l’éditeur | Description | Exemple |
+|------|------|------|--------|
+| `text` | Text | Chaîne de texte | `"Hello"` |
+| `number` | Number | Valeur numérique | `42` |
+| `checkbox` | Toggle | Valeur booléenne | `true` / `false` |
+| `date` | Date | Date | `2024-01-15` |
+| `datetime` | Date and time | Date et heure | `2024-01-15T10:30` |
+| `time` | Time | Heure | `10:30` |
+| `array` | List | Tableau de chaînes | `[tag-1, tag-2]` |
+| `select` | Select | Choix unique parmi `options` | `"Option A"` |
+| `multiselect` | Multi-select | Choix multiples parmi `options` | `[Option A, Option B]` |
+| `progress` | Progress | Progression de 0 à 100 | `75` |
+| `asset` | Image | Chemin ou URL d’une image | `"cover.png"` |
+
+## Éditeur visuel
+
+Zditor propose un éditeur de Frontmatter sous forme de tableau, pour vous éviter d’écrire du YAML à la main à chaque modification. Pour l’ouvrir, cliquez sur **Edit properties** (l’icône d’étiquette) dans la barre de titre d’un document Markdown en vue texte enrichi ou côte à côte. Le document doit être modifiable.
+
+### Tableau des propriétés
+
+L’onglet **Properties** de **Document properties** liste les champs dans un tableau, avec ces colonnes :
+
+- **Property** pour le nom affiché du champ, avec sa clé en dessous lorsqu’ils diffèrent
+- **Type** pour la nature du champ
+- **Value** pour la valeur actuelle, modifiée avec un contrôle adapté au type
+
+Le bouton en forme d’engrenage, en bout de ligne, ouvre les réglages de la propriété :
+
+- **Property key** pour le nom du champ ; cliquez sur **Update key** pour le renommer
+- **Display name** pour le libellé affiché dans l’éditeur
+- **Field description** pour un complément d’information
+- **Options** pour les valeurs des champs `select` et `multiselect`
+- **Delete property** pour supprimer le champ
+
+Au-dessus du tableau, vous pouvez rechercher dans les propriétés, cliquer sur **Export CSV**, et cliquer sur **Layout fields** pour afficher aussi les réglages d’en-tête `row`, `col`, `warm`, `warmDark` et `display`, masqués par défaut.
+
+Si vous changez le type d’un champ et que sa valeur ne peut pas être convertie, Zditor vous demande de choisir entre **Keep value** et **Reset value and change type**.
+
+Les modifications ne sont enregistrées que lorsque vous cliquez sur **Apply** ou appuyez sur `Cmd + Enter` (`Ctrl + Enter` sous Windows et Linux). **Cancel** les abandonne.
+
+### Ajouter des champs
+
+<AccordionGroup>
+  <Accordion title="Ajouter un champ personnalisé" icon="plus" defaultOpen>
+    Cliquez sur **Add property**, saisissez une **Property key**, choisissez un **Type** et, si vous le souhaitez, un **Display name** et une **Field description**. Cliquez ensuite sur **Add property** dans le panneau.
+  </Accordion>
+
+  <Accordion title="Ajouter des champs prédéfinis" icon="ellipsis">
+    Dans le même panneau, choisissez un **Property preset** pour remplir la clé et le type d’un champ courant. Les préréglages que le document possède déjà ne sont pas proposés.
+
+    **Text**
+    - Title, Subject, Description, Author
+
+    **Image**
+    - Avatar, Cover, `coverDark`
+
+    **Date**
+    - Created, Updated
+
+    **List**
+    - Tags
+    - Information row (`row`) et Title area (`col`)
+
+    **Toggle**
+    - Favorite, Template
+    - Show property summary (`display`), Warm tone (`warm`), `warmDark`
+  </Accordion>
+</AccordionGroup>
+
+### Disposition de l’en-tête
+
+L’onglet **Header layout** détermine comment les propriétés apparaissent au-dessus du document :
+
+- **Cover image** : l’image derrière l’en-tête. Sans image, l’en-tête utilise une mise en page en texte seul.
+- **Title area** : les propriétés affichées comme **Eyebrow**, **Title** et **Description**. Elles sont enregistrées dans `col`.
+- **Information row** : les propriétés affichées sur une ligne sous le titre, dans l’ordre que vous définissez. Faites-les glisser ou utilisez les boutons fléchés pour les réordonner, et utilisez **Add to information row…** pour en ajouter. Elles sont enregistrées dans `row`.
+- Les interrupteurs **Show property summary** et **Warm tone**, enregistrés dans `display` et `warm`.
+
+Tant que vous ne les avez pas définies, la zone de titre affiche `subject`, `title` et `description`, et la ligne d’informations affiche `avatar`, `author`, `updated`, `created` et `tags` lorsqu’ils ont une valeur. Jusqu’à quatre autres propriétés renseignées apparaissent sous forme de récapitulatif sous l’en-tête.
+
+## Image de couverture
+
+Utilisez le champ `cover` pour ajouter une image de couverture au document.
+
+<Steps>
+  <Step title="Ajouter le champ cover">
+    Ouvrez **Document properties**, allez dans **Header layout** et cliquez sur **Choose image** sous **Cover image**. Vous pouvez aussi saisir un chemin ou une URL dans le champ. Zditor l’enregistre dans un champ `cover` de type `asset`.
+  </Step>
+  <Step title="Choisir une image">
+    Le sélecteur d’images comporte trois onglets : **Upload** pour ajouter une image depuis votre ordinateur, **Library** pour rechercher des images dans l’espace de travail, et **Link** pour coller l’URL d’une image puis cliquer sur **Apply**.
+  </Step>
+  <Step title="Ajuster le thème">
+    Survolez la couverture pour afficher sa barre d’outils, puis cliquez sur **Toggle Tone** pour basculer entre une tonalité chaude et une tonalité froide. La tonalité chaude utilise un texte sombre pour les images claires ; la tonalité froide, un texte blanc pour les images sombres. La même barre d’outils propose **Change Cover**, **Edit properties**, **Copy Meta Information**, **Refresh** et **Delete Meta Information**.
+  </Step>
+</Steps>
+
+<Tip>
+  Pour utiliser une autre couverture en mode sombre, ajoutez le préréglage `coverDark`. Sa tonalité est enregistrée dans `warmDark`.
+</Tip>
+
+## Champs spéciaux
+
+| Champ | Signification |
+|------|------|
+| `class` | Catégorie ou nom de table utilisé par SuperTag ; doit être un champ texte |
+| `field` | Dans un fichier de schéma SuperTag, la liste des champs que possèdent les enregistrements de la classe |
+| `row` | Champs affichés dans la ligne d’informations de l’en-tête |
+| `col` | Champs affichés dans la zone de titre de l’en-tête, trois au maximum |
+| `cover` | Chemin ou URL de l’image de couverture |
+| `coverDark` | Image de couverture utilisée en mode sombre |
+| `warm` | Tonalité de la couverture, `true` pour chaude et `false` pour froide |
+| `warmDark` | Tonalité de `coverDark` |
+| `display` | `false` masque le récapitulatif des propriétés sous l’en-tête |
+| `template` | `true` liste le document sous **Templates** dans le menu `/` et dans la barre latérale **Calendar**. Choisir un modèle dans le menu `/` remplace le document actuel par une copie de ce modèle |
+| `favorites` | `true` liste le document dans l’onglet **Favorites** de la barre latérale **Calendar**. Attention au pluriel : le préréglage **Favorite** ajoute `favorite`, que cet onglet ne lit pas |
+
+## Questions fréquentes
+
+<AccordionGroup>
+  <Accordion title="Le Frontmatter apparaît-il dans le corps du document ?">
+    Pas en vue texte enrichi : Zditor masque le bloc YAML et affiche à la place les propriétés sous forme d’en-tête au-dessus du document. La vue source affiche le YAML brut, et vous pouvez l’y modifier.
+  </Accordion>
+
+  <Accordion title="Comment exporter les données du Frontmatter ?">
+    Dans **Document properties**, cliquez sur **Export CSV** pour enregistrer les propriétés du document actuel dans un fichier CSV, avec les colonnes Property, Type, Value, Label, Description et Options.
+  </Accordion>
+
+  <Accordion title="Peut-on mélanger le format abrégé et le format complet ?">
+    Oui. Zditor lit les deux formats dans un même document et déduit automatiquement le type des champs abrégés. Lorsque vous appliquez des modifications dans **Document properties** ou depuis la barre d’outils de la couverture, Zditor réécrit tout le bloc au format complet, et les entrées qu’il n’a pas pu lire, comme les clés sans valeur, sont supprimées.
+  </Accordion>
+
+  <Accordion title="Comment supprimer tout le Frontmatter ?">
+    En vue source, supprimez le bloc YAML compris entre les lignes `---` d’ouverture et de fermeture. Si le document a une image de couverture, vous pouvez aussi cliquer sur **Delete Meta Information** dans la barre d’outils de la couverture.
+  </Accordion>
+</AccordionGroup>

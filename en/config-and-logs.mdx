@@ -7,16 +7,26 @@ icon: "folder-open"
 This page lists the default configuration and log paths used by Zditor across operating systems. It is useful when you want to migrate settings, collect logs for troubleshooting, or open the correct folder quickly.
 
 <Warning>
-  These are the default paths. If you changed environment variables manually or use a portable setup, your real paths may differ.
+  These are the default paths. On Linux, they follow the `XDG_DATA_HOME` environment variable when it is set.
 </Warning>
 
 ## Default paths
+
+Zditor keeps its settings and other app data in one folder, named after its app identifier `com.zditor.ai`, and writes its log files to a separate folder.
 
 | System | Config path | Log path |
 | :--- | :--- | :--- |
 | macOS | `~/Library/Application Support/com.zditor.ai` | `~/Library/Logs/com.zditor.ai` |
 | Windows | `%APPDATA%\com.zditor.ai` | `%LOCALAPPDATA%\com.zditor.ai\logs` |
-| Linux | `~/.config/com.zditor.ai` | `~/.local/state/com.zditor.ai/logs` |
+| Linux | `~/.local/share/com.zditor.ai` | `~/.local/share/com.zditor.ai/logs` |
+
+The config folder holds your settings, the Agent's model configuration, the skills you add for all workspaces, Agent conversations, and the details of saved connections, including their passwords, keys, and tokens.
+
+The current log is `zditor.log`. When it grows, Zditor starts a new one and renames the old file to `zditor_` followed by the date and time. Zditor deletes these older log files once they are more than 30 days old.
+
+<Tip>
+  To open the current log quickly, click the Zditor icon in the menu bar (macOS) or the system tray (Windows and Linux) and choose **Open log file**.
+</Tip>
 
 ## Open the directories quickly
 
@@ -30,10 +40,10 @@ This page lists the default configuration and log paths used by Zditor across op
   open ~/Library/Logs/com.zditor.ai
 
   # Linux config directory
-  xdg-open ~/.config/com.zditor.ai
+  xdg-open ~/.local/share/com.zditor.ai
 
   # Linux log directory
-  xdg-open ~/.local/state/com.zditor.ai/logs
+  xdg-open ~/.local/share/com.zditor.ai/logs
   ```
 </Tab>
 
@@ -50,25 +60,34 @@ This page lists the default configuration and log paths used by Zditor across op
 
 ## Backup suggestions
 
-1. Fully quit Zditor before copying the config directory to avoid file write conflicts.
+1. Fully quit Zditor before copying the config directory to avoid file write conflicts. Closing the window may leave Zditor running in the background; choose **Quit zditor** from its menu bar or tray icon.
 2. Logs are mainly for troubleshooting and usually do not need full long-term backups.
 3. Back up the config directory before an upgrade or reinstall.
+4. Keep copies of the config directory private, because it contains the credentials of your saved connections. When you report a problem, send the log files rather than the config directory.
+
+<Tip>
+  To see how much space Zditor's app data uses and to clear caches, open **Settings → Personal → Storage & data** in the desktop app.
+</Tip>
 
 ## FAQ
 
 ### I cannot find the directory
 
-- Launch Zditor once; the directories are usually created on first run
-- On Windows, paste `%APPDATA%` or `%LOCALAPPDATA%` directly into File Explorer
-- On macOS, use `Cmd + Shift + G` to jump to `~/Library`
+- Launch Zditor once; the directories are created when it first runs
+- On Windows, paste `%APPDATA%` or `%LOCALAPPDATA%` directly into the File Explorer address bar
+- On macOS, the `~/Library` folder is hidden in Finder. Press `Cmd + Shift + G` in Finder and enter the path, for example `~/Library/Logs/com.zditor.ai`
 
 ### I want to confirm the real path on my machine
 
-If you changed your environment, such as `XDG_CONFIG_HOME`, the actual path follows the system environment variables. Print them in a terminal first:
+On Linux, the paths follow `XDG_DATA_HOME` if you set it. Print it in a terminal first:
 
 ```bash
-# macOS / Linux
-echo $HOME
-echo $XDG_CONFIG_HOME
-echo $XDG_STATE_HOME
+# Linux
+echo $XDG_DATA_HOME
 ```
+
+If the output is empty, Zditor uses `~/.local/share`. On macOS and Windows, no environment variable changes these paths, so use the ones in the table.
+
+### Why is there also a folder in ~/.config on Linux?
+
+Zditor saves its window size and position in `~/.config/com.zditor.ai` (or under `XDG_CONFIG_HOME` if you set it). Everything else is in `~/.local/share/com.zditor.ai`.

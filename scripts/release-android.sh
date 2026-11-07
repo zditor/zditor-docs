@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run from the Actions workspace, after build_android.yml collects android-artifacts.
+# Run from the Actions workspace, after release.yml collects android-artifacts.
 set -euo pipefail
 : "${GH_TOKEN:?}" "${ANDROID_KEYSTORE_BASE64:?}" "${ANDROID_KEYSTORE_PASSWORD:?}" \
   "${RELEASE_VERSION:?}" \

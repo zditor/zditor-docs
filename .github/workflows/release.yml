@@ -98,33 +98,735 @@ jobs:
   desktop:
     needs: prepare
     if: inputs.desktop
-    uses: ./.github/workflows/build_app.yml
-    with:
-      version: ${{ needs.prepare.outputs.version }}
-      source_ref: ${{ needs.prepare.outputs.source }}
-      release_id: ${{ needs.prepare.outputs.release_id }}
-    secrets: inherit
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: "macos-latest" # for Arm based macs (M1 and above).
+            args: "--target aarch64-apple-darwin"
+            runtime: "wry"
+            updaterPlatform: "darwin-aarch64"
+            tauriScript: "npm run tauri"
+            assetNamePattern: ""
+            includeUpdaterJson: true
+          - platform: "macos-latest" # for Intel based macs.
+            args: "--target x86_64-apple-darwin"
+            runtime: "wry"
+            updaterPlatform: "darwin-x86_64"
+            tauriScript: "npm run tauri"
+            assetNamePattern: ""
+            includeUpdaterJson: true
+          - platform: "ubuntu-22.04" # for Tauri v1 you could replace this with ubuntu-20.04.
+            args: ""
+            runtime: "wry"
+            updaterPlatform: "linux-x86_64"
+            tauriScript: "npm run tauri"
+            assetNamePattern: ""
+            includeUpdaterJson: true
+          - platform: "windows-latest"
+            args: ""
+            runtime: "wry"
+            updaterPlatform: "windows-x86_64"
+            tauriScript: "npm run tauri"
+            assetNamePattern: ""
+            includeUpdaterJson: true
+          - platform: "macos-latest" # CEF runtime for Arm based macs.
+            args: "--target aarch64-apple-darwin"
+            runtime: "cef"
+            tauriScript: "sh scripts/tauri-cef.sh"
+            assetNamePattern: "[name]_cef_[version]_[platform]_[arch]_[bundle][ext]"
+            includeUpdaterJson: false
+          - platform: "macos-latest" # CEF runtime for Intel based macs.
+            args: "--target x86_64-apple-darwin"
+            runtime: "cef"
+            tauriScript: "sh scripts/tauri-cef.sh"
+            assetNamePattern: "[name]_cef_[version]_[platform]_[arch]_[bundle][ext]"
+            includeUpdaterJson: false
+          - platform: "ubuntu-22.04" # CEF runtime for Linux.
+            args: ""
+            runtime: "cef"
+            tauriScript: "sh scripts/tauri-cef.sh"
+            assetNamePattern: "[name]_cef_[version]_[platform]_[arch]_[bundle][ext]"
+            includeUpdaterJson: false
+          - platform: "windows-latest" # CEF runtime for Windows x64.
+            args: "--target x86_64-pc-windows-msvc"
+            runtime: "cef"
+            tauriScript: "sh scripts/tauri-cef.sh"
+            assetNamePattern: "[name]_cef_[version]_[platform]_[arch]_[bundle][ext]"
+            includeUpdaterJson: false
+    runs-on: ${{ matrix.platform }}
+    env:
+      CARGO_HTTP_MULTIPLEXING: false
+      CARGO_HTTP_TIMEOUT: 600
+      CARGO_REGISTRIES_CRATES_IO_PROTOCOL: sparse
+      GIT_HTTP_LOW_SPEED_LIMIT: 0
+      GIT_HTTP_LOW_SPEED_TIME: 600
+      npm_config_registry: https://registry.npmjs.org/
+    steps:
+      # Checkout 主仓库到 zditor，保证本地 file:../zditor-excalidraw 依赖可解析
+      - name: Checkout zditor repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.REPO }} # 替换为私有仓库的实际路径
+          token: ${{ secrets.DEPLOY_TOKEN }} # 使用 GitHub 提供的 GITHUB_TOKEN 进行身份验证
+          ref: ${{ needs.prepare.outputs.source }}
+          path: zditor
+          persist-credentials: false
+
+      # 优先读取 zditor 仓库中的固定 ref，若缺失则回退到仓库变量 / 默认分支
+      - name: Resolve zditor-excalidraw ref
+        id: resolve_excalidraw_ref
+        shell: bash
+        run: |
+          EXCALIDRAW_REF=""
+
+          if [ -f "zditor/zditor-excalidraw.ref" ]; then
+            EXCALIDRAW_REF="$(tr -d '\r\n' < "zditor/zditor-excalidraw.ref")"
+          fi
+
+          if [ -z "$EXCALIDRAW_REF" ]; then
+            EXCALIDRAW_REF="${{ vars.EXCALIDRAW_REF }}"
+          fi
+
+          echo "Using zditor-excalidraw ref: ${EXCALIDRAW_REF:-<default branch>}"
+          echo "ref=$EXCALIDRAW_REF" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout zditor-excalidraw repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.EXCALIDRAW_REPO }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          ref: ${{ steps.resolve_excalidraw_ref.outputs.ref }}
+          path: zditor-excalidraw
+          persist-credentials: false
+
+      # CEF builds use path patches in zditor/src-tauri/Cargo.toml that expect
+      # the Tauri feat/cef checkout to be a sibling of the zditor directory.
+      - name: Resolve Tauri CEF runtime
+        id: resolve_tauri_cef
+        shell: bash
+        run: |
+          TAURI_CEF_REPO="${{ vars.TAURI_CEF_REPO }}"
+          if [ -z "$TAURI_CEF_REPO" ]; then
+            TAURI_CEF_REPO="zizdlp/tauri-cef"
+          fi
+          TAURI_CEF_DEFAULT_REF="tauri-cef-v3.0.0-alpha.10"
+          if [ "$TAURI_CEF_REPO" = "zizdlp/tauri-cef" ]; then
+            TAURI_CEF_DEFAULT_REF="main"
+          fi
+
+          TAURI_CEF_REF=""
+          if [ -f "zditor/tauri-cef.ref" ]; then
+            TAURI_CEF_REF="$(tr -d '\r\n' < "zditor/tauri-cef.ref")"
+          fi
+
+          if [ -z "$TAURI_CEF_REF" ]; then
+            TAURI_CEF_REF="${{ vars.TAURI_CEF_REF }}"
+          fi
+
+          if [ "$TAURI_CEF_REPO" = "zizdlp/tauri-cef" ] && [ "$TAURI_CEF_REF" = "tauri-cef-v3.0.0-alpha.10" ]; then
+            TAURI_CEF_REF=""
+          fi
+
+          if [ -z "$TAURI_CEF_REF" ]; then
+            TAURI_CEF_REF="$TAURI_CEF_DEFAULT_REF"
+          fi
+
+          echo "Using Tauri CEF runtime: $TAURI_CEF_REPO@$TAURI_CEF_REF"
+          echo "repo=$TAURI_CEF_REPO" >> "$GITHUB_OUTPUT"
+          echo "ref=$TAURI_CEF_REF" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout Tauri CEF runtime
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.resolve_tauri_cef.outputs.repo }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          ref: ${{ steps.resolve_tauri_cef.outputs.ref }}
+          path: tauri
+          persist-credentials: false
+
+      - name: Patch Tauri CEF runtime
+        working-directory: tauri
+        shell: bash
+        run: |
+          PATCH="../zditor/scripts/patches/tauri-cef-defer-macos-initial-show.patch"
+          if git apply --check "$PATCH"; then
+            git apply "$PATCH"
+          elif git apply --reverse --check "$PATCH"; then
+            echo "Tauri CEF startup patch is already applied"
+          else
+            echo "::error::Tauri CEF startup patch is not applicable"
+            exit 1
+          fi
+
+      # 导入 Apple 证书（仅限 macOS）
+      - name: Import Certificate
+        if: matrix.platform == 'macos-latest'
+        uses: apple-actions/import-codesign-certs@v3
+        with:
+          p12-file-base64: ${{ secrets.APPLE_CERTIFICATE }}
+          p12-password: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+
+      # 解锁 Keychain（仅限 macOS）
+      - name: Unlock keychain
+        if: matrix.platform == 'macos-latest'
+        env:
+          KEYCHAIN_PASSWORD: ${{ secrets.APPLE_KEYCHAIN_PASSWORD }}
+        run: |
+          security set-keychain-password -p "$KEYCHAIN_PASSWORD" login.keychain || true
+          security default-keychain -s login.keychain
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" login.keychain
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Enable Corepack
+        run: |
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+
+      - name: Disable CEF app build retries
+        if: matrix.runtime == 'cef'
+        working-directory: zditor
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs = require("fs");
+
+          const scriptPath = "scripts/tauri-cef.sh";
+          const retryCommand = 'retry_command "$tauri_cef_retries" npm run tauri:cef -- "$mode" --features cef "$@" -- --no-default-features';
+          const directCommand = 'npm run tauri:cef -- "$mode" --features cef "$@" -- --no-default-features';
+          const script = fs.readFileSync(scriptPath, "utf8");
+
+          if (script.includes(retryCommand)) {
+            fs.writeFileSync(scriptPath, script.replace(retryCommand, directCommand));
+          } else if (!script.includes(directCommand)) {
+            throw new Error("Could not find the CEF build command in scripts/tauri-cef.sh");
+          }
+          NODE
+
+      - name: install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: Cache apt packages (ubuntu only)
+        if: matrix.platform == 'ubuntu-22.04'
+        uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+          version: 1.0
+
+      - name: install dependencies (ubuntu only)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - name: install zditor-excalidraw dependencies
+        working-directory: zditor-excalidraw
+        shell: bash
+        run: |
+          yarn config set network-timeout 600000
+          yarn install --frozen-lockfile
+
+      - name: build zditor-excalidraw packages
+        working-directory: zditor-excalidraw
+        run: yarn build:packages
+
+      - name: install frontend dependencies
+        working-directory: zditor
+        run: npm ci
+
+      - name: build frontend
+        working-directory: zditor
+        env:
+          NODE_OPTIONS: "--max-old-space-size=4096"
+        run: npm run build
+
+      # 跳过 ubuntu 平台的 AppImage 构建
+      - name: Skip AppImage build for Ubuntu
+        if: matrix.platform == 'ubuntu-22.04'
+        run: echo "Skipping AppImage build on Ubuntu."
+
+      # ====== 2. 构建、签名、公证 ======
+      - name: Write Apple API Key
+        if: matrix.platform == 'macos-latest'
+        working-directory: zditor
+        shell: bash
+        env:
+          APPLE_API_KEY_P8: ${{ secrets.APPLE_API_KEY_P8 }}
+        run: |
+          umask 077
+          printf '%s\n' "$APPLE_API_KEY_P8" > ./apple-api-key.p8
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          NODE_OPTIONS: "--max-old-space-size=4096"
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          # 以下是新增 Apple 签名 / 公证所需
+          APPLE_SIGNING_IDENTITY: ${{ runner.os == 'macOS' && secrets.APPLE_SIGNING_IDENTITY || '' }}
+          APPLE_ID: ${{ runner.os == 'macOS' && secrets.APPLE_ID || '' }}
+          APPLE_PASSWORD: ${{ runner.os == 'macOS' && secrets.APPLE_ID_PASSWORD || '' }}
+          APPLE_TEAM_ID: ${{ runner.os == 'macOS' && secrets.APPLE_TEAM_ID || '' }}
+
+        with:
+          retryAttempts: 3
+          projectPath: zditor
+          tauriScript: ${{ matrix.tauriScript }}
+          tagName: zditor-v${{ needs.prepare.outputs.version }}
+          releaseName: "Zditor v${{ needs.prepare.outputs.version }}"
+          releaseId: ${{ needs.prepare.outputs.release_id }}
+          releaseDraft: true
+          prerelease: false
+          includeUpdaterJson: ${{ matrix.includeUpdaterJson }}
+          assetNamePattern: ${{ matrix.assetNamePattern }}
+          args: ${{ matrix.args }}
+
+      # Keep only this runner's updater entries. The parent merges them after all
+      # builds, avoiding lost platforms when concurrent uploads replace latest.json.
+      - name: Keep this platform's updater metadata
+        if: matrix.runtime == 'wry'
+        shell: bash
+        env:
+          UPDATER_PLATFORM: ${{ matrix.updaterPlatform }}
+        run: |
+          node <<'JS'
+          const fs = require('node:fs');
+          const data = JSON.parse(fs.readFileSync('latest.json', 'utf8'));
+          const key = process.env.UPDATER_PLATFORM;
+          data.platforms = Object.fromEntries(Object.entries(data.platforms).filter(([name]) => name === key || name.startsWith(key + '-')));
+          if (!data.platforms[key]) throw new Error(`Missing updater entry: ${key}`);
+          fs.writeFileSync('platform-updater.json', JSON.stringify(data, null, 2) + '\n');
+          JS
+
+      - name: Save platform updater metadata
+        if: matrix.runtime == 'wry'
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-updater-${{ matrix.updaterPlatform }}
+          path: platform-updater.json
+          if-no-files-found: error
+          overwrite: true
+          retention-days: 14
+
+      - name: Remove Apple API key
+        if: always() && matrix.platform == 'macos-latest'
+        shell: bash
+        run: rm -f zditor/apple-api-key.p8
+
   ios:
     needs: prepare
     if: inputs.ios
-    uses: ./.github/workflows/testflight.yml
-    with:
-      source_ref: ${{ needs.prepare.outputs.source }}
-      version: ${{ needs.prepare.outputs.version }}
-      publish: ${{ inputs.publish }}
-      what_to_test: ${{ inputs.what_to_test }}
-    secrets: inherit
+    permissions:
+      contents: read
+    runs-on: macos-26
+    timeout-minutes: 120
+    defaults:
+      run:
+        shell: bash
+        working-directory: zditor
+    env:
+      RELEASE_VERSION: ${{ needs.prepare.outputs.version }}
+      BUILD_NUMBER: ""
+      APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      IOS_BUNDLE_ID: ${{ vars.IOS_BUNDLE_ID || 'com.zditor.ai' }}
+      IOS_USES_NON_EXEMPT_ENCRYPTION: ${{ vars.IOS_USES_NON_EXEMPT_ENCRYPTION }}
+      TESTFLIGHT_WHAT_TO_TEST: ${{ inputs.what_to_test }}
+      TESTFLIGHT_INTERNAL_GROUP_IDS: ${{ vars.TESTFLIGHT_INTERNAL_GROUP_IDS }}
+      APP_STORE_CONNECT_KEY_ID: ${{ secrets.APPLE_API_KEY }}
+      APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APPLE_API_ISSUER }}
+      DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+
+    steps:
+      - name: Checkout zditor repository
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.REPO }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          ref: ${{ needs.prepare.outputs.source }}
+          path: zditor
+          persist-credentials: false
+
+      # The release script reads the key from a file when APPLE_API_KEY_PATH is
+      # set, then copies it into a private temporary directory for Xcode. The
+      # runner is ephemeral, and the file is removed again at the end of the job.
+      - name: Write App Store Connect API key
+        env:
+          APPLE_API_KEY_P8: ${{ secrets.APPLE_API_KEY_P8 }}
+        run: |
+          umask 077
+          key_path="$RUNNER_TEMP/AuthKey_testflight.p8"
+          printf '%s\n' "$APPLE_API_KEY_P8" > "$key_path"
+          test -s "$key_path" || { echo 'APPLE_API_KEY_P8 is empty'; exit 1; }
+          echo "APPLE_API_KEY_PATH=$key_path" >> "$GITHUB_ENV"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Check Apple access and release configuration before building
+        run: |
+          test -n "$DEPLOY_TOKEN" || { echo 'Set DEPLOY_TOKEN with read access to the application repository and its dependencies'; exit 1; }
+          node scripts/testflight.mjs preflight
+
+      - name: Read pinned dependency revisions
+        id: dependencies
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          const dependencies = JSON.parse(fs.readFileSync('scripts/testflight/dependencies.json', 'utf8'));
+          for (const [name, dependency] of Object.entries(dependencies)) {
+            if (!/^[a-f0-9]{40}$/.test(dependency.revision) || !/^[\w-]+\/[\w.-]+$/.test(dependency.repository)) throw new Error('Invalid dependency pin');
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `${name}_repository=${dependency.repository}\n${name}_revision=${dependency.revision}\n`);
+          }
+          JS
+
+      - name: Checkout Tauri dependency
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.dependencies.outputs.tauri_repository }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          ref: ${{ steps.dependencies.outputs.tauri_revision }}
+          path: tauri
+          persist-credentials: false
+
+      - name: Checkout zditor-excalidraw dependency
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.dependencies.outputs.excalidraw_repository }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          ref: ${{ steps.dependencies.outputs.excalidraw_revision }}
+          path: zditor-excalidraw
+          persist-credentials: false
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@1.97.0
+        with:
+          targets: aarch64-apple-ios
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.25.5"
+          cache: false
+
+      - name: Check Xcode and build Excalidraw packages
+        run: |
+          xcodebuild -version
+          test "$(xcrun --sdk iphoneos --show-sdk-version | cut -d. -f1)" -ge 26
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+          yarn --cwd ../zditor-excalidraw install --frozen-lockfile
+          yarn --cwd ../zditor-excalidraw build:packages
+          npm ci
+
+      - name: Test release orchestration
+        run: |
+          node --test scripts/testflight/*.test.mjs
+          python3 -m unittest discover -s scripts/testflight -p 'test_*.py'
+
+      - name: Build, sign, validate, upload and wait for TestFlight
+        env:
+          IOS_ACTION: ${{ inputs.publish && 'release' || 'build' }}
+        run: npm run testflight -- "$IOS_ACTION"
+
+      # A signed IPA embeds the distribution provisioning profile, and dSYMs
+      # carry build symbols, so neither belongs in a public repository's
+      # artifacts. Only the two JSON results are kept; build a local IPA when
+      # the binary itself is needed.
+      - name: Save TestFlight release result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: testflight-ios-${{ github.run_number }}-${{ github.run_attempt }}
+          if-no-files-found: ignore
+          retention-days: 14
+          path: |
+            zditor/build/testflight/**/release.json
+            zditor/build/testflight/**/testflight.json
+
+      - name: Remove the decoded API key copy
+        if: always()
+        run: rm -f "$RUNNER_TEMP/AuthKey_testflight.p8"
+
   android:
     needs: prepare
     if: inputs.android
-    uses: ./.github/workflows/build_android.yml
-    with:
-      source_ref: ${{ needs.prepare.outputs.source }}
-      version: ${{ needs.prepare.outputs.version }}
-      android_target: ${{ inputs.android_target }}
-      build_mode: ${{ inputs.android_mode }}
-      publish: ${{ inputs.publish }}
-    secrets: inherit
+    runs-on: ubuntu-22.04
+    timeout-minutes: 180
+    defaults:
+      run:
+        shell: bash
+    env:
+      ANDROID_TARGET: ${{ inputs.android_target }}
+      BUILD_MODE: ${{ inputs.android_mode }}
+      ANDROID_NDK_VERSION: 27.2.12479018
+      CARGO_BUILD_JOBS: 2
+      CARGO_HTTP_MULTIPLEXING: false
+      CARGO_HTTP_TIMEOUT: 600
+      CARGO_REGISTRIES_CRATES_IO_PROTOCOL: sparse
+      NODE_OPTIONS: --max-old-space-size=4096
+      npm_config_registry: https://registry.npmjs.org/
+
+    steps:
+      - name: Check checkout credentials
+        env:
+          APP_REPOSITORY: ${{ secrets.REPO }}
+          EXCALIDRAW_REPOSITORY: ${{ secrets.EXCALIDRAW_REPO }}
+          CHECKOUT_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: |
+          test -n "$APP_REPOSITORY" || { echo 'Set the existing REPO secret'; exit 1; }
+          test -n "$EXCALIDRAW_REPOSITORY" || { echo 'Set the existing EXCALIDRAW_REPO secret'; exit 1; }
+          test -n "$CHECKOUT_TOKEN" || { echo 'Set DEPLOY_TOKEN with read access to all three source repositories'; exit 1; }
+
+      # Cargo and file: npm dependencies require these three sibling checkouts.
+      - name: Checkout zditor repository
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ secrets.REPO }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          ref: ${{ needs.prepare.outputs.source || vars.ZDITOR_REF || 'main' }}
+          path: zditor
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          package-manager-cache: false
+
+      - name: Resolve source version and dependency refs
+        id: source
+        env:
+          APP_VERSION_OVERRIDE: ${{ needs.prepare.outputs.version }}
+          EXCALIDRAW_REF: ${{ vars.EXCALIDRAW_REF }}
+          TAURI_CEF_REPO: ${{ vars.TAURI_CEF_REPO }}
+          TAURI_CEF_REF: ${{ vars.TAURI_CEF_REF }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import { execFileSync } from 'node:child_process';
+          const targets = {
+            aarch64: 'aarch64-linux-android', armv7: 'armv7-linux-androideabi',
+            i686: 'i686-linux-android', x86_64: 'x86_64-linux-android',
+          };
+          if (!Object.hasOwn(targets, process.env.ANDROID_TARGET)) throw new Error('Unsupported Android target');
+          if (!['release', 'debug'].includes(process.env.BUILD_MODE)) throw new Error('Unsupported build mode');
+          const pkg = JSON.parse(fs.readFileSync('zditor/package.json', 'utf8'));
+          const config = JSON.parse(fs.readFileSync('zditor/src-tauri/tauri.conf.json', 'utf8'));
+          if (!pkg.scripts?.['android:build'] || !fs.existsSync('zditor/src-tauri/gen/android/app/build.gradle.kts')) {
+            throw new Error('Choose a source_ref containing the Android project and android:build script');
+          }
+          const sourceVersion = config.version;
+          if (typeof sourceVersion !== 'string' || !/^\d+\.\d+\.\d+(?:-[\w.-]+)?(?:\+[\w.-]+)?$/.test(sourceVersion) || sourceVersion !== pkg.version) {
+            throw new Error('Expected matching application versions in package.json and tauri.conf.json');
+          }
+          const requestedVersion = process.env.APP_VERSION_OVERRIDE?.trim() || '';
+          let version = sourceVersion;
+          if (requestedVersion) {
+            if (!/^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$/.test(requestedVersion)) {
+              throw new Error('Android version must be a stable major.minor.patch version such as 1.9.9');
+            }
+            const [, majorText, minorText, patchText] = requestedVersion.match(/^(\d+)\.(\d+)\.(\d+)$/);
+            const [major, minor, patch] = [majorText, minorText, patchText].map(Number);
+            const versionCode = major * 1000000 + minor * 1000 + patch;
+            if (minor > 999 || patch > 999 || !Number.isSafeInteger(versionCode) || versionCode < 1 || versionCode > 2100000000) {
+              throw new Error('Android version must produce a version code between 1 and 2100000000 (minor and patch must be at most 999)');
+            }
+            version = requestedVersion;
+            pkg.version = version;
+            config.version = version;
+            const lock = JSON.parse(fs.readFileSync('zditor/package-lock.json', 'utf8'));
+            lock.version = version;
+            if (lock.packages?.['']) lock.packages[''].version = version;
+            fs.writeFileSync('zditor/package.json', `${JSON.stringify(pkg, null, 2)}\n`);
+            fs.writeFileSync('zditor/package-lock.json', `${JSON.stringify(lock, null, 2)}\n`);
+            fs.writeFileSync('zditor/src-tauri/tauri.conf.json', `${JSON.stringify(config, null, 2)}\n`);
+          }
+          const pin = (file) => fs.existsSync(file) ? fs.readFileSync(file, 'utf8').trim() : '';
+          const tauriRepo = process.env.TAURI_CEF_REPO || 'zizdlp/tauri-cef';
+          if (!/^[\w.-]+\/[\w.-]+$/.test(tauriRepo)) throw new Error('Invalid TAURI_CEF_REPO');
+          let tauriRef = pin('zditor/tauri-cef.ref') || process.env.TAURI_CEF_REF || '';
+          // Match the desktop workflow's fallback for its legacy CEF tag.
+          if (tauriRepo === 'zizdlp/tauri-cef' && tauriRef === 'tauri-cef-v3.0.0-alpha.10') tauriRef = '';
+          tauriRef ||= tauriRepo === 'zizdlp/tauri-cef' ? 'main' : 'tauri-cef-v3.0.0-alpha.10';
+          const excalidrawRef = pin('zditor/zditor-excalidraw.ref') || process.env.EXCALIDRAW_REF || '';
+          const commit = execFileSync('git', ['-C', 'zditor', 'rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
+          const outputs = {
+            version, commit, short_commit: commit.slice(0, 12),
+            rust_target: targets[process.env.ANDROID_TARGET],
+            tauri_repository: tauriRepo, tauri_ref: tauriRef, excalidraw_ref: excalidrawRef,
+          };
+          for (const [key, value] of Object.entries(outputs)) {
+            if (/[\r\n\0]/.test(value)) throw new Error(`Invalid multiline ${key}`);
+            fs.appendFileSync(process.env.GITHUB_OUTPUT, `${key}=${value}\n`);
+          }
+          JS
+
+      - name: Checkout Tauri dependency
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ steps.source.outputs.tauri_repository }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          ref: ${{ steps.source.outputs.tauri_ref }}
+          path: tauri
+          persist-credentials: false
+
+      - name: Checkout Excalidraw dependency
+        uses: actions/checkout@v7
+        with:
+          repository: ${{ secrets.EXCALIDRAW_REPO }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          ref: ${{ steps.source.outputs.excalidraw_ref }}
+          path: zditor-excalidraw
+          persist-credentials: false
+
+      - name: Set up JDK 17 and Gradle dependency cache
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v4
+        with:
+          packages: platform-tools platforms;android-36 build-tools;36.0.0 ndk;27.2.12479018
+          log-accepted-android-sdk-licenses: false
+
+      - name: Configure NDK and host build tools
+        run: |
+          test -n "$ANDROID_HOME"
+          ndk_path="$ANDROID_HOME/ndk/$ANDROID_NDK_VERSION"
+          test -x "$ndk_path/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib"
+          echo "NDK_HOME=$ndk_path" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_HOME=$ndk_path" >> "$GITHUB_ENV"
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends build-essential cmake pkg-config perl
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ steps.source.outputs.rust_target }}
+
+      - name: Build Excalidraw packages
+        working-directory: zditor-excalidraw
+        run: |
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
+          yarn config set network-timeout 600000
+          yarn install --frozen-lockfile
+          yarn build:packages
+
+      - name: Install application frontend dependencies
+        working-directory: zditor
+        run: npm ci
+
+      # Use the app wrapper for its NDK ranlib setup. The existing Android
+      # project contains native UI fixes: do not regenerate it with android init.
+      # Tauri runs beforeBuildCommand once to build the frontend.
+      - name: Build APK and AAB
+        working-directory: zditor
+        run: |
+          args=(--ci --target "$ANDROID_TARGET" --apk --aab --features wry)
+          if [ "$BUILD_MODE" = debug ]; then args+=(--debug); fi
+          npm run android:build -- "${args[@]}" -- --locked --no-default-features
+
+      - name: Collect Android artifacts and checksums
+        env:
+          APP_VERSION: ${{ steps.source.outputs.version }}
+          APP_COMMIT: ${{ steps.source.outputs.commit }}
+        run: |
+          node --input-type=module <<'JS'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import { createHash } from 'node:crypto';
+          import { execFileSync } from 'node:child_process';
+          const output = 'android-artifacts';
+          const gradleOutput = 'zditor/src-tauri/gen/android/app/build/outputs';
+          const files = [];
+          const collect = (directory, extension) => fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+            const file = path.join(directory, entry.name);
+            return entry.isDirectory() ? collect(file, extension) : entry.isFile() && file.endsWith(extension) ? [file] : [];
+          });
+          for (const [directory, extension] of [['apk', '.apk'], ['bundle', '.aab']]) {
+            const root = path.join(gradleOutput, directory);
+            const bundles = collect(root, extension).sort();
+            if (!bundles.length) throw new Error(`No ${extension} output found`);
+            for (const file of bundles) {
+              const relative = path.join(directory, path.relative(root, file));
+              const destination = path.join(output, relative);
+              fs.mkdirSync(path.dirname(destination), { recursive: true });
+              fs.copyFileSync(file, destination);
+              files.push(relative);
+            }
+          }
+          const revision = directory => execFileSync('git', ['-C', directory, 'rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
+          const tauriProperties = fs.readFileSync('zditor/src-tauri/gen/android/app/tauri.properties', 'utf8');
+          const property = name => tauriProperties.match(new RegExp(`^${name}=(.+)$`, 'm'))?.[1];
+          const androidVersionName = property('tauri.android.versionName');
+          const androidVersionCode = Number(property('tauri.android.versionCode'));
+          if (androidVersionName !== process.env.APP_VERSION || !Number.isInteger(androidVersionCode) || androidVersionCode < 1 || androidVersionCode > 2100000000) {
+            throw new Error('Built Android version does not match the requested app version');
+          }
+          const info = {
+            version: process.env.APP_VERSION, sourceCommit: process.env.APP_COMMIT,
+            androidVersionName, androidVersionCode,
+            androidTarget: process.env.ANDROID_TARGET, buildMode: process.env.BUILD_MODE,
+            ndkVersion: process.env.ANDROID_NDK_VERSION,
+            dependencyCommits: { tauri: revision('tauri'), excalidraw: revision('zditor-excalidraw') },
+            files,
+          };
+          fs.writeFileSync(path.join(output, 'build-info.json'), JSON.stringify(info, null, 2) + '\n');
+          const checksums = [];
+          for (const file of [...files, 'build-info.json']) {
+            const hash = createHash('sha256');
+            for await (const chunk of fs.createReadStream(path.join(output, file))) hash.update(chunk);
+            checksums.push(`${hash.digest('hex')}  ${file}`);
+          }
+          fs.writeFileSync(path.join(output, 'SHA256SUMS'), checksums.join('\n') + '\n');
+          const signing = process.env.BUILD_MODE === 'debug'
+            ? 'Debug APK uses the Android debug key for installation/testing.'
+            : 'Release APK/AAB are unsigned with the current source configuration; sign before installation/distribution.';
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,
+            `### Android ${info.version}\n\n- Version code: ${info.androidVersionCode}\n- Target: ${info.androidTarget}\n- Mode: ${info.buildMode}\n- Source commit: ${info.sourceCommit}\n- ${signing}\n- Download APK/AAB and SHA256SUMS from this run\u2019s artifacts (14 days).\n`);
+          JS
+
+      - name: Upload APK and AAB artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: zditor-android-${{ steps.source.outputs.version }}-${{ inputs.android_target }}-${{ inputs.android_mode }}-${{ steps.source.outputs.short_commit }}
+          path: android-artifacts/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14
+
+      - name: Checkout release tooling
+        if: inputs.publish
+        uses: actions/checkout@v4
+        with:
+          path: release-tools
+          persist-credentials: false
+
+      - name: Sign and publish Android assets
+        if: inputs.publish
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS || vars.ANDROID_KEY_ALIAS || 'upload' }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          BUILD_MODE: ${{ inputs.android_mode }}
+          RELEASE_VERSION: ${{ steps.source.outputs.version }}
+          RELEASE_TARGET: ${{ inputs.android_target }}
+          RELEASE_REPOSITORY: ${{ github.repository }}
+        run: bash release-tools/scripts/release-android.sh
+
   finalize:
     needs: [prepare, desktop, ios, android]
     if: >-
@@ -163,11 +865,34 @@ jobs:
     if: >-
       always() && !cancelled() && inputs.cloudflare && needs.prepare.result == 'success' &&
       (needs.finalize.result == 'success' || needs.prepare.outputs.delivery_only == 'true')
-    uses: ./.github/workflows/upload2r2.yml
-    with:
-      version: ${{ needs.prepare.outputs.version }}
-      promote_latest: ${{ inputs.desktop || needs.prepare.outputs.promote_latest == 'true' }}
-    secrets: inherit
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: release-tools
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check AWS CLI
+        run: aws --version
+      - name: Download, validate and upload release assets
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          RELEASE_VERSION: ${{ needs.prepare.outputs.version }}
+          PROMOTE_LATEST: ${{ inputs.desktop || needs.prepare.outputs.promote_latest == 'true' }}
+          RELEASE_DOWNLOAD_BASE_URL: ${{ vars.RELEASE_DOWNLOAD_BASE_URL || 'https://download.zditor.com' }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: bash release-tools/scripts/release-r2.sh
+
   summary:
     needs: [prepare, desktop, ios, android, finalize, cloudflare]
     if: always()

@@ -1,6 +1,6 @@
 # iOS TestFlight 发布
 
-`.github/workflows/testflight.yml` 把私有应用仓库的 iOS 构建发布到 App Store Connect 的
+`.github/workflows/release.yml` 的 `ios` 任务 把私有应用仓库的 iOS 构建发布到 App Store Connect 的
 TestFlight。工作流在 zditor-docs 中触发，源码来自应用仓库：配置预检 → 前端/原生依赖构建 →
 App Store 签名归档 → IPA 内容校验 → Apple 上传校验 → 上传 → 等待处理 → 测试说明及内部测试组分发。
 不会提交 App Store 正式审核或自动邀请测试员。
@@ -15,7 +15,7 @@ App Store 签名归档 → IPA 内容校验 → Apple 上传校验 → 上传 �
 - `what_to_test`：可选，简体中文测试说明。
 
 构建号自动使用 run number / attempt。内部测试组读取 `TESTFLIGHT_INTERNAL_GROUP_IDS`，
-只接受当前应用的内部组。底层可复用工作流仍支持显式 `build_number`、`internal_group_ids`。
+只接受当前应用的内部组。统一入口的构建号自动生成；内部测试组通过仓库变量配置。
 完整的多端构建、发布顺序和失败恢复见 [统一发布文档](unified-release.md)。
 
 工作流使用 macOS 26 / Xcode 26 SDK、Node 22、Rust 1.97.0、Go 1.25.5。应用仓库被检出到
@@ -53,12 +53,12 @@ artifact 只保留两个 JSON 结果，不上传 IPA 和 dSYM：签名的 IPA �
 
 ## 一次性配置
 
-工作流只需要 zditor-docs 中已经存在、并与 `build_app.yml` 共用的凭据，不需要额外新建 API 密钥：
+工作流只需要 zditor-docs 中已经存在、并与 桌面构建任务 共用的凭据，不需要额外新建 API 密钥：
 
 | 类型 | 名称 | 用途 |
 | --- | --- | --- |
-| Secret | `REPO` | 私有应用仓库，格式 `owner/name`。与 `build_app.yml` 共用 |
-| Secret | `DEPLOY_TOKEN` | 检出应用仓库、Tauri 与 Excalidraw 的只读令牌。与 `build_app.yml` 共用 |
+| Secret | `REPO` | 私有应用仓库，格式 `owner/name`。与 桌面构建任务 共用 |
+| Secret | `DEPLOY_TOKEN` | 检出应用仓库、Tauri 与 Excalidraw 的只读令牌。与 桌面构建任务 共用 |
 | Secret | `APPLE_TEAM_ID` | Developer Team ID |
 | Secret | `APPLE_API_KEY` | App Store Connect API 密钥 ID（10 位大写字母数字） |
 | Secret | `APPLE_API_ISSUER` | API Issuer ID（UUID 形式） |

@@ -51,6 +51,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   prepare:
+    if: github.repository == 'zditor/zditor-docs'
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.plan.outputs.version }}

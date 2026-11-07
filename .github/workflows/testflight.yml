@@ -46,6 +46,7 @@ concurrency:
 
 jobs:
   publish:
+    if: github.repository == 'zditor/zditor-docs' && github.event_name == 'workflow_dispatch'
     runs-on: macos-26
     timeout-minutes: 120
     defaults:
@@ -90,8 +91,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: npm
-          cache-dependency-path: zditor/package-lock.json
 
       - name: Check Apple access and release configuration before building
         run: |
@@ -153,32 +152,10 @@ jobs:
           node --test scripts/testflight/*.test.mjs
           python3 -m unittest discover -s scripts/testflight -p 'test_*.py'
 
-      - name: Restore native build dependencies
-        id: native-cache
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            zditor/src-tauri/target
-            zditor/src-tauri/tauri-plugin-tailscale/ios/Frameworks
-          key: testflight-${{ runner.os }}-${{ runner.arch }}-${{ steps.dependencies.outputs.tauri_revision }}-${{ hashFiles('zditor/src-tauri/Cargo.lock', 'zditor/scripts/build-tailscale-ios.sh', 'zditor/scripts/libtailscale-ios.patch', 'zditor/patches/tauri-*.patch') }}
-
       - name: Build, sign, validate, upload and wait for TestFlight
         env:
           IOS_ACTION: ${{ inputs.publish && 'release' || 'build' }}
         run: npm run testflight -- "$IOS_ACTION"
-
-      - name: Save native dependencies even if signing or upload fails
-        if: always() && steps.native-cache.outputs.cache-primary-key != '' && steps.native-cache.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-            zditor/src-tauri/target
-            zditor/src-tauri/tauri-plugin-tailscale/ios/Frameworks
-          key: ${{ steps.native-cache.outputs.cache-primary-key }}
 
       # A signed IPA embeds the distribution provisioning profile, and dSYMs
       # carry build symbols, so neither belongs in a public repository's

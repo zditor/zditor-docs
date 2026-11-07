@@ -1,0 +1,32 @@
+name: Check release tooling
+on:
+  pull_request:
+    paths: ['.github/workflows/**', 'scripts/release-*']
+  push:
+    branches: [main]
+    paths: ['.github/workflows/**', 'scripts/release-*']
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.25.5'
+          cache: false
+      - name: Test release guards and mocked publishing
+        run: node --test scripts/release-core.test.mjs
+      - name: Check shell syntax
+        run: bash -n scripts/release-android.sh scripts/release-r2.sh
+      - name: Validate workflows
+        run: |
+          GOBIN="$RUNNER_TEMP" go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.11
+          "$RUNNER_TEMP/actionlint" -shellcheck= .github/workflows/*.yml

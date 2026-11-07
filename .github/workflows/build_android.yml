@@ -1,11 +1,14 @@
 name: Build Android
 run-name: Android ${{ inputs.version || 'source version' }} / ${{ inputs.android_target }} / ${{ inputs.build_mode }} / ${{ inputs.source_ref || vars.ZDITOR_REF || 'main' }}
 
-# Builds the private application as an Actions artifact; does not publish a
-# GitHub Release or upload to Google Play. See docs/android-build.md.
+# Reusable Android build with optional signed GitHub Release publishing.
+# See docs/android-build.md.
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
+      publish:
+        type: boolean
+        default: false
       source_ref:
         description: "Application branch, tag or commit (empty: ZDITOR_REF or main)"
         type: string
@@ -16,25 +19,15 @@ on:
         required: false
       android_target:
         description: Android architecture
-        type: choice
+        type: string
         required: true
-        default: aarch64
-        options:
-          - aarch64
-          - armv7
-          - i686
-          - x86_64
       build_mode:
         description: "release: unsigned APK/AAB; debug: APK installable for testing"
-        type: choice
+        type: string
         required: true
-        default: release
-        options:
-          - release
-          - debug
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: android-${{ inputs.source_ref || vars.ZDITOR_REF || 'main' }}-${{ inputs.version || 'source' }}-${{ inputs.android_target }}-${{ inputs.build_mode }}
@@ -303,3 +296,24 @@ jobs:
           if-no-files-found: error
           compression-level: 0
           retention-days: 14
+
+      - name: Checkout release tooling
+        if: inputs.publish
+        uses: actions/checkout@v4
+        with:
+          path: release-tools
+          persist-credentials: false
+
+      - name: Sign and publish Android assets
+        if: inputs.publish
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS || vars.ANDROID_KEY_ALIAS || 'upload' }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          BUILD_MODE: ${{ inputs.build_mode }}
+          RELEASE_VERSION: ${{ steps.source.outputs.version }}
+          RELEASE_TARGET: ${{ inputs.android_target }}
+          RELEASE_REPOSITORY: ${{ github.repository }}
+        run: bash release-tools/scripts/release-android.sh

@@ -7,13 +7,16 @@ App Store 签名归档 → IPA 内容校验 → Apple 上传校验 → 上传 �
 
 ## 运行方式
 
-在 **Actions → Publish TestFlight → Run workflow** 输入：
+在 **Actions → Release Zditor → Run workflow** 中选择 `ios`，按需取消桌面和 Android：
 
-- `source_ref`：应用仓库中包含完整 iOS 实现及发布脚本的分支、标签或提交，默认 `main`。
-- `version`：三段正式版本号，例如 `1.9.0`。
-- `build_number`：可留空，自动将 run number/attempt 编码为 Apple 允许的三段构建号。首次手动覆盖后，后续构建号需要继续递增。
+- `source_ref`：应用仓库源码，默认 `main`；统一入口会锁定完整提交。
+- `version`：留空沿用源码；填写时必须与源码的三段版本一致。
+- `publish`：开启后上传 TestFlight；关闭时仅签名归档与校验。
 - `what_to_test`：可选，简体中文测试说明。
-- `internal_group_ids`：可选，覆盖仓库变量。只接受当前应用的内部组。
+
+构建号自动使用 run number / attempt。内部测试组读取 `TESTFLIGHT_INTERNAL_GROUP_IDS`，
+只接受当前应用的内部组。底层可复用工作流仍支持显式 `build_number`、`internal_group_ids`。
+完整的多端构建、发布顺序和失败恢复见 [统一发布文档](unified-release.md)。
 
 工作流使用 macOS 26 / Xcode 26 SDK、Node 22、Rust 1.97.0、Go 1.25.5。应用仓库被检出到
 `zditor/`，并按应用仓库中 `scripts/testflight/dependencies.json` 固定的提交，把 Tauri 与

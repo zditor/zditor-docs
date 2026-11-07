@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 
 export function stableVersion(version) {
@@ -79,7 +79,25 @@ export function assertNoDowngrade(currentVersion, nextVersion) {
     if (next[i] < current[i]) throw new Error('Refusing to downgrade the R2 updater');
   }
 }
-function gh(args) { return execFileSync('gh', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'inherit'] }).trim(); }
+export function githubCommand(args) {
+  const result = spawnSync('gh', args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 8 * 1024 * 1024 });
+  if (result.error) throw new Error(`GitHub command failed (${result.error.code || 'process error'}); API response omitted`);
+  if (result.status !== 0) {
+    const status = result.stderr?.match(/\(HTTP (\d{3})\)/)?.[1];
+    throw new Error(`GitHub command failed (${status ? `HTTP ${status}` : `exit ${result.status}`}); API response omitted`);
+  }
+  return result.stdout.trim();
+}
+const gh = githubCommand;
+export function findRelease(repository, tag) {
+  if (!/^[\w.-]+\/[\w.-]+$/.test(repository)) throw new Error('Invalid release repository');
+  const [owner, name] = repository.split('/');
+  // GraphQL supports both published releases and drafts with a pending tag.
+  // Request only this release's metadata, never historical releases or assets.
+  const query = 'query($owner:String!,$name:String!,$tag:String!){repository(owner:$owner,name:$name){release(tagName:$tag){databaseId tagName isDraft description}}}';
+  const { release } = JSON.parse(gh(['api', 'graphql', '-f', `query=${query}`, '-f', `owner=${owner}`, '-f', `name=${name}`, '-f', `tag=${tag}`, '--jq', '{release: .data.repository.release}']));
+  return release === null ? null : { id: release.databaseId, tag_name: release.tagName, draft: release.isDraft, body: release.description || '' };
+}
 function output(values) { for (const [key, value] of Object.entries(values)) fs.appendFileSync(process.env.GITHUB_OUTPUT, `${key}=${value}\n`); }
 function required(names) { for (const name of names) if (!process.env[name]) throw new Error(`Configure ${name} before running this selection`); }
 function main() {
@@ -105,8 +123,7 @@ function main() {
     let releaseId = '';
     if (plan.desktop || (plan.android && plan.publish) || plan.deliveryOnly) {
       const repository = process.env.GITHUB_REPOSITORY;
-      const releases = JSON.parse(gh(['api', '--paginate', '--slurp', `repos/${repository}/releases?per_page=100`])).flat();
-      const existing = releases.find(release => release.tag_name === tag);
+      const existing = findRelease(repository, tag);
       const marker = `<!-- zditor-release:${JSON.stringify({ source, desktop: plan.desktop, ios: plan.ios, android: plan.android })} -->`;
       if (plan.deliveryOnly) {
         if (!existing || existing.draft) throw new Error('R2 retry requires an already published GitHub Release');
@@ -118,7 +135,7 @@ function main() {
       } else {
         fs.writeFileSync('release-notes.md', `${releaseNotes('zditor', plan.version)}\n\n${marker}\n`);
         gh(['release', 'create', tag, '--repo', repository, '--target', process.env.GITHUB_SHA, '--title', `Zditor v${plan.version}`, '--notes-file', 'release-notes.md', '--draft']);
-        releaseId = gh(['api', `repos/${repository}/releases`, '--jq', `.[] | select(.tag_name == "${tag}") | .id`]);
+        releaseId = String(findRelease(repository, tag)?.id || '');
         if (!/^\d+$/.test(releaseId)) throw new Error('Failed to resolve prepared release');
       }
     }
@@ -159,4 +176,11 @@ function main() {
     assertNoDowngrade(JSON.parse(fs.readFileSync(process.argv[3], 'utf8')).version, process.env.RELEASE_VERSION);
   } else throw new Error('Expected prepare, finalize, rewrite-updater or check-updater');
 }
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  try { main(); }
+  catch (error) {
+    // Child-process Error objects include stdout/stderr buffers: never dump them.
+    console.error(`Release failed: ${error.message}`);
+    process.exitCode = 1;
+  }
+}

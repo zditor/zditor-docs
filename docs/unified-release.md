@@ -55,6 +55,50 @@ iOS 上传是独立的外部操作：如果 iOS 已成功而其他平台失败�
 发布运行共用一个 concurrency group，不取消正在运行的发布；GitHub concurrency 最多保留一个 pending 运行，
 请等待前一次结束后再发起下一次发布，避免连续提交导致旧的 pending 运行被替换。
 
+## 公开构建与 fork 限制
+
+当前按项目选择继续在公开的 `zditor-docs` 构建，使用标准 GitHub-hosted runner。
+不会将应用 `.git` 或整仓源码作为发布附件上传；发布说明、版本、提交标识、安装包和构建结果是公开信息。
+公开构建日志在编译失败时仍可能出现代码片段；安装包也不提供防逆向保证，不能把本方案当作严格的源码保密环境。
+
+原生构建任务仅允许在 `zditor/zditor-docs` 的手动发布上下文运行，fork 中会跳过这些任务。
+禁用私有应用构建的 npm、Gradle、Rust 和 iOS target/Frameworks 缓存，保留不含应用代码的系统 apt 包缓存。
+维护时需要同时删除此前生成的这类缓存，避免旧内容继续保留。取消缓存会增加依赖下载和编译时间。
+
+GitHub **不允许公开仓库关闭 fork**；`allow_forking=false` 仅适用于组织拥有的私有仓库。
+可通过仓库 Actions 设置要求所有外部贡献者的 fork PR 工作流经维护者审批，但这不禁止 fork/clone 本身，
+也不改变公开日志、artifacts 和安装包的访问范围。
+
+Release 预检按目标 tag 查询少量元数据（兼容尚未创建 tag 的草稿），不读取历史 Release 的全部附件，
+避免历史增长导致 `ENOBUFS`。GitHub 命令错误只报告错误码，不将响应缓冲区打印到日志。
+
+## 构建成本与其他云服务
+
+公开仓库的标准 GitHub-hosted runner 免费。若将来改用私有仓库，按 2026-11-07 的官方标准单价
+（Linux $0.006/分钟、Windows $0.010/分钟、macOS $0.062/分钟），以及 11 月 1 日成功作业耗时折算：
+
+| 部分 | 计费分钟 | 未扣套餐额度的同耗时估算 |
+| --- | --- | --- |
+| 桌面 8 个任务 | macOS 186、Windows 102、Linux 87 | $13.07/次 |
+| iOS | macOS 44 | $2.73/次 |
+| Android（耗时假设） | Linux 60–120 | $0.36–0.72/次 |
+
+合计约 $16–17/次，不含存储、重试；实际机器规格、缓存命中与构建耗时会改变结果。
+当前已禁用应用缓存，不能将旧运行耗时视为后续耗时保证。
+参考 [GitHub runner 单价](https://docs.github.com/en/billing/reference/actions-runner-pricing) 和
+[计费说明](https://docs.github.com/en/actions/concepts/billing-and-usage)。
+
+Cloudflare Workflows 可以编排触发、等待和重试任务，但不提供 Xcode/macOS 或 Windows 构建环境，
+把编排迁过去不会自动免除外部 runner 的编译成本。Cloudflare Containers 提供 Linux 环境，不能直接承接 Xcode 构建。
+参考 [Workflows](https://developers.cloudflare.com/workflows/get-started/guide/) 和
+[Containers 环境](https://developers.cloudflare.com/containers/concepts/architecture/)。
+
+Xcode Cloud 支持 Apple 平台构建，Apple Developer 会员包含每月 25 个计算小时；
+100 小时套餐为 $49.99/月。按旧 iOS 作业 44 分钟粗估，25 小时理论上覆盖约 34 次，接入后需重新测量。
+iOS 已有 Xcode 工程及共享 scheme，可优先评估接入；当前桌面 Tauri/Rust/CEF 构建还需额外适配。
+本流程尚未启用 Xcode Cloud，也不会自动购买套餐。
+参考 [Apple 额度和价格](https://developer.apple.com/xcode-cloud/get-started/)。
+
 ## 凭据与配置
 
 沿用现有仓库配置，不读取或提交真实密钥：

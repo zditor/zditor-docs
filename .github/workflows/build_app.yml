@@ -16,6 +16,7 @@ permissions:
   contents: write
 jobs:
   publish-tauri:
+    if: github.repository == 'zditor/zditor-docs' && github.event_name == 'workflow_dispatch'
     permissions:
       contents: write
     strategy:
@@ -201,8 +202,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: 'npm'
-          cache-dependency-path: zditor/package-lock.json
 
       - name: Enable Corepack
         run: |
@@ -233,13 +232,6 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
-
-      - name: Rust cache
-        uses: Swatinem/rust-cache@v2
-        with:
-          workspaces: |
-            ./zditor/src-tauri
-            ./tauri
 
       - name: Cache apt packages (ubuntu only)
         if: matrix.platform == 'ubuntu-22.04'

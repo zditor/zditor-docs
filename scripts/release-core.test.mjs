@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { validatePlan, assertDraft, rewriteUpdater, assertNoDowngrade, releaseNotes, mergeUpdaters } from './release-core.mjs';
+import { validatePlan, assertDraft, rewriteUpdater, assertNoDowngrade, releaseNotes, mergeUpdaters, findRelease, githubCommand } from './release-core.mjs';
 const scripts = path.dirname(fileURLToPath(import.meta.url));
 const plan = { sourceVersion: '2.0.5', configVersion: '2.0.5', desktop: true, ios: true, android: true, publish: true, cloudflare: true };
 test('one source version and valid platform/delivery selection are required', () => {
@@ -182,4 +182,60 @@ test('Android only requires keystore and password when alias/key password use de
   const result = androidFixture(t, false, { ANDROID_KEY_ALIAS: '', ANDROID_KEY_PASSWORD: '', EXPECTED_ALIAS: 'upload', EXPECTED_KEY_PASSWORD: 'fake' });
   assert.equal(result.status, 0, result.stderr);
   assert.equal(result.published, true);
+});
+
+function githubFixture(t, mode = 'draft') {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zditor-gh-test-'));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  const cli = `#!${process.execPath}
+const args = process.argv.slice(2);
+if (${JSON.stringify(mode)} === 'error') {
+  process.stdout.write('SENSITIVE_RESPONSE_BODY');
+  process.stderr.write('SENSITIVE_ERROR_BODY (HTTP 403)');
+  process.exitCode = 1;
+} else if (${JSON.stringify(mode)} === 'overflow') {
+  process.stdout.write('SENSITIVE_RESPONSE_BODY'.repeat(500000));
+} else {
+  if (args[0] !== 'api' || args[1] !== 'graphql' || !args.includes('tag=zditor-v2.0.5') || args.some(arg => arg.includes('assets') || arg.includes('--paginate'))) {
+    // The previous history request would return many MiB of release assets.
+    process.stdout.write('HISTORY_RESPONSE'.repeat(200000));
+    process.exitCode = 1;
+  } else process.stdout.write(JSON.stringify({release: ${JSON.stringify(mode)} === 'missing' ? null : {
+    databaseId: 123, tagName: 'zditor-v2.0.5', isDraft: ${JSON.stringify(mode)} === 'draft', description: 'release notes'
+  }}));
+}
+`;
+  fs.writeFileSync(path.join(root, 'gh'), cli, { mode: 0o755 });
+  const previous = process.env.PATH;
+  process.env.PATH = `${root}:${previous}`;
+  t.after(() => { process.env.PATH = previous; });
+}
+for (const mode of ['draft', 'published']) {
+  test(`release lookup finds a ${mode} without downloading historical assets`, t => {
+    githubFixture(t, mode);
+    assert.deepEqual(findRelease('zditor/zditor-docs', 'zditor-v2.0.5'), { id: 123, tag_name: 'zditor-v2.0.5', draft: mode === 'draft', body: 'release notes' });
+  });
+}
+test('a missing release is distinct from GitHub access errors', t => {
+  githubFixture(t, 'missing');
+  assert.equal(findRelease('zditor/zditor-docs', 'zditor-v2.0.5'), null);
+});
+test('GitHub command failures do not attach response bodies to errors', t => {
+  githubFixture(t, 'error');
+  assert.throws(() => findRelease('zditor/zditor-docs', 'zditor-v2.0.5'), error => {
+    assert.match(error.message, /HTTP 403/);
+    assert.doesNotMatch(error.stack, /SENSITIVE/);
+    assert.equal(error.stdout, undefined);
+    assert.equal(error.stderr, undefined);
+    return true;
+  });
+});
+test('an oversized GitHub response yields a concise error without dumping buffers', t => {
+  githubFixture(t, 'overflow');
+  assert.throws(() => githubCommand(['api', 'oversized']), error => {
+    assert.match(error.message, /ENOBUFS/);
+    assert.ok(error.message.length < 200);
+    assert.doesNotMatch(error.stack, /SENSITIVE/);
+    return true;
+  });
 });

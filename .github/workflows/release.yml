@@ -1,0 +1,187 @@
+name: Release Zditor
+run-name: Zditor ${{ inputs.version || 'source version' }} / ${{ inputs.source_ref }} / publish=${{ inputs.publish }}
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Application branch, tag or commit (resolved once to an immutable SHA)
+        type: string
+        default: main
+        required: true
+      version:
+        description: Version (empty uses source; must match source)
+        type: string
+      desktop:
+        description: Build all desktop platforms (Wry + CEF)
+        type: boolean
+        default: true
+      ios:
+        description: Build iOS; publish uploads to TestFlight
+        type: boolean
+        default: true
+      android:
+        description: Build Android; publish signs and uploads APK/AAB
+        type: boolean
+        default: true
+      android_target:
+        description: Android architecture
+        type: choice
+        options: [aarch64, armv7, i686, x86_64]
+        default: aarch64
+      android_mode:
+        description: Android build mode (publishing requires release)
+        type: choice
+        options: [release, debug]
+        default: release
+      publish:
+        description: Publish GitHub Release and/or TestFlight (false builds only)
+        type: boolean
+        default: false
+      cloudflare:
+        description: Sync published assets to R2 (requires publish)
+        type: boolean
+        default: false
+      what_to_test:
+        description: TestFlight testing notes (optional)
+        type: string
+permissions:
+  contents: write
+concurrency:
+  group: zditor-unified-release
+  cancel-in-progress: false
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.plan.outputs.version }}
+      source: ${{ steps.plan.outputs.source }}
+      tag: ${{ steps.plan.outputs.tag }}
+      release_id: ${{ steps.plan.outputs.release_id }}
+      delivery_only: ${{ steps.plan.outputs.delivery_only }}
+      promote_latest: ${{ steps.plan.outputs.promote_latest }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: release-tools
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.REPO }}
+          token: ${{ secrets.DEPLOY_TOKEN }}
+          ref: ${{ inputs.source_ref }}
+          path: zditor
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate selection, lock source and prepare draft
+        id: plan
+        env:
+          DESKTOP: ${{ inputs.desktop }}
+          IOS: ${{ inputs.ios }}
+          ANDROID: ${{ inputs.android }}
+          ANDROID_MODE: ${{ inputs.android_mode }}
+          PUBLISH: ${{ inputs.publish }}
+          CLOUDFLARE: ${{ inputs.cloudflare }}
+          RELEASE_VERSION: ${{ inputs.version }}
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          TAURI_CEF_REPO: ${{ vars.TAURI_CEF_REPO }}
+          EXCALIDRAW_REPO: ${{ secrets.EXCALIDRAW_REPO }}
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          R2_ACCOUNT_ID: ${{ secrets.R2_ACCOUNT_ID }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME }}
+          R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+        run: node release-tools/scripts/release-core.mjs prepare
+  desktop:
+    needs: prepare
+    if: inputs.desktop
+    uses: ./.github/workflows/build_app.yml
+    with:
+      version: ${{ needs.prepare.outputs.version }}
+      source_ref: ${{ needs.prepare.outputs.source }}
+      release_id: ${{ needs.prepare.outputs.release_id }}
+    secrets: inherit
+  ios:
+    needs: prepare
+    if: inputs.ios
+    uses: ./.github/workflows/testflight.yml
+    with:
+      source_ref: ${{ needs.prepare.outputs.source }}
+      version: ${{ needs.prepare.outputs.version }}
+      publish: ${{ inputs.publish }}
+      what_to_test: ${{ inputs.what_to_test }}
+    secrets: inherit
+  android:
+    needs: prepare
+    if: inputs.android
+    uses: ./.github/workflows/build_android.yml
+    with:
+      source_ref: ${{ needs.prepare.outputs.source }}
+      version: ${{ needs.prepare.outputs.version }}
+      android_target: ${{ inputs.android_target }}
+      build_mode: ${{ inputs.android_mode }}
+      publish: ${{ inputs.publish }}
+    secrets: inherit
+  finalize:
+    needs: [prepare, desktop, ios, android]
+    if: >-
+      always() && !cancelled() && inputs.publish && (inputs.desktop || inputs.android) &&
+      needs.prepare.result == 'success' &&
+      (!inputs.desktop || needs.desktop.result == 'success') &&
+      (!inputs.ios || needs.ios.result == 'success') &&
+      (!inputs.android || needs.android.result == 'success')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: release-tools
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Download each desktop platform's updater metadata
+        if: inputs.desktop
+        uses: actions/download-artifact@v4
+        with:
+          pattern: desktop-updater-*
+          path: desktop-updaters
+      - name: Validate all assets, merge updater and publish completed Release
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          RELEASE_VERSION: ${{ needs.prepare.outputs.version }}
+          SOURCE_COMMIT: ${{ needs.prepare.outputs.source }}
+          DESKTOP: ${{ inputs.desktop }}
+          ANDROID: ${{ inputs.android }}
+          ANDROID_TARGET: ${{ inputs.android_target }}
+        run: node release-tools/scripts/release-core.mjs finalize
+
+  cloudflare:
+    needs: [prepare, finalize]
+    if: >-
+      always() && !cancelled() && inputs.cloudflare && needs.prepare.result == 'success' &&
+      (needs.finalize.result == 'success' || needs.prepare.outputs.delivery_only == 'true')
+    uses: ./.github/workflows/upload2r2.yml
+    with:
+      version: ${{ needs.prepare.outputs.version }}
+      promote_latest: ${{ inputs.desktop || needs.prepare.outputs.promote_latest == 'true' }}
+    secrets: inherit
+  summary:
+    needs: [prepare, desktop, ios, android, finalize, cloudflare]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summarize platform results
+        env:
+          RESULTS: ${{ toJSON(needs) }}
+        run: |
+          node <<'JS'
+          const fs = require('node:fs');
+          const results = JSON.parse(process.env.RESULTS);
+          const lines = ['### Platform results', '', '| Stage | Result |', '| --- | --- |'];
+          for (const [name, job] of Object.entries(results)) lines.push(`| ${name} | ${job.result} |`);
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, lines.join('\n') + '\n');
+          JS

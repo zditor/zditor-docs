@@ -17,7 +17,7 @@
 
 <div align="center">
 
-[![BUILD](https://github.com/zditor/zditor-docs/actions/workflows/build_app.yml/badge.svg)](https://github.com/zditor/zditor-docs/actions/workflows/build_app.yml) [![VERSION](https://img.shields.io/github/v/release/zditor/zditor-docs)](https://img.shields.io/github/v/release/zditor/zditor-docs) [![ISSUE](https://img.shields.io/github/issues-closed/zditor/zditor-docs)](https://img.shields.io/github/issues-closed/zditor/zditor-docs) [![官网](https://img.shields.io/badge/官网-zditor.com-blue)](https://zditor.com) [![文档](https://img.shields.io/badge/文档-docs.zditor.com-green)](https://docs.zditor.com)
+[![BUILD](https://github.com/zditor/zditor-docs/actions/workflows/release.yml/badge.svg)](https://github.com/zditor/zditor-docs/actions/workflows/release.yml) [![VERSION](https://img.shields.io/github/v/release/zditor/zditor-docs)](https://img.shields.io/github/v/release/zditor/zditor-docs) [![ISSUE](https://img.shields.io/github/issues-closed/zditor/zditor-docs)](https://img.shields.io/github/issues-closed/zditor/zditor-docs) [![官网](https://img.shields.io/badge/官网-zditor.com-blue)](https://zditor.com) [![文档](https://img.shields.io/badge/文档-docs.zditor.com-green)](https://docs.zditor.com)
 
 [![哔哩哔哩](https://img.shields.io/badge/哔哩哔哩-官方频道-00A1D6)](https://space.bilibili.com/) [![YouTube](https://img.shields.io/badge/YouTube-@SeeLeyWang-FF0000)](https://youtube.com/@SeeLeyWang) [![公众号](https://img.shields.io/badge/公众号-扫码关注-07C160)](https://zditor.com/wechat) [![Discord](https://img.shields.io/badge/Discord-加入社区-5865F2)](https://discord.gg/juxMNxKs) [![微信群](https://img.shields.io/badge/微信-扫码入群-07C160)](https://zditor.com/wechat)
 

@@ -14,17 +14,18 @@ name: Publish TestFlight
 # See docs/ios-testflight.md.
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
+      publish:
+        type: boolean
+        default: false
       source_ref:
         description: Application branch, tag or commit containing the iOS release scripts
         required: true
-        default: "main"
         type: string
       version:
         description: iOS marketing version (e.g. 1.9.0)
         required: true
-        default: "1.9.0"
         type: string
       build_number:
         description: Optional Apple build number; otherwise derived from run and attempt
@@ -164,7 +165,9 @@ jobs:
           key: testflight-${{ runner.os }}-${{ runner.arch }}-${{ steps.dependencies.outputs.tauri_revision }}-${{ hashFiles('zditor/src-tauri/Cargo.lock', 'zditor/scripts/build-tailscale-ios.sh', 'zditor/scripts/libtailscale-ios.patch', 'zditor/patches/tauri-*.patch') }}
 
       - name: Build, sign, validate, upload and wait for TestFlight
-        run: npm run testflight -- release
+        env:
+          IOS_ACTION: ${{ inputs.publish && 'release' || 'build' }}
+        run: npm run testflight -- "$IOS_ACTION"
 
       - name: Save native dependencies even if signing or upload fails
         if: always() && steps.native-cache.outputs.cache-primary-key != '' && steps.native-cache.outputs.cache-hit != 'true'

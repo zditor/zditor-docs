@@ -1,6 +1,6 @@
 # Android 构建产物
 
-`.github/workflows/build_android.yml` 由 [统一发布入口](unified-release.md) 调用。
+`.github/workflows/release.yml` 的 `android` 任务 由 [统一发布入口](unified-release.md) 调用。
 默认只保存未签名 release APK/AAB 的 Actions artifacts；开启 `publish` 后使用正式 keystore
 签名并上传草稿 Release，全部所选平台成功后公开，也可自动同步到 Cloudflare R2。
 
@@ -66,7 +66,7 @@ Release 校验和覆盖签名后的文件；Actions artifact 中的校验和覆�
 
 统一入口要求应用源码的 `tauri-cef.ref`、`zditor-excalidraw.ref` 固定为完整提交；
 若同时选择 iOS，还会核对 iOS 依赖清单与这里的仓库及提交一致。
-底层构建器仍保留变量回退，以便其他可复用调用方使用。
+构建任务仍保留变量回退作为兼容，统一入口会先校验源码固定的提交。
 应用检出到 `zditor/`，Tauri 与 Excalidraw 分别检出为同级的 `tauri/` 和 `zditor-excalidraw/`，
 以满足应用的本地依赖路径。Android 使用 Tauri 的 Android 构建，不生成桌面 CEF 产物。
 

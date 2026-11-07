@@ -1,9 +1,10 @@
 # 统一构建与发布
 
 所有应用平台共用 **Actions → Release Zditor → Run workflow** 一个入口：
-`.github/workflows/release.yml`。桌面、iOS、Android 和 R2 工作流只作为内部可复用任务调用，
-不再分别手动启动。旧的重复桌面开发构建已合并；推送 `v*` 标签也不再单独触发桌面构建。
-文档媒体迁移用的 `Upload documentation assets to R2` 仍独立，它使用不同的 bucket 和清单。
+`.github/workflows/release.yml`。桌面、iOS、Android 和 R2 已合并为同一个 workflow 内的任务，不再保留独立 workflow 文件或入口。
+Actions 侧栏保留发布入口与 `Check release tooling` 自动检查。推送 `v*` 标签不单独触发构建。
+一次性的文档媒体迁移 workflow 已归档到 `docs/maintenance/upload-doc-assets.yml`，
+使用不同的 bucket 和清单；恢复资源可按 [文档资源说明](r2-assets.md) 执行本地 CLI。
 
 ## 使用方式
 

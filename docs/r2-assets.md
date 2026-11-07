@@ -40,8 +40,11 @@ set `R2_ACCESS_KEY_ID` and `R2_SECRET_ACCESS_KEY` in the process environment.
 Also set `R2_BUCKET_NAME=zditor-docs-assets` and either `R2_ACCOUNT_ID` or
 `R2_ENDPOINT_URL`. Do not commit credentials. The script does not load `.env`.
 
-The `Upload documentation assets to R2` GitHub workflow uses the existing R2
-repository secrets. It checks out the original commit pinned in the manifest,
+The one-off `Upload documentation assets to R2` workflow is archived at
+`docs/maintenance/upload-doc-assets.yml` and no longer appears in Actions.
+Use the local CLI below for recovery. If a hosted recovery run is needed,
+restore the archived file under `.github/workflows/` temporarily; it reuses
+existing R2 repository secrets. It checks out the original commit pinned in the manifest,
 downloads its LFS objects, uploads only manifest entries, and verifies their
 public contents. It can restore missing objects after the migration. Repeated
 uploads skip matching objects and reject conflicting existing objects.

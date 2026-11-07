@@ -2,8 +2,12 @@
 # Run from the Actions workspace, after build_android.yml collects android-artifacts.
 set -euo pipefail
 : "${GH_TOKEN:?}" "${ANDROID_KEYSTORE_BASE64:?}" "${ANDROID_KEYSTORE_PASSWORD:?}" \
-  "${ANDROID_KEY_ALIAS:?}" "${ANDROID_KEY_PASSWORD:?}" "${RELEASE_VERSION:?}" \
+  "${RELEASE_VERSION:?}" \
   "${RELEASE_TARGET:?}" "${RELEASE_REPOSITORY:?}"
+# Alias is ordinary configuration. Most keystores use the same store/key password;
+# retain explicit overrides for existing keys with a different alias or password.
+export ANDROID_KEY_ALIAS="${ANDROID_KEY_ALIAS:-upload}"
+export ANDROID_KEY_PASSWORD="${ANDROID_KEY_PASSWORD:-$ANDROID_KEYSTORE_PASSWORD}"
 [[ "${BUILD_MODE:-release}" == release ]] || { echo 'Only release builds may be published'; exit 1; }
 [[ "$RELEASE_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || exit 1
 [[ "$RELEASE_TARGET" =~ ^(aarch64|armv7|i686|x86_64)$ ]] || exit 1

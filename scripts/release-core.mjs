@@ -90,7 +90,7 @@ function main() {
     const config = JSON.parse(fs.readFileSync('zditor/src-tauri/tauri.conf.json', 'utf8'));
     const plan = validatePlan({ sourceVersion: pkg.version, configVersion: config.version, requestedVersion: process.env.RELEASE_VERSION, androidMode: process.env.ANDROID_MODE, ...selected });
     if (plan.desktop || (plan.android && plan.publish) || plan.deliveryOnly) required(['GH_TOKEN']);
-    if (plan.android && plan.publish) required(['ANDROID_KEYSTORE_BASE64', 'ANDROID_KEYSTORE_PASSWORD', 'ANDROID_KEY_ALIAS', 'ANDROID_KEY_PASSWORD']);
+    if (plan.android && plan.publish) required(['ANDROID_KEYSTORE_BASE64', 'ANDROID_KEYSTORE_PASSWORD']);
     if (plan.cloudflare) required(['R2_ACCOUNT_ID', 'R2_BUCKET_NAME', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY']);
     const source = execFileSync('git', ['-C', 'zditor', 'rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
     if (!plan.deliveryOnly) {

@@ -21,8 +21,9 @@
 生成 `versionCode`，次版本和修订号须不大于 999，生成值须在 Android 允许范围内。
 
 应用 Gradle 没有 release `signingConfig`，构建产物仍是未签名 APK/AAB。
-发布任务从 `ANDROID_KEYSTORE_BASE64`、`ANDROID_KEYSTORE_PASSWORD`、`ANDROID_KEY_ALIAS`、
-`ANDROID_KEY_PASSWORD` 读取正式签名配置。APK 先 zipalign，再签名并校验；AAB 用 jarsigner 签名并校验。
+发布任务只要求 `ANDROID_KEYSTORE_BASE64`、`ANDROID_KEYSTORE_PASSWORD` 两个 secrets。
+别名从变量 `ANDROID_KEY_ALIAS` 读取（兼容同名 secret），默认 `upload`；私钥密码默认沿用 keystore 密码，
+只有密码不同时才需额外配置 secret `ANDROID_KEY_PASSWORD`。APK 先 zipalign，再签名并校验；AAB 用 jarsigner 签名并校验。
 仅已签名文件与对应的构建信息、校验和上传到 Release，校验失败会阻止发布。
 
 ## 下载与核对

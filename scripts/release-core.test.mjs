@@ -111,7 +111,7 @@ test('Android-only R2 delivery never touches the desktop updater', t => {
   assert.equal(result.uploads.length, 1);
   assert.ok(!result.uploads.some(url => url.endsWith('latest.json')));
 });
-function androidFixture(t, failVerification = false) {
+function androidFixture(t, failVerification = false, overrides = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zditor-android-test-'));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
   const bin = path.join(root, 'bin'); fs.mkdirSync(bin);
@@ -133,7 +133,10 @@ if (name === 'gh') {
  if (args[0] !== '-c') fs.copyFileSync(args.at(-2), args.at(-1));
 } else if (name === 'apksigner') {
  if (args[0] === 'verify' && process.env.FAIL_VERIFY) process.exit(1);
- if (args[0] === 'sign') fs.copyFileSync(args.at(-1), args[args.indexOf('--out')+1]);
+ if (args[0] === 'sign') {
+   if (process.env.ANDROID_KEY_PASSWORD !== process.env.EXPECTED_KEY_PASSWORD || args[args.indexOf('--ks-key-alias')+1] !== process.env.EXPECTED_ALIAS) process.exit(70);
+   fs.copyFileSync(args.at(-1), args[args.indexOf('--out')+1]);
+ }
 } else if (name === 'jarsigner') {
  if (args[0] !== '-verify') fs.copyFileSync(args.at(-2), args[args.indexOf('-signedjar')+1]);
 } else if (name === 'sha256sum') {
@@ -144,8 +147,8 @@ if (name === 'gh') {
   for (const name of ['apksigner', 'zipalign']) fs.writeFileSync(path.join(tools, name), mock, { mode: 0o755 });
   const env = { ...process.env, PATH: `${bin}:${process.env.PATH}`, TEST_ROOT: root, RUNNER_TEMP: root, ANDROID_HOME: path.join(root, 'sdk'),
     GH_TOKEN: 'fake', ANDROID_KEYSTORE_BASE64: Buffer.from('fake-key').toString('base64'), ANDROID_KEYSTORE_PASSWORD: 'fake',
-    ANDROID_KEY_ALIAS: 'fake', ANDROID_KEY_PASSWORD: 'fake', RELEASE_VERSION: '2.0.5', RELEASE_TARGET: 'aarch64',
-    RELEASE_REPOSITORY: 'zditor/zditor-docs', BUILD_MODE: 'release', GITHUB_STEP_SUMMARY: path.join(root, 'summary'), FAIL_VERIFY: failVerification ? '1' : '' };
+    ANDROID_KEY_ALIAS: 'fake', ANDROID_KEY_PASSWORD: 'key-password', EXPECTED_KEY_PASSWORD: 'key-password', EXPECTED_ALIAS: 'fake', RELEASE_VERSION: '2.0.5', RELEASE_TARGET: 'aarch64',
+    RELEASE_REPOSITORY: 'zditor/zditor-docs', BUILD_MODE: 'release', GITHUB_STEP_SUMMARY: path.join(root, 'summary'), FAIL_VERIFY: failVerification ? '1' : '', ...overrides };
   const result = spawnSync('bash', [path.join(scripts, 'release-android.sh')], { cwd: root, env, encoding: 'utf8' });
   assert.ok(!fs.readdirSync(root).some(name => name.startsWith('zditor-android-sign.')), 'temporary keystore must be removed');
   return { ...result, root, published: fs.existsSync(path.join(root, 'published')), calls: fs.readFileSync(path.join(root, 'calls'), 'utf8') };
@@ -173,4 +176,10 @@ test('desktop updater merge requires every platform, matching versions and consi
   assert.throws(() => mergeUpdaters(fragments.slice(0, 3), options), /Missing desktop/);
   assert.throws(() => mergeUpdaters([...fragments, { ...fragments[0], version: '2.0.4' }], options), /version mismatch/);
   assert.throws(() => mergeUpdaters([...fragments, { version: '2.0.5', platforms: { 'darwin-aarch64': { signature: 'other' } } }], options), /Conflicting/);
+});
+
+test('Android only requires keystore and password when alias/key password use defaults', t => {
+  const result = androidFixture(t, false, { ANDROID_KEY_ALIAS: '', ANDROID_KEY_PASSWORD: '', EXPECTED_ALIAS: 'upload', EXPECTED_KEY_PASSWORD: 'fake' });
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.published, true);
 });

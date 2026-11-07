@@ -66,14 +66,23 @@ iOS 上传是独立的外部操作：如果 iOS 已成功而其他平台失败�
 | 桌面更新器签名 | `TAURI_SIGNING_PRIVATE_KEY`、`TAURI_SIGNING_PRIVATE_KEY_PASSWORD` |
 | macOS 签名/公证 | 现有 `APPLE_CERTIFICATE`、`APPLE_CERTIFICATE_PASSWORD`、`APPLE_KEYCHAIN_PASSWORD`、`APPLE_SIGNING_IDENTITY`、`APPLE_ID`、`APPLE_ID_PASSWORD`、`APPLE_TEAM_ID`、Apple API 配置 |
 | iOS | `APPLE_TEAM_ID`、`APPLE_API_KEY`、`APPLE_API_ISSUER`、`APPLE_API_KEY_P8`；变量 `IOS_BUNDLE_ID`、`IOS_USES_NON_EXEMPT_ENCRYPTION`、`TESTFLIGHT_INTERNAL_GROUP_IDS` |
-| Android 正式签名（新增） | `ANDROID_KEYSTORE_BASE64`、`ANDROID_KEYSTORE_PASSWORD`、`ANDROID_KEY_ALIAS`、`ANDROID_KEY_PASSWORD` |
+| Android 正式签名（新增，必需） | Secrets：`ANDROID_KEYSTORE_BASE64`、`ANDROID_KEYSTORE_PASSWORD` |
+| Android 签名（可选覆盖） | 变量 `ANDROID_KEY_ALIAS`（默认 `upload`，兼容同名旧 secret）；secret `ANDROID_KEY_PASSWORD`（默认复用 keystore 密码） |
 | R2 下载 bucket | `R2_ACCOUNT_ID`、`R2_BUCKET_NAME`、`R2_ACCESS_KEY_ID`、`R2_SECRET_ACCESS_KEY` |
 | CDN 清缓存（可选，成对配置） | `CLOUDFLARE_ZONE_ID`、`CLOUDFLARE_API_TOKEN` |
 | 下载域名（可选变量） | `RELEASE_DOWNLOAD_BASE_URL`，默认 `https://download.zditor.com`，必须是 HTTPS origin |
 
+R2、Cloudflare、GitHub 和 Apple 凭据直接复用仓库现有 secrets，无需新增或复制。
+新增的两项仅在 Android 正式发布时必需：Android 必须使用长期保持一致的签名密钥，
+R2 的访问凭据不能替代 APK 签名文件；旧 Android workflow 仅构建未签名文件，因此没有这类凭据。
+只构建 Android（包括 debug 安装测试）、发布桌面/iOS 或同步 R2 都不要求 Android 签名 secrets。
+
 Android keystore 的 base64 内容应在本机生成并保存为 Actions secret；使用现有发布签名密钥，
 保持后续版本可覆盖安装。签名步骤先 zipalign，再 apksigner；AAB 使用 jarsigner，校验失败不会上传。
 密钥只在临时目录解码并自动删除，密码通过环境参数传递。
+别名默认 `upload`；已有 keystore 使用其他别名时设置普通仓库变量 `ANDROID_KEY_ALIAS`，无需把别名保存为 secret。
+私钥密码默认沿用 `ANDROID_KEYSTORE_PASSWORD`；只有已有密钥的两种密码不同时才额外设置 `ANDROID_KEY_PASSWORD`。
+已有同名 alias/password secrets 继续生效，不覆盖已有签名身份。
 
 iOS 仍只保存 JSON 发布结果，不在公开仓库上传 IPA、证书或 dSYM。更多配置见
 [iOS 文档](ios-testflight.md) 和 [Android 文档](android-build.md)。R2 仍使用应用下载 bucket，

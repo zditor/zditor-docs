@@ -26,6 +26,9 @@ test('published releases and drafts from another source/selection cannot receive
 const filename = 'Zditor_2.0.5_aarch64.app.tar.gz';
 const updater = { version: '2.0.5', platforms: { 'darwin-aarch64': { signature: 'signed', url: `https://github.com/zditor/zditor-docs/releases/download/zditor-v2.0.5/${filename}` } } };
 const options = { version: '2.0.5', repository: 'zditor/zditor-docs', filenames: [filename], baseUrl: 'https://download.zditor.com' };
+const notes = '## English\n\nFix logo.\n\n## 中文\n\n修复图标。';
+const releaseMarker = '<!-- zditor-release:{"source":"test-source"} -->';
+const releaseBody = `${notes}\n\n${releaseMarker}\n`;
 test('updater rewriting requires signed assets from this exact release', () => {
   const rewritten = rewriteUpdater(updater, options);
   assert.equal(rewritten.platforms['darwin-aarch64'].url, `https://download.zditor.com/zditor-v2.0.5/${filename}`);
@@ -58,8 +61,8 @@ function r2Fixture(t, overrides = {}) {
   const bin = path.join(root, 'bin'); fs.mkdirSync(bin);
   const fixtures = path.join(root, 'fixtures'); fs.mkdirSync(fixtures);
   fs.writeFileSync(path.join(fixtures, filename), 'installer');
-  fs.writeFileSync(path.join(fixtures, 'latest.json'), JSON.stringify(updater));
-  const metadata = { isDraft: false, assets: fs.readdirSync(fixtures).map(name => ({ name, size: fs.statSync(path.join(fixtures, name)).size })) };
+  fs.writeFileSync(path.join(fixtures, 'latest.json'), JSON.stringify({ ...updater, notes: '' }));
+  const metadata = { isDraft: false, body: releaseBody, assets: fs.readdirSync(fixtures).map(name => ({ name, size: fs.statSync(path.join(fixtures, name)).size })) };
   fs.writeFileSync(path.join(root, 'release.json'), JSON.stringify(metadata));
   const mock = `#!${process.execPath}
 const fs = require('fs'), path = require('path');
@@ -77,6 +80,7 @@ if (tool === 'gh') {
  const destination = args.find(arg => arg.startsWith('s3://'));
  if (!destination) process.exit(2);
  fs.appendFileSync(env.TEST_ROOT+'/uploads', destination+'\\n');
+ if (destination === 's3://fake/latest.json') fs.copyFileSync(args[args.indexOf(destination) - 1], env.TEST_ROOT+'/promoted.json');
  if(env.FAIL_UPLOAD && !destination.endsWith('/latest.json')) process.exit(1);
 }
 `;
@@ -88,7 +92,9 @@ if (tool === 'gh') {
     CLOUDFLARE_ZONE_ID: '', CLOUDFLARE_API_TOKEN: '', R2_UPLOAD_RETRY_DELAY: '0', ...overrides };
   const result = spawnSync('bash', [path.join(scripts, 'release-r2.sh')], { env, encoding: 'utf8' });
   const uploads = fs.existsSync(path.join(root, 'uploads')) ? fs.readFileSync(path.join(root, 'uploads'), 'utf8').trim().split('\n') : [];
-  return { ...result, uploads };
+  const promotedPath = path.join(root, 'promoted.json');
+  const promoted = fs.existsSync(promotedPath) ? JSON.parse(fs.readFileSync(promotedPath, 'utf8')) : null;
+  return { ...result, uploads, promoted };
 }
 test('R2 uploads installers before both versioned and root updater pointers', t => {
   const result = r2Fixture(t);
@@ -97,6 +103,7 @@ test('R2 uploads installers before both versioned and root updater pointers', t 
   assert.ok(result.uploads[0].endsWith(filename));
   assert.ok(result.uploads[1].endsWith('/zditor-v2.0.5/latest.json'));
   assert.equal(result.uploads[2], 's3://fake/latest.json');
+  assert.equal(result.promoted.notes, notes);
 });
 for (const failure of ['FAIL_DOWNLOAD', 'FAIL_AUTH', 'FAIL_UPLOAD']) {
   test(`R2 ${failure} cannot update the root pointer`, t => {
@@ -171,8 +178,11 @@ test('Android verification failure blocks upload and removes the decoded key', t
 
 test('desktop updater merge requires every platform, matching versions and consistent signatures', () => {
   const keys = ['darwin-aarch64', 'darwin-x86_64', 'linux-x86_64', 'windows-x86_64'];
-  const fragments = keys.map(key => ({ version: '2.0.5', platforms: { [key]: updater.platforms['darwin-aarch64'] } }));
-  assert.equal(Object.keys(mergeUpdaters(fragments, options).platforms).length, 4);
+  const fragments = keys.map(key => ({ version: '2.0.5', notes: '', platforms: { [key]: updater.platforms['darwin-aarch64'] } }));
+  const merged = mergeUpdaters(fragments, { ...options, releaseBody });
+  assert.equal(merged.notes, notes);
+  assert.equal(Object.keys(merged.platforms).length, 4);
+  assert.throws(() => mergeUpdaters(fragments, { ...options, releaseBody: releaseMarker }), /Missing desktop release notes/);
   assert.throws(() => mergeUpdaters(fragments.slice(0, 3), options), /Missing desktop/);
   assert.throws(() => mergeUpdaters([...fragments, { ...fragments[0], version: '2.0.4' }], options), /version mismatch/);
   assert.throws(() => mergeUpdaters([...fragments, { version: '2.0.5', platforms: { 'darwin-aarch64': { signature: 'other' } } }], options), /Conflicting/);

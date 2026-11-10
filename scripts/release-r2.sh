@@ -32,7 +32,7 @@ mkdir "$RELEASE_ASSETS_DIR"
 [[ "$RELEASE_VERSION" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]] || { echo 'Invalid release version'; exit 1; }
 tag="zditor-v$RELEASE_VERSION"
 endpoint="https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com"
-gh release view "$tag" --repo "$GITHUB_REPOSITORY" --json isDraft,assets > "$work/release.json"
+gh release view "$tag" --repo "$GITHUB_REPOSITORY" --json isDraft,assets,body > "$work/release.json"
 node --input-type=module - "$work/release.json" <<'JS'
 import fs from 'node:fs';
 const release = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
@@ -51,7 +51,7 @@ for (const asset of JSON.parse(fs.readFileSync(process.argv[2], 'utf8')).assets)
 }
 JS
 if [[ "${PROMOTE_LATEST:-false}" == true ]]; then
-  node "$script_dir/release-core.mjs" rewrite-updater
+  node "$script_dir/release-core.mjs" rewrite-updater "$work/release.json"
   # Refuse to move the updater backwards. Only a real 404 means no current pointer.
   if aws s3api head-object --endpoint-url "$endpoint" --bucket "$R2_BUCKET_NAME" --key latest.json > /dev/null 2> "$work/head.err"; then
     aws s3 cp --endpoint-url "$endpoint" "s3://$R2_BUCKET_NAME/latest.json" "$work/current.json"

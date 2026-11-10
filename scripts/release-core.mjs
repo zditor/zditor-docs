@@ -36,6 +36,11 @@ export function releaseNotes(root, version) {
   }
   return sections.join('\n\n') || `Zditor v${version}`;
 }
+function updaterNotes(releaseBody) {
+  const notes = releaseBody?.replace(/^<!-- zditor-release:[^\r\n]* -->[ \t]*\r?$/gm, '').trim();
+  if (!notes) throw new Error('Missing desktop release notes');
+  return notes;
+}
 export function assertDraft(release, marker) {
   if (!release.draft) throw new Error('This version is already public. Choose a new version or retry R2 with all platforms unchecked');
   if (!release.body?.includes(marker)) throw new Error('Existing draft has a different source/platform selection. Use the same selection or remove the obsolete draft explicitly');
@@ -67,7 +72,7 @@ export function mergeUpdaters(fragments, options) {
     }
   }
   for (const key of required) if (!platforms[key]) throw new Error(`Missing desktop updater platform: ${key}`);
-  const updater = { ...fragments[0], platforms };
+  const updater = { ...fragments[0], notes: updaterNotes(options.releaseBody), platforms };
   rewriteUpdater(updater, { ...options, baseUrl: 'https://download.zditor.com' });
   return updater;
 }
@@ -156,7 +161,7 @@ function main() {
     }
     if (process.env.DESKTOP === 'true') {
       const fragments = fs.readdirSync('desktop-updaters').map(directory => JSON.parse(fs.readFileSync(path.join('desktop-updaters', directory, 'platform-updater.json'), 'utf8')));
-      const updater = mergeUpdaters(fragments, { version, repository, filenames });
+      const updater = mergeUpdaters(fragments, { version, repository, filenames, releaseBody: release.body });
       const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'zditor-updater-'));
       try {
         const file = path.join(temporary, 'latest.json');
@@ -167,7 +172,12 @@ function main() {
     gh(['release', 'edit', tag, '--repo', repository, '--draft=false', `--latest=${process.env.DESKTOP === 'true'}`]);
   } else if (command === 'rewrite-updater') {
     const root = process.env.RELEASE_ASSETS_DIR;
-    const updater = rewriteUpdater(JSON.parse(fs.readFileSync(path.join(root, 'latest.json'), 'utf8')), {
+    const manifest = JSON.parse(fs.readFileSync(path.join(root, 'latest.json'), 'utf8'));
+    if (!manifest.notes?.trim()) {
+      const release = JSON.parse(fs.readFileSync(process.argv[3], 'utf8'));
+      manifest.notes = updaterNotes(release.body);
+    }
+    const updater = rewriteUpdater(manifest, {
       version: process.env.RELEASE_VERSION, repository: process.env.GITHUB_REPOSITORY,
       filenames: fs.readdirSync(root), baseUrl: process.env.RELEASE_DOWNLOAD_BASE_URL,
     });

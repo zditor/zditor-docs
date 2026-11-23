@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { validatePlan, assertDraft, rewriteUpdater, assertNoDowngrade, releaseNotes, mergeUpdaters, findRelease, githubCommand } from './release-core.mjs';
+import { validatePlan, resolveDependencyPins, assertDraft, rewriteUpdater, assertNoDowngrade, releaseNotes, mergeUpdaters, findRelease, githubCommand } from './release-core.mjs';
 const scripts = path.dirname(fileURLToPath(import.meta.url));
 const plan = { sourceVersion: '2.0.5', configVersion: '2.0.5', desktop: true, ios: true, android: true, publish: true, cloudflare: true };
 test('one source version and valid platform/delivery selection are required', () => {
@@ -17,6 +17,43 @@ test('one source version and valid platform/delivery selection are required', ()
   assert.throws(() => validatePlan({ ...plan, desktop: false, android: false }), /R2 requires/);
   assert.throws(() => validatePlan({ ...plan, sourceVersion: '2.1000.0', configVersion: '2.1000.0' }), /versionCode/);
   assert.equal(validatePlan({ ...plan, desktop: false, ios: false, android: false }).deliveryOnly, true);
+});
+function dependencyFixture(t) {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zditor-pins-'));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  const tauri = { repository: 'example/tauri', revision: 'a'.repeat(40) };
+  const manifest = path.join(root, 'scripts/testflight/dependencies.json');
+  fs.mkdirSync(path.dirname(manifest), { recursive: true });
+  fs.writeFileSync(manifest, JSON.stringify({ tauri }));
+  fs.writeFileSync(path.join(root, 'tauri-cef.ref'), tauri.revision + '\n');
+  return { root, tauri, manifest, options: { ios: true, tauriRepository: tauri.repository } };
+}
+test('vendored Excalidraw needs only the application commit and the Tauri pin', t => {
+  const { root, tauri, manifest, options } = dependencyFixture(t);
+  fs.mkdirSync(path.join(root, 'vendor/excalidraw'), { recursive: true });
+  fs.writeFileSync(path.join(root, 'vendor/excalidraw/package.json'), '{}');
+  assert.deepEqual(resolveDependencyPins(root, options), { tauriRef: tauri.revision, externalExcalidrawRef: '' });
+  fs.writeFileSync(manifest, JSON.stringify({ tauri, excalidraw: { repository: 'example/engine', revision: 'b'.repeat(40) } }));
+  assert.throws(() => resolveDependencyPins(root, options), /vendored Excalidraw/);
+  fs.writeFileSync(manifest, JSON.stringify({ tauri: { ...tauri, revision: 'c'.repeat(40) } }));
+  assert.throws(() => resolveDependencyPins(root, options), /iOS Tauri/);
+  fs.writeFileSync(path.join(root, 'tauri-cef.ref'), 'main');
+  assert.throws(() => resolveDependencyPins(root, options), /full commit SHA in tauri-cef.ref/);
+});
+test('older sources require a pinned external Excalidraw repository across platforms', t => {
+  const { root, tauri, manifest, options } = dependencyFixture(t);
+  const excalidraw = { repository: 'example/engine', revision: 'b'.repeat(40) };
+  const externalOptions = { ...options, excalidrawRepository: excalidraw.repository };
+  const pin = path.join(root, 'zditor-excalidraw.ref');
+  assert.throws(() => resolveDependencyPins(root, externalOptions), /zditor-excalidraw\.ref/);
+  fs.writeFileSync(pin, 'main');
+  assert.throws(() => resolveDependencyPins(root, externalOptions), /full commit SHA/);
+  fs.writeFileSync(pin, excalidraw.revision + '\n');
+  assert.throws(() => resolveDependencyPins(root, { ...options, ios: false }), /Configure EXCALIDRAW_REPO/);
+  assert.throws(() => resolveDependencyPins(root, externalOptions), /iOS Excalidraw/);
+  fs.writeFileSync(manifest, JSON.stringify({ tauri, excalidraw }));
+  assert.deepEqual(resolveDependencyPins(root, externalOptions), { tauriRef: tauri.revision, externalExcalidrawRef: excalidraw.revision });
+  assert.throws(() => resolveDependencyPins(root, { ...externalOptions, excalidrawRepository: 'example/other' }), /iOS Excalidraw/);
 });
 test('published releases and drafts from another source/selection cannot receive builds', () => {
   assert.doesNotThrow(() => assertDraft({ draft: true, body: 'notes marker' }, 'marker'));

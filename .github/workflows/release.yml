@@ -56,6 +56,8 @@ jobs:
     outputs:
       version: ${{ steps.plan.outputs.version }}
       source: ${{ steps.plan.outputs.source }}
+      tauri_ref: ${{ steps.plan.outputs.tauri_ref }}
+      external_excalidraw_ref: ${{ steps.plan.outputs.external_excalidraw_ref }}
       tag: ${{ steps.plan.outputs.tag }}
       release_id: ${{ steps.plan.outputs.release_id }}
       delivery_only: ${{ steps.plan.outputs.delivery_only }}
@@ -165,7 +167,6 @@ jobs:
       GIT_HTTP_LOW_SPEED_TIME: 600
       npm_config_registry: https://registry.npmjs.org/
     steps:
-      # Checkout 主仓库到 zditor，保证本地 file:../zditor-excalidraw 依赖可解析
       - name: Checkout zditor repository
         uses: actions/checkout@v4
         with:
@@ -175,75 +176,24 @@ jobs:
           path: zditor
           persist-credentials: false
 
-      # 优先读取 zditor 仓库中的固定 ref，若缺失则回退到仓库变量 / 默认分支
-      - name: Resolve zditor-excalidraw ref
-        id: resolve_excalidraw_ref
-        shell: bash
-        run: |
-          EXCALIDRAW_REF=""
-
-          if [ -f "zditor/zditor-excalidraw.ref" ]; then
-            EXCALIDRAW_REF="$(tr -d '\r\n' < "zditor/zditor-excalidraw.ref")"
-          fi
-
-          if [ -z "$EXCALIDRAW_REF" ]; then
-            EXCALIDRAW_REF="${{ vars.EXCALIDRAW_REF }}"
-          fi
-
-          echo "Using zditor-excalidraw ref: ${EXCALIDRAW_REF:-<default branch>}"
-          echo "ref=$EXCALIDRAW_REF" >> "$GITHUB_OUTPUT"
-
-      - name: Checkout zditor-excalidraw repository
+      - name: Checkout pinned external Excalidraw
+        if: needs.prepare.outputs.external_excalidraw_ref != ''
         uses: actions/checkout@v4
         with:
           repository: ${{ secrets.EXCALIDRAW_REPO }}
           token: ${{ secrets.DEPLOY_TOKEN }}
-          ref: ${{ steps.resolve_excalidraw_ref.outputs.ref }}
+          ref: ${{ needs.prepare.outputs.external_excalidraw_ref }}
           path: zditor-excalidraw
           persist-credentials: false
 
       # CEF builds use path patches in zditor/src-tauri/Cargo.toml that expect
       # the Tauri feat/cef checkout to be a sibling of the zditor directory.
-      - name: Resolve Tauri CEF runtime
-        id: resolve_tauri_cef
-        shell: bash
-        run: |
-          TAURI_CEF_REPO="${{ vars.TAURI_CEF_REPO }}"
-          if [ -z "$TAURI_CEF_REPO" ]; then
-            TAURI_CEF_REPO="zizdlp/tauri-cef"
-          fi
-          TAURI_CEF_DEFAULT_REF="tauri-cef-v3.0.0-alpha.10"
-          if [ "$TAURI_CEF_REPO" = "zizdlp/tauri-cef" ]; then
-            TAURI_CEF_DEFAULT_REF="main"
-          fi
-
-          TAURI_CEF_REF=""
-          if [ -f "zditor/tauri-cef.ref" ]; then
-            TAURI_CEF_REF="$(tr -d '\r\n' < "zditor/tauri-cef.ref")"
-          fi
-
-          if [ -z "$TAURI_CEF_REF" ]; then
-            TAURI_CEF_REF="${{ vars.TAURI_CEF_REF }}"
-          fi
-
-          if [ "$TAURI_CEF_REPO" = "zizdlp/tauri-cef" ] && [ "$TAURI_CEF_REF" = "tauri-cef-v3.0.0-alpha.10" ]; then
-            TAURI_CEF_REF=""
-          fi
-
-          if [ -z "$TAURI_CEF_REF" ]; then
-            TAURI_CEF_REF="$TAURI_CEF_DEFAULT_REF"
-          fi
-
-          echo "Using Tauri CEF runtime: $TAURI_CEF_REPO@$TAURI_CEF_REF"
-          echo "repo=$TAURI_CEF_REPO" >> "$GITHUB_OUTPUT"
-          echo "ref=$TAURI_CEF_REF" >> "$GITHUB_OUTPUT"
-
       - name: Checkout Tauri CEF runtime
         uses: actions/checkout@v4
         with:
-          repository: ${{ steps.resolve_tauri_cef.outputs.repo }}
+          repository: ${{ vars.TAURI_CEF_REPO || 'zizdlp/tauri-cef' }}
           token: ${{ secrets.DEPLOY_TOKEN }}
-          ref: ${{ steps.resolve_tauri_cef.outputs.ref }}
+          ref: ${{ needs.prepare.outputs.tauri_ref }}
           path: tauri
           persist-credentials: false
 
@@ -284,11 +234,6 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Enable Corepack
-        run: |
-          corepack enable
-          corepack prepare yarn@1.22.22 --activate
-
       - name: Disable CEF app build retries
         if: matrix.runtime == 'cef'
         working-directory: zditor
@@ -327,16 +272,16 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
 
-      - name: install zditor-excalidraw dependencies
-        working-directory: zditor-excalidraw
+      - name: Build pinned external Excalidraw
+        if: needs.prepare.outputs.external_excalidraw_ref != ''
         shell: bash
+        working-directory: zditor-excalidraw
         run: |
+          corepack enable
+          corepack prepare yarn@1.22.22 --activate
           yarn config set network-timeout 600000
           yarn install --frozen-lockfile
-
-      - name: build zditor-excalidraw packages
-        working-directory: zditor-excalidraw
-        run: yarn build:packages
+          yarn build:packages
 
       - name: install frontend dependencies
         working-directory: zditor
@@ -476,33 +421,22 @@ jobs:
           test -n "$DEPLOY_TOKEN" || { echo 'Set DEPLOY_TOKEN with read access to the application repository and its dependencies'; exit 1; }
           node scripts/testflight.mjs preflight
 
-      - name: Read pinned dependency revisions
-        id: dependencies
-        run: |
-          node --input-type=module <<'JS'
-          import fs from 'node:fs';
-          const dependencies = JSON.parse(fs.readFileSync('scripts/testflight/dependencies.json', 'utf8'));
-          for (const [name, dependency] of Object.entries(dependencies)) {
-            if (!/^[a-f0-9]{40}$/.test(dependency.revision) || !/^[\w-]+\/[\w.-]+$/.test(dependency.repository)) throw new Error('Invalid dependency pin');
-            fs.appendFileSync(process.env.GITHUB_OUTPUT, `${name}_repository=${dependency.repository}\n${name}_revision=${dependency.revision}\n`);
-          }
-          JS
-
       - name: Checkout Tauri dependency
         uses: actions/checkout@v4
         with:
-          repository: ${{ steps.dependencies.outputs.tauri_repository }}
+          repository: ${{ vars.TAURI_CEF_REPO || 'zizdlp/tauri-cef' }}
           token: ${{ secrets.DEPLOY_TOKEN }}
-          ref: ${{ steps.dependencies.outputs.tauri_revision }}
+          ref: ${{ needs.prepare.outputs.tauri_ref }}
           path: tauri
           persist-credentials: false
 
-      - name: Checkout zditor-excalidraw dependency
+      - name: Checkout pinned external Excalidraw
+        if: needs.prepare.outputs.external_excalidraw_ref != ''
         uses: actions/checkout@v4
         with:
-          repository: ${{ steps.dependencies.outputs.excalidraw_repository }}
+          repository: ${{ secrets.EXCALIDRAW_REPO }}
           token: ${{ secrets.DEPLOY_TOKEN }}
-          ref: ${{ steps.dependencies.outputs.excalidraw_revision }}
+          ref: ${{ needs.prepare.outputs.external_excalidraw_ref }}
           path: zditor-excalidraw
           persist-credentials: false
 
@@ -516,15 +450,23 @@ jobs:
           go-version: "1.25.5"
           cache: false
 
-      - name: Check Xcode and build Excalidraw packages
+      - name: Check Xcode
         run: |
           xcodebuild -version
           test "$(xcrun --sdk iphoneos --show-sdk-version | cut -d. -f1)" -ge 26
+
+      - name: Build pinned external Excalidraw
+        if: needs.prepare.outputs.external_excalidraw_ref != ''
+        working-directory: zditor-excalidraw
+        run: |
           corepack enable
           corepack prepare yarn@1.22.22 --activate
-          yarn --cwd ../zditor-excalidraw install --frozen-lockfile
-          yarn --cwd ../zditor-excalidraw build:packages
-          npm ci
+          yarn config set network-timeout 600000
+          yarn install --frozen-lockfile
+          yarn build:packages
+
+      - name: Install application frontend dependencies
+        run: npm ci
 
       - name: Test release orchestration
         run: |
@@ -578,20 +520,17 @@ jobs:
       - name: Check checkout credentials
         env:
           APP_REPOSITORY: ${{ secrets.REPO }}
-          EXCALIDRAW_REPOSITORY: ${{ secrets.EXCALIDRAW_REPO }}
           CHECKOUT_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
         run: |
           test -n "$APP_REPOSITORY" || { echo 'Set the existing REPO secret'; exit 1; }
-          test -n "$EXCALIDRAW_REPOSITORY" || { echo 'Set the existing EXCALIDRAW_REPO secret'; exit 1; }
-          test -n "$CHECKOUT_TOKEN" || { echo 'Set DEPLOY_TOKEN with read access to all three source repositories'; exit 1; }
+          test -n "$CHECKOUT_TOKEN" || { echo 'Set DEPLOY_TOKEN with read access to the application and its dependencies'; exit 1; }
 
-      # Cargo and file: npm dependencies require these three sibling checkouts.
       - name: Checkout zditor repository
         uses: actions/checkout@v7
         with:
           repository: ${{ secrets.REPO }}
           token: ${{ secrets.DEPLOY_TOKEN }}
-          ref: ${{ needs.prepare.outputs.source || vars.ZDITOR_REF || 'main' }}
+          ref: ${{ needs.prepare.outputs.source }}
           path: zditor
           persist-credentials: false
 
@@ -601,13 +540,10 @@ jobs:
           node-version: "22"
           package-manager-cache: false
 
-      - name: Resolve source version and dependency refs
+      - name: Resolve Android build settings
         id: source
         env:
           APP_VERSION_OVERRIDE: ${{ needs.prepare.outputs.version }}
-          EXCALIDRAW_REF: ${{ vars.EXCALIDRAW_REF }}
-          TAURI_CEF_REPO: ${{ vars.TAURI_CEF_REPO }}
-          TAURI_CEF_REF: ${{ vars.TAURI_CEF_REF }}
         run: |
           node --input-type=module <<'JS'
           import fs from 'node:fs';
@@ -649,19 +585,10 @@ jobs:
             fs.writeFileSync('zditor/package-lock.json', `${JSON.stringify(lock, null, 2)}\n`);
             fs.writeFileSync('zditor/src-tauri/tauri.conf.json', `${JSON.stringify(config, null, 2)}\n`);
           }
-          const pin = (file) => fs.existsSync(file) ? fs.readFileSync(file, 'utf8').trim() : '';
-          const tauriRepo = process.env.TAURI_CEF_REPO || 'zizdlp/tauri-cef';
-          if (!/^[\w.-]+\/[\w.-]+$/.test(tauriRepo)) throw new Error('Invalid TAURI_CEF_REPO');
-          let tauriRef = pin('zditor/tauri-cef.ref') || process.env.TAURI_CEF_REF || '';
-          // Match the desktop workflow's fallback for its legacy CEF tag.
-          if (tauriRepo === 'zizdlp/tauri-cef' && tauriRef === 'tauri-cef-v3.0.0-alpha.10') tauriRef = '';
-          tauriRef ||= tauriRepo === 'zizdlp/tauri-cef' ? 'main' : 'tauri-cef-v3.0.0-alpha.10';
-          const excalidrawRef = pin('zditor/zditor-excalidraw.ref') || process.env.EXCALIDRAW_REF || '';
           const commit = execFileSync('git', ['-C', 'zditor', 'rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
           const outputs = {
             version, commit, short_commit: commit.slice(0, 12),
             rust_target: targets[process.env.ANDROID_TARGET],
-            tauri_repository: tauriRepo, tauri_ref: tauriRef, excalidraw_ref: excalidrawRef,
           };
           for (const [key, value] of Object.entries(outputs)) {
             if (/[\r\n\0]/.test(value)) throw new Error(`Invalid multiline ${key}`);
@@ -672,18 +599,19 @@ jobs:
       - name: Checkout Tauri dependency
         uses: actions/checkout@v7
         with:
-          repository: ${{ steps.source.outputs.tauri_repository }}
+          repository: ${{ vars.TAURI_CEF_REPO || 'zizdlp/tauri-cef' }}
           token: ${{ secrets.DEPLOY_TOKEN }}
-          ref: ${{ steps.source.outputs.tauri_ref }}
+          ref: ${{ needs.prepare.outputs.tauri_ref }}
           path: tauri
           persist-credentials: false
 
-      - name: Checkout Excalidraw dependency
+      - name: Checkout pinned external Excalidraw
+        if: needs.prepare.outputs.external_excalidraw_ref != ''
         uses: actions/checkout@v7
         with:
           repository: ${{ secrets.EXCALIDRAW_REPO }}
           token: ${{ secrets.DEPLOY_TOKEN }}
-          ref: ${{ steps.source.outputs.excalidraw_ref }}
+          ref: ${{ needs.prepare.outputs.external_excalidraw_ref }}
           path: zditor-excalidraw
           persist-credentials: false
 
@@ -714,7 +642,8 @@ jobs:
         with:
           targets: ${{ steps.source.outputs.rust_target }}
 
-      - name: Build Excalidraw packages
+      - name: Build pinned external Excalidraw
+        if: needs.prepare.outputs.external_excalidraw_ref != ''
         working-directory: zditor-excalidraw
         run: |
           corepack enable
@@ -741,6 +670,7 @@ jobs:
         env:
           APP_VERSION: ${{ steps.source.outputs.version }}
           APP_COMMIT: ${{ steps.source.outputs.commit }}
+          EXTERNAL_EXCALIDRAW_REF: ${{ needs.prepare.outputs.external_excalidraw_ref }}
         run: |
           node --input-type=module <<'JS'
           import fs from 'node:fs';
@@ -779,7 +709,10 @@ jobs:
             androidVersionName, androidVersionCode,
             androidTarget: process.env.ANDROID_TARGET, buildMode: process.env.BUILD_MODE,
             ndkVersion: process.env.ANDROID_NDK_VERSION,
-            dependencyCommits: { tauri: revision('tauri'), excalidraw: revision('zditor-excalidraw') },
+            dependencyCommits: {
+              tauri: revision('tauri'),
+              excalidraw: process.env.EXTERNAL_EXCALIDRAW_REF ? revision('zditor-excalidraw') : process.env.APP_COMMIT,
+            },
             files,
           };
           fs.writeFileSync(path.join(output, 'build-info.json'), JSON.stringify(info, null, 2) + '\n');

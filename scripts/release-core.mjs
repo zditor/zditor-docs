@@ -22,6 +22,33 @@ export function validatePlan({ sourceVersion, configVersion, requestedVersion = 
   }
   return { version, desktop, ios, android, publish, cloudflare, deliveryOnly };
 }
+export function resolveDependencyPins(root, { ios, tauriRepository, excalidrawRepository }) {
+  function readPin(filename) {
+    const revision = fs.readFileSync(path.join(root, filename), 'utf8').trim();
+    if (!/^[a-f0-9]{40}$/.test(revision)) throw new Error('Expected a full commit SHA in ' + filename);
+    return revision;
+  }
+  const tauriRef = readPin('tauri-cef.ref');
+  const repositoryName = /^[\w.-]+\/[\w.-]+$/;
+  if (!repositoryName.test(tauriRepository)) throw new Error('Invalid TAURI_CEF_REPO');
+  const vendored = fs.existsSync(path.join(root, 'vendor/excalidraw/package.json'));
+  const externalExcalidrawRef = vendored ? '' : readPin('zditor-excalidraw.ref');
+  if (externalExcalidrawRef && !repositoryName.test(excalidrawRepository)) {
+    throw new Error('Configure EXCALIDRAW_REPO with the owner/repository for this application revision');
+  }
+  if (ios) {
+    const dependencies = JSON.parse(fs.readFileSync(path.join(root, 'scripts/testflight/dependencies.json'), 'utf8'));
+    if (dependencies.tauri?.revision !== tauriRef || dependencies.tauri?.repository !== tauriRepository) {
+      throw new Error('iOS Tauri pin and repository must match desktop and Android');
+    }
+    if (vendored && dependencies.excalidraw) throw new Error('iOS must use the vendored Excalidraw workspace');
+    if (externalExcalidrawRef && (dependencies.excalidraw?.revision !== externalExcalidrawRef
+      || dependencies.excalidraw?.repository !== excalidrawRepository)) {
+      throw new Error('iOS Excalidraw pin and repository must match desktop and Android');
+    }
+  }
+  return { tauriRef, externalExcalidrawRef };
+}
 export function releaseNotes(root, version) {
   const sections = [];
   for (const [file, language] of [['CHANGELOG.md', 'English'], ['CHANGELOG.zh-CN.md', '中文'], ['CHANGELOG.de-DE.md', 'Deutsch']]) {
@@ -117,12 +144,12 @@ function main() {
     if (plan.cloudflare) required(['R2_ACCOUNT_ID', 'R2_BUCKET_NAME', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY']);
     const source = execFileSync('git', ['-C', 'zditor', 'rev-parse', 'HEAD'], { encoding: 'utf8' }).trim();
     if (!plan.deliveryOnly) {
-      const pins = ['tauri-cef.ref', 'zditor-excalidraw.ref'].map(file => fs.readFileSync(`zditor/${file}`, 'utf8').trim());
-      if (pins.some(pin => !/^[a-f0-9]{40}$/.test(pin))) throw new Error('Pin Tauri and Excalidraw to full commit SHAs in the application repository');
-      if (plan.ios) {
-        const dependencies = JSON.parse(fs.readFileSync('zditor/scripts/testflight/dependencies.json', 'utf8'));
-        if (dependencies.tauri.revision !== pins[0] || dependencies.excalidraw.revision !== pins[1] || dependencies.tauri.repository !== (process.env.TAURI_CEF_REPO || 'zizdlp/tauri-cef') || dependencies.excalidraw.repository !== process.env.EXCALIDRAW_REPO) throw new Error('iOS dependency pins/repositories must match desktop and Android');
-      }
+      const pins = resolveDependencyPins('zditor', {
+        ios: plan.ios,
+        tauriRepository: process.env.TAURI_CEF_REPO || 'zizdlp/tauri-cef',
+        excalidrawRepository: process.env.EXCALIDRAW_REPO,
+      });
+      output({ tauri_ref: pins.tauriRef, external_excalidraw_ref: pins.externalExcalidrawRef });
     }
     const tag = `zditor-v${plan.version}`;
     let releaseId = '';

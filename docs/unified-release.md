@@ -32,8 +32,9 @@ Android 保存未签名的 Actions artifacts，iOS 完成签名归档与 IPA 内
 
 ## 流程与失败恢复
 
-1. **预检**：检查平台选择、版本、Android/R2 必需凭据，锁定应用 SHA；检查 Tauri 与 Excalidraw 为完整提交，
-   iOS 依赖清单必须与另外两端一致。按应用 changelog 生成 Release 说明并记录来源及平台选择。
+1. **预检**会检查平台选择、版本和 Android/R2 凭据，锁定应用与 Tauri 的提交。应用内的 `vendor/excalidraw`
+   随应用一起构建。使用独立 Excalidraw 仓库的旧版源码从 `zditor-excalidraw.ref` 读取完整提交。
+   选择 iOS 时还会核对 TestFlight 依赖清单。Release 说明取自应用 changelog，并记录来源及平台选择。
 2. **平台任务**：并行运行 8 项桌面构建、iOS 构建/上传、Android 构建/签名。桌面与已签名 Android 文件先上传草稿。
 3. **公开 Release**：所有所选任务成功后，汇总各桌面目标独立保存的 updater 元数据，检查 4 个目标的签名和安装包及 Android 签名产物齐全，再将草稿转为正式 Release。Android 单独发布不会改变 GitHub 的桌面 latest 标记。
 4. **R2**：认证下载并核对所有 Release 文件，安装包全部上传成功后才写版本目录及根目录 `latest.json`。
@@ -106,7 +107,7 @@ iOS 已有 Xcode 工程及共享 scheme，可优先评估接入；当前桌面 T
 
 | 范围 | Secrets / Variables |
 | --- | --- |
-| 源码与依赖 | `REPO`、`DEPLOY_TOKEN`、`EXCALIDRAW_REPO`；变量 `TAURI_CEF_REPO`（默认 `zizdlp/tauri-cef`） |
+| 源码与依赖 | `REPO`、`DEPLOY_TOKEN` 和变量 `TAURI_CEF_REPO`（默认 `zizdlp/tauri-cef`）。使用独立 Excalidraw 仓库的旧版源码还需 `EXCALIDRAW_REPO` |
 | GitHub Release | `RELEASE_TOKEN`：对本仓库 Release 的写权限 |
 | 桌面更新器签名 | `TAURI_SIGNING_PRIVATE_KEY`、`TAURI_SIGNING_PRIVATE_KEY_PASSWORD` |
 | macOS 签名/公证 | 现有 `APPLE_CERTIFICATE`、`APPLE_CERTIFICATE_PASSWORD`、`APPLE_KEYCHAIN_PASSWORD`、`APPLE_SIGNING_IDENTITY`、`APPLE_ID`、`APPLE_ID_PASSWORD`、`APPLE_TEAM_ID`、Apple API 配置 |

@@ -43,7 +43,8 @@ build-info.json
 SHA256SUMS
 ```
 
-`build-info.json` 记录应用版本、Android `versionName`/`versionCode`、完整提交、目标、模式、NDK 版本及两项依赖的实际提交。
+`build-info.json` 记录应用版本、Android `versionName`/`versionCode`、完整提交、目标、模式、NDK 版本和依赖提交。
+使用应用内的 Excalidraw 时，`dependencyCommits.excalidraw` 等于 `sourceCommit`。旧版构建在此记录独立仓库的提交。
 `SHA256SUMS` 覆盖所有 APK、AAB 和 `build-info.json`，路径相对于解压根目录；在该目录可运行
 `sha256sum -c SHA256SUMS` 核对。
 
@@ -59,16 +60,13 @@ Release 校验和覆盖签名后的文件；Actions artifact 中的校验和覆�
 | --- | --- | --- |
 | Secret | `REPO` | 应用仓库，格式 `owner/name` |
 | Secret | `DEPLOY_TOKEN` | 检出应用与依赖仓库所需的只读令牌 |
-| Secret | `EXCALIDRAW_REPO` | Excalidraw 依赖仓库 |
-| Variable | `EXCALIDRAW_REF` | 应用未固定 Excalidraw ref 时的回退值 |
+| Secret | `EXCALIDRAW_REPO` | 旧版应用使用的独立 Excalidraw 仓库 |
 | Variable | `TAURI_CEF_REPO` | Tauri 仓库，默认 `zizdlp/tauri-cef` |
-| Variable | `TAURI_CEF_REF` | 应用未固定 Tauri ref 时的回退值 |
 
-统一入口要求应用源码的 `tauri-cef.ref`、`zditor-excalidraw.ref` 固定为完整提交；
-若同时选择 iOS，还会核对 iOS 依赖清单与这里的仓库及提交一致。
-构建任务仍保留变量回退作为兼容，统一入口会先校验源码固定的提交。
-应用检出到 `zditor/`，Tauri 与 Excalidraw 分别检出为同级的 `tauri/` 和 `zditor-excalidraw/`，
-以满足应用的本地依赖路径。Android 使用 Tauri 的 Android 构建，不生成桌面 CEF 产物。
+应用检出到 `zditor/`，Tauri 按 `tauri-cef.ref` 中的完整提交检出到同级的 `tauri/`。
+当前应用的 `npm ci` 构建 `vendor/excalidraw`。旧版应用则按 `zditor-excalidraw.ref` 中的
+完整提交检出到同级的 `zditor-excalidraw/`，并用 Yarn 构建。选择 iOS 时，预检会核对
+TestFlight 依赖清单中的仓库及提交。
 
 ## 构建环境
 

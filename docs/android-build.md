@@ -61,12 +61,11 @@ Release 校验和覆盖签名后的文件；Actions artifact 中的校验和覆�
 | Secret | `REPO` | 应用仓库，格式 `owner/name` |
 | Secret | `DEPLOY_TOKEN` | 检出应用与依赖仓库所需的只读令牌 |
 | Secret | `EXCALIDRAW_REPO` | 旧版应用使用的独立 Excalidraw 仓库 |
-| Variable | `TAURI_CEF_REPO` | Tauri 仓库，默认 `zizdlp/tauri-cef` |
+| Variable | `TAURI_CEF_REPO` | 旧版应用使用的外部 Tauri 仓库，默认 `zizdlp/tauri-cef` |
 
-应用检出到 `zditor/`，Tauri 按 `tauri-cef.ref` 中的完整提交检出到同级的 `tauri/`。
-当前应用的 `npm ci` 构建 `vendor/excalidraw`。旧版应用则按 `zditor-excalidraw.ref` 中的
-完整提交检出到同级的 `zditor-excalidraw/`，并用 Yarn 构建。选择 iOS 时，预检会核对
-TestFlight 依赖清单中的仓库及提交。
+应用检出到 `zditor/`，使用源码中的 `vendor/tauri` 和 `vendor/excalidraw`。旧版应用使用外部依赖时，
+工作流读取 `tauri-cef.ref` 或 `zditor-excalidraw.ref` 中的完整提交，分别检出到同级的 `tauri/`
+或 `zditor-excalidraw/`，并用 Yarn 构建外部 Excalidraw。构建信息中的依赖提交指向实际使用的源码。
 
 ## 构建环境
 

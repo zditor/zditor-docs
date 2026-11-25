@@ -19,10 +19,9 @@ App Store 签名归档 → IPA 内容校验 → Apple 上传校验 → 上传 �
 完整的多端构建、发布顺序和失败恢复见 [统一发布文档](unified-release.md)。
 
 工作流使用 macOS 26 / Xcode 26 SDK、Node 22、Rust 1.97.0、Go 1.25.5。应用检出到
-`zditor/`，Tauri 按 `tauri-cef.ref` 检出到同级的 `tauri/`。应用的 `npm ci` 构建
-`vendor/excalidraw`。旧版应用使用独立的 Excalidraw 仓库时，工作流按 `zditor-excalidraw.ref`
-检出到同级的 `zditor-excalidraw/` 并用 Yarn 构建。预检会核对 `scripts/testflight/dependencies.json`
-中的外部仓库及提交。
+`zditor/`，使用源码中的 `vendor/tauri` 和 `vendor/excalidraw`。旧版应用使用外部依赖时，工作流按
+`tauri-cef.ref` 或 `zditor-excalidraw.ref` 检出到同级的 `tauri/` 或 `zditor-excalidraw/`，并用 Yarn
+构建外部 Excalidraw。预检会核对 `scripts/testflight/dependencies.json` 中的外部仓库及提交。
 
 上传由 `npm run testflight -- release` 一次完成：构建并签名后先调用 Apple
 `altool --validate-app`，再调用 `altool --upload-app` 直接推送到 App Store Connect，随后轮询构建
@@ -58,7 +57,7 @@ artifact 只保留两个 JSON 结果，不上传 IPA 和 dSYM：签名的 IPA �
 | 类型 | 名称 | 用途 |
 | --- | --- | --- |
 | Secret | `REPO` | 私有应用仓库，格式 `owner/name`。与 桌面构建任务 共用 |
-| Secret | `DEPLOY_TOKEN` | 检出应用仓库与 Tauri 的只读令牌。构建旧版源码时也需能读取其独立 Excalidraw 仓库 |
+| Secret | `DEPLOY_TOKEN` | 检出应用仓库的只读令牌。构建旧版源码时也需能读取其使用的外部依赖仓库 |
 | Secret | `APPLE_TEAM_ID` | Developer Team ID |
 | Secret | `APPLE_API_KEY` | App Store Connect API 密钥 ID（10 位大写字母数字） |
 | Secret | `APPLE_API_ISSUER` | API Issuer ID（UUID 形式） |

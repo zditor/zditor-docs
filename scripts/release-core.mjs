@@ -28,20 +28,21 @@ export function resolveDependencyPins(root, { ios, tauriRepository, excalidrawRe
     if (!/^[a-f0-9]{40}$/.test(revision)) throw new Error('Expected a full commit SHA in ' + filename);
     return revision;
   }
-  const tauriRef = readPin('tauri-cef.ref');
   const repositoryName = /^[\w.-]+\/[\w.-]+$/;
-  if (!repositoryName.test(tauriRepository)) throw new Error('Invalid TAURI_CEF_REPO');
-  const vendored = fs.existsSync(path.join(root, 'vendor/excalidraw/package.json'));
-  const externalExcalidrawRef = vendored ? '' : readPin('zditor-excalidraw.ref');
+  const vendoredTauri = fs.existsSync(path.join(root, 'vendor/tauri/crates/tauri/Cargo.toml'));
+  const tauriRef = vendoredTauri ? '' : readPin('tauri-cef.ref');
+  if (tauriRef && !repositoryName.test(tauriRepository)) throw new Error('Invalid TAURI_CEF_REPO');
+  const vendoredExcalidraw = fs.existsSync(path.join(root, 'vendor/excalidraw/package.json'));
+  const externalExcalidrawRef = vendoredExcalidraw ? '' : readPin('zditor-excalidraw.ref');
   if (externalExcalidrawRef && !repositoryName.test(excalidrawRepository)) {
     throw new Error('Configure EXCALIDRAW_REPO with the owner/repository for this application revision');
   }
-  if (ios) {
+  if (ios && (tauriRef || externalExcalidrawRef)) {
     const dependencies = JSON.parse(fs.readFileSync(path.join(root, 'scripts/testflight/dependencies.json'), 'utf8'));
-    if (dependencies.tauri?.revision !== tauriRef || dependencies.tauri?.repository !== tauriRepository) {
+    if (tauriRef && (dependencies.tauri?.revision !== tauriRef || dependencies.tauri?.repository !== tauriRepository)) {
       throw new Error('iOS Tauri pin and repository must match desktop and Android');
     }
-    if (vendored && dependencies.excalidraw) throw new Error('iOS must use the vendored Excalidraw workspace');
+    if (vendoredExcalidraw && dependencies.excalidraw) throw new Error('iOS must use the vendored Excalidraw workspace');
     if (externalExcalidrawRef && (dependencies.excalidraw?.revision !== externalExcalidrawRef
       || dependencies.excalidraw?.repository !== excalidrawRepository)) {
       throw new Error('iOS Excalidraw pin and repository must match desktop and Android');

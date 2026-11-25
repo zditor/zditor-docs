@@ -186,9 +186,8 @@ jobs:
           path: zditor-excalidraw
           persist-credentials: false
 
-      # CEF builds use path patches in zditor/src-tauri/Cargo.toml that expect
-      # the Tauri feat/cef checkout to be a sibling of the zditor directory.
-      - name: Checkout Tauri CEF runtime
+      - name: Checkout pinned external Tauri
+        if: needs.prepare.outputs.tauri_ref != ''
         uses: actions/checkout@v4
         with:
           repository: ${{ vars.TAURI_CEF_REPO || 'zizdlp/tauri-cef' }}
@@ -197,7 +196,8 @@ jobs:
           path: tauri
           persist-credentials: false
 
-      - name: Patch Tauri CEF runtime
+      - name: Patch external Tauri CEF runtime
+        if: needs.prepare.outputs.tauri_ref != ''
         working-directory: tauri
         shell: bash
         run: |
@@ -421,7 +421,8 @@ jobs:
           test -n "$DEPLOY_TOKEN" || { echo 'Set DEPLOY_TOKEN with read access to the application repository and its dependencies'; exit 1; }
           node scripts/testflight.mjs preflight
 
-      - name: Checkout Tauri dependency
+      - name: Checkout pinned external Tauri
+        if: needs.prepare.outputs.tauri_ref != ''
         uses: actions/checkout@v4
         with:
           repository: ${{ vars.TAURI_CEF_REPO || 'zizdlp/tauri-cef' }}
@@ -596,7 +597,8 @@ jobs:
           }
           JS
 
-      - name: Checkout Tauri dependency
+      - name: Checkout pinned external Tauri
+        if: needs.prepare.outputs.tauri_ref != ''
         uses: actions/checkout@v7
         with:
           repository: ${{ vars.TAURI_CEF_REPO || 'zizdlp/tauri-cef' }}
@@ -670,6 +672,7 @@ jobs:
         env:
           APP_VERSION: ${{ steps.source.outputs.version }}
           APP_COMMIT: ${{ steps.source.outputs.commit }}
+          EXTERNAL_TAURI_REF: ${{ needs.prepare.outputs.tauri_ref }}
           EXTERNAL_EXCALIDRAW_REF: ${{ needs.prepare.outputs.external_excalidraw_ref }}
         run: |
           node --input-type=module <<'JS'
@@ -710,7 +713,7 @@ jobs:
             androidTarget: process.env.ANDROID_TARGET, buildMode: process.env.BUILD_MODE,
             ndkVersion: process.env.ANDROID_NDK_VERSION,
             dependencyCommits: {
-              tauri: revision('tauri'),
+              tauri: process.env.EXTERNAL_TAURI_REF ? revision('tauri') : process.env.APP_COMMIT,
               excalidraw: process.env.EXTERNAL_EXCALIDRAW_REF ? revision('zditor-excalidraw') : process.env.APP_COMMIT,
             },
             files,

@@ -28,6 +28,16 @@ function dependencyFixture(t) {
   fs.writeFileSync(path.join(root, 'tauri-cef.ref'), tauri.revision + '\n');
   return { root, tauri, manifest, options: { ios: true, tauriRepository: tauri.repository } };
 }
+test('vendored Tauri and Excalidraw need no external pins or TestFlight manifest', t => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zditor-vendored-'));
+  t.after(() => fs.rmSync(root, { recursive: true, force: true }));
+  for (const manifest of ['vendor/tauri/crates/tauri/Cargo.toml', 'vendor/excalidraw/package.json']) {
+    const file = path.join(root, manifest);
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, '');
+  }
+  assert.deepEqual(resolveDependencyPins(root, { ios: true }), { tauriRef: '', externalExcalidrawRef: '' });
+});
 test('vendored Excalidraw needs only the application commit and the Tauri pin', t => {
   const { root, tauri, manifest, options } = dependencyFixture(t);
   fs.mkdirSync(path.join(root, 'vendor/excalidraw'), { recursive: true });

@@ -93,13 +93,12 @@ test('updater may advance or retry but cannot downgrade', () => {
   assert.doesNotThrow(() => assertNoDowngrade('2.9.9', '2.10.0'));
   assert.throws(() => assertNoDowngrade('2.10.0', '2.9.9'), /downgrade/);
 });
-test('release notes select only the requested changelog section', t => {
+test('release notes select the requested version, including Japanese', t => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'zditor-notes-'));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
   fs.writeFileSync(path.join(root, 'CHANGELOG.md'), '# Changelog\n\n## v2.0.5\n\nFix logo\n\n## v2.0.4\nOld notes');
-  const notes = releaseNotes(root, '2.0.5');
-  assert.match(notes, /Fix logo/);
-  assert.doesNotMatch(notes, /Old notes/);
+  fs.writeFileSync(path.join(root, 'CHANGELOG.ja-JP.md'), '# 更新履歴\n\n## v2.0.5\n\n### 修正\n\nロゴを修正\n\n## v2.0.4\n以前の更新履歴');
+  assert.equal(releaseNotes(root, '2.0.5'), '## English\n\nFix logo\n\n## 日本語\n\n### 修正\n\nロゴを修正');
 });
 // Exercise the real R2 shell orchestration with fake service CLIs; no network or credentials.
 function r2Fixture(t, overrides = {}) {

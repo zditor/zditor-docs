@@ -52,7 +52,12 @@ export function resolveDependencyPins(root, { ios, tauriRepository, excalidrawRe
 }
 export function releaseNotes(root, version) {
   const sections = [];
-  for (const [file, language] of [['CHANGELOG.md', 'English'], ['CHANGELOG.zh-CN.md', '中文'], ['CHANGELOG.de-DE.md', 'Deutsch']]) {
+  for (const [file, language] of [
+    ['CHANGELOG.md', 'English'],
+    ['CHANGELOG.zh-CN.md', '中文'],
+    ['CHANGELOG.de-DE.md', 'Deutsch'],
+    ['CHANGELOG.ja-JP.md', '日本語'],
+  ]) {
     if (!fs.existsSync(path.join(root, file))) continue;
     const lines = fs.readFileSync(path.join(root, file), 'utf8').split('\n');
     const start = lines.findIndex(line => line.trim() === `## v${version}`);
